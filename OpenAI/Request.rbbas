@@ -40,7 +40,7 @@ Protected Class Request
 		      If ResultsAsURL Then
 		        d.Value("response_format") = "url"
 		      Else
-		        d.Value("response_format") "b64_json"
+		        d.Value("response_format") = "b64_json"
 		      End If
 		      If User <> "" Then d.Value("user") = User
 		      If SourceImage <> Nil Then d.Value("image") = SourceImage
