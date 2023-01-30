@@ -34,11 +34,13 @@ Protected Class Model
 		Private Shared Sub ListAvailableModels()
 		  ReDim ModelList(-1)
 		  Dim lst As JSONItem = SendRequest("/v1/models")
+		  If lst = Nil Or Not lst.HasName("data") Then Raise New OpenAIException(lst)
 		  lst = lst.Value("data")
 		  
 		  For i As Integer = 0 To lst.Count - 1
 		    ModelList.Append(New ModelCreator(lst.Child(i)))
 		  Next
+		  
 		End Sub
 	#tag EndMethod
 
