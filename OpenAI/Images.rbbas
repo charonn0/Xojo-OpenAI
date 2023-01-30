@@ -1,0 +1,82 @@
+#tag Module
+Protected Module Images
+	#tag Method, Flags = &h1
+		Protected Function CreateVariation(Prompt As OpenAI.Image, Size As String = "1024x1024") As OpenAI.Image
+		  ' Dim request As New OpenAI.Request()
+		  ' request.Size = Size
+		  ' request.ResultsAsURL = False
+		  ' Dim result As JSONItem = SendRequest("/v1/images/variations", request)
+		  ' Return New ImageCreator(result)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Function CreateVariation(Prompt As Picture, Size As String = "1024x1024") As OpenAI.Image
+		  ' Dim request As New OpenAI.Request()
+		  ' request.Size = Size
+		  ' request.ResultsAsURL = False
+		  ' Dim result As JSONItem = SendRequest("/v1/images/generations", request)
+		  ' Return New ImageCreator(result)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Function Edit(Prompt As String, Original As Picture, Mask As Picture = Nil, Count As Integer = 1, Size As String = "1024x1024") As OpenAI.Image
+		  ' Dim request As New OpenAI.Request()
+		  ' If Prompt <> "" Then request.Prompt = Prompt
+		  ' request.Size = Size
+		  ' request.ResultsAsURL = False
+		  ' Dim result As JSONItem = SendRequest("/v1/images/generations", request)
+		  ' Return New ImageCreator(result)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Function Generate(Prompt As String, Size As String = "1024x1024") As OpenAI.Image
+		  Dim request As New OpenAI.Request()
+		  request.Prompt = Prompt
+		  request.Size = Size
+		  request.ResultsAsURL = False
+		  Dim result As JSONItem = SendRequest("/v1/images/generations", request)
+		  Return New ImageCreator(result)
+		End Function
+	#tag EndMethod
+
+
+	#tag ViewBehavior
+		#tag ViewProperty
+			Name="Index"
+			Visible=true
+			Group="ID"
+			InitialValue="-2147483648"
+			InheritedFrom="Object"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Left"
+			Visible=true
+			Group="Position"
+			InitialValue="0"
+			InheritedFrom="Object"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Name"
+			Visible=true
+			Group="ID"
+			InheritedFrom="Object"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Super"
+			Visible=true
+			Group="ID"
+			InheritedFrom="Object"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Top"
+			Visible=true
+			Group="Position"
+			InitialValue="0"
+			InheritedFrom="Object"
+		#tag EndViewProperty
+	#tag EndViewBehavior
+End Module
+#tag EndModule
