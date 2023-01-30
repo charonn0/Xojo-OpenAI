@@ -7,9 +7,47 @@ Protected Class Request
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function ToJSON() As MemoryBlock
-		  mRequest.Compact = True
-		  Return mRequest.ToString()
+		Function ToObject() As Variant
+		  If SourceImage = Nil And MaskImage = Nil Then
+		    mRequest.Compact = True
+		    Return mRequest.ToString()
+		    
+		  Else
+		    #If USE_RBLIBCURL Then
+		      Dim form As New libcURL.MultipartForm
+		      If Size <> "1024x1024" Then form.AddElement("size", Size)
+		      If NumberOfResults > 1 Then form.AddElement("n", Str(NumberOfResults, "#0"))
+		      If ResultsAsURL Then
+		        form.AddElement("response_format", "url")
+		      Else
+		        form.AddElement("response_format", "b64_json")
+		      End If
+		      If User <> "" Then form.AddElement("user", User)
+		      If SourceImage <> Nil Then
+		        Call form.FormAdd(form.CURLFORM_COPYNAME, "image", form.CURLFORM_COPYCONTENTS, SourceImage.GetData(Picture.FormatPNG), _
+		        form.CURLFORM_FILENAME, "image.png")
+		      End If
+		      If MaskImage <> Nil Then
+		        Call form.FormAdd(form.CURLFORM_COPYNAME, "mask", form.CURLFORM_COPYCONTENTS, MaskImage.GetData(Picture.FormatPNG), _
+		        form.CURLFORM_FILENAME, "mask.png")
+		      End If
+		      
+		      Return form
+		    #Else
+		      Dim d As New Dictionary
+		      If Size <> "1024x1024" Then d.Value("size") = Size
+		      If NumberOfResults > 1 Then d.Value("n") = Str(NumberOfResults, "#0")
+		      If ResultsAsURL Then
+		        d.Value("response_format") = "url"
+		      Else
+		        d.Value("response_format") "b64_json"
+		      End If
+		      If User <> "" Then d.Value("user") = User
+		      If SourceImage <> Nil Then d.Value("image") = SourceImage
+		      If MaskImage <> Nil Then d.Value("mask") = MaskImage
+		      Return d
+		    #endif
+		  End If
 		End Function
 	#tag EndMethod
 
