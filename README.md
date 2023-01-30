@@ -2,7 +2,7 @@
 [OpenAI](https://openai.com/) is an AI research and deployment company. **Xojo-OpenAI** is Xojo and RealStudio wrapper for the OpenAI public API.
 
 ## Example
-This example asks the AI to correct a sentence for English spelling and grammar [**More examples**](https://github.com/charonn0/RB-libcURL/wiki#examples).
+This example asks the AI to correct a sentence for English spelling and grammar [**More examples**](https://github.com/charonn0/Xojo-OpenAI/wiki#examples).
 ```realbasic
   OpenAI.APIKey = "YOUR API KEY"
   Dim instruction As String = "Correct this to standard English" ' natural language instructions to AI
@@ -44,7 +44,7 @@ To enable CURLMBS, ensure the MBS IDE plugin is installed and then set `OpenAI.U
 If both `USE_RBLIBCURL` and `USE_MBS` are `True` then `USE_RBLIBCURL` takes precedence.
 
 ## Examples
-* [Correct natural language](https://github.com/charonn0/Xojo-OpenAI/wiki/Examples/translate-text)
-* [Translate natural language](https://github.com/charonn0/Xojo-OpenAI/wiki/Examples/translate-text)
-* [Explain source code](https://github.com/charonn0/Xojo-OpenAI/wiki/Examples/explain-source-code)
-* [Generate picture](https://github.com/charonn0/Xojo-OpenAI/wiki/Examples/generate-picture)
+* [Correct natural language](https://github.com/charonn0/Xojo-OpenAI/wiki/Examples#correct-text)
+* [Translate natural language](https://github.com/charonn0/Xojo-OpenAI/wiki/Examples#translate-text)
+* [Explain source code](https://github.com/charonn0/Xojo-OpenAI/wiki/Examples#explain-source-code)
+* [Generate picture](https://github.com/charonn0/Xojo-OpenAI/wiki/Examples#generate-picture)
