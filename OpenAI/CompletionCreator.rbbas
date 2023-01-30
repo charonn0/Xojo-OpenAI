@@ -1,5 +1,5 @@
 #tag Class
- Attributes ( hidden = true ) Class CompletionCreator
+ Attributes ( hidden = true ) Private Class CompletionCreator
 Inherits OpenAI.Completion
 	#tag Method, Flags = &h1000
 		Sub Constructor(ResponseData As JSONItem)
