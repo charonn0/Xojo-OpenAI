@@ -55,19 +55,6 @@ Inherits OpenAI.Response
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		 Shared Function Generate(Prompt As String, Size As String, ResponseFormat As String, ResultCount As Integer, User As String) As OpenAI.Image
-		  Dim request As New OpenAI.Request()
-		  request.Prompt = Prompt
-		  request.Size = Size
-		  request.ResultsAsURL = (ResponseFormat = "url")
-		  If User <> "" Then request.User = User
-		  If ResultCount > 1 Then request.NumberOfResults = ResultCount
-		  Dim result As JSONItem = SendRequest("/v1/images/generations", request)
-		  Return New ImageCreator(result)
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
 		Function GetResult(Index As Integer) As Variant
 		  Dim results As JSONItem = Super.GetResult(Index)
 		  If results.HasName("b64_json") Then
