@@ -9,8 +9,16 @@ Protected Module OpenAI
 		      client.EasyHandle.FailOnServerError = False
 		      client.BearerToken = APIKey
 		    End If
+		    client.RequestHeaders.Reset()
 		    Return client
 		  #ElseIf USE_MBS Then
+		    Const CURLAUTH_BEARER = 64
+		    Dim curl As New CURLSMBS
+		    curl.OptionVerbose=true
+		    curl.CollectOutputData = True
+		    curl.OptionXOAuth2Bearer = APIKey
+		    curl.OptionHTTPAuth = CURLAUTH_BEARER
+		    Return curl
 		    
 		  #ElseIf RBVersion > 2018.03 Then
 		    Static client As URLConnection
