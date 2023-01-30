@@ -33,6 +33,22 @@ Protected Class Request
 		      End If
 		      
 		      Return form
+		      
+		      
+		    #ElseIf USE_MBS Then
+		      Dim curl As CURLSMBS = GetClient()
+		      If Size <> "1024x1024" Then curl.FormAddField("size", Size)
+		      If NumberOfResults > 1 Then curl.FormAddField("n", Str(NumberOfResults, "#0"))
+		      If ResultsAsURL Then
+		        curl.FormAddField("response_format", "url")
+		      Else
+		        curl.FormAddField("response_format", "b64_json")
+		      End If
+		      If User <> "" Then curl.FormAddField("user", User)
+		      If SourceImage <> Nil Then curl.FormAddField("image", SourceImage.GetData(Picture.FormatPNG), "image/png")
+		      If MaskImage <> Nil Then curl.FormAddField("mask", MaskImage.GetData(Picture.FormatPNG), "image/png")
+		      Return curl
+		      
 		    #Else
 		      Dim d As New Dictionary
 		      If Size <> "1024x1024" Then d.Value("size") = Size

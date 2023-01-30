@@ -66,6 +66,14 @@ Protected Module OpenAI
 	#tag Method, Flags = &h21
 		Private Function SendRequest_MBS(APIURL As String) As JSONItem
 		  #If USE_MBS Then
+		    Dim curl As CURLSMBS = GetClient()
+		    curl.OptionURL = OPENAI_URL + APIURL
+		    Dim err As Integer = curl.Perform()
+		    If err <> 0 Then
+		      Raise New OpenAIException(New JSONItem(curl.OutputData))
+		    Else
+		      Return New JSONItem(curl.OutputData)
+		    End If
 		  #Else
 		    #pragma Unused APIURL
 		  #endif
@@ -75,6 +83,24 @@ Protected Module OpenAI
 	#tag Method, Flags = &h21
 		Private Function SendRequest_MBS(APIURL As String, Request As OpenAI.Request) As JSONItem
 		  #If USE_MBS Then
+		    Dim req As Variant = Request.ToObject()
+		    Dim curl As CURLSMBS
+		    If req IsA CURLMBS Then
+		      curl = req
+		    Else
+		      curl = GetClient()
+		      curl.InputData = req.StringValue
+		      curl.OptionUpload = True
+		      curl.OptionCustomRequest = "POST"
+		      curl.SetOptionHTTPHeader(Array("Content-Type: application/json"))
+		    End If
+		    curl.OptionURL = OPENAI_URL + APIURL
+		    If curl.Perform() <> 0 Then
+		      Dim data As String = curl.OutputData
+		      Raise New OpenAIException(New JSONItem(data))
+		    Else
+		      Return New JSONItem(curl.OutputData)
+		    End If
 		  #Else
 		    #pragma Unused APIURL
 		    #pragma Unused Request
