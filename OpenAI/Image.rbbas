@@ -17,7 +17,7 @@ Inherits OpenAI.Response
 		  request.ResultsAsURL = (ResponseFormat = "url")
 		  If ResultCount > 1 Then request.NumberOfResults = ResultCount
 		  If User <> "" Then request.User = User
-		  Dim result As JSONItem = SendRequest("/v1/images/generations", request)
+		  Dim result As JSONItem = SendRequest("/v1/images/variations", request)
 		  Return New ImageCreator(result)
 		End Function
 	#tag EndMethod
@@ -32,7 +32,7 @@ Inherits OpenAI.Response
 		  request.Size = Size
 		  request.ResultsAsURL = (ResponseFormat = "url")
 		  If User <> "" Then request.User = User
-		  Dim result As JSONItem = SendRequest("/v1/images/generations", request)
+		  Dim result As JSONItem = SendRequest("/v1/images/edits", request)
 		  Return New ImageCreator(result)
 		End Function
 	#tag EndMethod
