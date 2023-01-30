@@ -14,7 +14,7 @@ This example asks the AI to correct a sentence for English spelling and grammar 
 ## Highlights
 * Issue natural-language instructions to the AI
 * Generate images based on a description
-* Modify, analyse, and partse text or source code according to instructions
+* Modify, analyse, and parse text or source code according to instructions
 
 ## Synopsis
 
