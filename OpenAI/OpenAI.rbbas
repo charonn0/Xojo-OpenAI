@@ -155,10 +155,7 @@ Protected Module OpenAI
 		  #If RBVersion > 2018.03 Then
 		    Dim client As URLConnection = GetClient()
 		    Dim req As Variant = Request.ToObject
-		    Select Case req
-		    Case IsA MemoryBlock
-		      client.SetRequestContent(req.StringValue, "application/json")
-		    Case IsA Dictionary
+		    If req IsA Dictionary Then
 		      Dim boundary As String = "--" + Right(EncodeHex(MD5(Str(Microseconds))), 24) + "-bOuNdArY"
 		      Static CRLF As String = EndOfLine.Windows
 		      Dim data As New MemoryBlock(0)
@@ -179,7 +176,9 @@ Protected Module OpenAI
 		      out.Write("--" + Boundary + "--" + CRLF)
 		      out.Close
 		      client.SetRequestContent(data, "multipart/form-data; boundary=" + boundary)
-		    End Select
+		    Else
+		      client.SetRequestContent(req.StringValue, "application/json")
+		    End If
 		    Dim result As String = client.SendSync("POST", OPENAI_URL + APIURL, 0)
 		    Return New JSONItem(result)
 		  #Else
