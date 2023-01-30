@@ -7,7 +7,7 @@ Protected Module OpenAI
 		    If client = Nil Then
 		      client = New cURLClient
 		      client.EasyHandle.FailOnServerError = False
-		      client.BearerToken = OPENAI_API_KEY
+		      client.BearerToken = APIKey
 		    End If
 		    Return client
 		  #ElseIf USE_MBS Then
@@ -16,7 +16,7 @@ Protected Module OpenAI
 		    Static client As URLConnection
 		    If client = Nil Then
 		      client = New URLConnection
-		      client.RequestHeader("Authorization") = "Bearer " + OPENAI_API_KEY
+		      client.RequestHeader("Authorization") = "Bearer " + APIKey
 		      client.RequestHeader("User-Agent") = "RB-OpenAI/0.1"
 		    End If
 		    Return client
@@ -157,16 +157,18 @@ Protected Module OpenAI
 	#tag EndMethod
 
 
-	#tag Constant, Name = OPENAI_API_KEY, Type = String, Dynamic = False, Default = \"YOUR API KEY HERE", Scope = Private
-	#tag EndConstant
+	#tag Property, Flags = &h0
+		APIKey As String = "YOUR API KEY HERE"
+	#tag EndProperty
+
 
 	#tag Constant, Name = OPENAI_URL, Type = String, Dynamic = False, Default = \"https://api.openai.com", Scope = Private
 	#tag EndConstant
 
-	#tag Constant, Name = USE_MBS, Type = Boolean, Dynamic = False, Default = \"False", Scope = Private
+	#tag Constant, Name = USE_MBS, Type = Boolean, Dynamic = False, Default = \"True", Scope = Private
 	#tag EndConstant
 
-	#tag Constant, Name = USE_RBLIBCURL, Type = Boolean, Dynamic = False, Default = \"False", Scope = Private
+	#tag Constant, Name = USE_RBLIBCURL, Type = Boolean, Dynamic = False, Default = \"True", Scope = Private
 	#tag EndConstant
 
 
