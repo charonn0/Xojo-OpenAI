@@ -148,7 +148,7 @@ Protected Class Request
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
-			  Return OpenAI.Models.GetByName(mRequest.Value("model"))
+			  Return OpenAI.Model.GetByName(mRequest.Value("model"))
 			End Get
 		#tag EndGetter
 		#tag Setter

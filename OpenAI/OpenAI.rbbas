@@ -174,6 +174,13 @@ Protected Module OpenAI
 
 	#tag ViewBehavior
 		#tag ViewProperty
+			Name="APIKey"
+			Group="Behavior"
+			InitialValue="YOUR API KEY HERE"
+			Type="String"
+			EditorType="MultiLineEditor"
+		#tag EndViewProperty
+		#tag ViewProperty
 			Name="Index"
 			Visible=true
 			Group="ID"

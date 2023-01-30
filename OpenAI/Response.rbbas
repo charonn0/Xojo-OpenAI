@@ -6,8 +6,8 @@ Protected Class Response
 		End Sub
 	#tag EndMethod
 
-	#tag Method, Flags = &h1
-		Protected Function GetResultObject(Index As Integer) As JSONItem
+	#tag Method, Flags = &h0
+		Function GetResult(Index As Integer) As Variant
 		  Dim results As JSONItem
 		  If mResponse.HasName("data") Then
 		    results = mResponse.Value("data")

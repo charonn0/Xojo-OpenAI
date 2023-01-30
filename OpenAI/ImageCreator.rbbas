@@ -1,5 +1,5 @@
 #tag Class
- Attributes ( hidden = true ) Private Class ImageCreator
+Private Class ImageCreator
 Inherits OpenAI.Image
 	#tag Method, Flags = &h1000
 		Sub Constructor(ResponseData As JSONItem)

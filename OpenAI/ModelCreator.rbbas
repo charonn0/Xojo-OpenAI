@@ -1,5 +1,5 @@
 #tag Class
- Attributes ( hidden = true ) Private Class ModelCreator
+Private Class ModelCreator
 Inherits OpenAI.Model
 	#tag Method, Flags = &h1000
 		Sub Constructor(Response As JSONItem)

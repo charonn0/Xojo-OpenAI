@@ -6,6 +6,42 @@ Protected Class Model
 		End Sub
 	#tag EndMethod
 
+	#tag Method, Flags = &h0
+		 Shared Function Count() As Integer
+		  If UBound(ModelList) = -1 Then ListAvailableModels()
+		  Return UBound(ModelList) + 1
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		 Shared Function GetByIndex(Index As Integer) As OpenAI.Model
+		  If UBound(ModelList) = -1 Then ListAvailableModels()
+		  Return ModelList(Index)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		 Shared Function GetByName(ModelName As String) As OpenAI.Model
+		  If UBound(ModelList) = -1 Then ListAvailableModels()
+		  For i As Integer = 0 To UBound(ModelList)
+		    If ModelList(i).ID = ModelName Then Return ModelList(i)
+		  Next
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Shared Sub ListAvailableModels()
+		  ReDim ModelList(-1)
+		  Dim lst As JSONItem = SendRequest("/v1/models")
+		  lst = lst.Value("data")
+		  
+		  For i As Integer = 0 To lst.Count - 1
+		    ModelList.Append(New ModelCreator(lst.Child(i)))
+		  Next
+		End Sub
+	#tag EndMethod
+
 
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
@@ -147,6 +183,10 @@ Protected Class Model
 		Private mModel As JSONItem
 	#tag EndProperty
 
+	#tag Property, Flags = &h21
+		Private Shared ModelList() As Model
+	#tag EndProperty
+
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
@@ -178,7 +218,7 @@ Protected Class Model
 			Get
 			  If mModel.HasName("parent") And mModel.Value("parent") <> Nil Then
 			    Dim nm As String = mModel.Value("parent")
-			    Return OpenAI.Models.GetByName(nm)
+			    Return OpenAI.Model.GetByName(nm)
 			  End If
 			  
 			  Exception err As KeyNotFoundException
@@ -193,7 +233,7 @@ Protected Class Model
 			Get
 			  If mModel.HasName("root") And mModel.Value("root") <> Nil Then
 			    Dim nm As String = mModel.Value("root")
-			    Return OpenAI.Models.GetByName(nm)
+			    Return OpenAI.Model.GetByName(nm)
 			  End If
 			  
 			  Exception err As KeyNotFoundException
