@@ -13,6 +13,8 @@ Protected Class Response
 		    results = mResponse.Value("data")
 		  ElseIf mResponse.HasName("choices") Then
 		    results = mResponse.Value("choices")
+		  ElseIf mResponse.HasName("error") Then
+		    Raise New OpenAIException(mResponse)
 		  End If
 		  Return results.Child(Index)
 		End Function
