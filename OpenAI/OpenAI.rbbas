@@ -242,7 +242,7 @@ Protected Module OpenAI
 	#tag Constant, Name = USE_MBS, Type = Boolean, Dynamic = False, Default = \"False", Scope = Private
 	#tag EndConstant
 
-	#tag Constant, Name = USE_RBLIBCURL, Type = Boolean, Dynamic = False, Default = \"True", Scope = Private
+	#tag Constant, Name = USE_RBLIBCURL, Type = Boolean, Dynamic = False, Default = \"False", Scope = Private
 	#tag EndConstant
 
 
