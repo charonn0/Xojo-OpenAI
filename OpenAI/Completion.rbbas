@@ -7,7 +7,7 @@ Inherits OpenAI.Response
 		  If Model = Nil Then Model = OpenAI.Model.GetByName("text-davinci-003")
 		  request.Model = Model
 		  request.Prompt = Prompt
-		  If BestOf <> 1 Then request.BestOf = BestOf
+		  If BestOf <> 0 Then request.BestOf = BestOf
 		  If Echo Then request.Echo = Echo
 		  If FrequencyPenalty > 0.01 Then request.FrequencyPenalty = FrequencyPenalty
 		  If LogItBias <> Nil Then request.LogItBias = LogItBias
