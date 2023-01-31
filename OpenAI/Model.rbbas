@@ -13,23 +13,6 @@ Protected Class Model
 		End Function
 	#tag EndMethod
 
-	#tag Method, Flags = &h0
-		 Shared Function GetByIndex(Index As Integer) As OpenAI.Model
-		  If UBound(ModelList) = -1 Then ListAvailableModels()
-		  Return ModelList(Index)
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		 Shared Function GetByName(ModelName As String) As OpenAI.Model
-		  If UBound(ModelList) = -1 Then ListAvailableModels()
-		  For i As Integer = 0 To UBound(ModelList)
-		    If ModelList(i).ID = ModelName Then Return ModelList(i)
-		  Next
-		  
-		End Function
-	#tag EndMethod
-
 	#tag Method, Flags = &h21
 		Private Shared Sub ListAvailableModels()
 		  ReDim ModelList(-1)
@@ -42,6 +25,23 @@ Protected Class Model
 		  Next
 		  
 		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		 Shared Function Lookup(Index As Integer) As OpenAI.Model
+		  If UBound(ModelList) = -1 Then ListAvailableModels()
+		  Return ModelList(Index)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		 Shared Function Lookup(ModelName As String) As OpenAI.Model
+		  If UBound(ModelList) = -1 Then ListAvailableModels()
+		  For i As Integer = 0 To UBound(ModelList)
+		    If ModelList(i).ID = ModelName Then Return ModelList(i)
+		  Next
+		  
+		End Function
 	#tag EndMethod
 
 
@@ -220,7 +220,7 @@ Protected Class Model
 			Get
 			  If mModel.HasName("parent") And mModel.Value("parent") <> Nil Then
 			    Dim nm As String = mModel.Value("parent")
-			    Return OpenAI.Model.GetByName(nm)
+			    Return OpenAI.Model.Lookup(nm)
 			  End If
 			  
 			  Exception err As KeyNotFoundException
@@ -235,7 +235,7 @@ Protected Class Model
 			Get
 			  If mModel.HasName("root") And mModel.Value("root") <> Nil Then
 			    Dim nm As String = mModel.Value("root")
-			    Return OpenAI.Model.GetByName(nm)
+			    Return OpenAI.Model.Lookup(nm)
 			  End If
 			  
 			  Exception err As KeyNotFoundException

@@ -12,7 +12,7 @@ Inherits OpenAI.Response
 	#tag Method, Flags = &h0
 		 Shared Function Create(Prompt As String, ResultCount As Integer = 1, Model As OpenAI.Model = Nil) As OpenAI.Completion
 		  Dim request As New OpenAI.Request()
-		  If Model = Nil Then Model = OpenAI.Model.GetByName("text-davinci-003")
+		  If Model = Nil Then Model = OpenAI.Model.Lookup("text-davinci-003")
 		  request.Model = Model
 		  request.Prompt = Prompt
 		  If ResultCount > 1 Then request.NumberOfResults = ResultCount
@@ -31,7 +31,7 @@ Inherits OpenAI.Response
 	#tag Method, Flags = &h0
 		 Shared Function Edit(TextToEdit As String, EditInstruction As String, ResultCount As Integer = 1, Model As OpenAI.Model = Nil) As OpenAI.Completion
 		  Dim request As New OpenAI.Request
-		  If Model = Nil Then Model = OpenAI.Model.GetByName("text-davinci-edit-001")
+		  If Model = Nil Then Model = OpenAI.Model.Lookup("text-davinci-edit-001")
 		  request.Model = Model
 		  request.Input = TextToEdit
 		  request.Instruction = EditInstruction
