@@ -1,5 +1,5 @@
 ## Introduction
-[OpenAI](https://openai.com/) is an AI research and deployment company. **Xojo-OpenAI** is Xojo and RealStudio wrapper for the OpenAI public API.
+[OpenAI](https://openai.com/) is an AI research and deployment company. **Xojo-OpenAI** is a Xojo and RealStudio wrapper for the OpenAI public API.
 
 ## Example
 This example asks the AI to correct a sentence for English spelling and grammar [**More examples**](https://github.com/charonn0/Xojo-OpenAI/wiki#examples).
