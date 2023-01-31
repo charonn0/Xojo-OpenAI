@@ -13,6 +13,7 @@ Inherits OpenAI.Response
 	#tag Method, Flags = &h0
 		 Shared Function Create(Request As OpenAI.Request) As OpenAI.Moderation
 		  Dim result As JSONItem = SendRequest("/v1/moderations", Request)
+		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
 		  Return New OpenAI.Moderation(result)
 		End Function
 	#tag EndMethod

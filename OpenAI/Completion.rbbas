@@ -13,6 +13,7 @@ Inherits OpenAI.Response
 	#tag Method, Flags = &h0
 		 Shared Function Create(Request As OpenAI.Request) As OpenAI.Completion
 		  Dim response As JSONItem = SendRequest("/v1/completions", request)
+		  If response = Nil Or response.HasName("error") Then Raise New OpenAIException(response)
 		  Return New OpenAI.Completion(response)
 		  
 		End Function
@@ -32,6 +33,7 @@ Inherits OpenAI.Response
 	#tag Method, Flags = &h0
 		 Shared Function Edit(Request As OpenAI.Request) As OpenAI.Completion
 		  Dim response As JSONItem = SendRequest("/v1/edits", request)
+		  If response = Nil Or response.HasName("error") Then Raise New OpenAIException(response)
 		  Return New OpenAI.Completion(response)
 		  
 		End Function

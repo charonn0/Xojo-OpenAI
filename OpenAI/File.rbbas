@@ -16,6 +16,7 @@ Inherits OpenAI.Response
 		  request.File = FileContent
 		  request.Purpose = Purpose
 		  Dim result As JSONItem = SendRequest("/v1/files", request)
+		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
 		  Return New OpenAI.File(result)
 		End Function
 	#tag EndMethod
@@ -40,6 +41,7 @@ Inherits OpenAI.Response
 	#tag Method, Flags = &h0
 		 Shared Function List() As OpenAI.File
 		  Dim result As JSONItem = SendRequest("/v1/files")
+		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
 		  Return New OpenAI.File(result)
 		End Function
 	#tag EndMethod
@@ -52,7 +54,9 @@ Inherits OpenAI.Response
 
 	#tag Method, Flags = &h0
 		 Shared Function Open(FileID As String) As OpenAI.File
-		  Return New OpenAI.File(SendRequest("/v1/files/" + FileID))
+		  Dim result As JSONItem = SendRequest("/v1/files/" + FileID)
+		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
+		  Return New OpenAI.File(result)
 		End Function
 	#tag EndMethod
 

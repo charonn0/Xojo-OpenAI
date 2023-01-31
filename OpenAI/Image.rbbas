@@ -13,6 +13,7 @@ Inherits OpenAI.Response
 	#tag Method, Flags = &h0
 		 Shared Function CreateVariation(Request As OpenAI.Request) As OpenAI.Image
 		  Dim result As JSONItem = SendRequest("/v1/images/variations", Request)
+		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
 		  Return New OpenAI.Image(result)
 		End Function
 	#tag EndMethod
@@ -30,6 +31,7 @@ Inherits OpenAI.Response
 	#tag Method, Flags = &h0
 		 Shared Function Edit(Request As OpenAI.Request) As OpenAI.Image
 		  Dim result As JSONItem = SendRequest("/v1/images/edits", Request)
+		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
 		  Return New OpenAI.Image(result)
 		End Function
 	#tag EndMethod
@@ -49,6 +51,7 @@ Inherits OpenAI.Response
 	#tag Method, Flags = &h0
 		 Shared Function Generate(Request As OpenAI.Request) As OpenAI.Image
 		  Dim result As JSONItem = SendRequest("/v1/images/generations", Request)
+		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
 		  Return New OpenAI.Image(result)
 		End Function
 	#tag EndMethod

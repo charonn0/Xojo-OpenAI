@@ -20,6 +20,7 @@ Inherits OpenAI.Response
 	#tag Method, Flags = &h0
 		 Shared Function Create(Request As OpenAI.Request) As OpenAI.FineTune
 		  Dim result As JSONItem = SendRequest("/v1/fine-tunes", Request)
+		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
 		  Return New OpenAI.FineTune(result)
 		End Function
 	#tag EndMethod
@@ -49,6 +50,7 @@ Inherits OpenAI.Response
 	#tag Method, Flags = &h0
 		 Shared Function List() As OpenAI.FineTune
 		  Dim result As JSONItem = SendRequest("/v1/fine-tunes")
+		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
 		  Return New OpenAI.FineTune(result)
 		End Function
 	#tag EndMethod
@@ -63,7 +65,9 @@ Inherits OpenAI.Response
 
 	#tag Method, Flags = &h0
 		 Shared Function Open(FineTuneID As String) As OpenAI.FineTune
-		  Return New OpenAI.FineTune(SendRequest("/v1/fine-tunes/" + FineTuneID))
+		  Dim result As JSONItem = SendRequest("/v1/fine-tunes/" + FineTuneID)
+		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
+		  Return New OpenAI.FineTune(result)
 		End Function
 	#tag EndMethod
 
