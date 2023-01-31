@@ -10,14 +10,16 @@ Protected Module OpenAI
 		      client.BearerToken = APIKey
 		    End If
 		    client.RequestHeaders.Reset()
+		    client.RequestHeaders.SetHeader("User-Agent", USER_AGENT_STRING)
 		    Return client
 		  #ElseIf USE_MBS Then
 		    Const CURLAUTH_BEARER = 64
 		    Dim curl As New CURLSMBS
-		    curl.OptionVerbose=true
+		    curl.OptionVerbose = True
 		    curl.CollectOutputData = True
 		    curl.OptionXOAuth2Bearer = APIKey
 		    curl.OptionHTTPAuth = CURLAUTH_BEARER
+		    curl.OptionUserAgent = USER_AGENT_STRING
 		    Return curl
 		    
 		  #ElseIf RBVersion > 2018.03 Then
@@ -25,7 +27,7 @@ Protected Module OpenAI
 		    If client = Nil Then
 		      client = New URLConnection
 		      client.RequestHeader("Authorization") = "Bearer " + APIKey
-		      client.RequestHeader("User-Agent") = "RB-OpenAI/0.1"
+		      client.RequestHeader("User-Agent") = USER_AGENT_STRING
 		    End If
 		    Return client
 		  #Else
