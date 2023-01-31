@@ -11,11 +11,12 @@ Inherits OpenAI.Response
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		 Shared Function Create(FileContent As MemoryBlock, Filename As String, Purpose As String) As OpenAI.File
-		  ' Dim request As New OpenAI.Request
-		  ' request.File
-		  ' Dim result As JSONItem = SendRequest("/v1/files")
-		  ' Return New OpenAI.File(result)
+		 Shared Function Create(FileContent As MemoryBlock, Purpose As String) As OpenAI.File
+		  Dim request As New OpenAI.Request
+		  request.File = FileContent
+		  request.Purpose = Purpose
+		  Dim result As JSONItem = SendRequest("/v1/files", request)
+		  Return New OpenAI.File(result)
 		End Function
 	#tag EndMethod
 
