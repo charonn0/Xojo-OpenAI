@@ -80,9 +80,17 @@ Protected Module OpenAI
 		    curl.OptionURL = OPENAI_URL + APIURL
 		    Dim err As Integer = curl.Perform()
 		    If err <> 0 Then
-		      Raise New OpenAIException(New JSONItem(curl.OutputData))
+		      #If USE_MTCJSON Then
+		        Raise New OpenAIException(New JSONItem_MTC(curl.OutputData))
+		      #Else
+		        Raise New OpenAIException(New JSONItem(curl.OutputData))
+		      #EndIf
 		    Else
-		      Return New JSONItem(curl.OutputData)
+		      #If USE_MTCJSON Then
+		        Return New JSONItem_MTC(curl.OutputData)
+		      #Else
+		        Return New JSONItem(curl.OutputData)
+		      #EndIf
 		    End If
 		  #Else
 		    #pragma Unused APIURL
@@ -107,9 +115,17 @@ Protected Module OpenAI
 		    curl.OptionURL = OPENAI_URL + APIURL
 		    If curl.Perform() <> 0 Then
 		      Dim data As String = curl.OutputData
-		      Raise New OpenAIException(New JSONItem(data))
+		      #If USE_MTCJSON Then
+		        Raise New OpenAIException(New JSONItem_MTC(data))
+		      #Else
+		        Raise New OpenAIException(New JSONItem(data))
+		      #EndIf
 		    Else
-		      Return New JSONItem(curl.OutputData)
+		      #If USE_MTCJSON Then
+		        Return New JSONItem_MTC(curl.OutputData)
+		      #Else
+		        Return New JSONItem(curl.OutputData)
+		      #EndIf
 		    End If
 		  #Else
 		    #pragma Unused APIURL
@@ -125,12 +141,20 @@ Protected Module OpenAI
 		    client.SetRequestMethod("")
 		    If Not client.Get(OPENAI_URL + APIURL) Then
 		      Dim curlerr As New libcURL.cURLException(client.EasyHandle)
-		      Dim openaierr As New OpenAIException(New JSONItem(client.GetDownloadedData))
+		      #If USE_MTCJSON Then
+		        Dim openaierr As New OpenAIException(New JSONItem_MTC(client.GetDownloadedData))
+		      #Else
+		        Dim openaierr As New OpenAIException(New JSONItem(client.GetDownloadedData))
+		      #EndIf
 		      openaierr.Message = openaierr.Message + EndOfLine + curlerr.Message
 		      Raise openaierr
 		    End If
 		    Dim data As String = client.GetDownloadedData()
-		    Return New JSONItem(data)
+		    #If USE_MTCJSON Then
+		      Return New JSONItem_MTC(data)
+		    #Else
+		      Return New JSONItem(data)
+		    #EndIf
 		  #Else
 		    #pragma Unused APIURL
 		  #endif
@@ -146,7 +170,11 @@ Protected Module OpenAI
 		      Dim req As libcURL.MultipartForm = form
 		      If Not client.Post(OPENAI_URL + APIURL, req) Then
 		        Dim curlerr As New libcURL.cURLException(client.EasyHandle)
-		        Dim openaierr As New OpenAIException(New JSONItem(client.GetDownloadedData))
+		        #If USE_MTCJSON Then
+		          Dim openaierr As New OpenAIException(New JSONItem_MTC(client.GetDownloadedData))
+		        #Else
+		          Dim openaierr As New OpenAIException(New JSONItem(client.GetDownloadedData))
+		        #EndIf
 		        openaierr.Message = openaierr.Message + EndOfLine + curlerr.Message
 		        Raise openaierr
 		      End If
@@ -156,7 +184,11 @@ Protected Module OpenAI
 		      client.SetRequestMethod("POST")
 		      If Not client.Put(OPENAI_URL + APIURL, req) Then
 		        Dim curlerr As New libcURL.cURLException(client.EasyHandle)
-		        Dim openaierr As New OpenAIException(New JSONItem(client.GetDownloadedData))
+		        #If USE_MTCJSON Then
+		          Dim openaierr As New OpenAIException(New JSONItem_MTC(client.GetDownloadedData))
+		        #Else
+		          Dim openaierr As New OpenAIException(New JSONItem(client.GetDownloadedData))
+		        #EndIf
 		        openaierr.Message = openaierr.Message + EndOfLine + curlerr.Message
 		        Raise openaierr
 		      End If
@@ -166,7 +198,12 @@ Protected Module OpenAI
 		      Raise err
 		    End If
 		    Dim data As String = client.GetDownloadedData()
-		    Return New JSONItem(data)
+		    #If USE_MTCJSON Then
+		      Return New JSONItem_MTC(data)
+		    #Else
+		      Return New JSONItem(data)
+		    #EndIf
+		    
 		  #Else
 		    #pragma Unused APIURL
 		    #pragma Unused Request
@@ -179,7 +216,11 @@ Protected Module OpenAI
 		  #If RBVersion > 2018.03 Then
 		    Dim client As URLConnection = GetClient()
 		    Dim data As String = client.SendSync("GET", OPENAI_URL + APIURL, 0)
-		    Return New JSONItem(data)
+		    #If USE_MTCJSON Then
+		      Return New JSONItem_MTC(data)
+		    #Else
+		      Return New JSONItem(data)
+		    #EndIf
 		  #Else
 		    #pragma Unused APIURL
 		  #endif
@@ -216,7 +257,11 @@ Protected Module OpenAI
 		      client.SetRequestContent(req.StringValue, "application/json")
 		    End If
 		    Dim result As String = client.SendSync("POST", OPENAI_URL + APIURL, 0)
-		    Return New JSONItem(result)
+		    #If USE_MTCJSON Then
+		      Return New JSONItem_MTC(result)
+		    #Else
+		      Return New JSONItem(result)
+		    #EndIf
 		  #Else
 		    #pragma Unused APIURL
 		    #pragma Unused Request
@@ -246,7 +291,13 @@ Protected Module OpenAI
 	#tag Constant, Name = OPENAI_URL, Type = String, Dynamic = False, Default = \"https://api.openai.com", Scope = Private
 	#tag EndConstant
 
-	#tag Constant, Name = USE_MBS, Type = Boolean, Dynamic = False, Default = \"False", Scope = Private
+	#tag Constant, Name = USER_AGENT_STRING, Type = String, Dynamic = False, Default = \"Xojo-OpenAI/0.1", Scope = Private
+	#tag EndConstant
+
+	#tag Constant, Name = USE_MBS, Type = Boolean, Dynamic = False, Default = \"True", Scope = Private
+	#tag EndConstant
+
+	#tag Constant, Name = USE_MTCJSON, Type = Boolean, Dynamic = False, Default = \"False", Scope = Private
 	#tag EndConstant
 
 	#tag Constant, Name = USE_RBLIBCURL, Type = Boolean, Dynamic = False, Default = \"False", Scope = Private

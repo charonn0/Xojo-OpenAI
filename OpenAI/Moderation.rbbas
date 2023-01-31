@@ -30,7 +30,11 @@ Inherits OpenAI.Response
 
 	#tag Method, Flags = &h0
 		Function GetResult(Index As Integer) As Variant
-		  Dim results As JSONItem = Super.GetResult(Index)
+		  #If USE_MTCJSON Then
+		    Dim results As JSONItem_MTC = Super.GetResult(Index)
+		  #Else
+		    Dim results As JSONItem = Super.GetResult(Index)
+		  #EndIf
 		  Return results
 		End Function
 	#tag EndMethod

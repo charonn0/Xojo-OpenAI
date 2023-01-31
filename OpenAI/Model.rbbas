@@ -21,13 +21,25 @@ Protected Class Model
 	#tag Method, Flags = &h21
 		Private Shared Sub ListAvailableModels()
 		  ReDim ModelList(-1)
-		  Dim lst As JSONItem = SendRequest("/v1/models")
+		  #If USE_MTCJSON Then
+		    Dim lst As JSONItem_MTC = SendRequest("/v1/models")
+		  #Else
+		    Dim lst As JSONItem = SendRequest("/v1/models")
+		  #EndIf
 		  If lst = Nil Or Not lst.HasName("data") Then Raise New OpenAIException(lst)
 		  lst = lst.Value("data")
 		  
 		  For i As Integer = 0 To lst.Count - 1
 		    ModelList.Append(New OpenAI.Model(lst.Child(i)))
 		  Next
+		  
+		  #If USE_MTCJSON Then
+		    ModelList.Append(New OpenAI.Model(New JSONItem_MTC(TEXT_MODERATION_LATEST)))
+		    ModelList.Append(New OpenAI.Model(New JSONItem_MTC(TEXT_MODERATION_STABLE)))
+		  #Else
+		    ModelList.Append(New OpenAI.Model(New JSONItem(TEXT_MODERATION_LATEST)))
+		    ModelList.Append(New OpenAI.Model(New JSONItem(TEXT_MODERATION_STABLE)))
+		  #EndIf
 		  
 		End Sub
 	#tag EndMethod
@@ -265,6 +277,13 @@ Protected Class Model
 		#tag EndGetter
 		Root As OpenAI.Model
 	#tag EndComputedProperty
+
+
+	#tag Constant, Name = TEXT_MODERATION_LATEST, Type = String, Dynamic = False, Default = \"{\"id\": \"text-moderation-latest\"\x2C \"object\": \"model\"\x2C \"owned_by\": \"organization-owner\"\x2C \"permission\": null}", Scope = Private
+	#tag EndConstant
+
+	#tag Constant, Name = TEXT_MODERATION_STABLE, Type = String, Dynamic = False, Default = \"{\"id\": \"text-moderation-stable\"\x2C \"object\": \"model\"\x2C \"owned_by\": \"organization-owner\"\x2C \"permission\": null}", Scope = Private
+	#tag EndConstant
 
 
 	#tag ViewBehavior

@@ -8,7 +8,11 @@ Protected Class Response
 
 	#tag Method, Flags = &h0
 		Function GetResult(Index As Integer) As Variant
-		  Dim results As JSONItem
+		  #If USE_MTCJSON Then
+		    Dim results As JSONItem_MTC
+		  #Else
+		    Dim results As JSONItem
+		  #EndIf
 		  If mResponse.HasName("data") Then
 		    results = mResponse.Value("data")
 		  ElseIf mResponse.HasName("choices") Then

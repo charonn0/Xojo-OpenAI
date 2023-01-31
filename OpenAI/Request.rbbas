@@ -2,7 +2,11 @@
 Protected Class Request
 	#tag Method, Flags = &h0
 		Sub Constructor()
-		  mRequest = New JSONItem
+		  #If USE_MTCJSON Then
+		    mRequest = New JSONItem_MTC
+		  #Else
+		    mRequest = New JSONItem
+		  #EndIf
 		End Sub
 	#tag EndMethod
 
@@ -329,8 +333,8 @@ Protected Class Request
 		Model As OpenAI.Model
 	#tag EndComputedProperty
 
-	#tag Property, Flags = &h1
-		Protected mRequest As JSONItem
+	#tag Property, Flags = &h21
+		Private mRequest As JSONItem
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
