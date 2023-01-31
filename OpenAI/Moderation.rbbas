@@ -21,17 +21,11 @@ Inherits OpenAI.Response
 	#tag Method, Flags = &h0
 		 Shared Function Create(Prompt As String, Model As OpenAI.Model = Nil) As OpenAI.Moderation
 		  Dim request As New OpenAI.Request
-		  request.Prompt = Prompt
+		  If Model = Nil Then Model = OpenAI.Model.Lookup("text-moderation-stable")
 		  request.Model = Model
+		  request.Input = Prompt
 		  Return Moderation.Create(request)
 		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Sub Delete()
-		  ' Dim result As JSONItem = SendRequest("/v1/files")
-		  ' Return New OpenAI.File(result)
-		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
