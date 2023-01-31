@@ -13,6 +13,8 @@ Protected Class Response
 		    results = mResponse.Value("data")
 		  ElseIf mResponse.HasName("choices") Then
 		    results = mResponse.Value("choices")
+		  ElseIf mResponse.HasName("results") Then
+		    results = mResponse.Value("results")
 		  ElseIf mResponse.HasName("error") Then
 		    Raise New OpenAIException(mResponse)
 		  End If
@@ -31,6 +33,18 @@ Protected Class Response
 			End Get
 		#tag EndGetter
 		Created As Date
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  Return mResponse.Value("id")
+			  
+			  Exception err As KeyNotFoundException
+			    Return ""
+			End Get
+		#tag EndGetter
+		ID As String
 	#tag EndComputedProperty
 
 	#tag Property, Flags = &h1

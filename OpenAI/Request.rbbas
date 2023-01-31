@@ -71,6 +71,20 @@ Protected Class Request
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  If mRequest.HasName("batch_size") Then Return mRequest.Value("batch_size") Else Return 1
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  mRequest.Value("batch_size") = CType(Max(value, 1), Integer)
+			End Set
+		#tag EndSetter
+		BatchSize As Integer
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
 			  If mRequest.HasName("best_of") Then Return mRequest.Value("best_of") Else Return 1
 			End Get
 		#tag EndGetter
@@ -85,6 +99,62 @@ Protected Class Request
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  If mRequest.HasName("classification_betas") Then Return mRequest.Value("classification_betas")
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  mRequest.Value("classification_betas") = value
+			End Set
+		#tag EndSetter
+		ClassificationBetas As JSONItem
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mRequest.HasName("classification_n_classes") Then Return mRequest.Value("classification_n_classes") Else Return 1
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  mRequest.Value("classification_n_classes") = CType(Max(value, 1), Integer)
+			End Set
+		#tag EndSetter
+		ClassificationNClasses As Integer
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mRequest.HasName("classification_positive_class") Then Return mRequest.Value("classification_positive_class")
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  mRequest.Value("classification_positive_class") = value
+			End Set
+		#tag EndSetter
+		ClassificationPositiveClass As String
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mRequest.HasName("compute_classification_metrics") Then Return mRequest.Value("compute_classification_metrics")
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  mRequest.Value("compute_classification_metrics") = value
+			End Set
+		#tag EndSetter
+		ComputeClassificationMetrics As Boolean
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
 			  If mRequest.HasName("suffix") Then Return mRequest.Value("suffix")
 			End Get
 		#tag EndGetter
@@ -94,6 +164,20 @@ Protected Class Request
 			End Set
 		#tag EndSetter
 		Echo As Boolean
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mRequest.HasName("fine_tune_id") Then Return mRequest.Value("fine_tune_id")
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  mRequest.Value("fine_tune_id") = value
+			End Set
+		#tag EndSetter
+		FineTuneID As String
 	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0
@@ -136,6 +220,20 @@ Protected Class Request
 			End Set
 		#tag EndSetter
 		Instruction As String
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mRequest.HasName("learning_rate_multiplier") Then Return mRequest.Value("learning_rate_multiplier")
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  mRequest.Value("learning_rate_multiplier") = value
+			End Set
+		#tag EndSetter
+		LearningRateMultiplier As Single
 	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0
@@ -202,7 +300,8 @@ Protected Class Request
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
-			  Return OpenAI.Model.GetByName(mRequest.Value("model"))
+			  Dim mdl As String = mRequest.Value("model")
+			  Return OpenAI.Model.Lookup(mdl)
 			End Get
 		#tag EndGetter
 		#tag Setter
@@ -220,6 +319,20 @@ Protected Class Request
 	#tag Property, Flags = &h21
 		Private mSourceImage As Picture
 	#tag EndProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mRequest.HasName("n_epochs") Then Return mRequest.Value("n_epochs") Else Return 1
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  mRequest.Value("n_epochs") = CType(Max(value, 1), Integer)
+			End Set
+		#tag EndSetter
+		NumberOfEpochs As Integer
+	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
@@ -261,6 +374,20 @@ Protected Class Request
 			End Set
 		#tag EndSetter
 		Prompt As String
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mRequest.HasName("prompt_loss_weight") Then Return mRequest.Value("prompt_loss_weight")
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  mRequest.Value("prompt_loss_weight") = value
+			End Set
+		#tag EndSetter
+		PromptLossWeight As Single
 	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0
@@ -371,6 +498,20 @@ Protected Class Request
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  If mRequest.HasName("training_file") Then Return mRequest.Value("training_file")
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  mRequest.Value("training_file") = value
+			End Set
+		#tag EndSetter
+		TrainingFile As String
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
 			  If mRequest.HasName("user") Then Return mRequest.Value("user")
 			End Get
 		#tag EndGetter
@@ -382,17 +523,56 @@ Protected Class Request
 		User As String
 	#tag EndComputedProperty
 
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mRequest.HasName("validation_file") Then Return mRequest.Value("validation_file")
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  mRequest.Value("training_file") = value
+			End Set
+		#tag EndSetter
+		ValidationFile As String
+	#tag EndComputedProperty
+
 
 	#tag ViewBehavior
+		#tag ViewProperty
+			Name="BatchSize"
+			Group="Behavior"
+			Type="Integer"
+		#tag EndViewProperty
 		#tag ViewProperty
 			Name="BestOf"
 			Group="Behavior"
 			Type="Integer"
 		#tag EndViewProperty
 		#tag ViewProperty
+			Name="ClassificationNClasses"
+			Group="Behavior"
+			Type="Integer"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="ClassificationPositiveClass"
+			Group="Behavior"
+			Type="String"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="ComputeClassificationMetrics"
+			Group="Behavior"
+			Type="Boolean"
+		#tag EndViewProperty
+		#tag ViewProperty
 			Name="Echo"
 			Group="Behavior"
 			Type="Boolean"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="FineTuneID"
+			Group="Behavior"
+			Type="String"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="FrequencyPenalty"
@@ -417,6 +597,11 @@ Protected Class Request
 			Group="Behavior"
 			Type="String"
 			EditorType="MultiLineEditor"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="LearningRateMultiplier"
+			Group="Behavior"
+			Type="Single"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Left"
@@ -447,6 +632,11 @@ Protected Class Request
 			InheritedFrom="Object"
 		#tag EndViewProperty
 		#tag ViewProperty
+			Name="NumberOfEpochs"
+			Group="Behavior"
+			Type="Integer"
+		#tag EndViewProperty
+		#tag ViewProperty
 			Name="NumberOfResults"
 			Group="Behavior"
 			Type="Integer"
@@ -461,6 +651,11 @@ Protected Class Request
 			Group="Behavior"
 			Type="String"
 			EditorType="MultiLineEditor"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="PromptLossWeight"
+			Group="Behavior"
+			Type="Single"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="ResultsAsURL"
@@ -514,10 +709,20 @@ Protected Class Request
 			Type="Single"
 		#tag EndViewProperty
 		#tag ViewProperty
+			Name="TrainingFile"
+			Group="Behavior"
+			Type="String"
+		#tag EndViewProperty
+		#tag ViewProperty
 			Name="User"
 			Group="Behavior"
 			Type="String"
 			EditorType="MultiLineEditor"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="ValidationFile"
+			Group="Behavior"
+			Type="String"
 		#tag EndViewProperty
 	#tag EndViewBehavior
 End Class
