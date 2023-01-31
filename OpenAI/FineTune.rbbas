@@ -42,6 +42,11 @@ Inherits OpenAI.Response
 
 	#tag Method, Flags = &h0
 		Function GetResult(Index As Integer) As Variant
+		  ' Returns the result at Index, as a JSONItem.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Response.GetResult
+		  
 		  Dim results As JSONItem = Super.GetResult(Index)
 		  Return results
 		End Function

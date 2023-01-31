@@ -12,6 +12,13 @@ Inherits OpenAI.Response
 
 	#tag Method, Flags = &h0
 		 Shared Function Create(Request As OpenAI.Request) As OpenAI.Completion
+		  ' Given a prompt, the model will return one or more predicted completions, and can also
+		  ' return the probabilities of alternative tokens at each position.
+		  ' 
+		  ' See:
+		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Completion.Create
+		  ' https://beta.openai.com/docs/api-reference/completions
+		  
 		  Dim response As JSONItem = SendRequest("/v1/completions", request)
 		  If response = Nil Or response.HasName("error") Then Raise New OpenAIException(response)
 		  Return New OpenAI.Completion(response)
@@ -21,6 +28,12 @@ Inherits OpenAI.Response
 
 	#tag Method, Flags = &h0
 		 Shared Function Create(Prompt As String, ResultCount As Integer = 1, Model As OpenAI.Model = Nil) As OpenAI.Completion
+		  ' Given a prompt, the model will return one or more predicted completions.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Completion.Create
+		  ' https://beta.openai.com/docs/api-reference/completions
+		  
 		  Dim request As New OpenAI.Request()
 		  If Model = Nil Then Model = OpenAI.Model.Lookup("text-davinci-003")
 		  request.Model = Model
@@ -32,6 +45,13 @@ Inherits OpenAI.Response
 
 	#tag Method, Flags = &h0
 		 Shared Function Edit(Request As OpenAI.Request) As OpenAI.Completion
+		  ' Given a prompt and an instruction, the model will return an edited version of the prompt.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Completion.Edit
+		  ' https://beta.openai.com/docs/api-reference/edits
+		  
+		  
 		  Dim response As JSONItem = SendRequest("/v1/edits", request)
 		  If response = Nil Or response.HasName("error") Then Raise New OpenAIException(response)
 		  Return New OpenAI.Completion(response)
@@ -41,6 +61,12 @@ Inherits OpenAI.Response
 
 	#tag Method, Flags = &h0
 		 Shared Function Edit(TextToEdit As String, EditInstruction As String, ResultCount As Integer = 1, Model As OpenAI.Model = Nil) As OpenAI.Completion
+		  ' Given a prompt and an instruction, the model will return an edited version of the prompt.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Completion.Edit
+		  ' https://beta.openai.com/docs/api-reference/edits
+		  
 		  Dim request As New OpenAI.Request
 		  If Model = Nil Then Model = OpenAI.Model.Lookup("text-davinci-edit-001")
 		  request.Model = Model
@@ -53,6 +79,11 @@ Inherits OpenAI.Response
 
 	#tag Method, Flags = &h0
 		Function GetResult(Index As Integer) As Variant
+		  ' Returns the result at Index, as a String.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Response.GetResult
+		  
 		  Dim results As JSONItem = Super.GetResult(Index)
 		  If results.HasName("text") Then
 		    Return DefineEncoding(results.Value("text"), Encodings.UTF8)

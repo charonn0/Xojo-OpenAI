@@ -234,6 +234,11 @@ Protected Module OpenAI
 
 
 	#tag Property, Flags = &h0
+		#tag Note
+			You will need an OpenAI API key in order to interact with the OpenAI API
+			
+			https://platform.openai.com/account/api-keys
+		#tag EndNote
 		APIKey As String = "YOUR API KEY HERE"
 	#tag EndProperty
 
