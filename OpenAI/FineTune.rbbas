@@ -8,10 +8,19 @@ Inherits OpenAI.Response
 		End Sub
 	#tag EndMethod
 
+	#tag Method, Flags = &h1001
+		Protected Sub Constructor(ResponseData As JSONItem)
+		  // Calling the overridden superclass constructor.
+		  // Constructor(ResponseData As JSONItem) -- From Response
+		  Super.Constructor(ResponseData)
+		  
+		End Sub
+	#tag EndMethod
+
 	#tag Method, Flags = &h0
 		 Shared Function Create(Request As OpenAI.Request) As OpenAI.FineTune
 		  Dim result As JSONItem = SendRequest("/v1/fine-tunes", Request)
-		  Return New FineTuneCreator(result)
+		  Return New OpenAI.FineTune(result)
 		End Function
 	#tag EndMethod
 
@@ -40,7 +49,7 @@ Inherits OpenAI.Response
 	#tag Method, Flags = &h0
 		 Shared Function List() As OpenAI.FineTune
 		  Dim result As JSONItem = SendRequest("/v1/fine-tunes")
-		  Return New FineTuneCreator(result)
+		  Return New OpenAI.FineTune(result)
 		End Function
 	#tag EndMethod
 
@@ -54,7 +63,7 @@ Inherits OpenAI.Response
 
 	#tag Method, Flags = &h0
 		 Shared Function Open(FineTuneID As String) As OpenAI.FineTune
-		  Return New FineTuneCreator(SendRequest("/v1/fine-tunes/" + FineTuneID))
+		  Return New OpenAI.FineTune(SendRequest("/v1/fine-tunes/" + FineTuneID))
 		End Function
 	#tag EndMethod
 

@@ -21,7 +21,7 @@ Protected Class Model
 		  lst = lst.Value("data")
 		  
 		  For i As Integer = 0 To lst.Count - 1
-		    ModelList.Append(New ModelCreator(lst.Child(i)))
+		    ModelList.Append(New OpenAI.Model(lst.Child(i)))
 		  Next
 		  
 		End Sub

@@ -1,19 +1,28 @@
 #tag Class
 Protected Class File
 Inherits OpenAI.Response
+	#tag Method, Flags = &h1001
+		Protected Sub Constructor(ResponseData As JSONItem)
+		  // Calling the overridden superclass constructor.
+		  // Constructor(ResponseData As JSONItem) -- From Response
+		  Super.Constructor(ResponseData)
+		  
+		End Sub
+	#tag EndMethod
+
 	#tag Method, Flags = &h0
 		 Shared Function Create(FileContent As MemoryBlock, Filename As String, Purpose As String) As OpenAI.File
 		  ' Dim request As New OpenAI.Request
 		  ' request.File
 		  ' Dim result As JSONItem = SendRequest("/v1/files")
-		  ' Return New FileCreator(result)
+		  ' Return New OpenAI.File(result)
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Sub Delete()
 		  ' Dim result As JSONItem = SendRequest("/v1/files")
-		  ' Return New FileCreator(result)
+		  ' Return New OpenAI.File(result)
 		End Sub
 	#tag EndMethod
 
@@ -22,7 +31,7 @@ Inherits OpenAI.Response
 		  #pragma Unused Index
 		  If mResponse.HasName("filename") Then
 		    Dim result As JSONItem = SendRequest("/v1/files/" + ID + "/content")
-		    Return New FileCreator(result)
+		    Return New OpenAI.File(result)
 		  End If
 		End Function
 	#tag EndMethod
@@ -30,7 +39,7 @@ Inherits OpenAI.Response
 	#tag Method, Flags = &h0
 		 Shared Function List() As OpenAI.File
 		  Dim result As JSONItem = SendRequest("/v1/files")
-		  Return New FileCreator(result)
+		  Return New OpenAI.File(result)
 		End Function
 	#tag EndMethod
 
@@ -42,7 +51,7 @@ Inherits OpenAI.Response
 
 	#tag Method, Flags = &h0
 		 Shared Function Open(FileID As String) As OpenAI.File
-		  Return New FileCreator(SendRequest("/v1/files/" + FileID))
+		  Return New OpenAI.File(SendRequest("/v1/files/" + FileID))
 		End Function
 	#tag EndMethod
 
