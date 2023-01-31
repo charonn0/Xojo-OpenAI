@@ -169,6 +169,23 @@ Protected Class Request
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  #pragma Warning "FixMe"
+			  Raise New RuntimeException ' Not Implemented!
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  #pragma Unused value
+			  #pragma Warning "FixMe"
+			  Raise New RuntimeException ' Not Implemented!
+			End Set
+		#tag EndSetter
+		File As MemoryBlock
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
 			  If mRequest.HasName("fine_tune_id") Then Return mRequest.Value("fine_tune_id")
 			End Get
 		#tag EndGetter
@@ -388,6 +405,23 @@ Protected Class Request
 			End Set
 		#tag EndSetter
 		PromptLossWeight As Single
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  #pragma Warning "FixMe"
+			  Raise New RuntimeException ' Not Implemented!
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  #pragma Unused value
+			  #pragma Warning "FixMe"
+			  Raise New RuntimeException ' Not Implemented!
+			End Set
+		#tag EndSetter
+		Purpose As String
 	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0
