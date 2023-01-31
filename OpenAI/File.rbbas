@@ -3,6 +3,8 @@ Protected Class File
 Inherits OpenAI.Response
 	#tag Method, Flags = &h0
 		 Shared Function Create(FileContent As MemoryBlock, Filename As String, Purpose As String) As OpenAI.File
+		  ' Dim request As New OpenAI.Request
+		  ' request.File
 		  ' Dim result As JSONItem = SendRequest("/v1/files")
 		  ' Return New FileCreator(result)
 		End Function
@@ -29,6 +31,12 @@ Inherits OpenAI.Response
 		 Shared Function List() As OpenAI.File
 		  Dim result As JSONItem = SendRequest("/v1/files")
 		  Return New FileCreator(result)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		 Shared Function Open(File As OpenAI.File) As OpenAI.File
+		  Return File.Open("/v1/files/" + File.ID)
 		End Function
 	#tag EndMethod
 
@@ -61,18 +69,6 @@ Inherits OpenAI.Response
 			End Get
 		#tag EndGetter
 		CreatedAt As Date
-	#tag EndComputedProperty
-
-	#tag ComputedProperty, Flags = &h0
-		#tag Getter
-			Get
-			  Return mResponse.Value("id")
-			  
-			  Exception err As KeyNotFoundException
-			    Return ""
-			End Get
-		#tag EndGetter
-		ID As String
 	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0
