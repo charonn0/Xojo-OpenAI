@@ -75,4 +75,5 @@ If you are using neither RB-libcURL nor MBS then set both `USE_RBLIBCURL` and `U
 * [Translate natural language](https://github.com/charonn0/Xojo-OpenAI/wiki/Examples#translate-text)
 * [Explain source code](https://github.com/charonn0/Xojo-OpenAI/wiki/Examples#explain-source-code)
 * [Generate picture](https://github.com/charonn0/Xojo-OpenAI/wiki/Examples#generate-picture)
+* [Detect offensive content](https://github.com/charonn0/Xojo-OpenAI/wiki/Examples#check-text-for-offensive-content)
 * [Sending custom requests](https://github.com/charonn0/Xojo-OpenAI/wiki/Examples#sending-a-custom-request)
