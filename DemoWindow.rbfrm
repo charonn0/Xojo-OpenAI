@@ -623,6 +623,7 @@ End
 		  Self.Title = "Xojo-OpenAI Playground - Working..."
 		  mAPIPrompt = PromptText.Text
 		  DoGenImageBtn.Enabled = False
+		  DoGenImageURLBtn.Enabled = False
 		  DoCompletionBtn.Enabled = False
 		  DoModerationBtn.Enabled = False
 		  mWorker = New Thread
@@ -639,6 +640,7 @@ End
 		  Self.Title = "Xojo-OpenAI Playground - Working..."
 		  mAPIPrompt = PromptText.Text
 		  DoGenImageBtn.Enabled = False
+		  DoGenImageURLBtn.Enabled = False
 		  DoCompletionBtn.Enabled = False
 		  DoModerationBtn.Enabled = False
 		  mWorker = New Thread
@@ -655,6 +657,7 @@ End
 		  Self.Title = "Xojo-OpenAI Playground - Working..."
 		  mAPIPrompt = PromptText.Text
 		  DoGenImageBtn.Enabled = False
+		  DoGenImageURLBtn.Enabled = False
 		  DoCompletionBtn.Enabled = False
 		  DoModerationBtn.Enabled = False
 		  mWorker = New Thread
@@ -671,6 +674,7 @@ End
 		  Self.Title = "Xojo-OpenAI Playground - Working..."
 		  mAPIPrompt = PromptText.Text
 		  DoGenImageBtn.Enabled = False
+		  DoGenImageURLBtn.Enabled = False
 		  DoCompletionBtn.Enabled = False
 		  DoModerationBtn.Enabled = False
 		  mWorker = New Thread
@@ -712,6 +716,7 @@ End
 		  ReplyImageCanvas.Invalidate(True)
 		  ReplyText.Text = mAPIReply
 		  DoGenImageBtn.Enabled = True
+		  DoGenImageURLBtn.Enabled = True
 		  DoCompletionBtn.Enabled = True
 		  DoModerationBtn.Enabled = True
 		  
