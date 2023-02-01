@@ -1,26 +1,25 @@
 #tag Window
 Begin Window DemoWindow
-   BackColor       =   &cFFFFFF00
+   BackColor       =   "&cFFFFFF00"
    Backdrop        =   0
    CloseButton     =   True
    Composite       =   False
    Frame           =   0
    FullScreen      =   False
    HasBackColor    =   False
-   HasFullScreenButton=   False
    Height          =   700
    ImplicitInstance=   True
-   LiveResize      =   "True"
+   LiveResize      =   True
    MacProcID       =   0
    MaxHeight       =   32000
-   MaximizeButton  =   False
+   MaximizeButton  =   True
    MaxWidth        =   32000
    MenuBar         =   0
    MenuBarVisible  =   True
    MinHeight       =   64
    MinimizeButton  =   True
    MinWidth        =   64
-   Placement       =   0
+   Placement       =   2
    Resizeable      =   True
    Title           =   "Xojo-OpenAI Playground"
    Visible         =   True
@@ -44,12 +43,10 @@ Begin Window DemoWindow
       Scope           =   0
       TabIndex        =   0
       TabPanelIndex   =   0
-      TabStop         =   True
       TextFont        =   "System"
       TextSize        =   0.0
       TextUnit        =   0
       Top             =   42
-      Transparent     =   True
       Underline       =   False
       Visible         =   True
       Width           =   883
@@ -58,7 +55,7 @@ Begin Window DemoWindow
          Alignment       =   0
          AutoDeactivate  =   True
          AutomaticallyCheckSpelling=   True
-         BackColor       =   &cFFFFFF00
+         BackColor       =   "&cFFFFFF00"
          Bold            =   False
          Border          =   True
          DataField       =   ""
@@ -73,8 +70,6 @@ Begin Window DemoWindow
          Italic          =   False
          Left            =   36
          LimitText       =   0
-         LineHeight      =   0.0
-         LineSpacing     =   1.0
          LockBottom      =   False
          LockedInPosition=   False
          LockLeft        =   True
@@ -91,14 +86,12 @@ Begin Window DemoWindow
          TabPanelIndex   =   0
          TabStop         =   True
          Text            =   ""
-         TextColor       =   &c00000000
+         TextColor       =   "&c00000000"
          TextFont        =   "System"
          TextSize        =   0.0
          TextUnit        =   0
          Top             =   99
-         Transparent     =   True
          Underline       =   False
-         UnicodeMode     =   0
          UseFocusRing    =   True
          Visible         =   True
          Width           =   300
@@ -125,10 +118,9 @@ Begin Window DemoWindow
          Selectable      =   False
          TabIndex        =   1
          TabPanelIndex   =   0
-         TabStop         =   True
          Text            =   "Prompt/Input:"
          TextAlign       =   0
-         TextColor       =   &c00000000
+         TextColor       =   "&c00000000"
          TextFont        =   "System"
          TextSize        =   0.0
          TextUnit        =   0
@@ -160,10 +152,9 @@ Begin Window DemoWindow
          Selectable      =   False
          TabIndex        =   2
          TabPanelIndex   =   0
-         TabStop         =   True
          Text            =   "Reply/Output:"
          TextAlign       =   0
-         TextColor       =   &c00000000
+         TextColor       =   "&c00000000"
          TextFont        =   "System"
          TextSize        =   0.0
          TextUnit        =   0
@@ -178,7 +169,7 @@ Begin Window DemoWindow
          Alignment       =   0
          AutoDeactivate  =   True
          AutomaticallyCheckSpelling=   True
-         BackColor       =   &cFFFFFF00
+         BackColor       =   "&cFFFFFF00"
          Bold            =   False
          Border          =   True
          DataField       =   ""
@@ -193,8 +184,6 @@ Begin Window DemoWindow
          Italic          =   False
          Left            =   585
          LimitText       =   0
-         LineHeight      =   0.0
-         LineSpacing     =   1.0
          LockBottom      =   False
          LockedInPosition=   False
          LockLeft        =   True
@@ -211,14 +200,12 @@ Begin Window DemoWindow
          TabPanelIndex   =   0
          TabStop         =   True
          Text            =   ""
-         TextColor       =   &c00000000
+         TextColor       =   "&c00000000"
          TextFont        =   "System"
          TextSize        =   0.0
          TextUnit        =   0
          Top             =   99
-         Transparent     =   True
          Underline       =   False
-         UnicodeMode     =   0
          UseFocusRing    =   True
          Visible         =   True
          Width           =   300
@@ -230,6 +217,7 @@ Begin Window DemoWindow
          Backdrop        =   0
          DoubleBuffer    =   False
          Enabled         =   True
+         EraseBackground =   True
          Height          =   464
          HelpTag         =   ""
          Index           =   -2147483648
@@ -245,7 +233,6 @@ Begin Window DemoWindow
          TabPanelIndex   =   0
          TabStop         =   True
          Top             =   216
-         Transparent     =   True
          UseFocusRing    =   True
          Visible         =   True
          Width           =   849
@@ -272,10 +259,9 @@ Begin Window DemoWindow
          Selectable      =   False
          TabIndex        =   5
          TabPanelIndex   =   0
-         TabStop         =   True
          Text            =   "Image output:"
          TextAlign       =   0
-         TextColor       =   &c00000000
+         TextColor       =   "&c00000000"
          TextFont        =   "System"
          TextSize        =   0.0
          TextUnit        =   0
@@ -312,7 +298,6 @@ Begin Window DemoWindow
          TextSize        =   0.0
          TextUnit        =   0
          Top             =   142
-         Transparent     =   True
          Underline       =   False
          Visible         =   True
          Width           =   209
@@ -344,7 +329,6 @@ Begin Window DemoWindow
          TextSize        =   0.0
          TextUnit        =   0
          Top             =   120
-         Transparent     =   True
          Underline       =   False
          Visible         =   True
          Width           =   209
@@ -376,7 +360,6 @@ Begin Window DemoWindow
          TextSize        =   0.0
          TextUnit        =   0
          Top             =   99
-         Transparent     =   True
          Underline       =   False
          Visible         =   True
          Width           =   209
@@ -408,7 +391,6 @@ Begin Window DemoWindow
          TextSize        =   0.0
          TextUnit        =   0
          Top             =   163
-         Transparent     =   True
          Underline       =   False
          Visible         =   True
          Width           =   209
@@ -419,7 +401,7 @@ Begin Window DemoWindow
       Alignment       =   0
       AutoDeactivate  =   True
       AutomaticallyCheckSpelling=   False
-      BackColor       =   &cFFFFFF00
+      BackColor       =   "&cFFFFFF00"
       Bold            =   False
       Border          =   True
       CueText         =   ""
@@ -446,12 +428,11 @@ Begin Window DemoWindow
       TabPanelIndex   =   0
       TabStop         =   True
       Text            =   ""
-      TextColor       =   &c00000000
+      TextColor       =   "&c00000000"
       TextFont        =   "System"
       TextSize        =   0.0
       TextUnit        =   0
       Top             =   11
-      Transparent     =   True
       Underline       =   False
       UseFocusRing    =   True
       Visible         =   True
@@ -484,7 +465,6 @@ Begin Window DemoWindow
       TextSize        =   0.0
       TextUnit        =   0
       Top             =   11
-      Transparent     =   True
       Underline       =   False
       Visible         =   True
       Width           =   59
@@ -511,10 +491,9 @@ Begin Window DemoWindow
       Selectable      =   False
       TabIndex        =   3
       TabPanelIndex   =   0
-      TabStop         =   True
       Text            =   "API Key:"
       TextAlign       =   2
-      TextColor       =   &c00000000
+      TextColor       =   "&c00000000"
       TextFont        =   "System"
       TextSize        =   0.0
       TextUnit        =   0
@@ -525,13 +504,17 @@ Begin Window DemoWindow
       Width           =   79
    End
    Begin Timer RefreshTimer
+      Height          =   32
       Index           =   -2147483648
       InitialParent   =   ""
+      Left            =   ""
       LockedInPosition=   False
       Mode            =   0
       Period          =   1
       Scope           =   0
       TabPanelIndex   =   0
+      Top             =   ""
+      Width           =   32
    End
 End
 #tag EndWindow
@@ -601,7 +584,7 @@ End
 
 #tag Events ReplyImageCanvas
 	#tag Event
-		Sub Paint(g As Graphics, areas() As REALbasic.Rect)
+		Sub Paint(g As Graphics)
 		  If mAPIImage <> Nil Then
 		    g.DrawPicture(mAPIImage, 0, 0)
 		  End If
@@ -637,6 +620,7 @@ End
 	#tag Event
 		Sub Action()
 		  If PromptText.Text = "" Then Return
+		  Self.Title = "Xojo-OpenAI Playground - Working..."
 		  mAPIPrompt = PromptText.Text
 		  DoGenImageBtn.Enabled = False
 		  DoCompletionBtn.Enabled = False
@@ -652,6 +636,7 @@ End
 	#tag Event
 		Sub Action()
 		  If PromptText.Text = "" Then Return
+		  Self.Title = "Xojo-OpenAI Playground - Working..."
 		  mAPIPrompt = PromptText.Text
 		  DoGenImageBtn.Enabled = False
 		  DoCompletionBtn.Enabled = False
@@ -667,6 +652,7 @@ End
 	#tag Event
 		Sub Action()
 		  If PromptText.Text = "" Then Return
+		  Self.Title = "Xojo-OpenAI Playground - Working..."
 		  mAPIPrompt = PromptText.Text
 		  DoGenImageBtn.Enabled = False
 		  DoCompletionBtn.Enabled = False
@@ -682,6 +668,7 @@ End
 	#tag Event
 		Sub Action()
 		  If PromptText.Text = "" Then Return
+		  Self.Title = "Xojo-OpenAI Playground - Working..."
 		  mAPIPrompt = PromptText.Text
 		  DoGenImageBtn.Enabled = False
 		  DoCompletionBtn.Enabled = False
@@ -696,11 +683,17 @@ End
 #tag Events SetAPIKeyBtn
 	#tag Event
 		Sub Action()
+		  If APIKeyField.Text = "" Then
+		    MsgBox("Please enter your OpenAI API key to begin.")
+		    Return
+		  End If
+		  Self.Title = "Xojo-OpenAI Playground - Working..."
 		  OpenAI.APIKey = APIKeyField.Text
 		  Dim count As Integer = OpenAI.Model.Count()
 		  If count <= 0 Then
 		    Call MsgBox("Invalid API Key!", 16, "Key Rejected")
 		    OpenAI.APIKey = ""
+		    Self.Title = "Xojo-OpenAI Playground"
 		    Return
 		  End If
 		  
@@ -708,13 +701,14 @@ End
 		  APIKeyLbl.Enabled = False
 		  APIKeyField.Enabled = False
 		  Me.Enabled = False
-		  
+		  Self.Title = "Xojo-OpenAI Playground - Ready"
 		End Sub
 	#tag EndEvent
 #tag EndEvents
 #tag Events RefreshTimer
 	#tag Event
 		Sub Action()
+		  Self.Title = "Xojo-OpenAI Playground - Ready"
 		  ReplyImageCanvas.Invalidate(True)
 		  ReplyText.Text = mAPIReply
 		  DoGenImageBtn.Enabled = True
@@ -724,249 +718,3 @@ End
 		End Sub
 	#tag EndEvent
 #tag EndEvents
-#tag ViewBehavior
-	#tag ViewProperty
-		Name="Name"
-		Visible=true
-		Group="ID"
-		InitialValue=""
-		Type="String"
-		EditorType=""
-	#tag EndViewProperty
-	#tag ViewProperty
-		Name="Interfaces"
-		Visible=true
-		Group="ID"
-		InitialValue=""
-		Type="String"
-		EditorType=""
-	#tag EndViewProperty
-	#tag ViewProperty
-		Name="Super"
-		Visible=true
-		Group="ID"
-		InitialValue=""
-		Type="String"
-		EditorType=""
-	#tag EndViewProperty
-	#tag ViewProperty
-		Name="Width"
-		Visible=true
-		Group="Size"
-		InitialValue="600"
-		Type="Integer"
-		EditorType=""
-	#tag EndViewProperty
-	#tag ViewProperty
-		Name="Height"
-		Visible=true
-		Group="Size"
-		InitialValue="400"
-		Type="Integer"
-		EditorType=""
-	#tag EndViewProperty
-	#tag ViewProperty
-		Name="MinimumWidth"
-		Visible=true
-		Group="Size"
-		InitialValue="64"
-		Type="Integer"
-		EditorType=""
-	#tag EndViewProperty
-	#tag ViewProperty
-		Name="MinimumHeight"
-		Visible=true
-		Group="Size"
-		InitialValue="64"
-		Type="Integer"
-		EditorType=""
-	#tag EndViewProperty
-	#tag ViewProperty
-		Name="MaximumWidth"
-		Visible=true
-		Group="Size"
-		InitialValue="32000"
-		Type="Integer"
-		EditorType=""
-	#tag EndViewProperty
-	#tag ViewProperty
-		Name="MaximumHeight"
-		Visible=true
-		Group="Size"
-		InitialValue="32000"
-		Type="Integer"
-		EditorType=""
-	#tag EndViewProperty
-	#tag ViewProperty
-		Name="Type"
-		Visible=true
-		Group="Frame"
-		InitialValue="0"
-		Type="Types"
-		EditorType="Enum"
-		#tag EnumValues
-			"0 - Document"
-			"1 - Movable Modal"
-			"2 - Modal Dialog"
-			"3 - Floating Window"
-			"4 - Plain Box"
-			"5 - Shadowed Box"
-			"6 - Rounded Window"
-			"7 - Global Floating Window"
-			"8 - Sheet Window"
-			"9 - Metal Window"
-			"11 - Modeless Dialog"
-		#tag EndEnumValues
-	#tag EndViewProperty
-	#tag ViewProperty
-		Name="Title"
-		Visible=true
-		Group="Frame"
-		InitialValue="Untitled"
-		Type="String"
-		EditorType=""
-	#tag EndViewProperty
-	#tag ViewProperty
-		Name="HasCloseButton"
-		Visible=true
-		Group="Frame"
-		InitialValue="True"
-		Type="Boolean"
-		EditorType=""
-	#tag EndViewProperty
-	#tag ViewProperty
-		Name="HasMaximizeButton"
-		Visible=true
-		Group="Frame"
-		InitialValue="True"
-		Type="Boolean"
-		EditorType=""
-	#tag EndViewProperty
-	#tag ViewProperty
-		Name="HasMinimizeButton"
-		Visible=true
-		Group="Frame"
-		InitialValue="True"
-		Type="Boolean"
-		EditorType=""
-	#tag EndViewProperty
-	#tag ViewProperty
-		Name="HasFullScreenButton"
-		Visible=true
-		Group="Frame"
-		InitialValue="False"
-		Type="Boolean"
-		EditorType=""
-	#tag EndViewProperty
-	#tag ViewProperty
-		Name="Resizeable"
-		Visible=true
-		Group="Frame"
-		InitialValue="True"
-		Type="Boolean"
-		EditorType=""
-	#tag EndViewProperty
-	#tag ViewProperty
-		Name="Composite"
-		Visible=false
-		Group="OS X (Carbon)"
-		InitialValue="False"
-		Type="Boolean"
-		EditorType=""
-	#tag EndViewProperty
-	#tag ViewProperty
-		Name="MacProcID"
-		Visible=false
-		Group="OS X (Carbon)"
-		InitialValue="0"
-		Type="Integer"
-		EditorType=""
-	#tag EndViewProperty
-	#tag ViewProperty
-		Name="FullScreen"
-		Visible=false
-		Group="Behavior"
-		InitialValue="False"
-		Type="Boolean"
-		EditorType=""
-	#tag EndViewProperty
-	#tag ViewProperty
-		Name="ImplicitInstance"
-		Visible=true
-		Group="Behavior"
-		InitialValue="True"
-		Type="Boolean"
-		EditorType=""
-	#tag EndViewProperty
-	#tag ViewProperty
-		Name="DefaultLocation"
-		Visible=true
-		Group="Behavior"
-		InitialValue="0"
-		Type="Locations"
-		EditorType="Enum"
-		#tag EnumValues
-			"0 - Default"
-			"1 - Parent Window"
-			"2 - Main Screen"
-			"3 - Parent Window Screen"
-			"4 - Stagger"
-		#tag EndEnumValues
-	#tag EndViewProperty
-	#tag ViewProperty
-		Name="Visible"
-		Visible=true
-		Group="Behavior"
-		InitialValue="True"
-		Type="Boolean"
-		EditorType=""
-	#tag EndViewProperty
-	#tag ViewProperty
-		Name="HasBackgroundColor"
-		Visible=true
-		Group="Background"
-		InitialValue="False"
-		Type="Boolean"
-		EditorType=""
-	#tag EndViewProperty
-	#tag ViewProperty
-		Name="BackgroundColor"
-		Visible=true
-		Group="Background"
-		InitialValue="&hFFFFFF"
-		Type="Color"
-		EditorType="Color"
-	#tag EndViewProperty
-	#tag ViewProperty
-		Name="Backdrop"
-		Visible=true
-		Group="Background"
-		InitialValue=""
-		Type="Picture"
-		EditorType=""
-	#tag EndViewProperty
-	#tag ViewProperty
-		Name="MenuBar"
-		Visible=true
-		Group="Menus"
-		InitialValue=""
-		Type="MenuBar"
-		EditorType=""
-	#tag EndViewProperty
-	#tag ViewProperty
-		Name="MenuBarVisible"
-		Visible=true
-		Group="Deprecated"
-		InitialValue="True"
-		Type="Boolean"
-		EditorType=""
-	#tag EndViewProperty
-	#tag ViewProperty
-		Name="mAPIPrompt"
-		Visible=false
-		Group="Behavior"
-		InitialValue=""
-		Type="Integer"
-		EditorType=""
-	#tag EndViewProperty
-#tag EndViewBehavior
