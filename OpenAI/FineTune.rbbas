@@ -3,25 +3,26 @@ Protected Class FineTune
 Inherits OpenAI.Response
 	#tag Method, Flags = &h0
 		Sub Cancel()
-		  Dim result As JSONItem = SendRequest("/v1/fine-tunes/" + Me.ID + "/cancel") ' should be POST
+		  Dim result As JSONItem = mClient.SendRequest("/v1/fine-tunes/" + Me.ID + "/cancel", "POST")
 		  If result.HasName("error") Then Raise New OpenAIException(result)
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h1001
-		Protected Sub Constructor(ResponseData As JSONItem)
+		Protected Sub Constructor(ResponseData As JSONItem, Client As OpenAIClient)
 		  // Calling the overridden superclass constructor.
 		  // Constructor(ResponseData As JSONItem) -- From Response
 		  Super.Constructor(ResponseData)
-		  
+		  mClient = Client
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		 Shared Function Create(Request As OpenAI.Request) As OpenAI.FineTune
-		  Dim result As JSONItem = SendRequest("/v1/fine-tunes", Request)
+		  Dim client As New OpenAIClient
+		  Dim result As JSONItem = client.SendRequest("/v1/fine-tunes", Request)
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
-		  Return New OpenAI.FineTune(result)
+		  Return New OpenAI.FineTune(result, client)
 		End Function
 	#tag EndMethod
 
@@ -35,7 +36,7 @@ Inherits OpenAI.Response
 
 	#tag Method, Flags = &h0
 		Sub Delete()
-		  Dim result As JSONItem = SendRequest("/v1/models/" + Me.ID) ' should be DELETE
+		  Dim result As JSONItem = mclient.SendRequest("/v1/models/" + Me.ID, "DELETE")
 		  If result.HasName("error") Then Raise New OpenAIException(result)
 		End Sub
 	#tag EndMethod
@@ -54,15 +55,16 @@ Inherits OpenAI.Response
 
 	#tag Method, Flags = &h0
 		 Shared Function List() As OpenAI.FineTune
-		  Dim result As JSONItem = SendRequest("/v1/fine-tunes")
+		  Dim client As New OpenAIClient
+		  Dim result As JSONItem = client.SendRequest("/v1/fine-tunes")
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
-		  Return New OpenAI.FineTune(result)
+		  Return New OpenAI.FineTune(result, client)
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Function ListEvents() As JSONItem
-		  Dim result As JSONItem = SendRequest("/v1/fine-tunes/" + Me.ID + "/events")
+		  Dim result As JSONItem = mClient.SendRequest("/v1/fine-tunes/" + Me.ID + "/events")
 		  If result.HasName("error") Then Raise New OpenAIException(result)
 		  Return result
 		End Function
@@ -70,9 +72,10 @@ Inherits OpenAI.Response
 
 	#tag Method, Flags = &h0
 		 Shared Function Open(FineTuneID As String) As OpenAI.FineTune
-		  Dim result As JSONItem = SendRequest("/v1/fine-tunes/" + FineTuneID)
+		  Dim client As New OpenAIClient
+		  Dim result As JSONItem = client.SendRequest("/v1/fine-tunes/" + FineTuneID)
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
-		  Return New OpenAI.FineTune(result)
+		  Return New OpenAI.FineTune(result, client)
 		End Function
 	#tag EndMethod
 
@@ -84,17 +87,17 @@ Inherits OpenAI.Response
 	#tag EndMethod
 
 
+	#tag Property, Flags = &h21
+		Private mClient As OpenAIClient
+	#tag EndProperty
+
+
 	#tag ViewBehavior
-		#tag ViewProperty
-			Name="Bytes"
-			Group="Behavior"
-			Type="Integer"
-		#tag EndViewProperty
 		#tag ViewProperty
 			Name="ID"
 			Group="Behavior"
 			Type="String"
-			EditorType="MultiLineEditor"
+			InheritedFrom="OpenAI.Response"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Index"
@@ -117,12 +120,6 @@ Inherits OpenAI.Response
 			InheritedFrom="Object"
 		#tag EndViewProperty
 		#tag ViewProperty
-			Name="Purpose"
-			Group="Behavior"
-			Type="String"
-			EditorType="MultiLineEditor"
-		#tag EndViewProperty
-		#tag ViewProperty
 			Name="ResultCount"
 			Group="Behavior"
 			Type="Integer"
@@ -140,12 +137,6 @@ Inherits OpenAI.Response
 			Group="Position"
 			InitialValue="0"
 			InheritedFrom="Object"
-		#tag EndViewProperty
-		#tag ViewProperty
-			Name="Type"
-			Group="Behavior"
-			Type="String"
-			EditorType="MultiLineEditor"
 		#tag EndViewProperty
 	#tag EndViewBehavior
 End Class

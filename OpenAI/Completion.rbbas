@@ -19,7 +19,8 @@ Inherits OpenAI.Response
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Completion.Create
 		  ' https://beta.openai.com/docs/api-reference/completions
 		  
-		  Dim response As JSONItem = SendRequest("/v1/completions", request)
+		  Dim client As New OpenAIClient
+		  Dim response As JSONItem = client.SendRequest("/v1/completions", request)
 		  If response = Nil Or response.HasName("error") Then Raise New OpenAIException(response)
 		  Return New OpenAI.Completion(response)
 		  
@@ -52,7 +53,8 @@ Inherits OpenAI.Response
 		  ' https://beta.openai.com/docs/api-reference/edits
 		  
 		  
-		  Dim response As JSONItem = SendRequest("/v1/edits", request)
+		  Dim client As New OpenAIClient
+		  Dim response As JSONItem = client.SendRequest("/v1/edits", request)
 		  If response = Nil Or response.HasName("error") Then Raise New OpenAIException(response)
 		  Return New OpenAI.Completion(response)
 		  

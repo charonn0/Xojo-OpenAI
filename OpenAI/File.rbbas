@@ -2,11 +2,11 @@
 Protected Class File
 Inherits OpenAI.Response
 	#tag Method, Flags = &h1001
-		Protected Sub Constructor(ResponseData As JSONItem)
+		Protected Sub Constructor(ResponseData As JSONItem, Client As OpenAIClient)
 		  // Calling the overridden superclass constructor.
 		  // Constructor(ResponseData As JSONItem) -- From Response
 		  Super.Constructor(ResponseData)
-		  
+		  mClient = Client
 		End Sub
 	#tag EndMethod
 
@@ -19,11 +19,12 @@ Inherits OpenAI.Response
 		  ' https://beta.openai.com/docs/api-reference/files/upload
 		  
 		  Dim request As New OpenAI.Request
+		  Dim client As New OpenAIClient
 		  request.File = FileContent
 		  request.Purpose = Purpose
-		  Dim result As JSONItem = SendRequest("/v1/files", request)
+		  Dim result As JSONItem = client.SendRequest("/v1/files", request)
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
-		  Return New OpenAI.File(result)
+		  Return New OpenAI.File(result, client)
 		End Function
 	#tag EndMethod
 
@@ -34,9 +35,8 @@ Inherits OpenAI.Response
 		  ' See:
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.File.Delete
 		  
-		  #pragma Warning "FixMe"
-		  ' Dim result As JSONItem = SendRequest("/v1/files")
-		  ' Return New OpenAI.File(result)
+		  Dim result As JSONItem = mClient.SendRequest("/v1/files", "DELETE")
+		  If result.HasName("error") Then Raise New OpenAIException(result)
 		End Sub
 	#tag EndMethod
 
@@ -49,7 +49,7 @@ Inherits OpenAI.Response
 		  
 		  #pragma Unused Index
 		  If mResponse.HasName("filename") Then
-		    Dim result As JSONItem = SendRequest("/v1/files/" + ID + "/content")
+		    Dim result As JSONItem = mClient.SendRequest("/v1/files/" + ID + "/content")
 		    Return New OpenAI.File(result)
 		  End If
 		End Function
@@ -63,9 +63,10 @@ Inherits OpenAI.Response
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.File.List
 		  ' https://beta.openai.com/docs/api-reference/files/list
 		  
-		  Dim result As JSONItem = SendRequest("/v1/files")
+		  Dim client As New OpenAIClient
+		  Dim result As JSONItem = client.SendRequest("/v1/files")
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
-		  Return New OpenAI.File(result)
+		  Return New OpenAI.File(result, client)
 		End Function
 	#tag EndMethod
 
@@ -77,9 +78,10 @@ Inherits OpenAI.Response
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.File.Open
 		  ' https://beta.openai.com/docs/api-reference/files/retrieve-content
 		  
-		  Dim result As JSONItem = SendRequest("/v1/files/" + FileID + "/content")
+		  Dim client As New OpenAIClient
+		  Dim result As JSONItem = client.SendRequest("/v1/files/" + FileID + "/content")
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
-		  Return New OpenAI.File(result)
+		  Return New OpenAI.File(result, client)
 		End Function
 	#tag EndMethod
 
@@ -124,6 +126,10 @@ Inherits OpenAI.Response
 		#tag EndGetter
 		CreatedAt As Date
 	#tag EndComputedProperty
+
+	#tag Property, Flags = &h21
+		Private mClient As OpenAIClient
+	#tag EndProperty
 
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter

@@ -18,7 +18,8 @@ Inherits OpenAI.Response
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Image.CreateVariation
 		  ' https://beta.openai.com/docs/api-reference/images/create-variation
 		  
-		  Dim result As JSONItem = SendRequest("/v1/images/variations", Request)
+		  Dim client As New OpenAIClient
+		  Dim result As JSONItem = client.SendRequest("/v1/images/variations", Request)
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
 		  Return New OpenAI.Image(result)
 		End Function
@@ -49,7 +50,8 @@ Inherits OpenAI.Response
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Image.Edit
 		  ' https://beta.openai.com/docs/api-reference/images/create-edit
 		  
-		  Dim result As JSONItem = SendRequest("/v1/images/edits", Request)
+		  Dim client As New OpenAIClient
+		  Dim result As JSONItem = client.SendRequest("/v1/images/edits", Request)
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
 		  Return New OpenAI.Image(result)
 		End Function
@@ -82,7 +84,8 @@ Inherits OpenAI.Response
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Image.Generate
 		  ' https://beta.openai.com/docs/api-reference/images/create
 		  
-		  Dim result As JSONItem = SendRequest("/v1/images/generations", Request)
+		  Dim client As New OpenAIClient
+		  Dim result As JSONItem = client.SendRequest("/v1/images/generations", Request)
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
 		  Return New OpenAI.Image(result)
 		End Function

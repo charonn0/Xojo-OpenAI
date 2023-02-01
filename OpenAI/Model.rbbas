@@ -21,10 +21,11 @@ Protected Class Model
 	#tag Method, Flags = &h21
 		Private Shared Sub ListAvailableModels()
 		  ReDim ModelList(-1)
+		  Dim client As New OpenAIClient
 		  #If USE_MTCJSON Then
-		    Dim lst As JSONItem_MTC = SendRequest("/v1/models")
+		    Dim lst As JSONItem_MTC = client.SendRequest("/v1/models")
 		  #Else
-		    Dim lst As JSONItem = SendRequest("/v1/models")
+		    Dim lst As JSONItem = client.SendRequest("/v1/models")
 		  #EndIf
 		  If lst = Nil Or Not lst.HasName("data") Then Raise New OpenAIException(lst)
 		  lst = lst.Value("data")
