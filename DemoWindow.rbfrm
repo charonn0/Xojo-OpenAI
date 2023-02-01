@@ -7,7 +7,7 @@ Begin Window DemoWindow
    Frame           =   0
    FullScreen      =   False
    HasBackColor    =   False
-   Height          =   700
+   Height          =   5.03e+2
    ImplicitInstance=   True
    LiveResize      =   True
    MacProcID       =   0
@@ -23,13 +23,13 @@ Begin Window DemoWindow
    Resizeable      =   True
    Title           =   "Xojo-OpenAI Playground"
    Visible         =   True
-   Width           =   905
+   Width           =   9.05e+2
    Begin GroupBox OpenAIGroup
       AutoDeactivate  =   True
       Bold            =   False
       Caption         =   "OpenAI"
       Enabled         =   False
-      Height          =   649
+      Height          =   452
       HelpTag         =   ""
       Index           =   -2147483648
       InitialParent   =   ""
@@ -218,7 +218,7 @@ Begin Window DemoWindow
          DoubleBuffer    =   False
          Enabled         =   True
          EraseBackground =   True
-         Height          =   464
+         Height          =   267
          HelpTag         =   ""
          Index           =   -2147483648
          InitialParent   =   "OpenAIGroup"
@@ -284,7 +284,7 @@ Begin Window DemoWindow
          Index           =   -2147483648
          InitialParent   =   "OpenAIGroup"
          Italic          =   False
-         Left            =   348
+         Left            =   356
          LockBottom      =   False
          LockedInPosition=   False
          LockLeft        =   True
@@ -297,7 +297,7 @@ Begin Window DemoWindow
          TextFont        =   "System"
          TextSize        =   0.0
          TextUnit        =   0
-         Top             =   142
+         Top             =   137
          Underline       =   False
          Visible         =   True
          Width           =   209
@@ -315,7 +315,7 @@ Begin Window DemoWindow
          Index           =   -2147483648
          InitialParent   =   "OpenAIGroup"
          Italic          =   False
-         Left            =   348
+         Left            =   356
          LockBottom      =   False
          LockedInPosition=   False
          LockLeft        =   True
@@ -328,7 +328,7 @@ Begin Window DemoWindow
          TextFont        =   "System"
          TextSize        =   0.0
          TextUnit        =   0
-         Top             =   120
+         Top             =   115
          Underline       =   False
          Visible         =   True
          Width           =   209
@@ -346,7 +346,7 @@ Begin Window DemoWindow
          Index           =   -2147483648
          InitialParent   =   "OpenAIGroup"
          Italic          =   False
-         Left            =   348
+         Left            =   356
          LockBottom      =   False
          LockedInPosition=   False
          LockLeft        =   True
@@ -359,7 +359,7 @@ Begin Window DemoWindow
          TextFont        =   "System"
          TextSize        =   0.0
          TextUnit        =   0
-         Top             =   99
+         Top             =   94
          Underline       =   False
          Visible         =   True
          Width           =   209
@@ -377,7 +377,7 @@ Begin Window DemoWindow
          Index           =   -2147483648
          InitialParent   =   "OpenAIGroup"
          Italic          =   False
-         Left            =   348
+         Left            =   356
          LockBottom      =   False
          LockedInPosition=   False
          LockLeft        =   True
@@ -390,10 +390,106 @@ Begin Window DemoWindow
          TextFont        =   "System"
          TextSize        =   0.0
          TextUnit        =   0
-         Top             =   163
+         Top             =   158
          Underline       =   False
          Visible         =   True
          Width           =   209
+      End
+      Begin Slider Slider1
+         AutoDeactivate  =   True
+         Enabled         =   True
+         Height          =   23
+         HelpTag         =   ""
+         Index           =   -2147483648
+         InitialParent   =   "OpenAIGroup"
+         Left            =   170
+         LineStep        =   1
+         LiveScroll      =   True
+         LockBottom      =   ""
+         LockedInPosition=   False
+         LockLeft        =   True
+         LockRight       =   ""
+         LockTop         =   True
+         Maximum         =   2048
+         Minimum         =   1
+         PageStep        =   20
+         Scope           =   0
+         TabIndex        =   10
+         TabPanelIndex   =   0
+         TabStop         =   True
+         TickStyle       =   1
+         Top             =   51
+         Value           =   64
+         Visible         =   True
+         Width           =   640
+      End
+      Begin Label Label1
+         AutoDeactivate  =   True
+         Bold            =   ""
+         DataField       =   ""
+         DataSource      =   ""
+         Enabled         =   True
+         Height          =   20
+         HelpTag         =   ""
+         Index           =   -2147483648
+         InitialParent   =   "OpenAIGroup"
+         Italic          =   ""
+         Left            =   64
+         LockBottom      =   ""
+         LockedInPosition=   False
+         LockLeft        =   True
+         LockRight       =   ""
+         LockTop         =   True
+         Multiline       =   ""
+         Scope           =   0
+         Selectable      =   False
+         TabIndex        =   11
+         TabPanelIndex   =   0
+         Text            =   "Max tokens:"
+         TextAlign       =   2
+         TextColor       =   &h000000
+         TextFont        =   "System"
+         TextSize        =   0
+         TextUnit        =   0
+         Top             =   51
+         Transparent     =   False
+         Underline       =   ""
+         Visible         =   True
+         Width           =   100
+      End
+      Begin Label MaxTokensLbl
+         AutoDeactivate  =   True
+         Bold            =   ""
+         DataField       =   ""
+         DataSource      =   ""
+         Enabled         =   True
+         Height          =   20
+         HelpTag         =   ""
+         Index           =   -2147483648
+         InitialParent   =   "OpenAIGroup"
+         Italic          =   ""
+         Left            =   822
+         LockBottom      =   ""
+         LockedInPosition=   False
+         LockLeft        =   True
+         LockRight       =   ""
+         LockTop         =   True
+         Multiline       =   ""
+         Scope           =   0
+         Selectable      =   False
+         TabIndex        =   12
+         TabPanelIndex   =   0
+         Text            =   64
+         TextAlign       =   0
+         TextColor       =   &h000000
+         TextFont        =   "System"
+         TextSize        =   0
+         TextUnit        =   0
+         Top             =   54
+         Transparent     =   False
+         Underline       =   ""
+         Visible         =   True
+         Width           =   63
       End
    End
    Begin TextField APIKeyField
@@ -467,7 +563,7 @@ Begin Window DemoWindow
       Top             =   11
       Underline       =   False
       Visible         =   True
-      Width           =   59
+      Width           =   48
    End
    Begin Label APIKeyLbl
       AutoDeactivate  =   True
@@ -523,7 +619,11 @@ End
 	#tag Method, Flags = &h21
 		Private Sub RunCreateImage(Sender As Thread)
 		  #pragma Unused Sender
-		  Dim img As OpenAI.Response = OpenAI.Image.Generate(mAPIPrompt, "512x512")
+		  Dim request As New OpenAI.Request()
+		  request.Prompt = mAPIPrompt
+		  request.Size = "512x512"
+		  request.ResultsAsURL = False
+		  Dim img As OpenAI.Response = OpenAI.Image.Generate(request)
 		  mAPIImage = img.GetResult(0)
 		  RefreshTimer.Mode = Timer.ModeSingle
 		  
@@ -533,7 +633,11 @@ End
 	#tag Method, Flags = &h21
 		Private Sub RunCreateImageURL(Sender As Thread)
 		  #pragma Unused Sender
-		  Dim txt As OpenAI.Response = OpenAI.Image.Generate(mAPIPrompt, "512x512", True)
+		  Dim request As New OpenAI.Request()
+		  request.Prompt = mAPIPrompt
+		  request.Size = "512x512"
+		  request.ResultsAsURL = True
+		  Dim txt As OpenAI.Response = OpenAI.Image.Generate(request)
 		  mAPIReply = txt.GetResult(0)
 		  RefreshTimer.Mode = Timer.ModeSingle
 		  
@@ -543,7 +647,11 @@ End
 	#tag Method, Flags = &h21
 		Private Sub RunDoCompletion(Sender As Thread)
 		  #pragma Unused Sender
-		  Dim txt As OpenAI.Response = OpenAI.Completion.Create(mAPIPrompt)
+		  Dim request As New OpenAI.Request()
+		  request.Prompt = mAPIPrompt
+		  request.MaxTokens = mMaxTokens
+		  request.Model = OpenAI.Model.Lookup("text-davinci-003")
+		  Dim txt As OpenAI.Response = OpenAI.Completion.Create(request)
 		  mAPIReply = txt.GetResult(0)
 		  RefreshTimer.Mode = Timer.ModeSingle
 		  
@@ -553,7 +661,10 @@ End
 	#tag Method, Flags = &h21
 		Private Sub RunDoModeration(Sender As Thread)
 		  #pragma Unused Sender
-		  Dim obj As OpenAI.Response = OpenAI.Moderation.Create(mAPIPrompt)
+		  Dim request As New OpenAI.Request()
+		  request.Input = mAPIPrompt
+		  request.Model = OpenAI.Model.Lookup("text-moderation-stable")
+		  Dim obj As OpenAI.Response = OpenAI.Moderation.Create(request)
 		  Dim js As JSONItem = obj.GetResult(0)
 		  js.Compact = False
 		  mAPIReply = js.ToString
@@ -576,6 +687,10 @@ End
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
+		Private mMaxTokens As Integer = 64
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
 		Private mWorker As Thread
 	#tag EndProperty
 
@@ -588,6 +703,8 @@ End
 		  If mAPIImage <> Nil Then
 		    g.DrawPicture(mAPIImage, 0, 0)
 		  End If
+		  g.ForeColor = &c80808000
+		  g.DrawRect(0, 0, g.Width, g.Height)
 		End Sub
 	#tag EndEvent
 	#tag Event
@@ -681,6 +798,14 @@ End
 		  AddHandler mWorker.Run, WeakAddressOf RunDoModeration
 		  mWorker.Priority = 3
 		  mWorker.Run()
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events Slider1
+	#tag Event
+		Sub ValueChanged()
+		  mMaxTokens = Me.Value
+		  MaxTokensLbl.Text = Format(mMaxTokens, "#,##0")
 		End Sub
 	#tag EndEvent
 #tag EndEvents
