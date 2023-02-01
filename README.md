@@ -15,6 +15,7 @@ This example asks the AI to correct a sentence for English spelling and grammar 
 * Issue natural-language instructions to the AI
 * Generate images based on a description
 * Modify, analyze, and parse text or source code according to instructions
+* Analyze text for hate, threats, self-harm, sexual content, child abuse, and violence
 * Can use the [RB-libcURL](https://github.com/charonn0/RB-libcURL) wrapper, the [MonkeyBread curl plugin](https://www.monkeybreadsoftware.net/class-curlmbs.shtml), or the Xojo URLConnection to make API requests. 
 
 ## Synopsis
@@ -41,7 +42,7 @@ Factory methods generally come in two flavors: basic and advanced. The basic ver
 ```realbasic
   OpenAI.APIKey = "YOUR API KEY"
   Dim request As New OpenAI.Request
-  request.Model = OpenAI.Model.GetByName("text-davinci-003")
+  request.Model = OpenAI.Model.Lookup("text-davinci-003")
   request.MaxTokens = 60
   request.Prompt = "What is the airspeed velocity of an unladen European swallow?"
   Dim result As OpenAI.Response = OpenAI.Completion.Create(request)
@@ -59,7 +60,7 @@ Factory methods generally come in two flavors: basic and advanced. The basic ver
 3. Copy the Xojo-OpenAI module into your project and save. Do not use the "Import" feature.
 
 ### Using RB-libcURL or MBS
-The OpenAI module may optionally use my open source [RB-libcURL](https://github.com/charonn0/RB-libcURL) wrapper or the commercial MBS libcurl plugin. These should be preferred in order to take advantage of HTTP/2. If neither of these are available, the built-in `URLConnection` class is used if it is available. In versions of Xojo/RealStudio that do not have the URLConnection class you will need to use one of the curl options.
+The OpenAI module may optionally use my open source [RB-libcURL](https://github.com/charonn0/RB-libcURL) wrapper or the commercial MBS libcurl plugin. These should be preferred in order to take advantage of HTTP/2. If neither of these are available, the built-in `URLConnection` class is used if it is available. In versions of Xojo/RealStudio that do not have the URLConnection class (<=2018r2) you will need to use one of the curl options.
 
 To enable RB-libcURL, copy (not not Import) the `libcURL` module from the RB-libcURL project into your project and set the `OpenAI.USE_RBLIBCURL` constant to `True`.
 
