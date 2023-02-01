@@ -48,7 +48,7 @@ Factory methods generally come in two flavors: basic and advanced. The basic ver
   Dim result As OpenAI.Response = OpenAI.Completion.Create(request)
   Dim choices() As String
   For i As Integer = 0 To result.ResultCount - 1
-    choices.Append(result.GetResult(i).Trim)
+    choices.Append(result.GetResult(i))
   Next
 ```
 
