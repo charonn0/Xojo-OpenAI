@@ -91,6 +91,13 @@ Inherits OpenAI.Response
 		End Function
 	#tag EndMethod
 
+	#tag Method, Flags = &h0
+		Function ResultType(Index As Integer) As OpenAI.ResultType
+		  #pragma Unused Index
+		  Return OpenAI.ResultType.String
+		End Function
+	#tag EndMethod
+
 
 	#tag ViewBehavior
 		#tag ViewProperty

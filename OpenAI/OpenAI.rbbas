@@ -304,6 +304,15 @@ Protected Module OpenAI
 	#tag EndConstant
 
 
+	#tag Enum, Name = ResultType, Type = Integer, Flags = &h0
+		String
+		  Picture
+		  PictureURL
+		  FileObject
+		JSONObject
+	#tag EndEnum
+
+
 	#tag ViewBehavior
 		#tag ViewProperty
 			Name="APIKey"

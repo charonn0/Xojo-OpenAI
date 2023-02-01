@@ -120,6 +120,17 @@ Inherits OpenAI.Response
 		End Function
 	#tag EndMethod
 
+	#tag Method, Flags = &h0
+		Function ResultType(Index As Integer) As OpenAI.ResultType
+		  Dim results As JSONItem = Super.GetResult(Index)
+		  If results.HasName("b64_json") Then
+		    Return OpenAI.ResultType.Picture
+		  ElseIf results.HasName("url") Then
+		    Return OpenAI.ResultType.PictureURL
+		  End If
+		End Function
+	#tag EndMethod
+
 
 	#tag ViewBehavior
 		#tag ViewProperty
