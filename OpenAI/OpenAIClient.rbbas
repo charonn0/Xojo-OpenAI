@@ -99,11 +99,7 @@ Private Class OpenAIClient
 		    Dim req As Variant = Request.ToObject()
 		    Dim curl As CURLSMBS = mClient
 		    curl.OptionCustomRequest = RequestMethod
-		    If req IsA JSONItem Then
-		      curl.OptionUpload = True
-		      curl.InputData = req.StringValue
-		      curl.SetOptionHTTPHeader(Array("Content-Type: application/json"))
-		    Else
+		    If req IsA Dictionary Then
 		      Dim d As Dictionary = req
 		      For Each name As String In d.Keys
 		        Select Case VarType(d.Value(name))
@@ -127,6 +123,10 @@ Private Class OpenAIClient
 		          End Select
 		        End Select
 		      Next
+		    Else
+		      curl.OptionUpload = True
+		      curl.InputData = req.StringValue
+		      curl.SetOptionHTTPHeader(Array("Content-Type: application/json"))
 		    End If
 		    
 		    curl.OptionURL = OPENAI_URL + APIURL
@@ -262,7 +262,7 @@ Private Class OpenAIClient
 	#tag Method, Flags = &h21
 		Private Function SendRequest_URLConnection(APIURL As String, Request As OpenAI.Request, RequestMethod As String = "POST") As JSONItem
 		  #If RBVersion > 2018.03 Then
-		    Dim client As URLConnection = GetClient()
+		    Dim client As URLConnection = mClient
 		    Dim req As Variant = Request.ToObject
 		    If req IsA Dictionary Then
 		      Dim boundary As String = "--" + Right(EncodeHex(MD5(Str(Microseconds))), 24) + "-bOuNdArY"

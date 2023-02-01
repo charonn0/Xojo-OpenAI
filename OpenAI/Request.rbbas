@@ -28,30 +28,15 @@ Protected Class Request
 		      End If
 		      If User <> "" Then form.AddElement("user", User)
 		      If SourceImage <> Nil Then
-		        Call form.FormAdd(form.CURLFORM_COPYNAME, "image", form.CURLFORM_COPYCONTENTS, SourceImage.GetData(Picture.FormatPNG), _
-		        form.CURLFORM_FILENAME, "image.png")
+		        Dim d As MemoryBlock = SourceImage.GetData(Picture.FormatPNG)
+		        form.AddElement("image", d)
 		      End If
 		      If MaskImage <> Nil Then
-		        Call form.FormAdd(form.CURLFORM_COPYNAME, "mask", form.CURLFORM_COPYCONTENTS, MaskImage.GetData(Picture.FormatPNG), _
-		        form.CURLFORM_FILENAME, "mask.png")
+		        Dim d As MemoryBlock = MaskImage.GetData(Picture.FormatPNG)
+		        form.AddElement("mask", d)
 		      End If
 		      
 		      Return form
-		      
-		      
-		    #ElseIf USE_MBS Then
-		      Dim curl As CURLSMBS = GetClient()
-		      If Size <> "1024x1024" Then curl.FormAddField("size", Size)
-		      If NumberOfResults > 1 Then curl.FormAddField("n", Str(NumberOfResults, "#0"))
-		      If ResultsAsURL Then
-		        curl.FormAddField("response_format", "url")
-		      Else
-		        curl.FormAddField("response_format", "b64_json")
-		      End If
-		      If User <> "" Then curl.FormAddField("user", User)
-		      If SourceImage <> Nil Then curl.FormAddField("image", SourceImage.GetData(Picture.FormatPNG), "image/png")
-		      If MaskImage <> Nil Then curl.FormAddField("mask", MaskImage.GetData(Picture.FormatPNG), "image/png")
-		      Return curl
 		      
 		    #Else
 		      Dim d As New Dictionary
