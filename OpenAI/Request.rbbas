@@ -280,8 +280,10 @@ Protected Class Request
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
-			  Dim mdl As String = mRequest.Value("model")
-			  Return OpenAI.Model.Lookup(mdl)
+			  If mRequest.HasName("model") Then
+			    Dim mdl As String = mRequest.Value("model")
+			    Return OpenAI.Model.Lookup(mdl)
+			  End If
 			End Get
 		#tag EndGetter
 		#tag Setter
@@ -345,7 +347,7 @@ Protected Class Request
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
-			  Return mRequest.Value("prompt")
+			  If mRequest.HasName("prompt") Then Return mRequest.Value("prompt")
 			End Get
 		#tag EndGetter
 		#tag Setter
