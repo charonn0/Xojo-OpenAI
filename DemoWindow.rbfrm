@@ -1,36 +1,38 @@
-#tag Window
-Begin Window DemoWindow
-   BackColor       =   "&cFFFFFF00"
+#tag DesktopWindow
+Begin DesktopWindow DemoWindow
    Backdrop        =   0
-   CloseButton     =   True
+   BackgroundColor =   &cFFFFFF00
    Composite       =   False
-   Frame           =   0
+   DefaultLocation =   2
    FullScreen      =   False
-   HasBackColor    =   False
-   Height          =   5.03e+2
+   HasBackgroundColor=   False
+   HasCloseButton  =   True
+   HasFullScreenButton=   False
+   HasMaximizeButton=   True
+   HasMinimizeButton=   True
+   Height          =   700
    ImplicitInstance=   True
-   LiveResize      =   True
    MacProcID       =   0
-   MaxHeight       =   32000
-   MaximizeButton  =   True
-   MaxWidth        =   32000
-   MenuBar         =   0
+   MaximumHeight   =   32000
+   MaximumWidth    =   32000
+   MenuBar         =   1475233791
    MenuBarVisible  =   True
-   MinHeight       =   64
-   MinimizeButton  =   True
-   MinWidth        =   64
-   Placement       =   2
+   MinimumHeight   =   700
+   MinimumWidth    =   905
    Resizeable      =   True
    Title           =   "Xojo-OpenAI Playground"
+   Type            =   0
    Visible         =   True
-   Width           =   9.05e+2
-   Begin GroupBox OpenAIGroup
-      AutoDeactivate  =   True
+   Width           =   905
+   Begin DesktopGroupBox OpenAIGroup
+      AllowAutoDeactivate=   True
       Bold            =   False
       Caption         =   "OpenAI"
       Enabled         =   False
-      Height          =   452
-      HelpTag         =   ""
+      FontName        =   "System"
+      FontSize        =   0.0
+      FontUnit        =   0
+      Height          =   649
       Index           =   -2147483648
       InitialParent   =   ""
       Italic          =   False
@@ -40,70 +42,72 @@ Begin Window DemoWindow
       LockLeft        =   True
       LockRight       =   True
       LockTop         =   True
-      Scope           =   0
-      TabIndex        =   0
+      Scope           =   2
+      TabIndex        =   3
       TabPanelIndex   =   0
-      TextFont        =   "System"
-      TextSize        =   0.0
-      TextUnit        =   0
+      TabStop         =   True
+      Tooltip         =   ""
       Top             =   42
+      Transparent     =   True
       Underline       =   False
       Visible         =   True
       Width           =   883
-      Begin TextArea PromptText
-         AcceptTabs      =   False
-         Alignment       =   0
-         AutoDeactivate  =   True
-         AutomaticallyCheckSpelling=   True
-         BackColor       =   "&cFFFFFF00"
+      Begin DesktopTextArea PromptText
+         AllowAutoDeactivate=   True
+         AllowFocusRing  =   True
+         AllowSpellChecking=   True
+         AllowStyledText =   True
+         AllowTabs       =   False
+         BackgroundColor =   &cFFFFFF
          Bold            =   False
-         Border          =   True
-         DataField       =   ""
-         DataSource      =   ""
          Enabled         =   True
+         FontName        =   "System"
+         FontSize        =   0.0
+         FontUnit        =   0
          Format          =   ""
+         HasBorder       =   True
+         HasHorizontalScrollbar=   False
+         HasVerticalScrollbar=   True
          Height          =   91
-         HelpTag         =   ""
          HideSelection   =   True
          Index           =   -2147483648
          InitialParent   =   "OpenAIGroup"
          Italic          =   False
          Left            =   36
-         LimitText       =   0
+         LineHeight      =   0.0
+         LineSpacing     =   1.0
          LockBottom      =   False
          LockedInPosition=   False
          LockLeft        =   True
          LockRight       =   False
          LockTop         =   True
-         Mask            =   ""
+         MaximumCharactersAllowed=   0
          Multiline       =   True
          ReadOnly        =   False
-         Scope           =   0
-         ScrollbarHorizontal=   False
-         ScrollbarVertical=   True
-         Styled          =   True
-         TabIndex        =   0
+         Scope           =   2
+         TabIndex        =   2
          TabPanelIndex   =   0
          TabStop         =   True
          Text            =   ""
-         TextColor       =   "&c00000000"
-         TextFont        =   "System"
-         TextSize        =   0.0
-         TextUnit        =   0
+         TextAlignment   =   0
+         TextColor       =   &c00000000
+         Tooltip         =   ""
          Top             =   99
+         Transparent     =   False
          Underline       =   False
-         UseFocusRing    =   True
+         UnicodeMode     =   0
+         ValidationMask  =   ""
          Visible         =   True
          Width           =   300
       End
-      Begin Label Label2
-         AutoDeactivate  =   True
+      Begin DesktopLabel Label2
+         AllowAutoDeactivate=   True
          Bold            =   False
-         DataField       =   ""
-         DataSource      =   ""
          Enabled         =   True
+         FontName        =   "System"
+         FontSize        =   0.0
+         FontUnit        =   0
          Height          =   20
-         HelpTag         =   ""
          Index           =   -2147483648
          InitialParent   =   "OpenAIGroup"
          Italic          =   False
@@ -114,112 +118,110 @@ Begin Window DemoWindow
          LockRight       =   False
          LockTop         =   True
          Multiline       =   False
-         Scope           =   0
+         Scope           =   2
          Selectable      =   False
-         TabIndex        =   1
+         TabIndex        =   0
          TabPanelIndex   =   0
+         TabStop         =   False
          Text            =   "Prompt/Input:"
-         TextAlign       =   0
-         TextColor       =   "&c00000000"
-         TextFont        =   "System"
-         TextSize        =   0.0
-         TextUnit        =   0
+         TextAlignment   =   0
+         TextColor       =   &c00000000
+         Tooltip         =   ""
          Top             =   75
          Transparent     =   False
          Underline       =   False
          Visible         =   True
          Width           =   186
       End
-      Begin Label Label3
-         AutoDeactivate  =   True
+      Begin DesktopLabel Label3
+         AllowAutoDeactivate=   True
          Bold            =   False
-         DataField       =   ""
-         DataSource      =   ""
          Enabled         =   True
+         FontName        =   "System"
+         FontSize        =   0.0
+         FontUnit        =   0
          Height          =   20
-         HelpTag         =   ""
          Index           =   -2147483648
          InitialParent   =   "OpenAIGroup"
          Italic          =   False
          Left            =   591
          LockBottom      =   False
          LockedInPosition=   False
-         LockLeft        =   True
-         LockRight       =   False
+         LockLeft        =   False
+         LockRight       =   True
          LockTop         =   True
          Multiline       =   False
-         Scope           =   0
+         Scope           =   2
          Selectable      =   False
-         TabIndex        =   2
+         TabIndex        =   1
          TabPanelIndex   =   0
+         TabStop         =   False
          Text            =   "Reply/Output:"
-         TextAlign       =   0
-         TextColor       =   "&c00000000"
-         TextFont        =   "System"
-         TextSize        =   0.0
-         TextUnit        =   0
+         TextAlignment   =   0
+         TextColor       =   &c00000000
+         Tooltip         =   ""
          Top             =   75
          Transparent     =   False
          Underline       =   False
          Visible         =   True
          Width           =   186
       End
-      Begin TextArea ReplyText
-         AcceptTabs      =   False
-         Alignment       =   0
-         AutoDeactivate  =   True
-         AutomaticallyCheckSpelling=   True
-         BackColor       =   "&cFFFFFF00"
+      Begin DesktopTextArea ReplyText
+         AllowAutoDeactivate=   True
+         AllowFocusRing  =   True
+         AllowSpellChecking=   True
+         AllowStyledText =   True
+         AllowTabs       =   False
+         BackgroundColor =   &cFFFFFF
          Bold            =   False
-         Border          =   True
-         DataField       =   ""
-         DataSource      =   ""
          Enabled         =   True
+         FontName        =   "System"
+         FontSize        =   0.0
+         FontUnit        =   0
          Format          =   ""
+         HasBorder       =   True
+         HasHorizontalScrollbar=   False
+         HasVerticalScrollbar=   True
          Height          =   91
-         HelpTag         =   ""
          HideSelection   =   True
          Index           =   -2147483648
          InitialParent   =   "OpenAIGroup"
          Italic          =   False
          Left            =   585
-         LimitText       =   0
+         LineHeight      =   0.0
+         LineSpacing     =   1.0
          LockBottom      =   False
          LockedInPosition=   False
-         LockLeft        =   True
-         LockRight       =   False
+         LockLeft        =   False
+         LockRight       =   True
          LockTop         =   True
-         Mask            =   ""
+         MaximumCharactersAllowed=   0
          Multiline       =   True
-         ReadOnly        =   False
-         Scope           =   0
-         ScrollbarHorizontal=   False
-         ScrollbarVertical=   True
-         Styled          =   True
-         TabIndex        =   3
+         ReadOnly        =   True
+         Scope           =   2
+         TabIndex        =   4
          TabPanelIndex   =   0
          TabStop         =   True
          Text            =   ""
-         TextColor       =   "&c00000000"
-         TextFont        =   "System"
-         TextSize        =   0.0
-         TextUnit        =   0
+         TextAlignment   =   0
+         TextColor       =   &c00000000
+         Tooltip         =   ""
          Top             =   99
+         Transparent     =   False
          Underline       =   False
-         UseFocusRing    =   True
+         UnicodeMode     =   0
+         ValidationMask  =   ""
          Visible         =   True
          Width           =   300
       End
-      Begin Canvas ReplyImageCanvas
-         AcceptFocus     =   False
-         AcceptTabs      =   False
-         AutoDeactivate  =   True
+      Begin DesktopCanvas ReplyImageCanvas
+         AllowAutoDeactivate=   True
+         AllowFocus      =   False
+         AllowFocusRing  =   True
+         AllowTabs       =   False
          Backdrop        =   0
-         DoubleBuffer    =   False
          Enabled         =   True
-         EraseBackground =   True
-         Height          =   267
-         HelpTag         =   ""
+         Height          =   464
          Index           =   -2147483648
          InitialParent   =   "OpenAIGroup"
          Left            =   36
@@ -228,23 +230,24 @@ Begin Window DemoWindow
          LockLeft        =   True
          LockRight       =   True
          LockTop         =   True
-         Scope           =   0
-         TabIndex        =   4
+         Scope           =   2
+         TabIndex        =   9
          TabPanelIndex   =   0
          TabStop         =   True
+         Tooltip         =   ""
          Top             =   216
-         UseFocusRing    =   True
+         Transparent     =   False
          Visible         =   True
          Width           =   849
       End
-      Begin Label Label4
-         AutoDeactivate  =   True
+      Begin DesktopLabel Label4
+         AllowAutoDeactivate=   True
          Bold            =   False
-         DataField       =   ""
-         DataSource      =   ""
          Enabled         =   True
+         FontName        =   "System"
+         FontSize        =   0.0
+         FontUnit        =   0
          Height          =   20
-         HelpTag         =   ""
          Index           =   -2147483648
          InitialParent   =   "OpenAIGroup"
          Italic          =   False
@@ -255,324 +258,231 @@ Begin Window DemoWindow
          LockRight       =   False
          LockTop         =   True
          Multiline       =   False
-         Scope           =   0
+         Scope           =   2
          Selectable      =   False
-         TabIndex        =   5
+         TabIndex        =   8
          TabPanelIndex   =   0
+         TabStop         =   False
          Text            =   "Image output:"
-         TextAlign       =   0
-         TextColor       =   "&c00000000"
-         TextFont        =   "System"
-         TextSize        =   0.0
-         TextUnit        =   0
+         TextAlignment   =   0
+         TextColor       =   &c00000000
+         Tooltip         =   ""
          Top             =   191
          Transparent     =   False
          Underline       =   False
          Visible         =   True
          Width           =   186
       End
-      Begin PushButton DoCompletionBtn
-         AutoDeactivate  =   True
+      Begin DesktopButton DoCompletionBtn
+         AllowAutoDeactivate=   True
          Bold            =   False
-         ButtonStyle     =   0
          Cancel          =   False
          Caption         =   "Submit a natural language prompt"
          Default         =   False
          Enabled         =   True
+         FontName        =   "System"
+         FontSize        =   0.0
+         FontUnit        =   0
          Height          =   22
-         HelpTag         =   ""
          Index           =   -2147483648
          InitialParent   =   "OpenAIGroup"
          Italic          =   False
-         Left            =   356
+         Left            =   348
          LockBottom      =   False
          LockedInPosition=   False
          LockLeft        =   True
-         LockRight       =   False
+         LockRight       =   True
          LockTop         =   True
-         Scope           =   0
+         MacButtonStyle  =   0
+         Scope           =   2
          TabIndex        =   6
          TabPanelIndex   =   0
          TabStop         =   True
-         TextFont        =   "System"
-         TextSize        =   0.0
-         TextUnit        =   0
-         Top             =   137
+         Tooltip         =   ""
+         Top             =   142
+         Transparent     =   False
          Underline       =   False
          Visible         =   True
-         Width           =   209
+         Width           =   225
       End
-      Begin PushButton DoGenImageURLBtn
-         AutoDeactivate  =   True
+      Begin DesktopButton DoGenImageURLBtn
+         AllowAutoDeactivate=   True
          Bold            =   False
-         ButtonStyle     =   0
          Cancel          =   False
          Caption         =   "Generate Image as a URL"
          Default         =   False
          Enabled         =   True
+         FontName        =   "System"
+         FontSize        =   0.0
+         FontUnit        =   0
          Height          =   22
-         HelpTag         =   ""
          Index           =   -2147483648
          InitialParent   =   "OpenAIGroup"
          Italic          =   False
-         Left            =   356
+         Left            =   348
          LockBottom      =   False
          LockedInPosition=   False
          LockLeft        =   True
-         LockRight       =   False
+         LockRight       =   True
          LockTop         =   True
-         Scope           =   0
-         TabIndex        =   7
+         MacButtonStyle  =   0
+         Scope           =   2
+         TabIndex        =   5
          TabPanelIndex   =   0
          TabStop         =   True
-         TextFont        =   "System"
-         TextSize        =   0.0
-         TextUnit        =   0
-         Top             =   115
+         Tooltip         =   ""
+         Top             =   120
+         Transparent     =   False
          Underline       =   False
          Visible         =   True
-         Width           =   209
+         Width           =   225
       End
-      Begin PushButton DoGenImageBtn
-         AutoDeactivate  =   True
+      Begin DesktopButton DoGenImageBtn
+         AllowAutoDeactivate=   True
          Bold            =   False
-         ButtonStyle     =   0
          Cancel          =   False
          Caption         =   "Generate Image"
          Default         =   False
          Enabled         =   True
+         FontName        =   "System"
+         FontSize        =   0.0
+         FontUnit        =   0
          Height          =   22
-         HelpTag         =   ""
          Index           =   -2147483648
          InitialParent   =   "OpenAIGroup"
          Italic          =   False
-         Left            =   356
+         Left            =   348
          LockBottom      =   False
          LockedInPosition=   False
          LockLeft        =   True
-         LockRight       =   False
+         LockRight       =   True
          LockTop         =   True
-         Scope           =   0
-         TabIndex        =   8
+         MacButtonStyle  =   0
+         Scope           =   2
+         TabIndex        =   3
          TabPanelIndex   =   0
          TabStop         =   True
-         TextFont        =   "System"
-         TextSize        =   0.0
-         TextUnit        =   0
-         Top             =   94
+         Tooltip         =   ""
+         Top             =   99
+         Transparent     =   False
          Underline       =   False
          Visible         =   True
-         Width           =   209
+         Width           =   225
       End
-      Begin PushButton DoModerationBtn
-         AutoDeactivate  =   True
+      Begin DesktopButton DoModerationBtn
+         AllowAutoDeactivate=   True
          Bold            =   False
-         ButtonStyle     =   0
          Cancel          =   False
          Caption         =   "Categorize text for violence/sex/etc."
          Default         =   False
          Enabled         =   True
+         FontName        =   "System"
+         FontSize        =   0.0
+         FontUnit        =   0
          Height          =   22
-         HelpTag         =   ""
          Index           =   -2147483648
          InitialParent   =   "OpenAIGroup"
          Italic          =   False
-         Left            =   356
+         Left            =   348
          LockBottom      =   False
          LockedInPosition=   False
          LockLeft        =   True
-         LockRight       =   False
+         LockRight       =   True
          LockTop         =   True
-         Scope           =   0
-         TabIndex        =   9
+         MacButtonStyle  =   0
+         Scope           =   2
+         TabIndex        =   7
          TabPanelIndex   =   0
          TabStop         =   True
-         TextFont        =   "System"
-         TextSize        =   0.0
-         TextUnit        =   0
-         Top             =   158
+         Tooltip         =   ""
+         Top             =   163
+         Transparent     =   False
          Underline       =   False
          Visible         =   True
-         Width           =   209
-      End
-      Begin Slider Slider1
-         AutoDeactivate  =   True
-         Enabled         =   True
-         Height          =   23
-         HelpTag         =   ""
-         Index           =   -2147483648
-         InitialParent   =   "OpenAIGroup"
-         Left            =   170
-         LineStep        =   1
-         LiveScroll      =   True
-         LockBottom      =   ""
-         LockedInPosition=   False
-         LockLeft        =   True
-         LockRight       =   ""
-         LockTop         =   True
-         Maximum         =   2048
-         Minimum         =   1
-         PageStep        =   20
-         Scope           =   0
-         TabIndex        =   10
-         TabPanelIndex   =   0
-         TabStop         =   True
-         TickStyle       =   1
-         Top             =   51
-         Value           =   64
-         Visible         =   True
-         Width           =   640
-      End
-      Begin Label Label1
-         AutoDeactivate  =   True
-         Bold            =   ""
-         DataField       =   ""
-         DataSource      =   ""
-         Enabled         =   True
-         Height          =   20
-         HelpTag         =   ""
-         Index           =   -2147483648
-         InitialParent   =   "OpenAIGroup"
-         Italic          =   ""
-         Left            =   64
-         LockBottom      =   ""
-         LockedInPosition=   False
-         LockLeft        =   True
-         LockRight       =   ""
-         LockTop         =   True
-         Multiline       =   ""
-         Scope           =   0
-         Selectable      =   False
-         TabIndex        =   11
-         TabPanelIndex   =   0
-         Text            =   "Max tokens:"
-         TextAlign       =   2
-         TextColor       =   &h000000
-         TextFont        =   "System"
-         TextSize        =   0
-         TextUnit        =   0
-         Top             =   51
-         Transparent     =   False
-         Underline       =   ""
-         Visible         =   True
-         Width           =   100
-      End
-      Begin Label MaxTokensLbl
-         AutoDeactivate  =   True
-         Bold            =   ""
-         DataField       =   ""
-         DataSource      =   ""
-         Enabled         =   True
-         Height          =   20
-         HelpTag         =   ""
-         Index           =   -2147483648
-         InitialParent   =   "OpenAIGroup"
-         Italic          =   ""
-         Left            =   822
-         LockBottom      =   ""
-         LockedInPosition=   False
-         LockLeft        =   True
-         LockRight       =   ""
-         LockTop         =   True
-         Multiline       =   ""
-         Scope           =   0
-         Selectable      =   False
-         TabIndex        =   12
-         TabPanelIndex   =   0
-         Text            =   64
-         TextAlign       =   0
-         TextColor       =   &h000000
-         TextFont        =   "System"
-         TextSize        =   0
-         TextUnit        =   0
-         Top             =   54
-         Transparent     =   False
-         Underline       =   ""
-         Visible         =   True
-         Width           =   63
+         Width           =   225
       End
    End
-   Begin TextField APIKeyField
-      AcceptTabs      =   False
-      Alignment       =   0
-      AutoDeactivate  =   True
-      AutomaticallyCheckSpelling=   False
-      BackColor       =   "&cFFFFFF00"
+   Begin DesktopTextField APIKeyField
+      AllowAutoDeactivate=   True
+      AllowFocusRing  =   True
+      AllowSpellChecking=   False
+      AllowTabs       =   False
+      BackgroundColor =   &cFFFFFF
       Bold            =   False
-      Border          =   True
-      CueText         =   ""
-      DataField       =   ""
-      DataSource      =   ""
       Enabled         =   True
+      FontName        =   "System"
+      FontSize        =   0.0
+      FontUnit        =   0
       Format          =   ""
+      HasBorder       =   True
       Height          =   22
-      HelpTag         =   ""
+      Hint            =   ""
       Index           =   -2147483648
       Italic          =   False
       Left            =   95
-      LimitText       =   0
       LockBottom      =   False
       LockedInPosition=   False
       LockLeft        =   True
       LockRight       =   True
       LockTop         =   True
-      Mask            =   ""
+      MaximumCharactersAllowed=   0
       Password        =   False
       ReadOnly        =   False
-      Scope           =   0
+      Scope           =   2
       TabIndex        =   1
       TabPanelIndex   =   0
       TabStop         =   True
       Text            =   ""
-      TextColor       =   "&c00000000"
-      TextFont        =   "System"
-      TextSize        =   0.0
-      TextUnit        =   0
+      TextAlignment   =   0
+      TextColor       =   &c00000000
+      Tooltip         =   ""
       Top             =   11
+      Transparent     =   False
       Underline       =   False
-      UseFocusRing    =   True
+      ValidationMask  =   ""
       Visible         =   True
-      Width           =   746
+      Width           =   707
    End
-   Begin PushButton SetAPIKeyBtn
-      AutoDeactivate  =   True
+   Begin DesktopButton SetAPIKeyBtn
+      AllowAutoDeactivate=   True
       Bold            =   False
-      ButtonStyle     =   0
       Cancel          =   False
       Caption         =   "Set"
-      Default         =   False
+      Default         =   True
       Enabled         =   True
+      FontName        =   "System"
+      FontSize        =   0.0
+      FontUnit        =   0
       Height          =   22
-      HelpTag         =   ""
       Index           =   -2147483648
       InitialParent   =   ""
       Italic          =   False
-      Left            =   846
+      Left            =   814
       LockBottom      =   False
       LockedInPosition=   False
       LockLeft        =   False
       LockRight       =   True
       LockTop         =   True
-      Scope           =   0
+      MacButtonStyle  =   0
+      Scope           =   2
       TabIndex        =   2
       TabPanelIndex   =   0
       TabStop         =   True
-      TextFont        =   "System"
-      TextSize        =   0.0
-      TextUnit        =   0
+      Tooltip         =   ""
       Top             =   11
+      Transparent     =   True
       Underline       =   False
       Visible         =   True
-      Width           =   48
+      Width           =   80
    End
-   Begin Label APIKeyLbl
-      AutoDeactivate  =   True
+   Begin DesktopLabel APIKeyLbl
+      AllowAutoDeactivate=   True
       Bold            =   False
-      DataField       =   ""
-      DataSource      =   ""
       Enabled         =   True
+      FontName        =   "System"
+      FontSize        =   0.0
+      FontUnit        =   0
       Height          =   20
-      HelpTag         =   ""
       Index           =   -2147483648
       InitialParent   =   ""
       Italic          =   False
@@ -583,16 +493,15 @@ Begin Window DemoWindow
       LockRight       =   False
       LockTop         =   True
       Multiline       =   False
-      Scope           =   0
+      Scope           =   2
       Selectable      =   False
-      TabIndex        =   3
+      TabIndex        =   0
       TabPanelIndex   =   0
+      TabStop         =   False
       Text            =   "API Key:"
-      TextAlign       =   2
-      TextColor       =   "&c00000000"
-      TextFont        =   "System"
-      TextSize        =   0.0
-      TextUnit        =   0
+      TextAlignment   =   0
+      TextColor       =   &c00000000
+      Tooltip         =   ""
       Top             =   11
       Transparent     =   False
       Underline       =   False
@@ -600,31 +509,24 @@ Begin Window DemoWindow
       Width           =   79
    End
    Begin Timer RefreshTimer
-      Height          =   32
+      Enabled         =   True
       Index           =   -2147483648
       InitialParent   =   ""
-      Left            =   ""
       LockedInPosition=   False
       Mode            =   0
       Period          =   1
-      Scope           =   0
+      Scope           =   2
       TabPanelIndex   =   0
-      Top             =   ""
-      Width           =   32
    End
 End
-#tag EndWindow
+#tag EndDesktopWindow
 
 #tag WindowCode
 	#tag Method, Flags = &h21
 		Private Sub RunCreateImage(Sender As Thread)
 		  #pragma Unused Sender
-		  Dim request As New OpenAI.Request()
-		  request.Prompt = mAPIPrompt
-		  request.Size = "512x512"
-		  request.ResultsAsURL = False
-		  Dim img As OpenAI.Response = OpenAI.Image.Generate(request)
-		  mAPIImage = img.GetResult()
+		  Dim img As OpenAI.Response = OpenAI.Image.Generate(mAPIPrompt, "512x512")
+		  mAPIImage = img.GetResult(0)
 		  RefreshTimer.Mode = Timer.ModeSingle
 		  
 		End Sub
@@ -633,12 +535,8 @@ End
 	#tag Method, Flags = &h21
 		Private Sub RunCreateImageURL(Sender As Thread)
 		  #pragma Unused Sender
-		  Dim request As New OpenAI.Request()
-		  request.Prompt = mAPIPrompt
-		  request.Size = "512x512"
-		  request.ResultsAsURL = True
-		  Dim txt As OpenAI.Response = OpenAI.Image.Generate(request)
-		  mAPIReply = txt.GetResult()
+		  Dim txt As OpenAI.Response = OpenAI.Image.Generate(mAPIPrompt, "512x512", True)
+		  mAPIReply = txt.GetResult(0)
 		  RefreshTimer.Mode = Timer.ModeSingle
 		  
 		End Sub
@@ -647,12 +545,8 @@ End
 	#tag Method, Flags = &h21
 		Private Sub RunDoCompletion(Sender As Thread)
 		  #pragma Unused Sender
-		  Dim request As New OpenAI.Request()
-		  request.Prompt = mAPIPrompt
-		  request.MaxTokens = mMaxTokens
-		  request.Model = OpenAI.Model.Lookup("text-davinci-003")
-		  Dim txt As OpenAI.Response = OpenAI.Completion.Create(request)
-		  mAPIReply = txt.GetResult()
+		  Dim txt As OpenAI.Response = OpenAI.Completion.Create(mAPIPrompt)
+		  mAPIReply = txt.GetResult(0)
 		  RefreshTimer.Mode = Timer.ModeSingle
 		  
 		End Sub
@@ -661,11 +555,8 @@ End
 	#tag Method, Flags = &h21
 		Private Sub RunDoModeration(Sender As Thread)
 		  #pragma Unused Sender
-		  Dim request As New OpenAI.Request()
-		  request.Input = mAPIPrompt
-		  request.Model = OpenAI.Model.Lookup("text-moderation-stable")
-		  Dim obj As OpenAI.Response = OpenAI.Moderation.Create(request)
-		  Dim js As JSONItem = obj.GetResult()
+		  Dim obj As OpenAI.Response = OpenAI.Moderation.Create(mAPIPrompt)
+		  Dim js As JSONItem = obj.GetResult(0)
 		  js.Compact = False
 		  mAPIReply = js.ToString
 		  RefreshTimer.Mode = Timer.ModeSingle
@@ -687,10 +578,6 @@ End
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
-		Private mMaxTokens As Integer = 64
-	#tag EndProperty
-
-	#tag Property, Flags = &h21
 		Private mWorker As Thread
 	#tag EndProperty
 
@@ -699,29 +586,82 @@ End
 
 #tag Events ReplyImageCanvas
 	#tag Event
-		Sub Paint(g As Graphics)
-		  If mAPIImage <> Nil Then
-		    g.DrawPicture(mAPIImage, 0, 0)
+		Sub Paint(g As Graphics, areas() As Rect)
+		  #Pragma unused areas
+		  
+		  If Not (mAPIImage Is Nil) Then
+		    
+		    Var Height, Width As Integer
+		    Var SourceY, SourceX As Integer = 0
+		    
+		    If mAPIImage.Width <= g.Width And mAPIImage.Height <= g.Height Then
+		      
+		      Width = mAPIImage.Width
+		      Height = mAPIImage.Height
+		      
+		    Else
+		      
+		      If g.Width >= g.Height And mAPIImage.Width >= mAPIImage.Height Then
+		        
+		        Width = g.Width
+		        Height = (mAPIImage.Height * Width) / mAPIImage.Width
+		        
+		        If Height > g.Height Then
+		          
+		          Height = g.Height
+		          Width = (mAPIImage.Width*Height)/mAPIImage.Height
+		          
+		        End If
+		        
+		      ElseIf g.Width >= g.Height And mAPIImage.Width <= mAPIImage.Height Then
+		        
+		        Height = g.Height
+		        Width = (mAPIImage.Width * Height) / mAPIImage.Height
+		        
+		      ElseIf g.Width <= g.Height And mAPIImage.Width >= mAPIImage.Height Then
+		        
+		        Width = g.Width
+		        Height = (mAPIImage.Height * Width) / mAPIImage.Width
+		        
+		      ElseIf g.Width <= g.Height And mAPIImage.Width <= mAPIImage.Height Then
+		        
+		        Height = g.Height
+		        Width = (mAPIImage.Width*Height)/mAPIImage.Height
+		        
+		        If Width > g.Width Then
+		          
+		          Width = g.Width
+		          Height = (mAPIImage.Height*Width)/mAPIImage.Width
+		          
+		        End If
+		        
+		      End If
+		      
+		    End If
+		    
+		    sourcex = (g.Width/2) - (Width/2)
+		    sourcey = (g.Height/2) - (Height/2)
+		    
+		    g.DrawPicture(mAPIImage,sourcex,sourcey,Width,Height,0,0,mAPIImage.Width,mAPIImage.Height)
+		    
 		  End If
-		  g.ForeColor = &c80808000
-		  g.DrawRect(0, 0, g.Width, g.Height)
 		End Sub
 	#tag EndEvent
 	#tag Event
-		Function ConstructContextualMenu(base as MenuItem, x as Integer, y as Integer) As Boolean
+		Function ConstructContextualMenu(base As DesktopMenuItem, x As Integer, y As Integer) As Boolean
 		  #pragma Unused x
 		  #pragma Unused y
 		  
 		  If mAPIImage <> Nil Then
-		    base.Append(New MenuItem("Save as..."))
+		    base.AddMenu(New MenuItem("Save as..."))
 		    Return True
 		  End If
 		  
 		End Function
 	#tag EndEvent
 	#tag Event
-		Function ContextualMenuAction(hitItem as MenuItem) As Boolean
-		  Select Case hitItem.Text
+		Function ContextualMenuItemSelected(selectedItem As DesktopMenuItem) As Boolean
+		  Select Case selectedItem.Text
 		  Case "Save as..."
 		    If mAPIImage <> Nil Then
 		      Dim out As FolderItem = GetSaveFolderItem("", "output.png")
@@ -735,7 +675,7 @@ End
 #tag EndEvents
 #tag Events DoCompletionBtn
 	#tag Event
-		Sub Action()
+		Sub Pressed()
 		  If PromptText.Text = "" Then Return
 		  Self.Title = "Xojo-OpenAI Playground - Working..."
 		  mAPIPrompt = PromptText.Text
@@ -752,7 +692,7 @@ End
 #tag EndEvents
 #tag Events DoGenImageURLBtn
 	#tag Event
-		Sub Action()
+		Sub Pressed()
 		  If PromptText.Text = "" Then Return
 		  Self.Title = "Xojo-OpenAI Playground - Working..."
 		  mAPIPrompt = PromptText.Text
@@ -769,7 +709,7 @@ End
 #tag EndEvents
 #tag Events DoGenImageBtn
 	#tag Event
-		Sub Action()
+		Sub Pressed()
 		  If PromptText.Text = "" Then Return
 		  Self.Title = "Xojo-OpenAI Playground - Working..."
 		  mAPIPrompt = PromptText.Text
@@ -786,7 +726,7 @@ End
 #tag EndEvents
 #tag Events DoModerationBtn
 	#tag Event
-		Sub Action()
+		Sub Pressed()
 		  If PromptText.Text = "" Then Return
 		  Self.Title = "Xojo-OpenAI Playground - Working..."
 		  mAPIPrompt = PromptText.Text
@@ -801,17 +741,16 @@ End
 		End Sub
 	#tag EndEvent
 #tag EndEvents
-#tag Events Slider1
+#tag Events APIKeyField
 	#tag Event
-		Sub ValueChanged()
-		  mMaxTokens = Me.Value
-		  MaxTokensLbl.Text = Format(mMaxTokens, "#,##0")
+		Sub Opening()
+		  Me.Hint = OpenAI.APIKey
 		End Sub
 	#tag EndEvent
 #tag EndEvents
 #tag Events SetAPIKeyBtn
 	#tag Event
-		Sub Action()
+		Sub Pressed()
 		  If APIKeyField.Text = "" Then
 		    MsgBox("Please enter your OpenAI API key to begin.")
 		    Return
@@ -830,7 +769,10 @@ End
 		  APIKeyLbl.Enabled = False
 		  APIKeyField.Enabled = False
 		  Me.Enabled = False
+		  Me.Default = False
+		  DoCompletionBtn.Default = True
 		  Self.Title = "Xojo-OpenAI Playground - Ready"
+		  PromptText.SetFocus()
 		End Sub
 	#tag EndEvent
 #tag EndEvents
@@ -838,7 +780,7 @@ End
 	#tag Event
 		Sub Action()
 		  Self.Title = "Xojo-OpenAI Playground - Ready"
-		  ReplyImageCanvas.Invalidate(True)
+		  ReplyImageCanvas.Refresh(True)
 		  ReplyText.Text = mAPIReply
 		  DoGenImageBtn.Enabled = True
 		  DoGenImageURLBtn.Enabled = True

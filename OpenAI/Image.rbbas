@@ -18,8 +18,7 @@ Inherits OpenAI.Response
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Image.CreateVariation
 		  ' https://beta.openai.com/docs/api-reference/images/create-variation
 		  
-		  Dim client As New OpenAIClient
-		  Dim result As JSONItem = client.SendRequest("/v1/images/variations", Request)
+		  Dim result As JSONItem = SendRequest("/v1/images/variations", Request)
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
 		  Return New OpenAI.Image(result)
 		End Function
@@ -50,22 +49,7 @@ Inherits OpenAI.Response
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Image.Edit
 		  ' https://beta.openai.com/docs/api-reference/images/create-edit
 		  
-		  If Request.SourceImage <> Nil Then
-		    If Request.SourceImage.Width <> Request.SourceImage.Height Then
-		      Dim err As New OpenAIException(Nil)
-		      err.Message = "Pictures submitted to the API must be square."
-		      Raise err
-		    End If
-		    If Request.MaskImage <> Nil And _
-		      (Request.MaskImage.Width <> Request.MaskImage.Width Or Request.MaskImage.Height <> Request.MaskImage.Height) Then
-		      Dim err As New OpenAIException(Nil)
-		      err.Message = "The mask picture must have the same dimensions as the source picture."
-		      Raise err
-		    End If
-		  End If
-		  
-		  Dim client As New OpenAIClient
-		  Dim result As JSONItem = client.SendRequest("/v1/images/edits", Request)
+		  Dim result As JSONItem = SendRequest("/v1/images/edits", Request)
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
 		  Return New OpenAI.Image(result)
 		End Function
@@ -98,8 +82,7 @@ Inherits OpenAI.Response
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Image.Generate
 		  ' https://beta.openai.com/docs/api-reference/images/create
 		  
-		  Dim client As New OpenAIClient
-		  Dim result As JSONItem = client.SendRequest("/v1/images/generations", Request)
+		  Dim result As JSONItem = SendRequest("/v1/images/generations", Request)
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
 		  Return New OpenAI.Image(result)
 		End Function
@@ -122,7 +105,7 @@ Inherits OpenAI.Response
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function GetResult(Index As Integer = 0) As Variant
+		Function GetResult(Index As Integer) As Variant
 		  ' Returns the result at Index, as a Picture object or a String URL.
 		  '
 		  ' See:
@@ -138,7 +121,7 @@ Inherits OpenAI.Response
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function ResultType(Index As Integer = 0) As OpenAI.ResultType
+		Function ResultType(Index As Integer) As OpenAI.ResultType
 		  Dim results As JSONItem = Super.GetResult(Index)
 		  If results.HasName("b64_json") Then
 		    Return OpenAI.ResultType.Picture

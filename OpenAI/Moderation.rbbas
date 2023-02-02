@@ -12,8 +12,7 @@ Inherits OpenAI.Response
 
 	#tag Method, Flags = &h0
 		 Shared Function Create(Request As OpenAI.Request) As OpenAI.Moderation
-		  Dim client As New OpenAIClient
-		  Dim result As JSONItem = client.SendRequest("/v1/moderations", Request)
+		  Dim result As JSONItem = SendRequest("/v1/moderations", Request)
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
 		  Return New OpenAI.Moderation(result)
 		End Function
@@ -30,13 +29,18 @@ Inherits OpenAI.Response
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function GetResult(Index As Integer = 0) As Variant
-		  Return Super.GetResult(Index)
+		Function GetResult(Index As Integer) As Variant
+		  #If USE_MTCJSON Then
+		    Dim results As JSONItem_MTC = Super.GetResult(Index)
+		  #Else
+		    Dim results As JSONItem = Super.GetResult(Index)
+		  #EndIf
+		  Return results
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function ResultType(Index As Integer = 0) As OpenAI.ResultType
+		Function ResultType(Index As Integer) As OpenAI.ResultType
 		  #pragma Unused Index
 		  Return OpenAI.ResultType.JSONObject
 		End Function

@@ -2,16 +2,16 @@
 Protected Class File
 Inherits OpenAI.Response
 	#tag Method, Flags = &h1001
-		Protected Sub Constructor(ResponseData As JSONItem, Client As OpenAIClient)
+		Protected Sub Constructor(ResponseData As JSONItem)
 		  // Calling the overridden superclass constructor.
 		  // Constructor(ResponseData As JSONItem) -- From Response
 		  Super.Constructor(ResponseData)
-		  mClient = Client
+		  
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		 Shared Function Create(FileContent As MemoryBlock, Purpose As String) As OpenAI.File
+		Shared Function Create(FileContent As MemoryBlock, Purpose As String) As OpenAI.File
 		  ' Upload a file that contains document(s) to be used across various endpoints/features.
 		  '
 		  ' See:
@@ -19,12 +19,11 @@ Inherits OpenAI.Response
 		  ' https://beta.openai.com/docs/api-reference/files/upload
 		  
 		  Dim request As New OpenAI.Request
-		  Dim client As New OpenAIClient
 		  request.File = FileContent
 		  request.Purpose = Purpose
-		  Dim result As JSONItem = client.SendRequest("/v1/files", request)
+		  Dim result As JSONItem = SendRequest("/v1/files", request)
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
-		  Return New OpenAI.File(result, client)
+		  Return New OpenAI.File(result)
 		End Function
 	#tag EndMethod
 
@@ -35,13 +34,14 @@ Inherits OpenAI.Response
 		  ' See:
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.File.Delete
 		  
-		  Dim result As JSONItem = mClient.SendRequest("/v1/files", "DELETE")
-		  If result.HasName("error") Then Raise New OpenAIException(result)
+		  #pragma Warning "FixMe"
+		  ' Dim result As JSONItem = SendRequest("/v1/files")
+		  ' Return New OpenAI.File(result)
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function GetResult(Index As Integer = 0) As Variant
+		Function GetResult(Index As Integer) As Variant
 		  ' Returns the result as a OpenAI.File. The Index parameter is ignored.
 		  '
 		  ' See:
@@ -49,44 +49,42 @@ Inherits OpenAI.Response
 		  
 		  #pragma Unused Index
 		  If mResponse.HasName("filename") Then
-		    Dim result As JSONItem = mClient.SendRequest("/v1/files/" + ID + "/content")
+		    Dim result As JSONItem = SendRequest("/v1/files/" + ID + "/content")
 		    Return New OpenAI.File(result)
 		  End If
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		 Shared Function List() As OpenAI.File
+		Shared Function List() As OpenAI.File
 		  ' Returns a list of files that belong to the user's organization.
 		  '
 		  ' See:
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.File.List
 		  ' https://beta.openai.com/docs/api-reference/files/list
 		  
-		  Dim client As New OpenAIClient
-		  Dim result As JSONItem = client.SendRequest("/v1/files")
+		  Dim result As JSONItem = SendRequest("/v1/files")
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
-		  Return New OpenAI.File(result, client)
+		  Return New OpenAI.File(result)
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		 Shared Function Open(FileID As String) As OpenAI.File
+		Shared Function Open(FileID As String) As OpenAI.File
 		  ' Returns the contents of the specified file
 		  '
 		  ' See:
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.File.Open
 		  ' https://beta.openai.com/docs/api-reference/files/retrieve-content
 		  
-		  Dim client As New OpenAIClient
-		  Dim result As JSONItem = client.SendRequest("/v1/files/" + FileID + "/content")
+		  Dim result As JSONItem = SendRequest("/v1/files/" + FileID + "/content")
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
-		  Return New OpenAI.File(result, client)
+		  Return New OpenAI.File(result)
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function ResultType(Index As Integer = 0) As OpenAI.ResultType
+		Function ResultType(Index As Integer) As OpenAI.ResultType
 		  #pragma Unused Index
 		  Return OpenAI.ResultType.FileObject
 		End Function
@@ -126,10 +124,6 @@ Inherits OpenAI.Response
 		#tag EndGetter
 		CreatedAt As Date
 	#tag EndComputedProperty
-
-	#tag Property, Flags = &h21
-		Private mClient As OpenAIClient
-	#tag EndProperty
 
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
@@ -185,43 +179,84 @@ Inherits OpenAI.Response
 
 	#tag ViewBehavior
 		#tag ViewProperty
+			Name="ID"
+			Visible=false
+			Group="Behavior"
+			InitialValue=""
+			Type="String"
+			EditorType="MultiLineEditor"
+		#tag EndViewProperty
+		#tag ViewProperty
 			Name="Index"
 			Visible=true
 			Group="ID"
 			InitialValue="-2147483648"
-			InheritedFrom="Object"
+			Type="Integer"
+			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Left"
 			Visible=true
 			Group="Position"
 			InitialValue="0"
-			InheritedFrom="Object"
+			Type="Integer"
+			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Name"
 			Visible=true
 			Group="ID"
-			InheritedFrom="Object"
+			InitialValue=""
+			Type="String"
+			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="ResultCount"
+			Visible=false
 			Group="Behavior"
+			InitialValue=""
 			Type="Integer"
-			InheritedFrom="OpenAI.Response"
+			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Super"
 			Visible=true
 			Group="ID"
-			InheritedFrom="Object"
+			InitialValue=""
+			Type="String"
+			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Top"
 			Visible=true
 			Group="Position"
 			InitialValue="0"
-			InheritedFrom="Object"
+			Type="Integer"
+			EditorType=""
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Bytes"
+			Visible=false
+			Group="Behavior"
+			InitialValue=""
+			Type="Integer"
+			EditorType=""
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Purpose"
+			Visible=false
+			Group="Behavior"
+			InitialValue=""
+			Type="String"
+			EditorType=""
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Type"
+			Visible=false
+			Group="Behavior"
+			InitialValue=""
+			Type="String"
+			EditorType=""
 		#tag EndViewProperty
 	#tag EndViewBehavior
 End Class

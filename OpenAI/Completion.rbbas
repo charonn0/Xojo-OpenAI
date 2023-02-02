@@ -19,8 +19,7 @@ Inherits OpenAI.Response
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Completion.Create
 		  ' https://beta.openai.com/docs/api-reference/completions
 		  
-		  Dim client As New OpenAIClient
-		  Dim response As JSONItem = client.SendRequest("/v1/completions", request)
+		  Dim response As JSONItem = SendRequest("/v1/completions", request)
 		  If response = Nil Or response.HasName("error") Then Raise New OpenAIException(response)
 		  Return New OpenAI.Completion(response)
 		  
@@ -53,8 +52,7 @@ Inherits OpenAI.Response
 		  ' https://beta.openai.com/docs/api-reference/edits
 		  
 		  
-		  Dim client As New OpenAIClient
-		  Dim response As JSONItem = client.SendRequest("/v1/edits", request)
+		  Dim response As JSONItem = SendRequest("/v1/edits", request)
 		  If response = Nil Or response.HasName("error") Then Raise New OpenAIException(response)
 		  Return New OpenAI.Completion(response)
 		  
@@ -80,7 +78,7 @@ Inherits OpenAI.Response
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function GetResult(Index As Integer = 0) As Variant
+		Function GetResult(Index As Integer) As Variant
 		  ' Returns the result at Index, as a String.
 		  '
 		  ' See:
@@ -94,7 +92,7 @@ Inherits OpenAI.Response
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function ResultType(Index As Integer = 0) As OpenAI.ResultType
+		Function ResultType(Index As Integer) As OpenAI.ResultType
 		  #pragma Unused Index
 		  Return OpenAI.ResultType.String
 		End Function

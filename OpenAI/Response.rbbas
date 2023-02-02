@@ -7,8 +7,12 @@ Protected Class Response
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function GetResult(Index As Integer = 0) As Variant
-		  Dim results As JSONItem
+		Function GetResult(Index As Integer) As Variant
+		  #If USE_MTCJSON Then
+		    Dim results As JSONItem_MTC
+		  #Else
+		    Dim results As JSONItem
+		  #EndIf
 		  If mResponse.HasName("data") Then
 		    results = mResponse.Value("data")
 		  ElseIf mResponse.HasName("choices") Then
@@ -23,7 +27,7 @@ Protected Class Response
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function ResultType(Index As Integer = 0) As OpenAI.ResultType
+		Function ResultType(Index As Integer) As OpenAI.ResultType
 		  #pragma Unused Index
 		  Return OpenAI.ResultType.JSONObject
 		End Function

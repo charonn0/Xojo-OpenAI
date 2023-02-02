@@ -2,7 +2,11 @@
 Protected Class Request
 	#tag Method, Flags = &h0
 		Sub Constructor()
-		  mRequest = New JSONItem
+		  #If USE_MTCJSON Then
+		    mRequest = New JSONItem_MTC
+		  #Else
+		    mRequest = New JSONItem
+		  #EndIf
 		End Sub
 	#tag EndMethod
 
@@ -13,19 +17,56 @@ Protected Class Request
 		    Return mRequest.ToString()
 		    
 		  Else
-		    Dim d As New Dictionary
-		    If Size <> "1024x1024" Then d.Value("size") = Size
-		    If NumberOfResults > 1 Then d.Value("n") = Str(NumberOfResults, "#0")
-		    If ResultsAsURL Then
-		      d.Value("response_format") = "url"
-		    Else
-		      d.Value("response_format") = "b64_json"
-		    End If
-		    If User <> "" Then d.Value("user") = User
-		    If SourceImage <> Nil Then d.Value("image") = SourceImage
-		    If MaskImage <> Nil Then d.Value("mask") = MaskImage
-		    If Prompt <> "" Then d.Value("prompt") = Prompt
-		    Return d
+		    #If USE_RBLIBCURL Then
+		      Dim form As New libcURL.MultipartForm
+		      If Size <> "1024x1024" Then form.AddElement("size", Size)
+		      If NumberOfResults > 1 Then form.AddElement("n", Str(NumberOfResults, "#0"))
+		      If ResultsAsURL Then
+		        form.AddElement("response_format", "url")
+		      Else
+		        form.AddElement("response_format", "b64_json")
+		      End If
+		      If User <> "" Then form.AddElement("user", User)
+		      If SourceImage <> Nil Then
+		        Call form.FormAdd(form.CURLFORM_COPYNAME, "image", form.CURLFORM_COPYCONTENTS, SourceImage.GetData(Picture.FormatPNG), _
+		        form.CURLFORM_FILENAME, "image.png")
+		      End If
+		      If MaskImage <> Nil Then
+		        Call form.FormAdd(form.CURLFORM_COPYNAME, "mask", form.CURLFORM_COPYCONTENTS, MaskImage.GetData(Picture.FormatPNG), _
+		        form.CURLFORM_FILENAME, "mask.png")
+		      End If
+		      
+		      Return form
+		      
+		      
+		    #ElseIf USE_MBS Then
+		      Dim curl As CURLSMBS = GetClient()
+		      If Size <> "1024x1024" Then curl.FormAddField("size", Size)
+		      If NumberOfResults > 1 Then curl.FormAddField("n", Str(NumberOfResults, "#0"))
+		      If ResultsAsURL Then
+		        curl.FormAddField("response_format", "url")
+		      Else
+		        curl.FormAddField("response_format", "b64_json")
+		      End If
+		      If User <> "" Then curl.FormAddField("user", User)
+		      If SourceImage <> Nil Then curl.FormAddField("image", SourceImage.GetData(Picture.FormatPNG), "image/png")
+		      If MaskImage <> Nil Then curl.FormAddField("mask", MaskImage.GetData(Picture.FormatPNG), "image/png")
+		      Return curl
+		      
+		    #Else
+		      Dim d As New Dictionary
+		      If Size <> "1024x1024" Then d.Value("size") = Size
+		      If NumberOfResults > 1 Then d.Value("n") = Str(NumberOfResults, "#0")
+		      If ResultsAsURL Then
+		        d.Value("response_format") = "url"
+		      Else
+		        d.Value("response_format") = "b64_json"
+		      End If
+		      If User <> "" Then d.Value("user") = User
+		      If SourceImage <> Nil Then d.Value("image") = SourceImage
+		      If MaskImage <> Nil Then d.Value("mask") = MaskImage
+		      Return d
+		    #endif
 		  End If
 		End Function
 	#tag EndMethod
@@ -280,10 +321,8 @@ Protected Class Request
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
-			  If mRequest.HasName("model") Then
-			    Dim mdl As String = mRequest.Value("model")
-			    Return OpenAI.Model.Lookup(mdl)
-			  End If
+			  Dim mdl As String = mRequest.Value("model")
+			  Return OpenAI.Model.Lookup(mdl)
 			End Get
 		#tag EndGetter
 		#tag Setter
@@ -347,7 +386,7 @@ Protected Class Request
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
-			  If mRequest.HasName("prompt") Then Return mRequest.Value("prompt")
+			  Return mRequest.Value("prompt")
 			End Get
 		#tag EndGetter
 		#tag Setter
