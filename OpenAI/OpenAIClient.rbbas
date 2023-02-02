@@ -123,7 +123,7 @@ Private Class OpenAIClient
 		            Dim v As Picture = d.Value(name)
 		            Dim mb As MemoryBlock = v.GetData(Picture.FormatPNG)
 		            If mb.Size > 1024 * 1024 * 4 Then
-		              Dim err As New OpenAIException
+		              Dim err As New OpenAIException(Nil)
 		              err.Message = "Pictures submitted to the API may be no larger than 4MB."
 		              Raise err
 		            End If
