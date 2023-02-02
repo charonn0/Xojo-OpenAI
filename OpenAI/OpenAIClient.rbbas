@@ -277,7 +277,11 @@ Private Class OpenAIClient
 		          out.Write(FormData.Value(key) + CRLF)
 		        ElseIf FormData.Value(Key) IsA Picture Then
 		          Dim pic As Picture = FormData.Value(key)
-		          out.Write("Content-Disposition: form-data; name=""" + key + """; filename=""image.png""" + CRLF)
+		          If key = "image" Then
+		            out.Write("Content-Disposition: form-data; name=""" + key + """; filename=""image.png""" + CRLF)
+		          Else
+		            out.Write("Content-Disposition: form-data; name=""" + key + """; filename=""mask.png""" + CRLF)
+		          End If
 		          out.Write("Content-Type: image/png" + CRLF + CRLF)
 		          out.Write(pic.GetData(Picture.FormatPNG) + CRLF)
 		        End If
