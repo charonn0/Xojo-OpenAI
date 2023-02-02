@@ -2,11 +2,7 @@
 Protected Class Request
 	#tag Method, Flags = &h0
 		Sub Constructor()
-		  #If USE_MTCJSON Then
-		    mRequest = New JSONItem_MTC
-		  #Else
-		    mRequest = New JSONItem
-		  #EndIf
+		  mRequest = New JSONItem
 		End Sub
 	#tag EndMethod
 

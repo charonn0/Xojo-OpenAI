@@ -58,6 +58,9 @@ Private Class OpenAIClient
 
 	#tag Method, Flags = &h0
 		Function SendRequest(APIURL As String, Request As OpenAI.Request, RequestMethod As String = "POST") As JSONItem
+		  mMaskBuffer = Nil
+		  mImageBuffer = Nil
+		  
 		  #If USE_RBLIBCURL Then
 		    Return SendRequest_RBLibcurl(APIURL, Request, RequestMethod)
 		  #ElseIf USE_MBS Then
@@ -77,6 +80,9 @@ Private Class OpenAIClient
 
 	#tag Method, Flags = &h0
 		Function SendRequest(APIURL As String, RequestMethod As String = "GET") As JSONItem
+		  mMaskBuffer = Nil
+		  mImageBuffer = Nil
+		  
 		  #If USE_RBLIBCURL Then
 		    Return SendRequest_RBLibcurl(APIURL, RequestMethod)
 		  #ElseIf USE_MBS Then
@@ -115,7 +121,7 @@ Private Class OpenAIClient
 		          Select Case d.Value(name)
 		          Case IsA Picture
 		            Dim v As Picture = d.Value(name)
-		            curl.FormAddField(name, v.GetData(Picture.FormatPNG), "image/png")
+		            curl.FormAddFile(name, "image.png", v.GetData(Picture.FormatPNG), "image/png")
 		          Case IsA OpenAI.File
 		            Break
 		          Else
@@ -123,6 +129,7 @@ Private Class OpenAIClient
 		          End Select
 		        End Select
 		      Next
+		      curl.FormFinish()
 		    Else
 		      curl.OptionUpload = True
 		      curl.InputData = req.StringValue
@@ -132,17 +139,9 @@ Private Class OpenAIClient
 		    curl.OptionURL = OPENAI_URL + APIURL
 		    If curl.Perform() <> 0 Then
 		      Dim data As String = curl.OutputData
-		      #If USE_MTCJSON Then
-		        Raise New OpenAIException(New JSONItem_MTC(data))
-		      #Else
-		        Raise New OpenAIException(New JSONItem(data))
-		      #EndIf
+		      Raise New OpenAIException(New JSONItem(data))
 		    Else
-		      #If USE_MTCJSON Then
-		        Return New JSONItem_MTC(curl.OutputData)
-		      #Else
-		        Return New JSONItem(curl.OutputData)
-		      #EndIf
+		      Return New JSONItem(curl.OutputData)
 		    End If
 		  #Else
 		    #pragma Unused APIURL
@@ -160,17 +159,9 @@ Private Class OpenAIClient
 		    curl.OptionCustomRequest = RequestMethod
 		    Dim err As Integer = curl.Perform()
 		    If err <> 0 Then
-		      #If USE_MTCJSON Then
-		        Raise New OpenAIException(New JSONItem_MTC(curl.OutputData))
-		      #Else
-		        Raise New OpenAIException(New JSONItem(curl.OutputData))
-		      #EndIf
+		      Raise New OpenAIException(New JSONItem(curl.OutputData))
 		    Else
-		      #If USE_MTCJSON Then
-		        Return New JSONItem_MTC(curl.OutputData)
-		      #Else
-		        Return New JSONItem(curl.OutputData)
-		      #EndIf
+		      Return New JSONItem(curl.OutputData)
 		    End If
 		  #Else
 		    #pragma Unused APIURL
@@ -184,44 +175,61 @@ Private Class OpenAIClient
 		  #If USE_RBLIBCURL Then
 		    Dim client As cURLClient = mClient
 		    client.SetRequestMethod(RequestMethod)
-		    Dim form As Variant = Request.ToObject()
-		    If form IsA libcURL.MultipartForm Then
-		      Dim req As libcURL.MultipartForm = form
-		      If Not client.Post(OPENAI_URL + APIURL, req) Then
+		    Dim requestobj As Variant = Request.ToObject()
+		    
+		    
+		    If requestobj IsA Dictionary Then ' POST an HTTP form
+		      Dim d As Dictionary = requestobj
+		      Dim form As New libcURL.MultipartForm
+		      For Each name As String In d.Keys
+		        Select Case VarType(d.Value(name))
+		        Case Variant.TypeString
+		          Dim v As String = d.Value(name)
+		          form.AddElement(name, v)
+		        Case Variant.TypeInteger
+		          Dim v As Integer = d.Value(name)
+		          form.AddElement(name, Str(v, "##0"))
+		        Case Variant.TypeSingle
+		          Dim v As Single = d.Value(name)
+		          form.AddElement(name, Str(v, "##0.0#"))
+		        Case Variant.TypeObject
+		          Select Case d.Value(name)
+		          Case IsA Picture
+		            Dim v As Picture = d.Value(name)
+		            If name = "image" Then
+		              mImageBuffer = v.GetData(Picture.FormatPNG)
+		              form.AddElement(name, mImageBuffer, "image.png", "image/png")
+		            Else
+		              mMaskBuffer = v.GetData(Picture.FormatPNG)
+		              form.AddElement(name, mMaskBuffer, "mask.png", "image/png")
+		            End If
+		          Case IsA OpenAI.File
+		            Break
+		          Else
+		            Raise New OpenAIException(Nil)
+		          End Select
+		        End Select
+		      Next
+		      
+		      If Not client.Post(OPENAI_URL + APIURL, form) Then ' perform the request
 		        Dim curlerr As New libcURL.cURLException(client.EasyHandle)
-		        #If USE_MTCJSON Then
-		          Dim openaierr As New OpenAIException(New JSONItem_MTC(client.GetDownloadedData))
-		        #Else
-		          Dim openaierr As New OpenAIException(New JSONItem(client.GetDownloadedData))
-		        #EndIf
+		        Dim openaierr As New OpenAIException(New JSONItem(client.GetDownloadedData))
 		        openaierr.Message = openaierr.Message + EndOfLine + curlerr.Message
 		        Raise openaierr
 		      End If
-		    ElseIf form <> Nil Then
-		      Dim req As MemoryBlock = form.StringValue
+		      
+		    Else ' POST a JSONItem
+		      Dim data As MemoryBlock = requestobj.StringValue
 		      client.RequestHeaders.SetHeader("Content-Type", "application/json")
 		      client.SetRequestMethod("POST")
-		      If Not client.Put(OPENAI_URL + APIURL, req) Then
+		      If Not client.Put(OPENAI_URL + APIURL, data) Then ' perform the request
 		        Dim curlerr As New libcURL.cURLException(client.EasyHandle)
-		        #If USE_MTCJSON Then
-		          Dim openaierr As New OpenAIException(New JSONItem_MTC(client.GetDownloadedData))
-		        #Else
-		          Dim openaierr As New OpenAIException(New JSONItem(client.GetDownloadedData))
-		        #EndIf
+		        Dim openaierr As New OpenAIException(New JSONItem(client.GetDownloadedData))
 		        openaierr.Message = openaierr.Message + EndOfLine + curlerr.Message
 		        Raise openaierr
 		      End If
-		    Else
-		      Dim err As New OpenAIException(Nil)
-		      err.Message = "Invalid request object"
-		      Raise err
+		      Return New JSONItem(client.GetDownloadedData)
 		    End If
-		    Dim data As String = client.GetDownloadedData()
-		    #If USE_MTCJSON Then
-		      Return New JSONItem_MTC(data)
-		    #Else
-		      Return New JSONItem(data)
-		    #EndIf
 		    
 		  #Else
 		    #pragma Unused APIURL
@@ -238,20 +246,12 @@ Private Class OpenAIClient
 		    client.SetRequestMethod(RequestMethod)
 		    If Not client.Get(OPENAI_URL + APIURL) Then
 		      Dim curlerr As New libcURL.cURLException(client.EasyHandle)
-		      #If USE_MTCJSON Then
-		        Dim openaierr As New OpenAIException(New JSONItem_MTC(client.GetDownloadedData))
-		      #Else
-		        Dim openaierr As New OpenAIException(New JSONItem(client.GetDownloadedData))
-		      #EndIf
+		      Dim openaierr As New OpenAIException(New JSONItem(client.GetDownloadedData))
 		      openaierr.Message = openaierr.Message + EndOfLine + curlerr.Message
 		      Raise openaierr
 		    End If
 		    Dim data As String = client.GetDownloadedData()
-		    #If USE_MTCJSON Then
-		      Return New JSONItem_MTC(data)
-		    #Else
-		      Return New JSONItem(data)
-		    #EndIf
+		    Return New JSONItem(data)
 		  #Else
 		    #pragma Unused APIURL
 		    #pragma Unused RequestMethod
@@ -289,11 +289,7 @@ Private Class OpenAIClient
 		      client.SetRequestContent(req.StringValue, "application/json")
 		    End If
 		    Dim result As String = client.SendSync(RequestMethod, OPENAI_URL + APIURL, 0)
-		    #If USE_MTCJSON Then
-		      Return New JSONItem_MTC(result)
-		    #Else
-		      Return New JSONItem(result)
-		    #EndIf
+		    Return New JSONItem(result)
 		  #Else
 		    #pragma Unused APIURL
 		    #pragma Unused Request
@@ -307,11 +303,7 @@ Private Class OpenAIClient
 		  #If RBVersion > 2018.03 Then
 		    Dim client As URLConnection = mClient
 		    Dim data As String = client.SendSync(RequestMethod, OPENAI_URL + APIURL, 0)
-		    #If USE_MTCJSON Then
-		      Return New JSONItem_MTC(data)
-		    #Else
-		      Return New JSONItem(data)
-		    #EndIf
+		    Return New JSONItem(data)
 		  #Else
 		    #pragma Unused APIURL
 		    #pragma Unused RequestMethod
@@ -322,6 +314,14 @@ Private Class OpenAIClient
 
 	#tag Property, Flags = &h21
 		Private mClient As Variant
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mImageBuffer As MemoryBlock
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mMaskBuffer As MemoryBlock
 	#tag EndProperty
 
 	#tag Property, Flags = &h21

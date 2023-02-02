@@ -22,11 +22,7 @@ Protected Class Model
 		Private Shared Sub ListAvailableModels()
 		  ReDim ModelList(-1)
 		  Dim client As New OpenAIClient
-		  #If USE_MTCJSON Then
-		    Dim lst As JSONItem_MTC = client.SendRequest("/v1/models")
-		  #Else
-		    Dim lst As JSONItem = client.SendRequest("/v1/models")
-		  #EndIf
+		  Dim lst As JSONItem = client.SendRequest("/v1/models")
 		  If lst = Nil Or Not lst.HasName("data") Then Raise New OpenAIException(lst)
 		  lst = lst.Value("data")
 		  
@@ -34,13 +30,8 @@ Protected Class Model
 		    ModelList.Append(New OpenAI.Model(lst.Child(i)))
 		  Next
 		  
-		  #If USE_MTCJSON Then
-		    ModelList.Append(New OpenAI.Model(New JSONItem_MTC(TEXT_MODERATION_LATEST)))
-		    ModelList.Append(New OpenAI.Model(New JSONItem_MTC(TEXT_MODERATION_STABLE)))
-		  #Else
-		    ModelList.Append(New OpenAI.Model(New JSONItem(TEXT_MODERATION_LATEST)))
-		    ModelList.Append(New OpenAI.Model(New JSONItem(TEXT_MODERATION_STABLE)))
-		  #EndIf
+		  ModelList.Append(New OpenAI.Model(New JSONItem(TEXT_MODERATION_LATEST)))
+		  ModelList.Append(New OpenAI.Model(New JSONItem(TEXT_MODERATION_STABLE)))
 		  
 		End Sub
 	#tag EndMethod
