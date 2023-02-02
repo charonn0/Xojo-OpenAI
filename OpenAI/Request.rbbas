@@ -13,41 +13,19 @@ Protected Class Request
 		    Return mRequest.ToString()
 		    
 		  Else
-		    #If USE_RBLIBCURL Then
-		      Dim form As New libcURL.MultipartForm
-		      If Size <> "1024x1024" Then form.AddElement("size", Size)
-		      If NumberOfResults > 1 Then form.AddElement("n", Str(NumberOfResults, "#0"))
-		      If ResultsAsURL Then
-		        form.AddElement("response_format", "url")
-		      Else
-		        form.AddElement("response_format", "b64_json")
-		      End If
-		      If User <> "" Then form.AddElement("user", User)
-		      If SourceImage <> Nil Then
-		        Dim d As MemoryBlock = SourceImage.GetData(Picture.FormatPNG)
-		        form.AddElement("image", d)
-		      End If
-		      If MaskImage <> Nil Then
-		        Dim d As MemoryBlock = MaskImage.GetData(Picture.FormatPNG)
-		        form.AddElement("mask", d)
-		      End If
-		      
-		      Return form
-		      
-		    #Else
-		      Dim d As New Dictionary
-		      If Size <> "1024x1024" Then d.Value("size") = Size
-		      If NumberOfResults > 1 Then d.Value("n") = Str(NumberOfResults, "#0")
-		      If ResultsAsURL Then
-		        d.Value("response_format") = "url"
-		      Else
-		        d.Value("response_format") = "b64_json"
-		      End If
-		      If User <> "" Then d.Value("user") = User
-		      If SourceImage <> Nil Then d.Value("image") = SourceImage
-		      If MaskImage <> Nil Then d.Value("mask") = MaskImage
-		      Return d
-		    #endif
+		    Dim d As New Dictionary
+		    If Size <> "1024x1024" Then d.Value("size") = Size
+		    If NumberOfResults > 1 Then d.Value("n") = Str(NumberOfResults, "#0")
+		    If ResultsAsURL Then
+		      d.Value("response_format") = "url"
+		    Else
+		      d.Value("response_format") = "b64_json"
+		    End If
+		    If User <> "" Then d.Value("user") = User
+		    If SourceImage <> Nil Then d.Value("image") = SourceImage
+		    If MaskImage <> Nil Then d.Value("mask") = MaskImage
+		    If Prompt <> "" Then d.Value("prompt") = Prompt
+		    Return d
 		  End If
 		End Function
 	#tag EndMethod
