@@ -41,7 +41,7 @@ Inherits OpenAI.Response
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function GetResult(Index As Integer) As Variant
+		Function GetResult(Index As Integer = 0) As Variant
 		  ' Returns the result as a OpenAI.File. The Index parameter is ignored.
 		  '
 		  ' See:
@@ -86,7 +86,7 @@ Inherits OpenAI.Response
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function ResultType(Index As Integer) As OpenAI.ResultType
+		Function ResultType(Index As Integer = 0) As OpenAI.ResultType
 		  #pragma Unused Index
 		  Return OpenAI.ResultType.FileObject
 		End Function

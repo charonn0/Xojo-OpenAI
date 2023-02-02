@@ -108,7 +108,7 @@ Inherits OpenAI.Response
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function GetResult(Index As Integer) As Variant
+		Function GetResult(Index As Integer = 0) As Variant
 		  ' Returns the result at Index, as a Picture object or a String URL.
 		  '
 		  ' See:
@@ -124,7 +124,7 @@ Inherits OpenAI.Response
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function ResultType(Index As Integer) As OpenAI.ResultType
+		Function ResultType(Index As Integer = 0) As OpenAI.ResultType
 		  Dim results As JSONItem = Super.GetResult(Index)
 		  If results.HasName("b64_json") Then
 		    Return OpenAI.ResultType.Picture

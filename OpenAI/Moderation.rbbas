@@ -30,13 +30,13 @@ Inherits OpenAI.Response
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function GetResult(Index As Integer) As Variant
+		Function GetResult(Index As Integer = 0) As Variant
 		  Return Super.GetResult(Index)
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function ResultType(Index As Integer) As OpenAI.ResultType
+		Function ResultType(Index As Integer = 0) As OpenAI.ResultType
 		  #pragma Unused Index
 		  Return OpenAI.ResultType.JSONObject
 		End Function

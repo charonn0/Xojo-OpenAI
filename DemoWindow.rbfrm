@@ -624,7 +624,7 @@ End
 		  request.Size = "512x512"
 		  request.ResultsAsURL = False
 		  Dim img As OpenAI.Response = OpenAI.Image.Generate(request)
-		  mAPIImage = img.GetResult(0)
+		  mAPIImage = img.GetResult()
 		  RefreshTimer.Mode = Timer.ModeSingle
 		  
 		End Sub
@@ -638,7 +638,7 @@ End
 		  request.Size = "512x512"
 		  request.ResultsAsURL = True
 		  Dim txt As OpenAI.Response = OpenAI.Image.Generate(request)
-		  mAPIReply = txt.GetResult(0)
+		  mAPIReply = txt.GetResult()
 		  RefreshTimer.Mode = Timer.ModeSingle
 		  
 		End Sub
@@ -652,7 +652,7 @@ End
 		  request.MaxTokens = mMaxTokens
 		  request.Model = OpenAI.Model.Lookup("text-davinci-003")
 		  Dim txt As OpenAI.Response = OpenAI.Completion.Create(request)
-		  mAPIReply = txt.GetResult(0)
+		  mAPIReply = txt.GetResult()
 		  RefreshTimer.Mode = Timer.ModeSingle
 		  
 		End Sub
@@ -665,7 +665,7 @@ End
 		  request.Input = mAPIPrompt
 		  request.Model = OpenAI.Model.Lookup("text-moderation-stable")
 		  Dim obj As OpenAI.Response = OpenAI.Moderation.Create(request)
-		  Dim js As JSONItem = obj.GetResult(0)
+		  Dim js As JSONItem = obj.GetResult()
 		  js.Compact = False
 		  mAPIReply = js.ToString
 		  RefreshTimer.Mode = Timer.ModeSingle
