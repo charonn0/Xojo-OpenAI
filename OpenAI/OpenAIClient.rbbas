@@ -121,7 +121,13 @@ Private Class OpenAIClient
 		          Select Case d.Value(name)
 		          Case IsA Picture
 		            Dim v As Picture = d.Value(name)
-		            curl.FormAddFile(name, "image.png", v.GetData(Picture.FormatPNG), "image/png")
+		            Dim mb As MemoryBlock = v.GetData(Picture.FormatPNG)
+		            If mb.Size > 1024 * 1024 * 4 Then
+		              Dim err As New OpenAIException
+		              err.Message = "Pictures submitted to the API may be no larger than 4MB."
+		              Raise err
+		            End If
+		            curl.FormAddFile(name, "image.png", mb, "image/png")
 		          Case IsA OpenAI.File
 		            Break
 		          Else
@@ -203,6 +209,12 @@ Private Class OpenAIClient
 		              mMaskBuffer = v.GetData(Picture.FormatPNG)
 		              form.AddElement(name, mMaskBuffer, "mask.png", "image/png")
 		            End If
+		            If mImageBuffer <> Nil And mImageBuffer.Size > 1024 * 1024 * 4 Or _
+		              mMaskBuffer <> Nil And mMaskBuffer.Size > 1024 * 1024 * 4 Then
+		              Dim err As New OpenAIException(Nil)
+		              err.Message = "Pictures submitted to the API may be no larger than 4MB."
+		              Raise err
+		            End If
 		          Case IsA OpenAI.File
 		            Break
 		          Else
@@ -283,7 +295,13 @@ Private Class OpenAIClient
 		            out.Write("Content-Disposition: form-data; name=""" + key + """; filename=""mask.png""" + CRLF)
 		          End If
 		          out.Write("Content-Type: image/png" + CRLF + CRLF)
-		          out.Write(pic.GetData(Picture.FormatPNG) + CRLF)
+		          Dim mb As MemoryBlock = pic.GetData(Picture.FormatPNG)
+		          If mb.Size > 1024 * 1024 * 4 Then
+		            Dim err As New OpenAIException(Nil)
+		            err.Message = "Pictures submitted to the API may be no larger than 4MB."
+		            Raise err
+		          End If
+		          out.Write(mb + CRLF)
 		        End If
 		      Next
 		      out.Write("--" + Boundary + "--" + CRLF)

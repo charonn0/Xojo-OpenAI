@@ -50,6 +50,20 @@ Inherits OpenAI.Response
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Image.Edit
 		  ' https://beta.openai.com/docs/api-reference/images/create-edit
 		  
+		  If Request.SourceImage <> Nil Then
+		    If Request.SourceImage.Width <> Request.SourceImage.Height Then
+		      Dim err As New OpenAIException(Nil)
+		      err.Message = "Pictures submitted to the API must be square."
+		      Raise err
+		    End If
+		    If Request.MaskImage <> Nil And _
+		      (Request.MaskImage.Width <> Request.MaskImage.Width Or Request.MaskImage.Height <> Request.MaskImage.Height) Then
+		      Dim err As New OpenAIException(Nil)
+		      err.Message = "The mask picture must have the same dimensions as the source picture."
+		      Raise err
+		    End If
+		  End If
+		  
 		  Dim client As New OpenAIClient
 		  Dim result As JSONItem = client.SendRequest("/v1/images/edits", Request)
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
