@@ -52,6 +52,9 @@ Private Class OpenAIClient
 		    If share = Nil Then Return
 		    Dim curl As cURLClient = mClient
 		    share.RemoveTransfer(curl.EasyHandle)
+		  #ElseIf USE_MBS Then
+		    Dim curl As CURLSMBS = mClient
+		    curl.Cancel = True
 		  #endif
 		End Sub
 	#tag EndMethod
