@@ -143,7 +143,7 @@ Private Class OpenAIClient
 		    End If
 		    
 		    curl.OptionURL = OPENAI_URL + APIURL
-		    If curl.Perform() <> 0 Then
+		    If curl.PerformMT() <> 0 Then
 		      Dim data As String = curl.OutputData
 		      Raise New OpenAIException(New JSONItem(data))
 		    Else
