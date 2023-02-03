@@ -3,7 +3,7 @@ Protected Class FineTune
 Inherits OpenAI.Response
 	#tag Method, Flags = &h0
 		Sub Cancel()
-		  Dim result As JSONItem = mClient.SendRequest("/v1/fine-tunes/" + Me.ID + "/cancel", "POST")
+		  Dim result As New JSONItem(mClient.SendRequest("/v1/fine-tunes/" + Me.ID + "/cancel", "POST"))
 		  If result.HasName("error") Then Raise New OpenAIException(result)
 		End Sub
 	#tag EndMethod
@@ -20,7 +20,7 @@ Inherits OpenAI.Response
 	#tag Method, Flags = &h0
 		 Shared Function Create(Request As OpenAI.Request) As OpenAI.FineTune
 		  Dim client As New OpenAIClient
-		  Dim result As JSONItem = client.SendRequest("/v1/fine-tunes", Request)
+		  Dim result As New JSONItem(client.SendRequest("/v1/fine-tunes", Request))
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
 		  Return New OpenAI.FineTune(result, client)
 		End Function
@@ -36,7 +36,7 @@ Inherits OpenAI.Response
 
 	#tag Method, Flags = &h0
 		Sub Delete()
-		  Dim result As JSONItem = mclient.SendRequest("/v1/models/" + Me.ID, "DELETE")
+		  Dim result As New JSONItem(mclient.SendRequest("/v1/models/" + Me.ID, "DELETE"))
 		  If result.HasName("error") Then Raise New OpenAIException(result)
 		End Sub
 	#tag EndMethod
@@ -56,7 +56,7 @@ Inherits OpenAI.Response
 	#tag Method, Flags = &h0
 		 Shared Function List() As OpenAI.FineTune
 		  Dim client As New OpenAIClient
-		  Dim result As JSONItem = client.SendRequest("/v1/fine-tunes")
+		  Dim result As New JSONItem(client.SendRequest("/v1/fine-tunes"))
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
 		  Return New OpenAI.FineTune(result, client)
 		End Function
@@ -64,7 +64,7 @@ Inherits OpenAI.Response
 
 	#tag Method, Flags = &h0
 		Function ListEvents() As JSONItem
-		  Dim result As JSONItem = mClient.SendRequest("/v1/fine-tunes/" + Me.ID + "/events")
+		  Dim result As New JSONItem(mClient.SendRequest("/v1/fine-tunes/" + Me.ID + "/events"))
 		  If result.HasName("error") Then Raise New OpenAIException(result)
 		  Return result
 		End Function
@@ -73,7 +73,7 @@ Inherits OpenAI.Response
 	#tag Method, Flags = &h0
 		 Shared Function Open(FineTuneID As String) As OpenAI.FineTune
 		  Dim client As New OpenAIClient
-		  Dim result As JSONItem = client.SendRequest("/v1/fine-tunes/" + FineTuneID)
+		  Dim result As New JSONItem(client.SendRequest("/v1/fine-tunes/" + FineTuneID))
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
 		  Return New OpenAI.FineTune(result, client)
 		End Function

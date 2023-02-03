@@ -22,7 +22,7 @@ Inherits OpenAI.Response
 		  Dim client As New OpenAIClient
 		  request.File = FileContent
 		  request.Purpose = Purpose
-		  Dim result As JSONItem = client.SendRequest("/v1/files", request)
+		  Dim result As New JSONItem(client.SendRequest("/v1/files", request))
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
 		  Return New OpenAI.File(result, client)
 		End Function
@@ -35,7 +35,7 @@ Inherits OpenAI.Response
 		  ' See:
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.File.Delete
 		  
-		  Dim result As JSONItem = mClient.SendRequest("/v1/files", "DELETE")
+		  Dim result As New JSONItem(mClient.SendRequest("/v1/files", "DELETE"))
 		  If result.HasName("error") Then Raise New OpenAIException(result)
 		End Sub
 	#tag EndMethod
@@ -49,7 +49,7 @@ Inherits OpenAI.Response
 		  
 		  #pragma Unused Index
 		  If mResponse.HasName("filename") Then
-		    Dim result As JSONItem = mClient.SendRequest("/v1/files/" + ID + "/content")
+		    Dim result As New JSONItem(mClient.SendRequest("/v1/files/" + ID + "/content"))
 		    Return New OpenAI.File(result)
 		  End If
 		End Function
@@ -64,7 +64,7 @@ Inherits OpenAI.Response
 		  ' https://beta.openai.com/docs/api-reference/files/list
 		  
 		  Dim client As New OpenAIClient
-		  Dim result As JSONItem = client.SendRequest("/v1/files")
+		  Dim result As New JSONItem(client.SendRequest("/v1/files"))
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
 		  Return New OpenAI.File(result, client)
 		End Function
@@ -79,7 +79,7 @@ Inherits OpenAI.Response
 		  ' https://beta.openai.com/docs/api-reference/files/retrieve-content
 		  
 		  Dim client As New OpenAIClient
-		  Dim result As JSONItem = client.SendRequest("/v1/files/" + FileID + "/content")
+		  Dim result As New JSONItem(client.SendRequest("/v1/files/" + FileID + "/content"))
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
 		  Return New OpenAI.File(result, client)
 		End Function

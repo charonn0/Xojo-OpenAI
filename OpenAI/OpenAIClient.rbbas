@@ -60,7 +60,7 @@ Private Class OpenAIClient
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function SendRequest(APIURL As String, Request As OpenAI.Request, RequestMethod As String = "POST") As JSONItem
+		Function SendRequest(APIURL As String, Request As OpenAI.Request, RequestMethod As String = "POST") As String
 		  mMaskBuffer = Nil
 		  mImageBuffer = Nil
 		  
@@ -82,7 +82,7 @@ Private Class OpenAIClient
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function SendRequest(APIURL As String, RequestMethod As String = "GET") As JSONItem
+		Function SendRequest(APIURL As String, RequestMethod As String = "GET") As String
 		  mMaskBuffer = Nil
 		  mImageBuffer = Nil
 		  
@@ -103,7 +103,7 @@ Private Class OpenAIClient
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
-		Private Function SendRequest_MBS(APIURL As String, Request As OpenAI.Request, RequestMethod As String = "POST") As JSONItem
+		Private Function SendRequest_MBS(APIURL As String, Request As OpenAI.Request, RequestMethod As String = "POST") As String
 		  #If USE_MBS Then
 		    Dim req As Variant = Request.ToObject()
 		    Dim curl As CURLSMBS = mClient
@@ -150,7 +150,7 @@ Private Class OpenAIClient
 		      Dim data As String = curl.OutputData
 		      Raise New OpenAIException(New JSONItem(data))
 		    Else
-		      Return New JSONItem(curl.OutputData)
+		      Return curl.OutputData
 		    End If
 		  #Else
 		    #pragma Unused APIURL
@@ -161,7 +161,7 @@ Private Class OpenAIClient
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
-		Private Function SendRequest_MBS(APIURL As String, RequestMethod As String = "GET") As JSONItem
+		Private Function SendRequest_MBS(APIURL As String, RequestMethod As String = "GET") As String
 		  #If USE_MBS Then
 		    Dim curl As CURLSMBS = mClient
 		    curl.OptionURL = OPENAI_URL + APIURL
@@ -170,7 +170,7 @@ Private Class OpenAIClient
 		    If err <> 0 Then
 		      Raise New OpenAIException(New JSONItem(curl.OutputData))
 		    Else
-		      Return New JSONItem(curl.OutputData)
+		      Return curl.OutputData
 		    End If
 		  #Else
 		    #pragma Unused APIURL
@@ -180,7 +180,7 @@ Private Class OpenAIClient
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
-		Private Function SendRequest_RBLibcurl(APIURL As String, Request As OpenAI.Request, RequestMethod As String = "POST") As JSONItem
+		Private Function SendRequest_RBLibcurl(APIURL As String, Request As OpenAI.Request, RequestMethod As String = "POST") As String
 		  #If USE_RBLIBCURL Then
 		    Dim client As cURLClient = mClient
 		    client.SetRequestMethod(RequestMethod)
@@ -232,6 +232,7 @@ Private Class OpenAIClient
 		        openaierr.Message = openaierr.Message + EndOfLine + curlerr.Message
 		        Raise openaierr
 		      End If
+		      Return client.GetDownloadedData
 		      
 		    Else ' POST a JSONItem
 		      Dim data As MemoryBlock = requestobj.StringValue
@@ -243,7 +244,7 @@ Private Class OpenAIClient
 		        openaierr.Message = openaierr.Message + EndOfLine + curlerr.Message
 		        Raise openaierr
 		      End If
-		      Return New JSONItem(client.GetDownloadedData)
+		      Return client.GetDownloadedData
 		    End If
 		    
 		  #Else
@@ -255,7 +256,7 @@ Private Class OpenAIClient
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
-		Private Function SendRequest_RBLibcurl(APIURL As String, RequestMethod As String = "GET") As JSONItem
+		Private Function SendRequest_RBLibcurl(APIURL As String, RequestMethod As String = "GET") As String
 		  #If USE_RBLIBCURL Then
 		    Dim client As cURLClient = mClient
 		    client.SetRequestMethod(RequestMethod)
@@ -265,8 +266,7 @@ Private Class OpenAIClient
 		      openaierr.Message = openaierr.Message + EndOfLine + curlerr.Message
 		      Raise openaierr
 		    End If
-		    Dim data As String = client.GetDownloadedData()
-		    Return New JSONItem(data)
+		    Return client.GetDownloadedData()
 		  #Else
 		    #pragma Unused APIURL
 		    #pragma Unused RequestMethod
@@ -275,7 +275,7 @@ Private Class OpenAIClient
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
-		Private Function SendRequest_URLConnection(APIURL As String, Request As OpenAI.Request, RequestMethod As String = "POST") As JSONItem
+		Private Function SendRequest_URLConnection(APIURL As String, Request As OpenAI.Request, RequestMethod As String = "POST") As String
 		  #If RBVersion > 2018.03 Then
 		    Dim client As URLConnection = mClient
 		    Dim req As Variant = Request.ToObject
@@ -313,8 +313,7 @@ Private Class OpenAIClient
 		    Else
 		      client.SetRequestContent(req.StringValue, "application/json")
 		    End If
-		    Dim result As String = client.SendSync(RequestMethod, OPENAI_URL + APIURL, 0)
-		    Return New JSONItem(result)
+		    Return client.SendSync(RequestMethod, OPENAI_URL + APIURL, 0)
 		  #Else
 		    #pragma Unused APIURL
 		    #pragma Unused Request
@@ -324,11 +323,10 @@ Private Class OpenAIClient
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
-		Private Function SendRequest_URLConnection(APIURL As String, RequestMethod As String = "GET") As JSONItem
+		Private Function SendRequest_URLConnection(APIURL As String, RequestMethod As String = "GET") As String
 		  #If RBVersion > 2018.03 Then
 		    Dim client As URLConnection = mClient
-		    Dim data As String = client.SendSync(RequestMethod, OPENAI_URL + APIURL, 0)
-		    Return New JSONItem(data)
+		    Return client.SendSync(RequestMethod, OPENAI_URL + APIURL, 0)
 		  #Else
 		    #pragma Unused APIURL
 		    #pragma Unused RequestMethod

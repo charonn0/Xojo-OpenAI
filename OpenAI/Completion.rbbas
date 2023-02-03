@@ -20,7 +20,7 @@ Inherits OpenAI.Response
 		  ' https://beta.openai.com/docs/api-reference/completions
 		  
 		  Dim client As New OpenAIClient
-		  Dim response As JSONItem = client.SendRequest("/v1/completions", request)
+		  Dim response As New JSONItem(client.SendRequest("/v1/completions", request))
 		  If response = Nil Or response.HasName("error") Then Raise New OpenAIException(response)
 		  Return New OpenAI.Completion(response)
 		  
@@ -54,7 +54,7 @@ Inherits OpenAI.Response
 		  
 		  
 		  Dim client As New OpenAIClient
-		  Dim response As JSONItem = client.SendRequest("/v1/edits", request)
+		  Dim response As New JSONItem(client.SendRequest("/v1/edits", request))
 		  If response = Nil Or response.HasName("error") Then Raise New OpenAIException(response)
 		  Return New OpenAI.Completion(response)
 		  

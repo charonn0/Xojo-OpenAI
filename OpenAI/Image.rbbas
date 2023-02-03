@@ -19,7 +19,7 @@ Inherits OpenAI.Response
 		  ' https://beta.openai.com/docs/api-reference/images/create-variation
 		  
 		  Dim client As New OpenAIClient
-		  Dim result As JSONItem = client.SendRequest("/v1/images/variations", Request)
+		  Dim result As New JSONItem(client.SendRequest("/v1/images/variations", Request))
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
 		  Return New OpenAI.Image(result)
 		End Function
@@ -65,7 +65,7 @@ Inherits OpenAI.Response
 		  End If
 		  
 		  Dim client As New OpenAIClient
-		  Dim result As JSONItem = client.SendRequest("/v1/images/edits", Request)
+		  Dim result As New JSONItem(client.SendRequest("/v1/images/edits", Request))
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
 		  Return New OpenAI.Image(result)
 		End Function
@@ -99,7 +99,7 @@ Inherits OpenAI.Response
 		  ' https://beta.openai.com/docs/api-reference/images/create
 		  
 		  Dim client As New OpenAIClient
-		  Dim result As JSONItem = client.SendRequest("/v1/images/generations", Request)
+		  Dim result As New JSONItem(client.SendRequest("/v1/images/generations", Request))
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
 		  Return New OpenAI.Image(result)
 		End Function
