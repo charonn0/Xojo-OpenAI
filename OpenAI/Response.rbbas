@@ -8,6 +8,36 @@ Protected Class Response
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		 Shared Function Create(Endpoint As String) As OpenAI.Response
+		  ' Perform a GET request against the specified API Endpoint.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Response.Create
+		  
+		  Dim client As New OpenAIClient
+		  Dim response As New JSONItem(client.SendRequest(Endpoint))
+		  If response = Nil Or response.HasName("error") Then Raise New OpenAIException(response)
+		  Return New OpenAI.Response(response, client)
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		 Shared Function Create(Endpoint As String, Request As OpenAI.Request) As OpenAI.Response
+		  ' Perform the specified request against the specified API Endpoint.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Response.Create
+		  
+		  Dim client As New OpenAIClient
+		  Dim response As New JSONItem(client.SendRequest(Endpoint, request))
+		  If response = Nil Or response.HasName("error") Then Raise New OpenAIException(response)
+		  Return New OpenAI.Response(response, client)
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Function GetResult(Index As Integer = 0) As Variant
 		  Dim results As JSONItem
 		  If mResponse.HasName("data") Then
