@@ -1,8 +1,9 @@
 #tag Class
 Protected Class Response
 	#tag Method, Flags = &h1
-		Protected Sub Constructor(ResponseData As JSONItem)
+		Protected Sub Constructor(ResponseData As JSONItem, Client As OpenAIClient)
 		  mResponse = ResponseData
+		  mClient = Client
 		End Sub
 	#tag EndMethod
 
@@ -53,6 +54,10 @@ Protected Class Response
 		#tag EndGetter
 		ID As String
 	#tag EndComputedProperty
+
+	#tag Property, Flags = &h1
+		Protected mClient As OpenAIClient
+	#tag EndProperty
 
 	#tag Property, Flags = &h1
 		Protected mResponse As JSONItem

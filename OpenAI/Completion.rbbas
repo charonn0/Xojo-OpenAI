@@ -2,10 +2,10 @@
 Protected Class Completion
 Inherits OpenAI.Response
 	#tag Method, Flags = &h1001
-		Protected Sub Constructor(ResponseData As JSONItem)
+		Protected Sub Constructor(ResponseData As JSONItem, Client As OpenAIClient)
 		  // Calling the overridden superclass constructor.
-		  // Constructor(ResponseData As JSONItem) -- From Response
-		  Super.Constructor(ResponseData)
+		  // Constructor(ResponseData As JSONItem, Client As OpenAIClient) -- From Response
+		  Super.Constructor(ResponseData, Client)
 		  
 		End Sub
 	#tag EndMethod
@@ -22,7 +22,7 @@ Inherits OpenAI.Response
 		  Dim client As New OpenAIClient
 		  Dim response As New JSONItem(client.SendRequest("/v1/completions", request))
 		  If response = Nil Or response.HasName("error") Then Raise New OpenAIException(response)
-		  Return New OpenAI.Completion(response)
+		  Return New OpenAI.Completion(response, client)
 		  
 		End Function
 	#tag EndMethod
@@ -56,7 +56,7 @@ Inherits OpenAI.Response
 		  Dim client As New OpenAIClient
 		  Dim response As New JSONItem(client.SendRequest("/v1/edits", request))
 		  If response = Nil Or response.HasName("error") Then Raise New OpenAIException(response)
-		  Return New OpenAI.Completion(response)
+		  Return New OpenAI.Completion(response, client)
 		  
 		End Function
 	#tag EndMethod

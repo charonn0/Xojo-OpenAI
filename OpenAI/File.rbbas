@@ -4,9 +4,8 @@ Inherits OpenAI.Response
 	#tag Method, Flags = &h1001
 		Protected Sub Constructor(ResponseData As JSONItem, Client As OpenAIClient)
 		  // Calling the overridden superclass constructor.
-		  // Constructor(ResponseData As JSONItem) -- From Response
-		  Super.Constructor(ResponseData)
-		  mClient = Client
+		  // Constructor(ResponseData As JSONItem, Client As OpenAIClient) -- From Response
+		  Super.Constructor(ResponseData, Client)
 		End Sub
 	#tag EndMethod
 
@@ -50,7 +49,7 @@ Inherits OpenAI.Response
 		  #pragma Unused Index
 		  If mResponse.HasName("filename") Then
 		    Dim result As New JSONItem(mClient.SendRequest("/v1/files/" + ID + "/content"))
-		    Return New OpenAI.File(result)
+		    Return New OpenAI.File(result, New OpenAIClient)
 		  End If
 		End Function
 	#tag EndMethod
@@ -126,10 +125,6 @@ Inherits OpenAI.Response
 		#tag EndGetter
 		CreatedAt As Date
 	#tag EndComputedProperty
-
-	#tag Property, Flags = &h21
-		Private mClient As OpenAIClient
-	#tag EndProperty
 
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter

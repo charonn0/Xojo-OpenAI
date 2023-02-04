@@ -2,10 +2,10 @@
 Protected Class Image
 Inherits OpenAI.Response
 	#tag Method, Flags = &h1001
-		Protected Sub Constructor(ResponseData As JSONItem)
+		Protected Sub Constructor(ResponseData As JSONItem, Client As OpenAIClient)
 		  // Calling the overridden superclass constructor.
-		  // Constructor(ResponseData As JSONItem) -- From Response
-		  Super.Constructor(ResponseData)
+		  // Constructor(ResponseData As JSONItem, Client As OpenAIClient) -- From Response
+		  Super.Constructor(ResponseData, Client)
 		  
 		End Sub
 	#tag EndMethod
@@ -21,7 +21,7 @@ Inherits OpenAI.Response
 		  Dim client As New OpenAIClient
 		  Dim result As New JSONItem(client.SendRequest("/v1/images/variations", Request))
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
-		  Return New OpenAI.Image(result)
+		  Return New OpenAI.Image(result, client)
 		End Function
 	#tag EndMethod
 
@@ -67,7 +67,7 @@ Inherits OpenAI.Response
 		  Dim client As New OpenAIClient
 		  Dim result As New JSONItem(client.SendRequest("/v1/images/edits", Request))
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
-		  Return New OpenAI.Image(result)
+		  Return New OpenAI.Image(result, client)
 		End Function
 	#tag EndMethod
 
@@ -101,7 +101,7 @@ Inherits OpenAI.Response
 		  Dim client As New OpenAIClient
 		  Dim result As New JSONItem(client.SendRequest("/v1/images/generations", Request))
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
-		  Return New OpenAI.Image(result)
+		  Return New OpenAI.Image(result, client)
 		End Function
 	#tag EndMethod
 
