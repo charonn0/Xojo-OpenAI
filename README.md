@@ -26,12 +26,12 @@ OpenAI API endpoints are exposed through several object classes:
 
 |Endpoint|Object Class|Comment|
 |-----------|------------|-------|
-|[`/v1/models`](https://beta.openai.com/docs/api-reference/models)|[`Model`](https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Model)|List and select from the available AI models| 
 |[`/v1/completions`](https://beta.openai.com/docs/api-reference/completions) and [`/v1/edits`](https://beta.openai.com/docs/api-reference/edits)|[`Completion`](https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Completion)|A text or code completion or edit.| 
-|[`/v1/images/generations`](https://beta.openai.com/docs/api-reference/images/create) and [`/v1/images/edits`](https://beta.openai.com/docs/api-reference/images/create-edit)|[`Image`](https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Image)|An image that was generated or modified.| 
-|[`/v1/files`](https://beta.openai.com/docs/api-reference/files)|[`File`](https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.File)|A file that was or will be uploaded.| 
-|[`/v1/fine-tunes`](https://beta.openai.com/docs/api-reference/fine-tunes)|[`FineTune`](https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.FineTune)|TBD.| 
 |[`/v1/moderations`](https://beta.openai.com/docs/api-reference/moderations)|[`Moderation`](https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Moderation)|An analysis of offensive content in a given text. (i.e. "content moderation")| 
+|[`/v1/images/generations`](https://beta.openai.com/docs/api-reference/images/create) and [`/v1/images/edits`](https://beta.openai.com/docs/api-reference/images/create-edit)|[`Image`](https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Image)|An image that was generated or modified.| 
+|[`/v1/models`](https://beta.openai.com/docs/api-reference/models)|[`Model`](https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Model)|List and select from the available AI models|
+|[`/v1/fine-tunes`](https://beta.openai.com/docs/api-reference/fine-tunes)|[`FineTune`](https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.FineTune)|A base `Model` that has been, is being, or will be fine-tuned using a previously uploaded `File`.| 
+|[`/v1/files`](https://beta.openai.com/docs/api-reference/files)|[`File`](https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.File)|A fine-tuning file that was or will be uploaded.| 
 
 To make a request of the API, call the appropriate factory method on the corresponding object class. For example, to make a request of the `/v1/completions` endpoint you would use the [OpenAI.Completion.Create](https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Completion.Create) or [OpenAI.Completion.Edit](https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Completion.Edit) factory methods. Factory methods perform the request and return a [OpenAI.Response](https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Response) object (or one of its subclasses) containing the response.
 
