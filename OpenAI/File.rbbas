@@ -10,6 +10,18 @@ Inherits OpenAI.Response
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		 Shared Function Count() As Integer
+		  ' Returns the number of files that belong to the user's organization.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.File.Count
+		  
+		  Dim list As OpenAI.File = OpenAI.File.ListAllFiles(New OpenAIClient)
+		  Return list.ResultCount
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		 Shared Function Create(FileContent As MemoryBlock, Purpose As String) As OpenAI.File
 		  ' Upload a file that contains document(s) to be used across various endpoints/features.
 		  '
@@ -41,53 +53,61 @@ Inherits OpenAI.Response
 
 	#tag Method, Flags = &h0
 		Function GetResult(Index As Integer = 0) As Variant
-		  ' Returns the result as a OpenAI.File. The Index parameter is ignored.
+		  ' Returns the contents of the OpenAI.File. The Index parameter is ignored.
 		  '
 		  ' See:
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.File.GetResult
 		  
 		  #pragma Unused Index
 		  If mResponse.HasName("filename") Then
-		    Dim result As New JSONItem(mClient.SendRequest("/v1/files/" + ID + "/content"))
-		    Return New OpenAI.File(result, New OpenAIClient)
+		    Return mClient.SendRequest("/v1/files/" + ID + "/content")
 		  End If
 		End Function
 	#tag EndMethod
 
-	#tag Method, Flags = &h0
-		 Shared Function List() As OpenAI.File
-		  ' Returns a list of files that belong to the user's organization.
-		  '
-		  ' See:
-		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.File.List
-		  ' https://beta.openai.com/docs/api-reference/files/list
-		  
-		  Dim client As New OpenAIClient
-		  Dim result As New JSONItem(client.SendRequest("/v1/files"))
+	#tag Method, Flags = &h1
+		Protected Shared Function ListAllFiles(Client As OpenAIClient) As OpenAI.File
+		  Dim result As New JSONItem(Client.SendRequest("/v1/files"))
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
-		  Return New OpenAI.File(result, client)
+		  Return New OpenAI.File(result, Client)
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		 Shared Function Open(FileID As String) As OpenAI.File
-		  ' Returns the contents of the specified file
+		 Shared Function Lookup(Index As Integer) As OpenAI.File
+		  ' Returns a File object for the file at Index
 		  '
 		  ' See:
-		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.File.Open
-		  ' https://beta.openai.com/docs/api-reference/files/retrieve-content
+		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.File.Lookup
 		  
 		  Dim client As New OpenAIClient
-		  Dim result As New JSONItem(client.SendRequest("/v1/files/" + FileID + "/content"))
-		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
-		  Return New OpenAI.File(result, client)
+		  Dim list As OpenAI.File = OpenAI.File.ListAllFiles(client)
+		  Dim js As JSONItem = list.GetResult(Index)
+		  If js.HasName("object") And js.Value("object") = "file" Then Return New File(js, client)
+		  Raise New OpenAIException(js)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		 Shared Function Lookup(FileID As String) As OpenAI.File
+		  ' Returns a File object for the specified file
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.File.Lookup
+		  
+		  Dim client As New OpenAIClient
+		  Dim list As OpenAI.File = OpenAI.File.ListAllFiles(client)
+		  For i As Integer = 0 To list.ResultCount - 1
+		    Dim js As JSONItem = list.GetResult(i)
+		    If js.Value("id") = FileID Then Return New File(js, client)
+		  Next
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Function ResultType(Index As Integer = 0) As OpenAI.ResultType
 		  #pragma Unused Index
-		  Return OpenAI.ResultType.FileObject
+		  Return OpenAI.ResultType.String
 		End Function
 	#tag EndMethod
 
