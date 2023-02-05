@@ -49,15 +49,21 @@ Protected Class Response
 	#tag Method, Flags = &h0
 		Function GetResult(Index As Integer = 0) As Variant
 		  Dim results As JSONItem
-		  If mResponse.HasName("data") Then
+		  Select Case True
+		  Case mResponse.HasName("data")
 		    results = mResponse.Value("data")
-		  ElseIf mResponse.HasName("choices") Then
+		    
+		  Case mResponse.HasName("choices")
 		    results = mResponse.Value("choices")
-		  ElseIf mResponse.HasName("results") Then
+		    
+		  Case mResponse.HasName("results")
 		    results = mResponse.Value("results")
-		  ElseIf mResponse.HasName("error") Then
+		    
+		  Case mResponse.HasName("error")
 		    Raise New OpenAIException(mResponse)
-		  End If
+		    
+		  End Select
+		  
 		  Return results.Child(Index)
 		End Function
 	#tag EndMethod
@@ -110,11 +116,20 @@ Protected Class Response
 		#tag Getter
 			Get
 			  Dim results As JSONItem
-			  If mResponse.HasName("data") Then
+			  Select Case True
+			  Case mResponse.HasName("data")
 			    results = mResponse.Value("data")
-			  ElseIf mResponse.HasName("choices") Then
+			    
+			  Case mResponse.HasName("choices")
 			    results = mResponse.Value("choices")
-			  End If
+			    
+			  Case mResponse.HasName("results")
+			    results = mResponse.Value("results")
+			    
+			  Case mResponse.HasName("error")
+			    Raise New OpenAIException(mResponse)
+			    
+			  End Select
 			  Return results.Count
 			  
 			  
