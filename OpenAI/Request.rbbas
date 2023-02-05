@@ -8,11 +8,10 @@ Protected Class Request
 
 	#tag Method, Flags = &h0
 		Function ToObject() As Variant
-		  If SourceImage = Nil And MaskImage = Nil Then
+		  If SourceImage = Nil And MaskImage = Nil And File = Nil Then
 		    mRequest.Compact = True
 		    Return mRequest.ToString()
 		    
-		  Else
 		    Dim d As New Dictionary
 		    If Size <> "1024x1024" Then d.Value("size") = Size
 		    If NumberOfResults > 1 Then d.Value("n") = Str(NumberOfResults, "#0")
@@ -25,6 +24,13 @@ Protected Class Request
 		    If SourceImage <> Nil Then d.Value("image") = SourceImage
 		    If MaskImage <> Nil Then d.Value("mask") = MaskImage
 		    If Prompt <> "" Then d.Value("prompt") = Prompt
+		    Return d
+		    
+		  ElseIf File <> Nil Then
+		    Dim d As New Dictionary
+		    d.Value("file") = File
+		    d.Value("purpose") = Purpose
+		    If User <> "" Then d.Value("user") = User
 		    Return d
 		  End If
 		End Function
@@ -132,18 +138,29 @@ Protected Class Request
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
-			  #pragma Warning "FixMe"
-			  Raise New RuntimeException ' Not Implemented!
+			  Return mFileContent
 			End Get
 		#tag EndGetter
 		#tag Setter
 			Set
-			  #pragma Unused value
-			  #pragma Warning "FixMe"
-			  Raise New RuntimeException ' Not Implemented!
+			  mFileContent = Value
 			End Set
 		#tag EndSetter
 		File As MemoryBlock
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  return mFileName
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  mFileName = value
+			End Set
+		#tag EndSetter
+		FileName As String
 	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0
@@ -274,6 +291,14 @@ Protected Class Request
 	#tag EndComputedProperty
 
 	#tag Property, Flags = &h21
+		Private mFileContent As MemoryBlock
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mFileName As String
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
 		Private mMaskImage As Picture
 	#tag EndProperty
 
@@ -375,15 +400,12 @@ Protected Class Request
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
-			  #pragma Warning "FixMe"
-			  Raise New RuntimeException ' Not Implemented!
+			  If mRequest.HasName("purpose") Then Return mRequest.Value("purpose")
 			End Get
 		#tag EndGetter
 		#tag Setter
 			Set
-			  #pragma Unused value
-			  #pragma Warning "FixMe"
-			  Raise New RuntimeException ' Not Implemented!
+			  mRequest.Value("purpose") = value
 			End Set
 		#tag EndSetter
 		Purpose As String

@@ -22,7 +22,7 @@ Inherits OpenAI.Response
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		 Shared Function Create(FileContent As MemoryBlock, Purpose As String) As OpenAI.File
+		 Shared Function Create(FileContent As MemoryBlock, Purpose As String, FileName As String) As OpenAI.File
 		  ' Upload a file that contains document(s) to be used across various endpoints/features.
 		  '
 		  ' See:
@@ -32,6 +32,7 @@ Inherits OpenAI.Response
 		  Dim request As New OpenAI.Request
 		  Dim client As New OpenAIClient
 		  request.File = FileContent
+		  request.FileName = FileName
 		  request.Purpose = Purpose
 		  Dim result As New JSONItem(client.SendRequest("/v1/files", request))
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
