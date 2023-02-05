@@ -37,6 +37,15 @@ Protected Class Response
 		End Function
 	#tag EndMethod
 
+	#tag Method, Flags = &h1
+		Protected Function GetCreationDate() As Date
+		  Return time_t(mResponse.Value("created"))
+		  
+		Exception err As KeyNotFoundException
+		  Return Nil
+		End Function
+	#tag EndMethod
+
 	#tag Method, Flags = &h0
 		Function GetResult(Index As Integer = 0) As Variant
 		  Dim results As JSONItem
@@ -71,10 +80,7 @@ Protected Class Response
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
-			  Return time_t(mResponse.Value("created"))
-			  
-			  Exception err As KeyNotFoundException
-			    Return Nil
+			  Return GetCreationDate()
 			End Get
 		#tag EndGetter
 		Created As Date

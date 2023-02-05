@@ -52,6 +52,15 @@ Inherits OpenAI.Response
 		End Sub
 	#tag EndMethod
 
+	#tag Method, Flags = &h1
+		Protected Function GetCreationDate() As Date
+		  Return time_t(mResponse.Value("created_at"))
+		  
+		Exception err As KeyNotFoundException
+		  Return Nil
+		End Function
+	#tag EndMethod
+
 	#tag Method, Flags = &h0
 		Function GetResult(Index As Integer = 0) As Variant
 		  ' Returns the contents of the OpenAI.File. The Index parameter is ignored.
@@ -169,23 +178,6 @@ Inherits OpenAI.Response
 			End Get
 		#tag EndGetter
 		Bytes As Integer
-	#tag EndComputedProperty
-
-	#tag ComputedProperty, Flags = &h0
-		#tag Getter
-			Get
-			  ' Returns the creation date of the specified file
-			  '
-			  ' See:
-			  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.File.CreatedAt
-			  
-			  Return time_t(mResponse.Value("created_at"))
-			  
-			  Exception err As KeyNotFoundException
-			    Return Nil
-			End Get
-		#tag EndGetter
-		CreatedAt As Date
 	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0
