@@ -30,10 +30,15 @@ Inherits OpenAI.Model
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		 Shared Function Create(TrainingFileID As String) As OpenAI.FineTune
+		 Shared Function Create(TrainingFileID As String, BaseModel As OpenAI.Model) As OpenAI.FineTune
+		  If Not BaseModel.AllowFineTuning Then
+		    Raise New OpenAIException("The specified AI model ('" + BaseModel.ID + "') cannot be fine-tuned.")
+		  End If
+		  
 		  Dim client As New OpenAIClient
 		  Dim request As New OpenAI.Request
 		  request.TrainingFile = TrainingFileID
+		  request.Model = BaseModel
 		  Dim result As New JSONItem(client.SendRequest("/v1/fine-tunes", request))
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
 		  Return New OpenAI.FineTune(result, client)
@@ -85,9 +90,6 @@ Inherits OpenAI.Model
 		    End If
 		  Next
 		  
-		  Dim err As New OpenAIException(Nil)
-		  err.Message = "Invalid FineTune ID."
-		  Raise err
 		End Function
 	#tag EndMethod
 
