@@ -73,7 +73,7 @@ Protected Class Model
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
-			  Dim perms As JSONItem = mModel.Value("permissions")
+			  Dim perms As JSONItem = mModel.Value("permission")
 			  perms = perms.Child(0)
 			  Return perms.Value("allow_create_engine")
 			  
@@ -87,7 +87,7 @@ Protected Class Model
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
-			  Dim perms As JSONItem = mModel.Value("permissions")
+			  Dim perms As JSONItem = mModel.Value("permission")
 			  perms = perms.Child(0)
 			  Return perms.Value("allow_fine_tuning")
 			  
@@ -101,7 +101,7 @@ Protected Class Model
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
-			  Dim perms As JSONItem = mModel.Value("permissions")
+			  Dim perms As JSONItem = mModel.Value("permission")
 			  perms = perms.Child(0)
 			  Return perms.Value("allow_logprobs")
 			  
@@ -115,7 +115,7 @@ Protected Class Model
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
-			  Dim perms As JSONItem = mModel.Value("permissions")
+			  Dim perms As JSONItem = mModel.Value("permission")
 			  perms = perms.Child(0)
 			  Return perms.Value("allow_sampling")
 			  
@@ -129,7 +129,7 @@ Protected Class Model
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
-			  Dim perms As JSONItem = mModel.Value("permissions")
+			  Dim perms As JSONItem = mModel.Value("permission")
 			  perms = perms.Child(0)
 			  Return perms.Value("allow_search_indices")
 			  
@@ -143,7 +143,7 @@ Protected Class Model
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
-			  Dim perms As JSONItem = mModel.Value("permissions")
+			  Dim perms As JSONItem = mModel.Value("permission")
 			  perms = perms.Child(0)
 			  Return perms.Value("allow_view")
 			  
@@ -169,7 +169,7 @@ Protected Class Model
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
-			  Dim perms As JSONItem = mModel.Value("permissions")
+			  Dim perms As JSONItem = mModel.Value("permission")
 			  perms = perms.Child(0)
 			  If perms.Value("group") <> Nil Then Return perms.Value("group")
 			  
@@ -195,7 +195,7 @@ Protected Class Model
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
-			  Dim perms As JSONItem = mModel.Value("permissions")
+			  Dim perms As JSONItem = mModel.Value("permission")
 			  perms = perms.Child(0)
 			  Return perms.Value("is_blocking")
 			  
@@ -221,7 +221,7 @@ Protected Class Model
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
-			  Dim perms As JSONItem = mModel.Value("permissions")
+			  Dim perms As JSONItem = mModel.Value("permission")
 			  perms = perms.Child(0)
 			  Return perms.Value("organization")
 			  
