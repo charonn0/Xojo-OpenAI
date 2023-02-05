@@ -628,8 +628,7 @@ End
 		  RefreshTimer.Mode = Timer.ModeSingle
 		  
 		Exception err As OpenAI.OpenAIException
-		  mAPIReply = err.Message
-		  mAPIImage = Nil
+		  mLastError = err
 		  RefreshTimer.Mode = Timer.ModeSingle
 		End Sub
 	#tag EndMethod
@@ -646,8 +645,7 @@ End
 		  RefreshTimer.Mode = Timer.ModeSingle
 		  
 		Exception err As OpenAI.OpenAIException
-		  mAPIReply = err.Message
-		  mAPIImage = Nil
+		  mLastError = err
 		  RefreshTimer.Mode = Timer.ModeSingle
 		End Sub
 	#tag EndMethod
@@ -664,8 +662,7 @@ End
 		  RefreshTimer.Mode = Timer.ModeSingle
 		  
 		Exception err As OpenAI.OpenAIException
-		  mAPIReply = err.Message
-		  mAPIImage = Nil
+		  mLastError = err
 		  RefreshTimer.Mode = Timer.ModeSingle
 		End Sub
 	#tag EndMethod
@@ -683,8 +680,7 @@ End
 		  RefreshTimer.Mode = Timer.ModeSingle
 		  
 		Exception err As OpenAI.OpenAIException
-		  mAPIReply = err.Message
-		  mAPIImage = Nil
+		  mLastError = err
 		  RefreshTimer.Mode = Timer.ModeSingle
 		End Sub
 	#tag EndMethod
@@ -700,6 +696,10 @@ End
 
 	#tag Property, Flags = &h21
 		Private mAPIReply As String
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mLastError As OpenAI.OpenAIException
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
@@ -853,9 +853,18 @@ End
 #tag Events RefreshTimer
 	#tag Event
 		Sub Action()
+		  If mLastError <> Nil Then ' an error occurred
+		    mAPIImage = Nil
+		    mAPIReply = ""
+		    ReplyText.Text = mLastError.Message
+		    Call MsgBox("OpenAI rejected the request.", 16, "API Error")
+		    mLastError = Nil
+		  Else
+		    ReplyText.Text = RTrim(mAPIReply)
+		  End If
+		  
 		  Self.Title = "Xojo-OpenAI Playground - Ready"
 		  ReplyImageCanvas.Invalidate(True)
-		  ReplyText.Text = RTrim(mAPIReply)
 		  DoGenImageBtn.Enabled = True
 		  DoGenImageURLBtn.Enabled = True
 		  DoCompletionBtn.Enabled = True
