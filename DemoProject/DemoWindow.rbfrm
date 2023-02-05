@@ -1143,6 +1143,15 @@ End
 		  mModel = Me.RowTag(Me.ListIndex)
 		End Sub
 	#tag EndEvent
+	#tag Event
+		Sub DoubleClick()
+		  If Me.ListIndex > -1 Then
+		    Dim mdl As OpenAI.Model = Me.RowTag(Me.ListIndex)
+		    If mdl = Nil Then Return
+		    ModelInfoWindow.ShowModel(mdl)
+		  End If
+		End Sub
+	#tag EndEvent
 #tag EndEvents
 #tag Events MaxTokensSlider
 	#tag Event
