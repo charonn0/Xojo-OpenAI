@@ -15,6 +15,7 @@ Class=File;OpenAI/File.rbbas;&h5B18A7FF;&h755B3FFF;false
 Class=Moderation;OpenAI/Moderation.rbbas;&h4B0A67FF;&h755B3FFF;false
 Class=FineTune;OpenAI/FineTune.rbbas;&h53A17FFF;&h755B3FFF;false
 Window=DemoWindow;DemoWindow.rbfrm;&h4FC08FFF;&h0;false
+Class=FineTuneData;OpenAI/FineTuneData.rbbas;&h247617FF;&h755B3FFF;false
 DefaultWindow=DemoWindow
 MajorVersion=1
 MinorVersion=0

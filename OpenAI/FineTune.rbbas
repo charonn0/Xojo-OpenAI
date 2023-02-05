@@ -30,7 +30,13 @@ Inherits OpenAI.Model
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		 Shared Function Create(TrainingFileID As String, BaseModel As OpenAI.Model) As OpenAI.FineTune
+		 Shared Function Create(TrainingFile As OpenAI.File, BaseModel As OpenAI.Model, Name As String = "") As OpenAI.FineTune
+		  Return FineTune.Create(TrainingFile.ID, BaseModel, Name)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		 Shared Function Create(TrainingFileID As String, BaseModel As OpenAI.Model, Name As String = "") As OpenAI.FineTune
 		  If Not BaseModel.AllowFineTuning Then
 		    Raise New OpenAIException("The specified AI model ('" + BaseModel.ID + "') cannot be fine-tuned.")
 		  End If
@@ -39,6 +45,7 @@ Inherits OpenAI.Model
 		  Dim request As New OpenAI.Request
 		  request.TrainingFile = TrainingFileID
 		  request.Model = BaseModel
+		  If Name <> "" Then request.Suffix = Name
 		  Dim result As New JSONItem(client.SendRequest("/v1/fine-tunes", request))
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
 		  Return New OpenAI.FineTune(result, client)
@@ -114,6 +121,12 @@ Inherits OpenAI.Model
 			InheritedFrom="Object"
 		#tag EndViewProperty
 		#tag ViewProperty
+			Name="IsBlocking"
+			Group="Behavior"
+			Type="Boolean"
+			InheritedFrom="OpenAI.Model"
+		#tag EndViewProperty
+		#tag ViewProperty
 			Name="Left"
 			Visible=true
 			Group="Position"
@@ -127,10 +140,18 @@ Inherits OpenAI.Model
 			InheritedFrom="Object"
 		#tag EndViewProperty
 		#tag ViewProperty
-			Name="ResultCount"
+			Name="Organization"
 			Group="Behavior"
-			Type="Integer"
-			InheritedFrom="OpenAI.Response"
+			Type="String"
+			EditorType="MultiLineEditor"
+			InheritedFrom="OpenAI.Model"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="OwnedBy"
+			Group="Behavior"
+			Type="String"
+			EditorType="MultiLineEditor"
+			InheritedFrom="OpenAI.Model"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Super"
