@@ -60,7 +60,7 @@ Protected Class Request
 		#tag EndGetter
 		#tag Setter
 			Set
-			  mRequest.Value("best_of") = Max(value, 1)
+			  mRequest.Value("best_of") = CType(Max(value, 1), Integer)
 			End Set
 		#tag EndSetter
 		BestOf As Integer
