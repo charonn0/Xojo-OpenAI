@@ -255,7 +255,7 @@ Private Class OpenAIClient
 		            
 		          Case IsA MemoryBlock
 		            Dim v As MemoryBlock = d.Value(name)
-		            curl.AddElement(name, v, Request.FileName, "application/x-jsonlines")
+		            form.AddElement(name, v, Request.FileName, "application/x-jsonlines")
 		            
 		          Case IsA OpenAI.File
 		            Break
