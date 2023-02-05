@@ -435,7 +435,11 @@ Protected Class Request
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
-			  If mRequest.HasName("size") Then Return mRequest.Value("size") Else Return "1024x1024"
+			  If mRequest.HasName("size") Then
+			    Return mRequest.Value("size")
+			  ElseIf SourceImage <> Nil Then
+			     Return "1024x1024"
+			  End If
 			End Get
 		#tag EndGetter
 		#tag Setter
