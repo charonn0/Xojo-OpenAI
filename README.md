@@ -11,6 +11,9 @@ This example asks the AI to correct a sentence for English spelling and grammar 
   Dim correction As String = result.GetResult(0)
 ```
 
+![Xojo-OpenAI-Demo](https://user-images.githubusercontent.com/585485/216814612-555fa961-7ed7-4e7a-bb2a-ab0fa63df564.png)
+_This screenshot depicts the Xojo-OpenAI demo window running on Windows 10_
+
 ## Highlights
 * Issue natural-language instructions to the AI
 * Generate images based on a description
