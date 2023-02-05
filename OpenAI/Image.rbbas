@@ -51,16 +51,10 @@ Inherits OpenAI.Response
 		  ' https://beta.openai.com/docs/api-reference/images/create-edit
 		  
 		  If Request.SourceImage <> Nil Then
-		    If Request.SourceImage.Width <> Request.SourceImage.Height Then
-		      Dim err As New OpenAIException(Nil)
-		      err.Message = "Pictures submitted to the API must be square."
-		      Raise err
-		    End If
+		    If Request.SourceImage.Width <> Request.SourceImage.Height Then Raise New OpenAIException("Pictures submitted to the API must be square.")
 		    If Request.MaskImage <> Nil And _
 		      (Request.MaskImage.Width <> Request.MaskImage.Width Or Request.MaskImage.Height <> Request.MaskImage.Height) Then
-		      Dim err As New OpenAIException(Nil)
-		      err.Message = "The mask picture must have the same dimensions as the source picture."
-		      Raise err
+		      Raise New OpenAIException("The mask picture must have the same dimensions as the source picture.")
 		    End If
 		  End If
 		  

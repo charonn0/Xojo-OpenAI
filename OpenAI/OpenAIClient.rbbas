@@ -38,9 +38,7 @@ Private Class OpenAIClient
 		    mClient = connection
 		    
 		  #Else
-		    Dim err As New OpenAIException(Nil)
-		    err.Message = "This version of RealStudio is not supported."
-		    Raise err
+		    Raise New OpenAIException("This version of RealStudio is not supported.")
 		  #endif
 		End Sub
 	#tag EndMethod
@@ -74,9 +72,7 @@ Private Class OpenAIClient
 		    #pragma Unused APIURL
 		    #pragma Unused Request
 		    #pragma Unused RequestMethod
-		    Dim err As New OpenAIException(Nil)
-		    err.Message = "This version of RealStudio is not supported."
-		    Raise err
+		    Raise New OpenAIException("This version of RealStudio is not supported.")
 		  #endif
 		End Function
 	#tag EndMethod
@@ -95,9 +91,7 @@ Private Class OpenAIClient
 		  #Else
 		    #pragma Unused APIURL
 		    #pragma Unused RequestMethod
-		    Dim err As New OpenAIException(Nil)
-		    err.Message = "This version of RealStudio is not supported."
-		    Raise err
+		    Raise New OpenAIException("This version of RealStudio is not supported.")
 		  #endif
 		End Function
 	#tag EndMethod
@@ -125,16 +119,12 @@ Private Class OpenAIClient
 		          Case IsA Picture
 		            Dim v As Picture = d.Value(name)
 		            Dim mb As MemoryBlock = v.GetData(Picture.FormatPNG)
-		            If mb.Size > 1024 * 1024 * 4 Then
-		              Dim err As New OpenAIException(Nil)
-		              err.Message = "Pictures submitted to the API may be no larger than 4MB."
-		              Raise err
-		            End If
+		            If mb.Size > 1024 * 1024 * 4 Then Raise New OpenAIException("Pictures submitted to the API may be no larger than 4MB.")
 		            curl.FormAddFile(name, "image.png", mb, "image/png")
 		          Case IsA OpenAI.File
 		            Break
 		          Else
-		            Raise New OpenAIException(Nil)
+		            Raise New OpenAIException("Error while serializing the request (MBS)")
 		          End Select
 		        End Select
 		      Next
@@ -214,14 +204,12 @@ Private Class OpenAIClient
 		            End If
 		            If mImageBuffer <> Nil And mImageBuffer.Size > 1024 * 1024 * 4 Or _
 		              mMaskBuffer <> Nil And mMaskBuffer.Size > 1024 * 1024 * 4 Then
-		              Dim err As New OpenAIException(Nil)
-		              err.Message = "Pictures submitted to the API may be no larger than 4MB."
-		              Raise err
+		              Raise New OpenAIException("Pictures submitted to the API may be no larger than 4MB.")
 		            End If
 		          Case IsA OpenAI.File
 		            Break
 		          Else
-		            Raise New OpenAIException(Nil)
+		            Raise New OpenAIException("Error while serializing the request (RB-libcURL)")
 		          End Select
 		        End Select
 		      Next
@@ -299,11 +287,7 @@ Private Class OpenAIClient
 		          End If
 		          out.Write("Content-Type: image/png" + CRLF + CRLF)
 		          Dim mb As MemoryBlock = pic.GetData(Picture.FormatPNG)
-		          If mb.Size > 1024 * 1024 * 4 Then
-		            Dim err As New OpenAIException(Nil)
-		            err.Message = "Pictures submitted to the API may be no larger than 4MB."
-		            Raise err
-		          End If
+		          If mb.Size > 1024 * 1024 * 4 Then Raise New OpenAIException("Pictures submitted to the API may be no larger than 4MB.")
 		          out.Write(mb + CRLF)
 		        End If
 		      Next

@@ -13,6 +13,12 @@ Inherits RuntimeException
 		End Sub
 	#tag EndMethod
 
+	#tag Method, Flags = &h1000
+		Sub Constructor(Message As String)
+		  Me.Message = Message
+		End Sub
+	#tag EndMethod
+
 
 	#tag ViewBehavior
 		#tag ViewProperty
