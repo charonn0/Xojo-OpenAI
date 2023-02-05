@@ -10,13 +10,13 @@ Inherits OpenAI.Response
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		 Shared Function Count() As Integer
+		 Shared Function Count(Refresh As Boolean = False) As Integer
 		  ' Returns the number of files that belong to the user's organization.
 		  '
 		  ' See:
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.File.Count
 		  
-		  Dim list() As OpenAI.File = OpenAI.File.ListAllFiles(New OpenAIClient, False)
+		  Dim list() As OpenAI.File = OpenAI.File.ListAllFiles(New OpenAIClient, Refresh)
 		  Return UBound(list) + 1
 		End Function
 	#tag EndMethod
