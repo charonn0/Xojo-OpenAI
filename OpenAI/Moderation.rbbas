@@ -36,6 +36,47 @@ Inherits OpenAI.Response
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		 Shared Function IsValid(Request As OpenAI.Request) As Boolean
+		  If Request.BatchSize <> 1 Then Return False
+		  If Request.BestOf <> 1 Then Return False
+		  If Request.ClassificationBetas <> Nil Then Return False
+		  If Request.ClassificationNClasses <> 1 Then Return False
+		  If Request.ClassificationPositiveClass <> "" Then Return False
+		  If Request.ComputeClassificationMetrics <> False Then Return False
+		  ' If Request.Echo <> False Then Return False
+		  If Request.File <> Nil Then Return False
+		  If Request.FileName <> "" Then Return False
+		  ' If Request.FineTuneID <> "" Then Return False
+		  If Request.FrequencyPenalty > 0.00001 Then Return False
+		  If Request.Input = "" Then Return False ' required
+		  If Request.Instruction <> "" Then Return False
+		  If Request.LearningRateMultiplier > 0.00001 Then Return False
+		  If Request.LogItBias <> Nil Then Return False
+		  If Request.LogProbabilities <> 0 Then Return False
+		  If Request.MaskImage <> Nil Then Return False
+		  If Request.MaxTokens >= 0 Then Return False
+		  ' If Request.MaxTokens >= 2048 Then Return False
+		  If Request.Model = Nil Then Return False ' required
+		  If Request.NumberOfEpochs <> 1 Then Return False
+		  If Request.NumberOfResults <> 1 Then Return False
+		  If Request.PresencePenalty > 0.00001 Then Return False
+		  If Request.Prompt <> "" Then Return False
+		  If Request.PromptLossWeight > 0.00001 Then Return False
+		  If Request.Purpose <> "" Then Return False
+		  If Request.ResultsAsURL = True Then Return False
+		  If Request.Size <> "" Then Return False
+		  If Request.SourceImage <> Nil Then Return False
+		  If Request.Stop <> "" Then Return False
+		  If Request.Suffix <> "" Then Return False
+		  If Request.Temperature > 0.00001 Then Return False
+		  If Request.Top_P > 0.00001 Then Return False
+		  If Request.TrainingFile <> "" Then Return False
+		  If Request.ValidationFile <> "" Then Return False
+		  Return True
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Function ResultType(Index As Integer = 0) As OpenAI.ResultType
 		  #pragma Unused Index
 		  Return OpenAI.ResultType.JSONObject

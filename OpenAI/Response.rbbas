@@ -54,6 +54,13 @@ Protected Class Response
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		 Shared Function IsValid(Request As OpenAI.Request) As Boolean
+		  #pragma Unused Request
+		  Return True
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Function ResultType(Index As Integer = 0) As OpenAI.ResultType
 		  #pragma Unused Index
 		  Return OpenAI.ResultType.JSONObject

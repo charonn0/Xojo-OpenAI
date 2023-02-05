@@ -132,6 +132,54 @@ Inherits OpenAI.Response
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		 Shared Function IsValid(Request As OpenAI.Request) As Boolean
+		  If Request.BatchSize <> 1 Then Return False
+		  If Request.BestOf <> 1 Then Return False
+		  If Request.ClassificationBetas <> Nil Then Return False
+		  If Request.ClassificationNClasses <> 1 Then Return False
+		  If Request.ClassificationPositiveClass <> "" Then Return False
+		  If Request.ComputeClassificationMetrics <> False Then Return False
+		  ' If Request.Echo <> False Then Return False
+		  If Request.File <> Nil Then Return False
+		  If Request.FileName <> "" Then Return False
+		  ' If Request.FineTuneID <> "" Then Return False
+		  If Request.FrequencyPenalty > 0.00001 Then Return False
+		  If Request.Input <> "" Then Return False
+		  If Request.Instruction <> "" Then Return False
+		  If Request.LearningRateMultiplier > 0.00001 Then Return False
+		  If Request.LogItBias <> Nil Then Return False
+		  If Request.LogProbabilities <> 0 Then Return False
+		  If Request.MaskImage <> Nil Then Return False
+		  If Request.MaxTokens >= 0 Then Return False
+		  ' If Request.MaxTokens >= 2048 Then Return False
+		  If Request.Model <> Nil Then Return False
+		  If Request.NumberOfEpochs <> 1 Then Return False
+		  If Request.NumberOfResults < 1 Then Return False ' optional
+		  If Request.PresencePenalty > 0.00001 Then Return False
+		  If Request.Prompt = "" Then Return False ' required
+		  If Request.Prompt.Len > 1000 Then Return False ' max length exceeded
+		  If Request.PromptLossWeight > 0.00001 Then Return False
+		  If Request.Purpose <> "" Then Return False
+		  ' If Request.ResultsAsURL = True Then Return False
+		  If Request.Size <> "" Then
+		    Select Case Request.Size
+		    Case "256x256", "512x512", "1024x1024"
+		    Else
+		      Return False
+		    End Select
+		  End If
+		  ' If Request.SourceImage <> Nil Then Return False
+		  If Request.Stop <> "" Then Return False
+		  If Request.Suffix <> "" Then Return False
+		  If Request.Temperature > 0.00001 Then Return False
+		  If Request.Top_P > 0.00001 Then Return False
+		  If Request.TrainingFile <> "" Then Return False
+		  If Request.ValidationFile <> "" Then Return False
+		  Return True
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Function ResultType(Index As Integer = 0) As OpenAI.ResultType
 		  Dim results As JSONItem = Super.GetResult(Index)
 		  If results.HasName("b64_json") Then
