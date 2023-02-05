@@ -44,6 +44,47 @@ Private Class OpenAIClient
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
+		Private Shared Function CreateMultipartForm(Fields As Dictionary, Request As OpenAI.Request, ByRef Boundary As String) As MemoryBlock
+		  #If RBVersion > 2018.03 Then
+		    Boundary = "--" + Right(EncodeHex(MD5(Str(Microseconds))), 24) + "-bOuNdArY"
+		    Static CRLF As String = EndOfLine.Windows
+		    Dim data As New MemoryBlock(0)
+		    Dim out As New BinaryStream(data)
+		    For Each key As String In Fields.Keys
+		      out.Write("--" + Boundary + CRLF)
+		      If VarType(Fields.Value(Key)) = Variant.TypeString Then
+		        out.Write("Content-Disposition: form-data; name=""" + key + """" + CRLF + CRLF)
+		        out.Write(Fields.Value(key) + CRLF)
+		      ElseIf Fields.Value(Key) IsA Picture Then
+		        Dim pic As Picture = Fields.Value(key)
+		        If key = "image" Then
+		          out.Write("Content-Disposition: form-data; name=""" + key + """; filename=""image.png""" + CRLF)
+		        Else
+		          out.Write("Content-Disposition: form-data; name=""" + key + """; filename=""mask.png""" + CRLF)
+		        End If
+		        out.Write("Content-Type: image/png" + CRLF + CRLF)
+		        Dim mb As MemoryBlock = pic.GetData(Picture.FormatPNG)
+		        If mb.Size > 1024 * 1024 * 4 Then Raise New OpenAIException("Pictures submitted to the API may be no larger than 4MB.")
+		        out.Write(mb + CRLF)
+		      ElseIf Fields.Value(key) IsA MemoryBlock Then
+		        Dim v As MemoryBlock = Fields.Value(key)
+		        out.Write("Content-Disposition: form-data; name=""" + key + """; filename=""" + Request.FileName + """" + CRLF)
+		        out.Write("Content-Type: application/x-jsonlines" + CRLF + CRLF)
+		        out.Write(v + CRLF)
+		      End If
+		    Next
+		    out.Write("--" + Boundary + "--" + CRLF)
+		    out.Close
+		    Return data
+		  #Else
+		    #pragma Unused Fields
+		    #pragma Unused Request
+		    #pragma Unused Boundary
+		  #endif
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
 		Private Sub Destructor()
 		  #If USE_RBLIBCURL Then
 		    Dim share As libcURL.ShareHandle = ShareHandle
@@ -121,6 +162,11 @@ Private Class OpenAIClient
 		            Dim mb As MemoryBlock = v.GetData(Picture.FormatPNG)
 		            If mb.Size > 1024 * 1024 * 4 Then Raise New OpenAIException("Pictures submitted to the API may be no larger than 4MB.")
 		            curl.FormAddFile(name, "image.png", mb, "image/png")
+		            
+		          Case IsA MemoryBlock
+		            Dim v As MemoryBlock = d.Value(name)
+		            curl.FormAddFile(name, Request.FileName, v, "application/x-jsonlines")
+		            
 		          Case IsA OpenAI.File
 		            Break
 		          Else
@@ -206,6 +252,11 @@ Private Class OpenAIClient
 		              mMaskBuffer <> Nil And mMaskBuffer.Size > 1024 * 1024 * 4 Then
 		              Raise New OpenAIException("Pictures submitted to the API may be no larger than 4MB.")
 		            End If
+		            
+		          Case IsA MemoryBlock
+		            Dim v As MemoryBlock = d.Value(name)
+		            curl.AddElement(name, v, Request.FileName, "application/x-jsonlines")
+		            
 		          Case IsA OpenAI.File
 		            Break
 		          Else
@@ -268,31 +319,8 @@ Private Class OpenAIClient
 		    Dim client As URLConnection = mClient
 		    Dim req As Variant = Request.ToObject
 		    If req IsA Dictionary Then
-		      Dim boundary As String = "--" + Right(EncodeHex(MD5(Str(Microseconds))), 24) + "-bOuNdArY"
-		      Static CRLF As String = EndOfLine.Windows
-		      Dim data As New MemoryBlock(0)
-		      Dim out As New BinaryStream(data)
-		      Dim formdata As Dictionary = req
-		      For Each key As String In FormData.Keys
-		        out.Write("--" + Boundary + CRLF)
-		        If VarType(FormData.Value(Key)) = Variant.TypeString Then
-		          out.Write("Content-Disposition: form-data; name=""" + key + """" + CRLF + CRLF)
-		          out.Write(FormData.Value(key) + CRLF)
-		        ElseIf FormData.Value(Key) IsA Picture Then
-		          Dim pic As Picture = FormData.Value(key)
-		          If key = "image" Then
-		            out.Write("Content-Disposition: form-data; name=""" + key + """; filename=""image.png""" + CRLF)
-		          Else
-		            out.Write("Content-Disposition: form-data; name=""" + key + """; filename=""mask.png""" + CRLF)
-		          End If
-		          out.Write("Content-Type: image/png" + CRLF + CRLF)
-		          Dim mb As MemoryBlock = pic.GetData(Picture.FormatPNG)
-		          If mb.Size > 1024 * 1024 * 4 Then Raise New OpenAIException("Pictures submitted to the API may be no larger than 4MB.")
-		          out.Write(mb + CRLF)
-		        End If
-		      Next
-		      out.Write("--" + Boundary + "--" + CRLF)
-		      out.Close
+		      Dim boundary As String
+		      Dim data As MemoryBlock = CreateMultipartForm(req, Request, boundary)
 		      client.SetRequestContent(data, "multipart/form-data; boundary=" + boundary)
 		    Else
 		      client.SetRequestContent(req.StringValue, "application/json")
