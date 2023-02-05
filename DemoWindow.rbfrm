@@ -627,6 +627,10 @@ End
 		  mAPIImage = img.GetResult()
 		  RefreshTimer.Mode = Timer.ModeSingle
 		  
+		Exception err As OpenAI.OpenAIException
+		  mAPIReply = err.Message
+		  mAPIImage = Nil
+		  RefreshTimer.Mode = Timer.ModeSingle
 		End Sub
 	#tag EndMethod
 
@@ -641,6 +645,10 @@ End
 		  mAPIReply = txt.GetResult()
 		  RefreshTimer.Mode = Timer.ModeSingle
 		  
+		Exception err As OpenAI.OpenAIException
+		  mAPIReply = err.Message
+		  mAPIImage = Nil
+		  RefreshTimer.Mode = Timer.ModeSingle
 		End Sub
 	#tag EndMethod
 
@@ -655,6 +663,10 @@ End
 		  mAPIReply = txt.GetResult()
 		  RefreshTimer.Mode = Timer.ModeSingle
 		  
+		Exception err As OpenAI.OpenAIException
+		  mAPIReply = err.Message
+		  mAPIImage = Nil
+		  RefreshTimer.Mode = Timer.ModeSingle
 		End Sub
 	#tag EndMethod
 
@@ -670,6 +682,10 @@ End
 		  mAPIReply = js.ToString
 		  RefreshTimer.Mode = Timer.ModeSingle
 		  
+		Exception err As OpenAI.OpenAIException
+		  mAPIReply = err.Message
+		  mAPIImage = Nil
+		  RefreshTimer.Mode = Timer.ModeSingle
 		End Sub
 	#tag EndMethod
 
@@ -839,7 +855,7 @@ End
 		Sub Action()
 		  Self.Title = "Xojo-OpenAI Playground - Ready"
 		  ReplyImageCanvas.Invalidate(True)
-		  ReplyText.Text = mAPIReply
+		  ReplyText.Text = RTrim(mAPIReply)
 		  DoGenImageBtn.Enabled = True
 		  DoGenImageURLBtn.Enabled = True
 		  DoCompletionBtn.Enabled = True
