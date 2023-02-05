@@ -11,8 +11,21 @@ Protected Class FineTuneData
 	#tag EndMethod
 
 	#tag Method, Flags = &h1000
-		Sub Constructor()
-		  // Creates an empty dataset.
+		Sub Constructor(Optional TrainingData As Dictionary)
+		  ' Create a new training set, optionally converting a Dictionary that contains training data to JSONL format.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.FineTuneData.Constructor
+		  
+		  If TrainingData <> Nil Then
+		    For Each key As String In TrainingData.Keys
+		      Dim js As New JSONItem()
+		      js.Value("prompt") = key
+		      js.Value("completion") = TrainingData.Value(key)
+		      mLines.Append(js)
+		    Next
+		  End If
+		  
 		End Sub
 	#tag EndMethod
 
@@ -38,25 +51,6 @@ Protected Class FineTuneData
 		    mLines.Append(New JSONItem(jsonl))
 		  Next
 		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		 Shared Function Create(TrainingData As Dictionary) As OpenAI.FineTuneData
-		  ' Convert a Dictionary that contains fine-tuning training data to JSONL format.
-		  '
-		  ' See:
-		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.FineTuneData.Create
-		  
-		  Dim trainers As New FineTuneData
-		  For Each key As String In TrainingData.Keys
-		    Dim js As New JSONItem()
-		    js.Value("prompt") = key
-		    js.Value("completion") = TrainingData.Value(key)
-		    trainers.mLines.Append(js)
-		  Next
-		  
-		  Return trainers
-		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
