@@ -16,8 +16,8 @@ Inherits OpenAI.Response
 		  ' See:
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.File.Count
 		  
-		  Dim list As OpenAI.File = OpenAI.File.ListAllFiles(New OpenAIClient)
-		  Return list.ResultCount
+		  Dim list() As OpenAI.File = OpenAI.File.ListAllFiles(New OpenAIClient, False)
+		  Return UBound(list) + 1
 		End Function
 	#tag EndMethod
 
@@ -41,13 +41,25 @@ Inherits OpenAI.Response
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		 Shared Function Create(FileContent As OpenAI.FineTuneData, Purpose As String, FileName As String) As OpenAI.File
+		  ' Upload a file that contains JSONL data to be used for fine-tuning.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.File.Create
+		  ' https://beta.openai.com/docs/api-reference/files/upload
+		  
+		  Return File.Create(FileContent.ToString, Purpose, FileName)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Sub Delete()
 		  ' Deletes the specified file
 		  '
 		  ' See:
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.File.Delete
 		  
-		  Dim result As New JSONItem(mClient.SendRequest("/v1/files", "DELETE"))
+		  Dim result As New JSONItem(mClient.SendRequest("/v1/files/" + Me.ID, "DELETE"))
 		  If result.HasName("error") Then Raise New OpenAIException(result)
 		End Sub
 	#tag EndMethod
@@ -117,40 +129,45 @@ Inherits OpenAI.Response
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
-		Protected Shared Function ListAllFiles(Client As OpenAIClient) As OpenAI.File
-		  Dim result As New JSONItem(Client.SendRequest("/v1/files"))
-		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
-		  Return New OpenAI.File(result, Client)
+		Protected Shared Function ListAllFiles(Client As OpenAIClient, Refresh As Boolean) As OpenAI.File()
+		  Static files() As OpenAI.File
+		  If Refresh Or UBound(files) = -1 Then
+		    Dim result As New JSONItem(Client.SendRequest("/v1/files"))
+		    If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
+		    result = result.Value("data")
+		    For i As Integer = 0 To result.Count - 1
+		      files.Append(New OpenAI.File(result.Child(i), Client))
+		    Next
+		  End If
+		  Return files
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		 Shared Function Lookup(Index As Integer) As OpenAI.File
+		 Shared Function Lookup(Index As Integer, Refresh As Boolean = False) As OpenAI.File
 		  ' Returns a File object for the file at Index
 		  '
 		  ' See:
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.File.Lookup
 		  
 		  Dim client As New OpenAIClient
-		  Dim list As OpenAI.File = OpenAI.File.ListAllFiles(client)
-		  Dim js As JSONItem = list.GetResult(Index)
-		  If js.HasName("object") And js.Value("object") = "file" Then Return New File(js, client)
-		  Raise New OpenAIException(js)
+		  Dim list() As OpenAI.File = OpenAI.File.ListAllFiles(client, Refresh)
+		  Return list(Index)
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		 Shared Function Lookup(FileID As String) As OpenAI.File
+		 Shared Function Lookup(FileID As String, Refresh As Boolean = False) As OpenAI.File
 		  ' Returns a File object for the specified file
 		  '
 		  ' See:
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.File.Lookup
 		  
 		  Dim client As New OpenAIClient
-		  Dim list As OpenAI.File = OpenAI.File.ListAllFiles(client)
-		  For i As Integer = 0 To list.ResultCount - 1
-		    Dim js As JSONItem = list.GetResult(i)
-		    If js.Value("id") = FileID Then Return New File(js, client)
+		  Dim list() As OpenAI.File = OpenAI.File.ListAllFiles(client, Refresh)
+		  For i As Integer = 0 To UBound(list)
+		    Dim f As File = list(i)
+		    If f.ID = FileID Then Return f
 		  Next
 		End Function
 	#tag EndMethod
