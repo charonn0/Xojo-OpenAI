@@ -115,7 +115,7 @@ Inherits OpenAI.Response
 		  If Request.MaxTokens >= 2048 Then Return False ' newer Models can do 4096
 		  If Request.Model = Nil Then Return False ' required
 		  If Request.NumberOfEpochs <> 1 Then Return False
-		  If Request.NumberOfResults > 0 Then Return False
+		  If Request.NumberOfResults < 1 Then Return False
 		  ' If Request.PresencePenalty > 0.00001 Then Return False
 		  ' If Request.Prompt <> "" Then Return False
 		  If Request.PromptLossWeight > 0.00001 Then Return False
