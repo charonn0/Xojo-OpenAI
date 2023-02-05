@@ -7,7 +7,7 @@ Begin Window DemoWindow
    Frame           =   0
    FullScreen      =   False
    HasBackColor    =   False
-   Height          =   5.03e+2
+   Height          =   5.78e+2
    ImplicitInstance=   True
    LiveResize      =   True
    MacProcID       =   0
@@ -29,7 +29,7 @@ Begin Window DemoWindow
       Bold            =   False
       Caption         =   "OpenAI"
       Enabled         =   False
-      Height          =   452
+      Height          =   523
       HelpTag         =   ""
       Index           =   -2147483648
       InitialParent   =   ""
@@ -46,7 +46,7 @@ Begin Window DemoWindow
       TextFont        =   "System"
       TextSize        =   0.0
       TextUnit        =   0
-      Top             =   42
+      Top             =   44
       Underline       =   False
       Visible         =   True
       Width           =   883
@@ -62,7 +62,7 @@ Begin Window DemoWindow
          DataSource      =   ""
          Enabled         =   True
          Format          =   ""
-         Height          =   91
+         Height          =   215
          HelpTag         =   ""
          HideSelection   =   True
          Index           =   -2147483648
@@ -74,7 +74,7 @@ Begin Window DemoWindow
          LockedInPosition=   False
          LockLeft        =   True
          LockRight       =   False
-         LockTop         =   True
+         LockTop         =   False
          Mask            =   ""
          Multiline       =   True
          ReadOnly        =   False
@@ -90,7 +90,7 @@ Begin Window DemoWindow
          TextFont        =   "System"
          TextSize        =   0.0
          TextUnit        =   0
-         Top             =   99
+         Top             =   85
          Underline       =   False
          UseFocusRing    =   True
          Visible         =   True
@@ -112,7 +112,7 @@ Begin Window DemoWindow
          LockedInPosition=   False
          LockLeft        =   True
          LockRight       =   False
-         LockTop         =   True
+         LockTop         =   False
          Multiline       =   False
          Scope           =   0
          Selectable      =   False
@@ -124,7 +124,7 @@ Begin Window DemoWindow
          TextFont        =   "System"
          TextSize        =   0.0
          TextUnit        =   0
-         Top             =   75
+         Top             =   61
          Transparent     =   False
          Underline       =   False
          Visible         =   True
@@ -141,12 +141,12 @@ Begin Window DemoWindow
          Index           =   -2147483648
          InitialParent   =   "OpenAIGroup"
          Italic          =   False
-         Left            =   591
+         Left            =   44
          LockBottom      =   False
          LockedInPosition=   False
          LockLeft        =   True
          LockRight       =   False
-         LockTop         =   True
+         LockTop         =   False
          Multiline       =   False
          Scope           =   0
          Selectable      =   False
@@ -158,7 +158,7 @@ Begin Window DemoWindow
          TextFont        =   "System"
          TextSize        =   0.0
          TextUnit        =   0
-         Top             =   75
+         Top             =   312
          Transparent     =   False
          Underline       =   False
          Visible         =   True
@@ -176,15 +176,15 @@ Begin Window DemoWindow
          DataSource      =   ""
          Enabled         =   True
          Format          =   ""
-         Height          =   91
+         Height          =   226
          HelpTag         =   ""
          HideSelection   =   True
          Index           =   -2147483648
          InitialParent   =   "OpenAIGroup"
          Italic          =   False
-         Left            =   585
+         Left            =   36
          LimitText       =   0
-         LockBottom      =   False
+         LockBottom      =   True
          LockedInPosition=   False
          LockLeft        =   True
          LockRight       =   False
@@ -204,7 +204,7 @@ Begin Window DemoWindow
          TextFont        =   "System"
          TextSize        =   0.0
          TextUnit        =   0
-         Top             =   99
+         Top             =   332
          Underline       =   False
          UseFocusRing    =   True
          Visible         =   True
@@ -218,11 +218,11 @@ Begin Window DemoWindow
          DoubleBuffer    =   False
          Enabled         =   True
          EraseBackground =   True
-         Height          =   267
+         Height          =   226
          HelpTag         =   ""
          Index           =   -2147483648
          InitialParent   =   "OpenAIGroup"
-         Left            =   36
+         Left            =   364
          LockBottom      =   True
          LockedInPosition=   False
          LockLeft        =   True
@@ -232,10 +232,10 @@ Begin Window DemoWindow
          TabIndex        =   4
          TabPanelIndex   =   0
          TabStop         =   True
-         Top             =   216
+         Top             =   332
          UseFocusRing    =   True
          Visible         =   True
-         Width           =   849
+         Width           =   512
       End
       Begin Label Label4
          AutoDeactivate  =   True
@@ -248,12 +248,12 @@ Begin Window DemoWindow
          Index           =   -2147483648
          InitialParent   =   "OpenAIGroup"
          Italic          =   False
-         Left            =   46
+         Left            =   375
          LockBottom      =   False
          LockedInPosition=   False
          LockLeft        =   True
          LockRight       =   False
-         LockTop         =   True
+         LockTop         =   False
          Multiline       =   False
          Scope           =   0
          Selectable      =   False
@@ -265,7 +265,7 @@ Begin Window DemoWindow
          TextFont        =   "System"
          TextSize        =   0.0
          TextUnit        =   0
-         Top             =   191
+         Top             =   312
          Transparent     =   False
          Underline       =   False
          Visible         =   True
@@ -284,12 +284,12 @@ Begin Window DemoWindow
          Index           =   -2147483648
          InitialParent   =   "OpenAIGroup"
          Italic          =   False
-         Left            =   356
+         Left            =   364
          LockBottom      =   False
          LockedInPosition=   False
          LockLeft        =   True
          LockRight       =   False
-         LockTop         =   True
+         LockTop         =   False
          Scope           =   0
          TabIndex        =   6
          TabPanelIndex   =   0
@@ -297,7 +297,7 @@ Begin Window DemoWindow
          TextFont        =   "System"
          TextSize        =   0.0
          TextUnit        =   0
-         Top             =   137
+         Top             =   128
          Underline       =   False
          Visible         =   True
          Width           =   209
@@ -315,12 +315,12 @@ Begin Window DemoWindow
          Index           =   -2147483648
          InitialParent   =   "OpenAIGroup"
          Italic          =   False
-         Left            =   356
+         Left            =   364
          LockBottom      =   False
          LockedInPosition=   False
          LockLeft        =   True
          LockRight       =   False
-         LockTop         =   True
+         LockTop         =   False
          Scope           =   0
          TabIndex        =   7
          TabPanelIndex   =   0
@@ -328,7 +328,7 @@ Begin Window DemoWindow
          TextFont        =   "System"
          TextSize        =   0.0
          TextUnit        =   0
-         Top             =   115
+         Top             =   106
          Underline       =   False
          Visible         =   True
          Width           =   209
@@ -346,12 +346,12 @@ Begin Window DemoWindow
          Index           =   -2147483648
          InitialParent   =   "OpenAIGroup"
          Italic          =   False
-         Left            =   356
+         Left            =   364
          LockBottom      =   False
          LockedInPosition=   False
          LockLeft        =   True
          LockRight       =   False
-         LockTop         =   True
+         LockTop         =   False
          Scope           =   0
          TabIndex        =   8
          TabPanelIndex   =   0
@@ -359,7 +359,7 @@ Begin Window DemoWindow
          TextFont        =   "System"
          TextSize        =   0.0
          TextUnit        =   0
-         Top             =   94
+         Top             =   85
          Underline       =   False
          Visible         =   True
          Width           =   209
@@ -377,12 +377,12 @@ Begin Window DemoWindow
          Index           =   -2147483648
          InitialParent   =   "OpenAIGroup"
          Italic          =   False
-         Left            =   356
+         Left            =   364
          LockBottom      =   False
          LockedInPosition=   False
          LockLeft        =   True
          LockRight       =   False
-         LockTop         =   True
+         LockTop         =   False
          Scope           =   0
          TabIndex        =   9
          TabPanelIndex   =   0
@@ -390,38 +390,115 @@ Begin Window DemoWindow
          TextFont        =   "System"
          TextSize        =   0.0
          TextUnit        =   0
-         Top             =   158
+         Top             =   149
          Underline       =   False
          Visible         =   True
          Width           =   209
       End
-      Begin Slider Slider1
+      Begin Listbox ModelList
+         AutoDeactivate  =   True
+         AutoHideScrollbars=   True
+         Bold            =   ""
+         Border          =   True
+         ColumnCount     =   1
+         ColumnsResizable=   ""
+         ColumnWidths    =   ""
+         DataField       =   ""
+         DataSource      =   ""
+         DefaultRowHeight=   -1
+         Enabled         =   True
+         EnableDrag      =   ""
+         EnableDragReorder=   ""
+         GridLinesHorizontal=   0
+         GridLinesVertical=   0
+         HasHeading      =   True
+         HeadingIndex    =   -1
+         Height          =   138
+         HelpTag         =   ""
+         Hierarchical    =   False
+         Index           =   -2147483648
+         InitialParent   =   "OpenAIGroup"
+         InitialValue    =   "AI Model"
+         Italic          =   ""
+         Left            =   609
+         LockBottom      =   ""
+         LockedInPosition=   False
+         LockLeft        =   True
+         LockRight       =   ""
+         LockTop         =   True
+         RequiresSelection=   ""
+         Scope           =   0
+         ScrollbarHorizontal=   ""
+         ScrollBarVertical=   True
+         SelectionType   =   0
+         TabIndex        =   10
+         TabPanelIndex   =   0
+         TabStop         =   True
+         TextFont        =   "System"
+         TextSize        =   0
+         TextUnit        =   0
+         Top             =   90
+         Underline       =   ""
+         UseFocusRing    =   True
+         Visible         =   True
+         Width           =   258
+         _ScrollWidth    =   -1
+      End
+      Begin Slider MaxTokensSlider
          AutoDeactivate  =   True
          Enabled         =   True
          Height          =   23
          HelpTag         =   ""
          Index           =   -2147483648
          InitialParent   =   "OpenAIGroup"
-         Left            =   170
+         Left            =   476
          LineStep        =   1
          LiveScroll      =   True
          LockBottom      =   ""
          LockedInPosition=   False
          LockLeft        =   True
          LockRight       =   ""
-         LockTop         =   True
+         LockTop         =   False
          Maximum         =   2048
          Minimum         =   1
          PageStep        =   20
          Scope           =   0
-         TabIndex        =   10
+         TabIndex        =   11
          TabPanelIndex   =   0
          TabStop         =   True
          TickStyle       =   1
-         Top             =   51
+         Top             =   254
          Value           =   64
          Visible         =   True
-         Width           =   640
+         Width           =   336
+      End
+      Begin Slider TemperatureSlider
+         AutoDeactivate  =   True
+         Enabled         =   True
+         Height          =   23
+         HelpTag         =   ""
+         Index           =   -2147483648
+         InitialParent   =   "OpenAIGroup"
+         Left            =   476
+         LineStep        =   1
+         LiveScroll      =   True
+         LockBottom      =   ""
+         LockedInPosition=   False
+         LockLeft        =   True
+         LockRight       =   ""
+         LockTop         =   False
+         Maximum         =   100
+         Minimum         =   0
+         PageStep        =   20
+         Scope           =   0
+         TabIndex        =   12
+         TabPanelIndex   =   0
+         TabStop         =   True
+         TickStyle       =   1
+         Top             =   231
+         Value           =   0
+         Visible         =   True
+         Width           =   336
       End
       Begin Label Label1
          AutoDeactivate  =   True
@@ -434,16 +511,16 @@ Begin Window DemoWindow
          Index           =   -2147483648
          InitialParent   =   "OpenAIGroup"
          Italic          =   ""
-         Left            =   64
+         Left            =   364
          LockBottom      =   ""
          LockedInPosition=   False
          LockLeft        =   True
          LockRight       =   ""
-         LockTop         =   True
+         LockTop         =   False
          Multiline       =   ""
          Scope           =   0
          Selectable      =   False
-         TabIndex        =   11
+         TabIndex        =   13
          TabPanelIndex   =   0
          Text            =   "Max tokens:"
          TextAlign       =   2
@@ -451,7 +528,41 @@ Begin Window DemoWindow
          TextFont        =   "System"
          TextSize        =   0
          TextUnit        =   0
-         Top             =   51
+         Top             =   257
+         Transparent     =   False
+         Underline       =   ""
+         Visible         =   True
+         Width           =   100
+      End
+      Begin Label Label5
+         AutoDeactivate  =   True
+         Bold            =   ""
+         DataField       =   ""
+         DataSource      =   ""
+         Enabled         =   True
+         Height          =   20
+         HelpTag         =   ""
+         Index           =   -2147483648
+         InitialParent   =   "OpenAIGroup"
+         Italic          =   ""
+         Left            =   364
+         LockBottom      =   ""
+         LockedInPosition=   False
+         LockLeft        =   True
+         LockRight       =   ""
+         LockTop         =   False
+         Multiline       =   ""
+         Scope           =   0
+         Selectable      =   False
+         TabIndex        =   14
+         TabPanelIndex   =   0
+         Text            =   "Temperature:"
+         TextAlign       =   2
+         TextColor       =   &h000000
+         TextFont        =   "System"
+         TextSize        =   0
+         TextUnit        =   0
+         Top             =   234
          Transparent     =   False
          Underline       =   ""
          Visible         =   True
@@ -473,11 +584,11 @@ Begin Window DemoWindow
          LockedInPosition=   False
          LockLeft        =   True
          LockRight       =   ""
-         LockTop         =   True
+         LockTop         =   False
          Multiline       =   ""
          Scope           =   0
          Selectable      =   False
-         TabIndex        =   12
+         TabIndex        =   15
          TabPanelIndex   =   0
          Text            =   64
          TextAlign       =   0
@@ -485,7 +596,137 @@ Begin Window DemoWindow
          TextFont        =   "System"
          TextSize        =   0
          TextUnit        =   0
-         Top             =   54
+         Top             =   257
+         Transparent     =   False
+         Underline       =   ""
+         Visible         =   True
+         Width           =   63
+      End
+      Begin Label TemperatureLbl
+         AutoDeactivate  =   True
+         Bold            =   ""
+         DataField       =   ""
+         DataSource      =   ""
+         Enabled         =   True
+         Height          =   20
+         HelpTag         =   ""
+         Index           =   -2147483648
+         InitialParent   =   "OpenAIGroup"
+         Italic          =   ""
+         Left            =   822
+         LockBottom      =   ""
+         LockedInPosition=   False
+         LockLeft        =   True
+         LockRight       =   ""
+         LockTop         =   False
+         Multiline       =   ""
+         Scope           =   0
+         Selectable      =   False
+         TabIndex        =   16
+         TabPanelIndex   =   0
+         Text            =   0.00
+         TextAlign       =   0
+         TextColor       =   &h000000
+         TextFont        =   "System"
+         TextSize        =   0
+         TextUnit        =   0
+         Top             =   234
+         Transparent     =   False
+         Underline       =   ""
+         Visible         =   True
+         Width           =   63
+      End
+      Begin Slider ResultCountSlider
+         AutoDeactivate  =   True
+         Enabled         =   True
+         Height          =   23
+         HelpTag         =   ""
+         Index           =   -2147483648
+         InitialParent   =   "OpenAIGroup"
+         Left            =   476
+         LineStep        =   1
+         LiveScroll      =   True
+         LockBottom      =   ""
+         LockedInPosition=   False
+         LockLeft        =   True
+         LockRight       =   ""
+         LockTop         =   False
+         Maximum         =   100
+         Minimum         =   1
+         PageStep        =   20
+         Scope           =   0
+         TabIndex        =   17
+         TabPanelIndex   =   0
+         TabStop         =   True
+         TickStyle       =   1
+         Top             =   277
+         Value           =   1
+         Visible         =   True
+         Width           =   336
+      End
+      Begin Label Label6
+         AutoDeactivate  =   True
+         Bold            =   ""
+         DataField       =   ""
+         DataSource      =   ""
+         Enabled         =   True
+         Height          =   20
+         HelpTag         =   ""
+         Index           =   -2147483648
+         InitialParent   =   "OpenAIGroup"
+         Italic          =   ""
+         Left            =   364
+         LockBottom      =   ""
+         LockedInPosition=   False
+         LockLeft        =   True
+         LockRight       =   ""
+         LockTop         =   False
+         Multiline       =   ""
+         Scope           =   0
+         Selectable      =   False
+         TabIndex        =   18
+         TabPanelIndex   =   0
+         Text            =   "Result count:"
+         TextAlign       =   2
+         TextColor       =   &h000000
+         TextFont        =   "System"
+         TextSize        =   0
+         TextUnit        =   0
+         Top             =   280
+         Transparent     =   False
+         Underline       =   ""
+         Visible         =   True
+         Width           =   100
+      End
+      Begin Label ResultCountLbl
+         AutoDeactivate  =   True
+         Bold            =   ""
+         DataField       =   ""
+         DataSource      =   ""
+         Enabled         =   True
+         Height          =   20
+         HelpTag         =   ""
+         Index           =   -2147483648
+         InitialParent   =   "OpenAIGroup"
+         Italic          =   ""
+         Left            =   822
+         LockBottom      =   ""
+         LockedInPosition=   False
+         LockLeft        =   True
+         LockRight       =   ""
+         LockTop         =   False
+         Multiline       =   ""
+         Scope           =   0
+         Selectable      =   False
+         TabIndex        =   19
+         TabPanelIndex   =   0
+         Text            =   1
+         TextAlign       =   0
+         TextColor       =   &h000000
+         TextFont        =   "System"
+         TextSize        =   0
+         TextUnit        =   0
+         Top             =   280
          Transparent     =   False
          Underline       =   ""
          Visible         =   True
@@ -623,6 +864,7 @@ End
 		  request.Prompt = mAPIPrompt
 		  request.Size = "512x512"
 		  request.ResultsAsURL = False
+		  If mResultCount > 1 And mResultCount <= 10 Then request.NumberOfResults = mResultCount
 		  Dim img As OpenAI.Response = OpenAI.Image.Generate(request)
 		  mAPIImage = img.GetResult()
 		  RefreshTimer.Mode = Timer.ModeSingle
@@ -640,8 +882,12 @@ End
 		  request.Prompt = mAPIPrompt
 		  request.Size = "512x512"
 		  request.ResultsAsURL = True
+		  If mResultCount > 1 And mResultCount <= 10 Then request.NumberOfResults = mResultCount
 		  Dim txt As OpenAI.Response = OpenAI.Image.Generate(request)
-		  mAPIReply = txt.GetResult()
+		  mAPIReply = ""
+		  For i As Integer = 0 To txt.ResultCount - 1
+		    mAPIReply = mAPIReply + txt.GetResult(i)
+		  Next
 		  RefreshTimer.Mode = Timer.ModeSingle
 		  
 		Exception err As OpenAI.OpenAIException
@@ -656,9 +902,18 @@ End
 		  Dim request As New OpenAI.Request()
 		  request.Prompt = mAPIPrompt
 		  request.MaxTokens = mMaxTokens
-		  request.Model = OpenAI.Model.Lookup("text-davinci-003")
+		  If mTemperature > 0.0000001 Then request.Temperature = mTemperature
+		  If mModel = Nil Then
+		    request.Model = OpenAI.Model.Lookup("text-davinci-003")
+		  Else
+		    request.Model = mModel
+		  End If
+		  If mResultCount > 1 Then request.NumberOfResults = mResultCount
 		  Dim txt As OpenAI.Response = OpenAI.Completion.Create(request)
-		  mAPIReply = txt.GetResult()
+		  mAPIReply = ""
+		  For i As Integer = 0 To txt.ResultCount - 1
+		    mAPIReply = mAPIReply + txt.GetResult(i)
+		  Next
 		  RefreshTimer.Mode = Timer.ModeSingle
 		  
 		Exception err As OpenAI.OpenAIException
@@ -672,17 +927,47 @@ End
 		  #pragma Unused Sender
 		  Dim request As New OpenAI.Request()
 		  request.Input = mAPIPrompt
-		  request.Model = OpenAI.Model.Lookup("text-moderation-stable")
+		  If mModel = Nil Then
+		    request.Model = OpenAI.Model.Lookup("text-moderation-stable")
+		  Else
+		    request.Model = mModel
+		  End If
+		  If mResultCount > 1 Then request.NumberOfResults = mResultCount
 		  Dim obj As OpenAI.Response = OpenAI.Moderation.Create(request)
-		  Dim js As JSONItem = obj.GetResult()
-		  js.Compact = False
-		  mAPIReply = js.ToString
+		  mAPIReply = ""
+		  For i As Integer = 0 To obj.ResultCount - 1
+		    Dim js As JSONItem = obj.GetResult(i)
+		    js.Compact = False
+		    mAPIReply = mAPIReply + js.ToString
+		  Next
 		  RefreshTimer.Mode = Timer.ModeSingle
 		  
 		Exception err As OpenAI.OpenAIException
 		  mLastError = err
 		  RefreshTimer.Mode = Timer.ModeSingle
 		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Shared Function Scale(Source As Picture, Ratio As Double = 1.0) As Picture
+		  //Returns a scaled version of the passed Picture object.
+		  //A ratio of 1.0 is 100% (no change,) 0.5 is 50% (half size) and so forth.
+		  //This function should be cross-platform safe.
+		  
+		  Dim wRatio, hRatio As Double
+		  wRatio = (Ratio * Source.width)
+		  hRatio = (Ratio * Source.Height)
+		  If wRatio = Source.Width And hRatio = Source.Height Then Return Source
+		  #If RBVersion < 2016.04 Then
+		    If Not App.UseGDIPlus Then App.UseGDIPlus = True
+		  #endif
+		  Dim photo As New Picture(wRatio, hRatio)
+		  Photo.Graphics.DrawPicture(Source, 0, 0, Photo.Width, Photo.Height, 0, 0, Source.Width, Source.Height)
+		  Return photo
+		  
+		Exception
+		  Return Source
+		End Function
 	#tag EndMethod
 
 
@@ -707,6 +992,18 @@ End
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
+		Private mModel As OpenAI.Model
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mResultCount As Integer = 1
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mTemperature As Single
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
 		Private mWorker As Thread
 	#tag EndProperty
 
@@ -714,15 +1011,6 @@ End
 #tag EndWindowCode
 
 #tag Events ReplyImageCanvas
-	#tag Event
-		Sub Paint(g As Graphics)
-		  If mAPIImage <> Nil Then
-		    g.DrawPicture(mAPIImage, 0, 0)
-		  End If
-		  g.ForeColor = &c80808000
-		  g.DrawRect(0, 0, g.Width, g.Height)
-		End Sub
-	#tag EndEvent
 	#tag Event
 		Function ConstructContextualMenu(base as MenuItem, x as Integer, y as Integer) As Boolean
 		  #pragma Unused x
@@ -747,6 +1035,38 @@ End
 		  End Select
 		  
 		End Function
+	#tag EndEvent
+	#tag Event
+		Sub Paint(g As Graphics)
+		  If g.Width <= 0 Or g.Height <= 0 Then Return
+		  If mAPIImage <> Nil Then
+		    Dim ratio As Double = 1.0
+		    If g.Width < mAPIImage.Width Then ratio = g.Width / mAPIImage.Width
+		    If g.Height < mAPIImage.Height Then ratio = Min(g.Height / mAPIImage.Height, ratio)
+		    Dim p As Picture = transparencycheckerboard
+		    For i As Integer = 0 To g.Width Step p.Width
+		      For j As Integer = 0 To g.Height Step p.Height
+		        g.DrawPicture(p, i, j)
+		      Next
+		    Next
+		    Dim scaled As Picture = Scale(mAPIImage, ratio)
+		    g.DrawPicture(scaled, (g.Width - scaled.Width) / 2, (g.Height - scaled.Height) / 2)
+		  Else
+		    Dim s As String = "No image data"
+		    g.ForeColor = &cC0C0C000
+		    g.FillRect(0, 0, g.Width, g.Height)
+		    g.ForeColor = &c00000000
+		    g.TextSize = 15
+		    Dim w, h As Integer
+		    w = g.StringWidth(s)
+		    h = g.StringHeight(s, w)
+		    w = (g.Width - w) / 2
+		    h = (g.Height - h) / 2
+		    g.DrawString(s, w, h)
+		  End If
+		  g.ForeColor = &c80808000
+		  g.DrawRect(0, 0, g.Width, g.Height)
+		End Sub
 	#tag EndEvent
 #tag EndEvents
 #tag Events DoCompletionBtn
@@ -817,11 +1137,34 @@ End
 		End Sub
 	#tag EndEvent
 #tag EndEvents
-#tag Events Slider1
+#tag Events ModelList
+	#tag Event
+		Sub Change()
+		  mModel = Me.RowTag(Me.ListIndex)
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events MaxTokensSlider
 	#tag Event
 		Sub ValueChanged()
 		  mMaxTokens = Me.Value
 		  MaxTokensLbl.Text = Format(mMaxTokens, "#,##0")
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events TemperatureSlider
+	#tag Event
+		Sub ValueChanged()
+		  If Me.Value > 0 Then mTemperature = Me.Value / 100 Else mTemperature = 0.0
+		  TemperatureLbl.Text = Format(mTemperature, "0.00")
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events ResultCountSlider
+	#tag Event
+		Sub ValueChanged()
+		  mResultCount = Me.Value
+		  ResultCountLbl.Text = Format(mResultCount, "##0")
 		End Sub
 	#tag EndEvent
 #tag EndEvents
@@ -841,6 +1184,15 @@ End
 		    Self.Title = "Xojo-OpenAI Playground"
 		    Return
 		  End If
+		  
+		  ModelList.DeleteAllRows()
+		  ModelList.AddRow("Automatic")
+		  For i As Integer = 0 To OpenAI.Model.Count - 1
+		    Dim mdl As OpenAI.Model = OpenAI.Model.Lookup(i)
+		    ModelList.AddRow(mdl.ID)
+		    ModelList.RowTag(ModelList.LastIndex) = mdl
+		  Next
+		  ModelList.ListIndex = 0
 		  
 		  OpenAIGroup.Enabled = True
 		  APIKeyLbl.Enabled = False
