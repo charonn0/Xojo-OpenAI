@@ -32,7 +32,7 @@ Protected Module OpenAI
 	#tag EndConstant
 
 
-	#tag Enum, Name = ResultType, Type = Integer, Flags = &h0
+	#tag Enum, Name = ResultType, Type = Integer, Flags = &h1
 		String
 		  Picture
 		  PictureURL
