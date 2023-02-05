@@ -12,6 +12,7 @@ Protected Class Request
 		    mRequest.Compact = True
 		    Return mRequest.ToString()
 		    
+		  ElseIf SourceImage <> Nil Then
 		    Dim d As New Dictionary
 		    If Size <> "1024x1024" Then d.Value("size") = Size
 		    If NumberOfResults > 1 Then d.Value("n") = Str(NumberOfResults, "#0")
