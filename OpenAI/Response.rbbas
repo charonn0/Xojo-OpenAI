@@ -64,8 +64,8 @@ Protected Class Response
 
 	#tag Method, Flags = &h0
 		 Shared Function IsValid(Request As OpenAI.Request) As Boolean
-		  #pragma Unused Request
-		  Return True
+		  Return Completion.IsValid(Request) Or File.IsValid(Request) Or FineTune.IsValid(Request) _
+		  Or Image.IsValid(Request) Or Moderation.IsValid(Request)
 		End Function
 	#tag EndMethod
 
