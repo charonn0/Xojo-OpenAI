@@ -16,8 +16,8 @@ Inherits OpenAI.Response
 		  ' See:
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.File.Count
 		  
-		  Dim list() As OpenAI.File = OpenAI.File.ListAllFiles(New OpenAIClient, Refresh)
-		  Return UBound(list) + 1
+		  If Refresh Or UBound(FileList) = -1 Then ListAllFiles()
+		  Return UBound(FileList) + 1
 		End Function
 	#tag EndMethod
 
@@ -52,6 +52,7 @@ Inherits OpenAI.Response
 		  request.Purpose = Purpose
 		  Dim result As New JSONItem(client.SendRequest("/v1/files", request))
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
+		  ReDim FileList(-1) ' force refresh
 		  Return New OpenAI.File(result, client)
 		End Function
 	#tag EndMethod
@@ -145,18 +146,16 @@ Inherits OpenAI.Response
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
-		Protected Shared Function ListAllFiles(Client As OpenAIClient, Refresh As Boolean) As OpenAI.File()
-		  Static files() As OpenAI.File
-		  If Refresh Or UBound(files) = -1 Then
-		    Dim result As New JSONItem(Client.SendRequest("/v1/files"))
-		    If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
-		    result = result.Value("data")
-		    For i As Integer = 0 To result.Count - 1
-		      files.Append(New OpenAI.File(result.Child(i), Client))
-		    Next
-		  End If
-		  Return files
-		End Function
+		Protected Shared Sub ListAllFiles()
+		  ReDim FileList(-1)
+		  Dim client As New OpenAIClient
+		  Dim result As New JSONItem(client.SendRequest("/v1/files"))
+		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
+		  result = result.Value("data")
+		  For i As Integer = 0 To result.Count - 1
+		    FileList.Append(New OpenAI.File(result.Child(i), client))
+		  Next
+		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
@@ -166,9 +165,8 @@ Inherits OpenAI.Response
 		  ' See:
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.File.Lookup
 		  
-		  Dim client As New OpenAIClient
-		  Dim list() As OpenAI.File = OpenAI.File.ListAllFiles(client, Refresh)
-		  Return list(Index)
+		  If Refresh Or UBound(FileList) = -1 Then ListAllFiles()
+		  Return FileList(Index)
 		End Function
 	#tag EndMethod
 
@@ -179,10 +177,9 @@ Inherits OpenAI.Response
 		  ' See:
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.File.Lookup
 		  
-		  Dim client As New OpenAIClient
-		  Dim list() As OpenAI.File = OpenAI.File.ListAllFiles(client, Refresh)
-		  For i As Integer = 0 To UBound(list)
-		    Dim f As File = list(i)
+		  If Refresh Or UBound(FileList) = -1 Then ListAllFiles()
+		  For i As Integer = 0 To UBound(FileList)
+		    Dim f As File = FileList(i)
 		    If f.ID = FileID Then Return f
 		  Next
 		End Function
@@ -212,6 +209,10 @@ Inherits OpenAI.Response
 		#tag EndGetter
 		Bytes As Integer
 	#tag EndComputedProperty
+
+	#tag Property, Flags = &h21
+		Private Shared FileList() As OpenAI.File
+	#tag EndProperty
 
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter

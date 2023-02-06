@@ -18,13 +18,13 @@ Inherits OpenAI.Model
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		 Shared Function Count() As Integer
+		 Shared Function Count(Refresh As Boolean = False) As Integer
 		  ' Counts the number of fine tuned models owned by the your organization.
 		  '
 		  ' See:
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.FineTune.Count
 		  
-		  If UBound(FineTuneList) = -1 Then ListMyFineTunes()
+		  If Refresh Or UBound(FineTuneList) = -1 Then ListMyFineTunes()
 		  Return UBound(FineTuneList) + 1
 		End Function
 	#tag EndMethod
@@ -48,6 +48,7 @@ Inherits OpenAI.Model
 		  If Name <> "" Then request.Suffix = Name
 		  Dim result As New JSONItem(client.SendRequest("/v1/fine-tunes", request))
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
+		  ReDim FineTuneList(-1) ' force refresh
 		  Return New OpenAI.FineTune(result, client)
 		End Function
 	#tag EndMethod
@@ -122,15 +123,15 @@ Inherits OpenAI.Model
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		 Shared Function Lookup(Index As Integer) As OpenAI.FineTune
-		  If UBound(FineTuneList) = -1 Then ListMyFineTunes()
+		 Shared Function Lookup(Index As Integer, Refresh As Boolean = False) As OpenAI.FineTune
+		  If Refresh Or UBound(FineTuneList) = -1 Then ListMyFineTunes()
 		  Return FineTuneList(Index)
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		 Shared Function Lookup(FineTuneID As String) As OpenAI.FineTune
-		  If UBound(FineTuneList) = -1 Then ListMyFineTunes()
+		 Shared Function Lookup(FineTuneID As String, Refresh As Boolean = False) As OpenAI.FineTune
+		  If Refresh Or UBound(FineTuneList) = -1 Then ListMyFineTunes()
 		  For i As Integer = 0 To UBound(FineTuneList)
 		    If FineTuneList(i).ID = FineTuneID Then
 		      Return FineTuneList(i)

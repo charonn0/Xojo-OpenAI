@@ -8,13 +8,13 @@ Implements OpenAI.Serializable
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		 Shared Function Count() As Integer
+		 Shared Function Count(Refresh As Boolean = False) As Integer
 		  ' Counts the number of AI models known by the API.
 		  '
 		  ' See:
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Model.Count
 		  
-		  If UBound(ModelList) = -1 Then ListAvailableModels()
+		  If Refresh Or UBound(ModelList) = -1 Then ListAvailableModels()
 		  Return UBound(ModelList) + 1
 		End Function
 	#tag EndMethod
@@ -38,25 +38,25 @@ Implements OpenAI.Serializable
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		 Shared Function Lookup(Index As Integer) As OpenAI.Model
+		 Shared Function Lookup(Index As Integer, Refresh As Boolean = False) As OpenAI.Model
 		  ' Returns the Model at Index.
 		  '
 		  ' See:
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Model.Lookup
 		  
-		  If UBound(ModelList) = -1 Then ListAvailableModels()
+		  If Refresh Or UBound(ModelList) = -1 Then ListAvailableModels()
 		  Return ModelList(Index)
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		 Shared Function Lookup(ModelName As String) As OpenAI.Model
+		 Shared Function Lookup(ModelName As String, Refresh As Boolean = False) As OpenAI.Model
 		  ' Returns the Model that matches the specified name.
 		  '
 		  ' See:
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Model.Lookup
 		  
-		  If UBound(ModelList) = -1 Then ListAvailableModels()
+		  If Refresh Or UBound(ModelList) = -1 Then ListAvailableModels()
 		  For i As Integer = 0 To UBound(ModelList)
 		    If ModelList(i).ID = ModelName Then Return ModelList(i)
 		  Next
