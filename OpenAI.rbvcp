@@ -4,6 +4,7 @@ MinIDEVersion=20070100
 Class=App;App.rbbas;&h15A47FFF;&h0;false
 BuildSteps=Build Automation;Build Automation.rbbas;&h2D404FFF;&h0;false
 Module=OpenAI;OpenAI/OpenAI.rbbas;&h755B3FFF;&h0;false
+Interface=Serializable;OpenAI/Serializable.rbbas;&h6D6E47FF;&h755B3FFF;false
 Class=OpenAIClient;OpenAI/OpenAIClient.rbbas;&h32BE4FFF;&h755B3FFF;false
 Class=Request;OpenAI/Request.rbbas;&h310C0FFF;&h755B3FFF;false
 Class=OpenAIException;OpenAI/OpenAIException.rbbas;&h4D4B5FFF;&h755B3FFF;false

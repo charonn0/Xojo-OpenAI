@@ -1,5 +1,6 @@
 #tag Class
 Protected Class FineTuneData
+Implements OpenAI.Serializable
 	#tag Method, Flags = &h0
 		Sub AddLine(Prompt As String, Completion As String)
 		  Dim js As New JSONItem
@@ -103,6 +104,8 @@ Protected Class FineTuneData
 
 	#tag Method, Flags = &h0
 		Function ToString() As String
+		  // Part of the Serializable interface.
+		  
 		  Dim dataset As New MemoryBlock(0)
 		  Dim out As New BinaryStream(dataset)
 		  For i As Integer = 0 To UBound(mLines)

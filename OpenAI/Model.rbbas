@@ -1,5 +1,6 @@
 #tag Class
 Protected Class Model
+Implements OpenAI.Serializable
 	#tag Method, Flags = &h1
 		Protected Sub Constructor(Response As JSONItem)
 		  mModel = Response
@@ -60,6 +61,14 @@ Protected Class Model
 		    If ModelList(i).ID = ModelName Then Return ModelList(i)
 		  Next
 		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function ToString() As String
+		  // Part of the Serializable interface.
+		  
+		  Return mModel.ToString()
 		End Function
 	#tag EndMethod
 
