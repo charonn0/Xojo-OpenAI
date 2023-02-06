@@ -115,6 +115,7 @@ Private Class OpenAIClient
 		    #pragma Unused APIURL
 		    #pragma Unused Request
 		    #pragma Unused RequestMethod
+		    #pragma Warning "No supported HTTPS library enabled."
 		    Raise New OpenAIException("This version of RealStudio is not supported.")
 		  #endif
 		End Function
@@ -134,6 +135,7 @@ Private Class OpenAIClient
 		  #Else
 		    #pragma Unused APIURL
 		    #pragma Unused RequestMethod
+		    #pragma Warning "No supported HTTPS library enabled."
 		    Raise New OpenAIException("This version of RealStudio is not supported.")
 		  #endif
 		End Function
