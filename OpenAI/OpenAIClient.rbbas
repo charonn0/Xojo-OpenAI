@@ -293,9 +293,9 @@ Private Class OpenAIClient
 		      client.SetRequestMethod("POST")
 		      If Not client.Put(OPENAI_URL + APIURL, data) Then ' perform the request
 		        Dim curlerr As New libcURL.cURLException(client.EasyHandle)
-		        Dim data As String = client.GetDownloadedData
-		        If data.Trim <> "" Then
-		          Dim openaierr As New OpenAIException(New JSONItem(data))
+		        Dim page As String = client.GetDownloadedData
+		        If page.Trim <> "" Then
+		          Dim openaierr As New OpenAIException(New JSONItem(page))
 		          curlerr.Message = openaierr.Message + EndOfLine + curlerr.Message
 		        End If
 		        Raise curlerr
