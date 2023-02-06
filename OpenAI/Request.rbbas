@@ -125,12 +125,12 @@ Protected Class Request
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
-			  If mRequest.HasName("suffix") Then Return mRequest.Value("suffix")
+			  If mRequest.HasName("echo") Then Return mRequest.Value("echo")
 			End Get
 		#tag EndGetter
 		#tag Setter
 			Set
-			  mRequest.Value("suffix") = value
+			  mRequest.Value("echo") = value
 			End Set
 		#tag EndSetter
 		Echo As Boolean
