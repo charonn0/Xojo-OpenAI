@@ -452,7 +452,7 @@ Begin Window DemoWindow
          Index           =   -2147483648
          InitialParent   =   "OpenAIGroup"
          Left            =   476
-         LineStep        =   1
+         LineStep        =   8
          LiveScroll      =   True
          LockBottom      =   ""
          LockedInPosition=   False
@@ -461,7 +461,7 @@ Begin Window DemoWindow
          LockTop         =   False
          Maximum         =   2048
          Minimum         =   1
-         PageStep        =   20
+         PageStep        =   32
          Scope           =   0
          TabIndex        =   11
          TabPanelIndex   =   0
@@ -1147,10 +1147,18 @@ End
 		Sub DoubleClick()
 		  If Me.ListIndex > -1 Then
 		    Dim mdl As OpenAI.Model = Me.RowTag(Me.ListIndex)
-		    If mdl = Nil Then Return
-		    ModelInfoWindow.ShowModel(mdl)
+		    If mdl <> Nil Then ModelInfoWindow.ShowModel(mdl)
 		  End If
 		End Sub
+	#tag EndEvent
+	#tag Event
+		Function KeyDown(Key As String) As Boolean
+		  If Asc(Key) = &h0D And Me.ListIndex > -1 Then
+		    Dim mdl As OpenAI.Model = Me.RowTag(Me.ListIndex)
+		    If mdl <> Nil Then ModelInfoWindow.ShowModel(mdl)
+		    Return True
+		  End If
+		End Function
 	#tag EndEvent
 #tag EndEvents
 #tag Events MaxTokensSlider
