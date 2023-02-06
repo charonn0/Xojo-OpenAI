@@ -29,8 +29,8 @@ Private Class OpenAIClient
 		    curl.OptionXOAuth2Bearer = APIKey
 		    curl.OptionHTTPAuth = CURLAUTH_BEARER
 		    curl.OptionUserAgent = USER_AGENT_STRING
-		    curl.OptionSSLVerifyHost = 2
-		    curl.OptionSSLVerifyPeer = 1
+		    ' curl.OptionSSLVerifyHost = 2
+		    ' curl.OptionSSLVerifyPeer = 1
 		    mClient = curl
 		    
 		  #ElseIf RBVersion > 2018.03 Then
