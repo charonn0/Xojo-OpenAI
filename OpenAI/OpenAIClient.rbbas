@@ -29,6 +29,8 @@ Private Class OpenAIClient
 		    curl.OptionXOAuth2Bearer = APIKey
 		    curl.OptionHTTPAuth = CURLAUTH_BEARER
 		    curl.OptionUserAgent = USER_AGENT_STRING
+		    curl.OptionSSLVerifyHost = 2
+		    curl.OptionSSLVerifyPeer = 1
 		    mClient = curl
 		    
 		  #ElseIf RBVersion > 2018.03 Then
@@ -184,7 +186,11 @@ Private Class OpenAIClient
 		    curl.OptionURL = OPENAI_URL + APIURL
 		    If curl.PerformMT() <> 0 Then
 		      Dim data As String = curl.OutputData
-		      Raise New OpenAIException(New JSONItem(data))
+		      If data.Trim = "" Then
+		        Raise New OpenAIException(curl.LastErrorMessage)
+		      Else
+		        Raise New OpenAIException(New JSONItem(data))
+		      End If
 		    Else
 		      Return curl.OutputData
 		    End If
@@ -204,7 +210,12 @@ Private Class OpenAIClient
 		    curl.OptionCustomRequest = RequestMethod
 		    Dim err As Integer = curl.Perform()
 		    If err <> 0 Then
-		      Raise New OpenAIException(New JSONItem(curl.OutputData))
+		      Dim data As String = curl.OutputData
+		      If data.Trim = "" Then
+		        Raise New OpenAIException(curl.LastErrorMessage)
+		      Else
+		        Raise New OpenAIException(New JSONItem(data))
+		      End If
 		    Else
 		      Return curl.OutputData
 		    End If
@@ -267,9 +278,12 @@ Private Class OpenAIClient
 		      
 		      If Not client.Post(OPENAI_URL + APIURL, form) Then ' perform the request
 		        Dim curlerr As New libcURL.cURLException(client.EasyHandle)
-		        Dim openaierr As New OpenAIException(New JSONItem(client.GetDownloadedData))
-		        openaierr.Message = openaierr.Message + EndOfLine + curlerr.Message
-		        Raise openaierr
+		        Dim data As String = client.GetDownloadedData
+		        If data.Trim <> "" Then
+		          Dim openaierr As New OpenAIException(New JSONItem(data))
+		          curlerr.Message = openaierr.Message + EndOfLine + curlerr.Message
+		        End If
+		        Raise curlerr
 		      End If
 		      Return client.GetDownloadedData
 		      
@@ -279,9 +293,12 @@ Private Class OpenAIClient
 		      client.SetRequestMethod("POST")
 		      If Not client.Put(OPENAI_URL + APIURL, data) Then ' perform the request
 		        Dim curlerr As New libcURL.cURLException(client.EasyHandle)
-		        Dim openaierr As New OpenAIException(New JSONItem(client.GetDownloadedData))
-		        openaierr.Message = openaierr.Message + EndOfLine + curlerr.Message
-		        Raise openaierr
+		        Dim data As String = client.GetDownloadedData
+		        If data.Trim <> "" Then
+		          Dim openaierr As New OpenAIException(New JSONItem(data))
+		          curlerr.Message = openaierr.Message + EndOfLine + curlerr.Message
+		        End If
+		        Raise curlerr
 		      End If
 		      Return client.GetDownloadedData
 		    End If
@@ -301,9 +318,12 @@ Private Class OpenAIClient
 		    client.SetRequestMethod(RequestMethod)
 		    If Not client.Get(OPENAI_URL + APIURL) Then
 		      Dim curlerr As New libcURL.cURLException(client.EasyHandle)
-		      Dim openaierr As New OpenAIException(New JSONItem(client.GetDownloadedData))
-		      openaierr.Message = openaierr.Message + EndOfLine + curlerr.Message
-		      Raise openaierr
+		      Dim data As String = client.GetDownloadedData
+		      If data.Trim = "" Then
+		        Dim openaierr As New OpenAIException(New JSONItem(data))
+		        curlerr.Message = openaierr.Message + EndOfLine + curlerr.Message
+		      End If
+		      Raise curlerr
 		    End If
 		    Return client.GetDownloadedData()
 		  #Else
