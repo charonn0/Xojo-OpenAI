@@ -22,6 +22,22 @@ Inherits OpenAI.Response
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		 Shared Function Create(FileContent As FolderItem, Purpose As String, FileName As String = "") As OpenAI.File
+		  ' Upload a file that contains document(s) to be used across various endpoints/features.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.File.Create
+		  ' https://beta.openai.com/docs/api-reference/files/upload
+		  
+		  If FileName = "" Then FileName = FileContent.Name
+		  Dim bs As BinaryStream = BinaryStream.Open(FileContent)
+		  Dim data As String = bs.Read(bs.Length)
+		  bs.Close()
+		  Return File.Create(data, Purpose, FileName)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		 Shared Function Create(FileContent As MemoryBlock, Purpose As String, FileName As String) As OpenAI.File
 		  ' Upload a file that contains document(s) to be used across various endpoints/features.
 		  '
@@ -41,14 +57,14 @@ Inherits OpenAI.Response
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		 Shared Function Create(FileContent As OpenAI.FineTuneData, Purpose As String, FileName As String) As OpenAI.File
+		 Shared Function Create(FileContent As OpenAI.FineTuneData, FileName As String) As OpenAI.File
 		  ' Upload a file that contains JSONL data to be used for fine-tuning.
 		  '
 		  ' See:
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.File.Create
 		  ' https://beta.openai.com/docs/api-reference/files/upload
 		  
-		  Return File.Create(FileContent.ToString, Purpose, FileName)
+		  Return File.Create(FileContent.ToString, "fine-tune", FileName)
 		End Function
 	#tag EndMethod
 
