@@ -16,9 +16,9 @@ Begin Window DemoWindow
    MaxWidth        =   32000
    MenuBar         =   0
    MenuBarVisible  =   True
-   MinHeight       =   64
+   MinHeight       =   578
    MinimizeButton  =   True
-   MinWidth        =   64
+   MinWidth        =   905
    Placement       =   2
    Resizeable      =   True
    Title           =   "Xojo-OpenAI Playground"
@@ -29,7 +29,7 @@ Begin Window DemoWindow
       Bold            =   False
       Caption         =   "OpenAI"
       Enabled         =   False
-      Height          =   523
+      Height          =   508
       HelpTag         =   ""
       Index           =   -2147483648
       InitialParent   =   ""
@@ -46,7 +46,7 @@ Begin Window DemoWindow
       TextFont        =   "System"
       TextSize        =   0.0
       TextUnit        =   0
-      Top             =   44
+      Top             =   59
       Underline       =   False
       Visible         =   True
       Width           =   883
@@ -73,7 +73,7 @@ Begin Window DemoWindow
          LockBottom      =   False
          LockedInPosition=   False
          LockLeft        =   True
-         LockRight       =   False
+         LockRight       =   True
          LockTop         =   False
          Mask            =   ""
          Multiline       =   True
@@ -90,7 +90,7 @@ Begin Window DemoWindow
          TextFont        =   "System"
          TextSize        =   0.0
          TextUnit        =   0
-         Top             =   85
+         Top             =   100
          Underline       =   False
          UseFocusRing    =   True
          Visible         =   True
@@ -124,7 +124,7 @@ Begin Window DemoWindow
          TextFont        =   "System"
          TextSize        =   0.0
          TextUnit        =   0
-         Top             =   61
+         Top             =   76
          Transparent     =   False
          Underline       =   False
          Visible         =   True
@@ -158,7 +158,7 @@ Begin Window DemoWindow
          TextFont        =   "System"
          TextSize        =   0.0
          TextUnit        =   0
-         Top             =   312
+         Top             =   327
          Transparent     =   False
          Underline       =   False
          Visible         =   True
@@ -176,7 +176,7 @@ Begin Window DemoWindow
          DataSource      =   ""
          Enabled         =   True
          Format          =   ""
-         Height          =   226
+         Height          =   211
          HelpTag         =   ""
          HideSelection   =   True
          Index           =   -2147483648
@@ -204,7 +204,7 @@ Begin Window DemoWindow
          TextFont        =   "System"
          TextSize        =   0.0
          TextUnit        =   0
-         Top             =   332
+         Top             =   347
          Underline       =   False
          UseFocusRing    =   True
          Visible         =   True
@@ -218,7 +218,7 @@ Begin Window DemoWindow
          DoubleBuffer    =   False
          Enabled         =   True
          EraseBackground =   True
-         Height          =   226
+         Height          =   211
          HelpTag         =   ""
          Index           =   -2147483648
          InitialParent   =   "OpenAIGroup"
@@ -232,7 +232,7 @@ Begin Window DemoWindow
          TabIndex        =   4
          TabPanelIndex   =   0
          TabStop         =   True
-         Top             =   332
+         Top             =   347
          UseFocusRing    =   True
          Visible         =   True
          Width           =   512
@@ -265,7 +265,7 @@ Begin Window DemoWindow
          TextFont        =   "System"
          TextSize        =   0.0
          TextUnit        =   0
-         Top             =   312
+         Top             =   327
          Transparent     =   False
          Underline       =   False
          Visible         =   True
@@ -287,8 +287,8 @@ Begin Window DemoWindow
          Left            =   364
          LockBottom      =   False
          LockedInPosition=   False
-         LockLeft        =   True
-         LockRight       =   False
+         LockLeft        =   False
+         LockRight       =   True
          LockTop         =   False
          Scope           =   0
          TabIndex        =   6
@@ -297,7 +297,7 @@ Begin Window DemoWindow
          TextFont        =   "System"
          TextSize        =   0.0
          TextUnit        =   0
-         Top             =   128
+         Top             =   143
          Underline       =   False
          Visible         =   True
          Width           =   209
@@ -318,8 +318,8 @@ Begin Window DemoWindow
          Left            =   364
          LockBottom      =   False
          LockedInPosition=   False
-         LockLeft        =   True
-         LockRight       =   False
+         LockLeft        =   False
+         LockRight       =   True
          LockTop         =   False
          Scope           =   0
          TabIndex        =   7
@@ -328,7 +328,7 @@ Begin Window DemoWindow
          TextFont        =   "System"
          TextSize        =   0.0
          TextUnit        =   0
-         Top             =   106
+         Top             =   121
          Underline       =   False
          Visible         =   True
          Width           =   209
@@ -349,8 +349,8 @@ Begin Window DemoWindow
          Left            =   364
          LockBottom      =   False
          LockedInPosition=   False
-         LockLeft        =   True
-         LockRight       =   False
+         LockLeft        =   False
+         LockRight       =   True
          LockTop         =   False
          Scope           =   0
          TabIndex        =   8
@@ -359,7 +359,7 @@ Begin Window DemoWindow
          TextFont        =   "System"
          TextSize        =   0.0
          TextUnit        =   0
-         Top             =   85
+         Top             =   100
          Underline       =   False
          Visible         =   True
          Width           =   209
@@ -380,8 +380,8 @@ Begin Window DemoWindow
          Left            =   364
          LockBottom      =   False
          LockedInPosition=   False
-         LockLeft        =   True
-         LockRight       =   False
+         LockLeft        =   False
+         LockRight       =   True
          LockTop         =   False
          Scope           =   0
          TabIndex        =   9
@@ -390,7 +390,7 @@ Begin Window DemoWindow
          TextFont        =   "System"
          TextSize        =   0.0
          TextUnit        =   0
-         Top             =   149
+         Top             =   164
          Underline       =   False
          Visible         =   True
          Width           =   209
@@ -418,13 +418,13 @@ Begin Window DemoWindow
          Hierarchical    =   False
          Index           =   -2147483648
          InitialParent   =   "OpenAIGroup"
-         InitialValue    =   "AI Model"
+         InitialValue    =   "Select an AI model"
          Italic          =   ""
          Left            =   609
          LockBottom      =   ""
          LockedInPosition=   False
-         LockLeft        =   True
-         LockRight       =   ""
+         LockLeft        =   False
+         LockRight       =   True
          LockTop         =   True
          RequiresSelection=   ""
          Scope           =   0
@@ -437,7 +437,7 @@ Begin Window DemoWindow
          TextFont        =   "System"
          TextSize        =   0
          TextUnit        =   0
-         Top             =   90
+         Top             =   105
          Underline       =   ""
          UseFocusRing    =   True
          Visible         =   True
@@ -456,8 +456,8 @@ Begin Window DemoWindow
          LiveScroll      =   True
          LockBottom      =   ""
          LockedInPosition=   False
-         LockLeft        =   True
-         LockRight       =   ""
+         LockLeft        =   False
+         LockRight       =   True
          LockTop         =   False
          Maximum         =   2048
          Minimum         =   1
@@ -467,7 +467,7 @@ Begin Window DemoWindow
          TabPanelIndex   =   0
          TabStop         =   True
          TickStyle       =   1
-         Top             =   254
+         Top             =   269
          Value           =   64
          Visible         =   True
          Width           =   336
@@ -484,8 +484,8 @@ Begin Window DemoWindow
          LiveScroll      =   True
          LockBottom      =   ""
          LockedInPosition=   False
-         LockLeft        =   True
-         LockRight       =   ""
+         LockLeft        =   False
+         LockRight       =   True
          LockTop         =   False
          Maximum         =   100
          Minimum         =   0
@@ -495,7 +495,7 @@ Begin Window DemoWindow
          TabPanelIndex   =   0
          TabStop         =   True
          TickStyle       =   1
-         Top             =   231
+         Top             =   246
          Value           =   0
          Visible         =   True
          Width           =   336
@@ -514,8 +514,8 @@ Begin Window DemoWindow
          Left            =   364
          LockBottom      =   ""
          LockedInPosition=   False
-         LockLeft        =   True
-         LockRight       =   ""
+         LockLeft        =   False
+         LockRight       =   True
          LockTop         =   False
          Multiline       =   ""
          Scope           =   0
@@ -528,7 +528,7 @@ Begin Window DemoWindow
          TextFont        =   "System"
          TextSize        =   0
          TextUnit        =   0
-         Top             =   257
+         Top             =   272
          Transparent     =   False
          Underline       =   ""
          Visible         =   True
@@ -548,8 +548,8 @@ Begin Window DemoWindow
          Left            =   364
          LockBottom      =   ""
          LockedInPosition=   False
-         LockLeft        =   True
-         LockRight       =   ""
+         LockLeft        =   False
+         LockRight       =   True
          LockTop         =   False
          Multiline       =   ""
          Scope           =   0
@@ -562,7 +562,7 @@ Begin Window DemoWindow
          TextFont        =   "System"
          TextSize        =   0
          TextUnit        =   0
-         Top             =   234
+         Top             =   249
          Transparent     =   False
          Underline       =   ""
          Visible         =   True
@@ -582,8 +582,8 @@ Begin Window DemoWindow
          Left            =   822
          LockBottom      =   ""
          LockedInPosition=   False
-         LockLeft        =   True
-         LockRight       =   ""
+         LockLeft        =   False
+         LockRight       =   True
          LockTop         =   False
          Multiline       =   ""
          Scope           =   0
@@ -596,7 +596,7 @@ Begin Window DemoWindow
          TextFont        =   "System"
          TextSize        =   0
          TextUnit        =   0
-         Top             =   257
+         Top             =   272
          Transparent     =   False
          Underline       =   ""
          Visible         =   True
@@ -616,8 +616,8 @@ Begin Window DemoWindow
          Left            =   822
          LockBottom      =   ""
          LockedInPosition=   False
-         LockLeft        =   True
-         LockRight       =   ""
+         LockLeft        =   False
+         LockRight       =   True
          LockTop         =   False
          Multiline       =   ""
          Scope           =   0
@@ -630,7 +630,7 @@ Begin Window DemoWindow
          TextFont        =   "System"
          TextSize        =   0
          TextUnit        =   0
-         Top             =   234
+         Top             =   249
          Transparent     =   False
          Underline       =   ""
          Visible         =   True
@@ -648,8 +648,8 @@ Begin Window DemoWindow
          LiveScroll      =   True
          LockBottom      =   ""
          LockedInPosition=   False
-         LockLeft        =   True
-         LockRight       =   ""
+         LockLeft        =   False
+         LockRight       =   True
          LockTop         =   False
          Maximum         =   100
          Minimum         =   1
@@ -659,7 +659,7 @@ Begin Window DemoWindow
          TabPanelIndex   =   0
          TabStop         =   True
          TickStyle       =   1
-         Top             =   277
+         Top             =   292
          Value           =   1
          Visible         =   True
          Width           =   336
@@ -678,8 +678,8 @@ Begin Window DemoWindow
          Left            =   364
          LockBottom      =   ""
          LockedInPosition=   False
-         LockLeft        =   True
-         LockRight       =   ""
+         LockLeft        =   False
+         LockRight       =   True
          LockTop         =   False
          Multiline       =   ""
          Scope           =   0
@@ -692,7 +692,7 @@ Begin Window DemoWindow
          TextFont        =   "System"
          TextSize        =   0
          TextUnit        =   0
-         Top             =   280
+         Top             =   295
          Transparent     =   False
          Underline       =   ""
          Visible         =   True
@@ -712,8 +712,8 @@ Begin Window DemoWindow
          Left            =   822
          LockBottom      =   ""
          LockedInPosition=   False
-         LockLeft        =   True
-         LockRight       =   ""
+         LockLeft        =   False
+         LockRight       =   True
          LockTop         =   False
          Multiline       =   ""
          Scope           =   0
@@ -726,11 +726,63 @@ Begin Window DemoWindow
          TextFont        =   "System"
          TextSize        =   0
          TextUnit        =   0
-         Top             =   280
+         Top             =   295
          Transparent     =   False
          Underline       =   ""
          Visible         =   True
          Width           =   63
+      End
+      Begin PushButton DoAbortBtn
+         AutoDeactivate  =   True
+         Bold            =   False
+         ButtonStyle     =   0
+         Cancel          =   False
+         Caption         =   "Abort"
+         Default         =   False
+         Enabled         =   True
+         Height          =   22
+         HelpTag         =   ""
+         Index           =   -2147483648
+         InitialParent   =   "OpenAIGroup"
+         Italic          =   False
+         Left            =   364
+         LockBottom      =   False
+         LockedInPosition=   False
+         LockLeft        =   True
+         LockRight       =   False
+         LockTop         =   False
+         Scope           =   0
+         TabIndex        =   20
+         TabPanelIndex   =   0
+         TabStop         =   True
+         TextFont        =   "System"
+         TextSize        =   0.0
+         TextUnit        =   0
+         Top             =   215
+         Underline       =   False
+         Visible         =   False
+         Width           =   209
+      End
+      Begin ProgressBar RequestProgressBar
+         AutoDeactivate  =   True
+         Enabled         =   True
+         Height          =   12
+         HelpTag         =   ""
+         Index           =   -2147483648
+         InitialParent   =   "OpenAIGroup"
+         Left            =   364
+         LockBottom      =   ""
+         LockedInPosition=   False
+         LockLeft        =   True
+         LockRight       =   ""
+         LockTop         =   True
+         Maximum         =   0
+         Scope           =   0
+         TabPanelIndex   =   0
+         Top             =   203
+         Value           =   0
+         Visible         =   False
+         Width           =   209
       End
    End
    Begin TextField APIKeyField
@@ -769,7 +821,7 @@ Begin Window DemoWindow
       TextFont        =   "System"
       TextSize        =   0.0
       TextUnit        =   0
-      Top             =   11
+      Top             =   25
       Underline       =   False
       UseFocusRing    =   True
       Visible         =   True
@@ -801,7 +853,7 @@ Begin Window DemoWindow
       TextFont        =   "System"
       TextSize        =   0.0
       TextUnit        =   0
-      Top             =   11
+      Top             =   25
       Underline       =   False
       Visible         =   True
       Width           =   48
@@ -834,7 +886,7 @@ Begin Window DemoWindow
       TextFont        =   "System"
       TextSize        =   0.0
       TextUnit        =   0
-      Top             =   11
+      Top             =   25
       Transparent     =   False
       Underline       =   False
       Visible         =   True
@@ -852,6 +904,40 @@ Begin Window DemoWindow
       TabPanelIndex   =   0
       Top             =   ""
       Width           =   32
+   End
+   Begin Label URLLbl
+      AutoDeactivate  =   True
+      Bold            =   ""
+      DataField       =   ""
+      DataSource      =   ""
+      Enabled         =   True
+      Height          =   20
+      HelpTag         =   ""
+      Index           =   -2147483648
+      InitialParent   =   ""
+      Italic          =   ""
+      Left            =   286
+      LockBottom      =   ""
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   True
+      LockTop         =   True
+      Multiline       =   ""
+      Scope           =   0
+      Selectable      =   False
+      TabIndex        =   4
+      TabPanelIndex   =   0
+      Text            =   "https://github.com/charonn0/Xojo-OpenAI"
+      TextAlign       =   1
+      TextColor       =   &h000000FF
+      TextFont        =   "System"
+      TextSize        =   0
+      TextUnit        =   0
+      Top             =   2
+      Transparent     =   False
+      Underline       =   True
+      Visible         =   True
+      Width           =   333
    End
 End
 #tag EndWindow
@@ -988,6 +1074,10 @@ End
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
+		Private mLastPointer As MouseCursor
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
 		Private mMaxTokens As Integer = 64
 	#tag EndProperty
 
@@ -997,6 +1087,10 @@ End
 
 	#tag Property, Flags = &h21
 		Private mResultCount As Integer = 1
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mScale As Boolean = True
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
@@ -1018,6 +1112,9 @@ End
 		  
 		  If mAPIImage <> Nil Then
 		    base.Append(New MenuItem("Save as..."))
+		    Dim scle As New MenuItem("Scale preview")
+		    scle.Checked = mScale
+		    base.Append(scle)
 		    Return True
 		  End If
 		  
@@ -1032,6 +1129,12 @@ End
 		      If out <> Nil Then mAPIImage.Save(out, Picture.SaveAsPNG)
 		      Return True
 		    End If
+		    
+		  Case "Scale preview"
+		    mScale = Not mScale
+		    Me.Invalidate(True)
+		    Return True
+		    
 		  End Select
 		  
 		End Function
@@ -1049,7 +1152,12 @@ End
 		        g.DrawPicture(p, i, j)
 		      Next
 		    Next
-		    Dim scaled As Picture = Scale(mAPIImage, ratio)
+		    Dim scaled As Picture
+		    If mScale Then
+		      scaled = Scale(mAPIImage, ratio)
+		    Else
+		      scaled = mAPIImage
+		    End If
 		    g.DrawPicture(scaled, (g.Width - scaled.Width) / 2, (g.Height - scaled.Height) / 2)
 		  Else
 		    Dim s As String = "No image data"
@@ -1079,6 +1187,8 @@ End
 		  DoGenImageURLBtn.Enabled = False
 		  DoCompletionBtn.Enabled = False
 		  DoModerationBtn.Enabled = False
+		  DoAbortBtn.Visible = True
+		  RequestProgressBar.Visible = True
 		  mWorker = New Thread
 		  AddHandler mWorker.Run, WeakAddressOf RunDoCompletion
 		  mWorker.Priority = 3
@@ -1096,6 +1206,8 @@ End
 		  DoGenImageURLBtn.Enabled = False
 		  DoCompletionBtn.Enabled = False
 		  DoModerationBtn.Enabled = False
+		  DoAbortBtn.Visible = True
+		  RequestProgressBar.Visible = True
 		  mWorker = New Thread
 		  AddHandler mWorker.Run, WeakAddressOf RunCreateImageURL
 		  mWorker.Priority = 3
@@ -1113,6 +1225,8 @@ End
 		  DoGenImageURLBtn.Enabled = False
 		  DoCompletionBtn.Enabled = False
 		  DoModerationBtn.Enabled = False
+		  DoAbortBtn.Visible = True
+		  RequestProgressBar.Visible = True
 		  mWorker = New Thread
 		  AddHandler mWorker.Run, WeakAddressOf RunCreateImage
 		  mWorker.Priority = 3
@@ -1130,6 +1244,8 @@ End
 		  DoGenImageURLBtn.Enabled = False
 		  DoCompletionBtn.Enabled = False
 		  DoModerationBtn.Enabled = False
+		  DoAbortBtn.Visible = True
+		  RequestProgressBar.Visible = True
 		  mWorker = New Thread
 		  AddHandler mWorker.Run, WeakAddressOf RunDoModeration
 		  mWorker.Priority = 3
@@ -1182,6 +1298,24 @@ End
 		Sub ValueChanged()
 		  mResultCount = Me.Value
 		  ResultCountLbl.Text = Format(mResultCount, "##0")
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events DoAbortBtn
+	#tag Event
+		Sub Action()
+		  If mWorker = Nil Then Return
+		  If MsgBox("Abort this request?", 4 + 48, "Confirm abort") <> 6 Then Return
+		  mWorker.Kill()
+		  Self.Title = "Xojo-OpenAI Playground - Aborted"
+		  DoGenImageBtn.Enabled = True
+		  DoGenImageURLBtn.Enabled = True
+		  DoCompletionBtn.Enabled = True
+		  DoModerationBtn.Enabled = True
+		  mWorker = Nil
+		  ReplyText.Text = "Aborted by user."
+		  Me.Visible = False
+		  RequestProgressBar.Visible = False
 		End Sub
 	#tag EndEvent
 #tag EndEvents
@@ -1238,7 +1372,39 @@ End
 		  DoGenImageURLBtn.Enabled = True
 		  DoCompletionBtn.Enabled = True
 		  DoModerationBtn.Enabled = True
-		  
+		  DoAbortBtn.Visible = False
+		  RequestProgressBar.Visible = False
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events URLLbl
+	#tag Event
+		Sub MouseUp(X As Integer, Y As Integer)
+		  #pragma Unused X
+		  #pragma Unused Y
+		  ShowURL("https://github.com/charonn0/Xojo-OpenAI")
+		End Sub
+	#tag EndEvent
+	#tag Event
+		Function MouseDown(X As Integer, Y As Integer) As Boolean
+		  #pragma Unused X
+		  #pragma Unused Y
+		  Return True
+		End Function
+	#tag EndEvent
+	#tag Event
+		Sub MouseEnter()
+		  mLastPointer = Me.MouseCursor
+		  Me.MouseCursor = System.Cursors.FingerPointer
+		  Me.TextColor = &c0080FF00
+		  Me.Underline = False
+		End Sub
+	#tag EndEvent
+	#tag Event
+		Sub MouseExit()
+		  Me.MouseCursor = mLastPointer
+		  Me.TextColor = &c0000FF00
+		  Me.Underline = True
 		End Sub
 	#tag EndEvent
 #tag EndEvents
