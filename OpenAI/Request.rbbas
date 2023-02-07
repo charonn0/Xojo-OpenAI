@@ -37,6 +37,12 @@ Protected Class Request
 		End Function
 	#tag EndMethod
 
+	#tag Method, Flags = &h0
+		Sub UnSet(KeyName As String)
+		  If mRequest.HasName(KeyName) Then mRequest.Remove(KeyName)
+		End Sub
+	#tag EndMethod
+
 
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
