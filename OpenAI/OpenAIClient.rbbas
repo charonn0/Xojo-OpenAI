@@ -4,9 +4,10 @@ Private Class OpenAIClient
 		Sub Constructor()
 		  #If USE_RBLIBCURL Then
 		    Dim curl As New cURLClient
+		    curl.EasyHandle.UseProgressEvent = False
 		    curl.EasyHandle.FailOnServerError = False
 		    curl.BearerToken = APIKey
-		    curl.RequestHeaders.SetHeader("User-Agent", USER_AGENT_STRING)
+		    curl.EasyHandle.UserAgent = USER_AGENT_STRING
 		    mClient = curl
 		    
 		    Dim share As libcURL.ShareHandle = ShareHandle
@@ -40,7 +41,8 @@ Private Class OpenAIClient
 		    mClient = connection
 		    
 		  #Else
-		    Raise New OpenAIException("This version of RealStudio is not supported.")
+		    #pragma Warning "No supported HTTPS library enabled."
+		    Raise New OpenAIException("No supported HTTPS library enabled.")
 		  #endif
 		End Sub
 	#tag EndMethod
@@ -101,48 +103,48 @@ Private Class OpenAIClient
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function SendRequest(APIURL As String, Request As OpenAI.Request, RequestMethod As String = "POST") As String
+		Function SendRequest(APIEndpoint As String, Request As OpenAI.Request, RequestMethod As String = "POST") As String
+		  ' Upload the Request to the APIEndpoint using the specified HTTP request method.
+		  
 		  mMaskBuffer = Nil
 		  mImageBuffer = Nil
 		  
 		  #If USE_RBLIBCURL Then
-		    Return SendRequest_RBLibcurl(APIURL, Request, RequestMethod)
+		    Return SendRequest_RBLibcurl(APIEndpoint, Request, RequestMethod)
 		  #ElseIf USE_MBS Then
-		    Return SendRequest_MBS(APIURL, Request, RequestMethod)
+		    Return SendRequest_MBS(APIEndpoint, Request, RequestMethod)
 		  #ElseIf RBVersion > 2018.03 Then
-		    Return SendRequest_URLConnection(APIURL, Request, RequestMethod)
+		    Return SendRequest_URLConnection(APIEndpoint, Request, RequestMethod)
 		  #Else
-		    #pragma Unused APIURL
+		    #pragma Unused APIEndpoint
 		    #pragma Unused Request
 		    #pragma Unused RequestMethod
-		    #pragma Warning "No supported HTTPS library enabled."
-		    Raise New OpenAIException("This version of RealStudio is not supported.")
 		  #endif
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function SendRequest(APIURL As String, RequestMethod As String = "GET") As String
+		Function SendRequest(APIEndpoint As String, RequestMethod As String = "GET") As String
+		  ' Download a response from the APIEndpoint using the specified HTTP request method.
+		  
 		  mMaskBuffer = Nil
 		  mImageBuffer = Nil
 		  
 		  #If USE_RBLIBCURL Then
-		    Return SendRequest_RBLibcurl(APIURL, RequestMethod)
+		    Return SendRequest_RBLibcurl(APIEndpoint, RequestMethod)
 		  #ElseIf USE_MBS Then
-		    Return SendRequest_MBS(APIURL, RequestMethod)
+		    Return SendRequest_MBS(APIEndpoint, RequestMethod)
 		  #ElseIf RBVersion > 2018.03 Then
-		    Return SendRequest_URLConnection(APIURL, RequestMethod)
+		    Return SendRequest_URLConnection(APIEndpoint, RequestMethod)
 		  #Else
-		    #pragma Unused APIURL
+		    #pragma Unused APIEndpoint
 		    #pragma Unused RequestMethod
-		    #pragma Warning "No supported HTTPS library enabled."
-		    Raise New OpenAIException("This version of RealStudio is not supported.")
 		  #endif
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
-		Private Function SendRequest_MBS(APIURL As String, Request As OpenAI.Request, RequestMethod As String = "POST") As String
+		Private Function SendRequest_MBS(APIEndpoint As String, Request As OpenAI.Request, RequestMethod As String = "POST") As String
 		  #If USE_MBS Then
 		    Dim req As Variant = Request.ToObject()
 		    Dim curl As CURLSMBS = mClient
@@ -185,19 +187,18 @@ Private Class OpenAIClient
 		      curl.SetOptionHTTPHeader(Array("Content-Type: application/json"))
 		    End If
 		    
-		    curl.OptionURL = OPENAI_URL + APIURL
-		    If curl.PerformMT() <> 0 Then
-		      Dim data As String = curl.OutputData
-		      If data.Trim = "" Then
-		        Raise New OpenAIException(curl.LastErrorMessage)
-		      Else
-		        Raise New OpenAIException(New JSONItem(data))
-		      End If
+		    curl.OptionURL = OPENAI_URL + APIEndpoint
+		    If curl.PerformMT() = 0 Then Return curl.OutputData
+		    
+		    'error
+		    Dim data As String = curl.OutputData
+		    If data.Trim = "" Then
+		      Raise New OpenAIException(curl.LastErrorMessage)
 		    Else
-		      Return curl.OutputData
+		      Raise New OpenAIException(New JSONItem(data))
 		    End If
 		  #Else
-		    #pragma Unused APIURL
+		    #pragma Unused APIEndpoint
 		    #pragma Unused Request
 		    #pragma Unused RequestMethod
 		  #endif
@@ -205,31 +206,30 @@ Private Class OpenAIClient
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
-		Private Function SendRequest_MBS(APIURL As String, RequestMethod As String = "GET") As String
+		Private Function SendRequest_MBS(APIEndpoint As String, RequestMethod As String = "GET") As String
 		  #If USE_MBS Then
 		    Dim curl As CURLSMBS = mClient
-		    curl.OptionURL = OPENAI_URL + APIURL
+		    curl.OptionURL = OPENAI_URL + APIEndpoint
 		    curl.OptionCustomRequest = RequestMethod
-		    Dim err As Integer = curl.Perform()
-		    If err <> 0 Then
-		      Dim data As String = curl.OutputData
-		      If data.Trim = "" Then
-		        Raise New OpenAIException(curl.LastErrorMessage)
-		      Else
-		        Raise New OpenAIException(New JSONItem(data))
-		      End If
+		    If curl.PerformMT() = 0 Then Return curl.OutputData
+		    
+		    'error
+		    Dim data As String = curl.OutputData
+		    If data.Trim = "" Then
+		      Raise New OpenAIException(curl.LastErrorMessage)
 		    Else
-		      Return curl.OutputData
+		      Raise New OpenAIException(New JSONItem(data))
 		    End If
+		    
 		  #Else
-		    #pragma Unused APIURL
+		    #pragma Unused APIEndpoint
 		    #pragma Unused RequestMethod
 		  #endif
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
-		Private Function SendRequest_RBLibcurl(APIURL As String, Request As OpenAI.Request, RequestMethod As String = "POST") As String
+		Private Function SendRequest_RBLibcurl(APIEndpoint As String, Request As OpenAI.Request, RequestMethod As String = "POST") As String
 		  #If USE_RBLIBCURL Then
 		    Dim client As cURLClient = mClient
 		    client.SetRequestMethod(RequestMethod)
@@ -278,35 +278,40 @@ Private Class OpenAIClient
 		        End Select
 		      Next
 		      
-		      If Not client.Post(OPENAI_URL + APIURL, form) Then ' perform the request
-		        Dim curlerr As New libcURL.cURLException(client.EasyHandle)
-		        Dim data As String = client.GetDownloadedData
-		        If data.Trim <> "" Then
-		          Dim openaierr As New OpenAIException(New JSONItem(data))
-		          curlerr.Message = openaierr.Message + EndOfLine + curlerr.Message
-		        End If
-		        Raise curlerr
+		      ' perform the request
+		      If client.Post(OPENAI_URL + APIEndpoint, form) Then Return client.GetDownloadedData
+		      
+		      ' error
+		      Dim curlerr As New libcURL.cURLException(client.EasyHandle)
+		      Dim data As String = client.GetDownloadedData
+		      If data.Trim <> "" Then
+		        Dim openaierr As New OpenAIException(New JSONItem(data))
+		        curlerr.Message = openaierr.Message + EndOfLine + curlerr.Message
 		      End If
-		      Return client.GetDownloadedData
+		      Raise curlerr
+		      
 		      
 		    Else ' POST a JSONItem
-		      Dim data As MemoryBlock = requestobj.StringValue
+		      
+		      Dim data As MemoryBlock = requestobj.StringValue()
 		      client.RequestHeaders.SetHeader("Content-Type", "application/json")
 		      client.SetRequestMethod("POST")
-		      If Not client.Put(OPENAI_URL + APIURL, data) Then ' perform the request
-		        Dim curlerr As New libcURL.cURLException(client.EasyHandle)
-		        Dim page As String = client.GetDownloadedData
-		        If page.Trim <> "" Then
-		          Dim openaierr As New OpenAIException(New JSONItem(page))
-		          curlerr.Message = openaierr.Message + EndOfLine + curlerr.Message
-		        End If
-		        Raise curlerr
+		      
+		      ' perform the request
+		      If client.Put(OPENAI_URL + APIEndpoint, data) Then Return client.GetDownloadedData
+		      
+		      ' error
+		      Dim curlerr As New libcURL.cURLException(client.EasyHandle)
+		      Dim page As String = client.GetDownloadedData
+		      If page.Trim <> "" Then
+		        Dim openaierr As New OpenAIException(New JSONItem(page))
+		        curlerr.Message = openaierr.Message + EndOfLine + curlerr.Message
 		      End If
-		      Return client.GetDownloadedData
+		      Raise curlerr
 		    End If
 		    
 		  #Else
-		    #pragma Unused APIURL
+		    #pragma Unused APIEndpoint
 		    #pragma Unused Request
 		    #pragma Unused RequestMethod
 		  #endif
@@ -314,29 +319,32 @@ Private Class OpenAIClient
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
-		Private Function SendRequest_RBLibcurl(APIURL As String, RequestMethod As String = "GET") As String
+		Private Function SendRequest_RBLibcurl(APIEndpoint As String, RequestMethod As String = "GET") As String
 		  #If USE_RBLIBCURL Then
 		    Dim client As cURLClient = mClient
 		    client.SetRequestMethod(RequestMethod)
-		    If Not client.Get(OPENAI_URL + APIURL) Then
-		      Dim curlerr As New libcURL.cURLException(client.EasyHandle)
-		      Dim data As String = client.GetDownloadedData
-		      If data.Trim = "" Then
-		        Dim openaierr As New OpenAIException(New JSONItem(data))
-		        curlerr.Message = openaierr.Message + EndOfLine + curlerr.Message
-		      End If
-		      Raise curlerr
+		    
+		    ' perform the request
+		    If client.Get(OPENAI_URL + APIEndpoint) Then Return client.GetDownloadedData()
+		    
+		    ' error
+		    Dim curlerr As New libcURL.cURLException(client.EasyHandle)
+		    Dim data As String = client.GetDownloadedData
+		    If data.Trim = "" Then
+		      Dim openaierr As New OpenAIException(New JSONItem(data))
+		      curlerr.Message = openaierr.Message + EndOfLine + curlerr.Message
 		    End If
-		    Return client.GetDownloadedData()
+		    Raise curlerr
+		    
 		  #Else
-		    #pragma Unused APIURL
+		    #pragma Unused APIEndpoint
 		    #pragma Unused RequestMethod
 		  #endif
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
-		Private Function SendRequest_URLConnection(APIURL As String, Request As OpenAI.Request, RequestMethod As String = "POST") As String
+		Private Function SendRequest_URLConnection(APIEndpoint As String, Request As OpenAI.Request, RequestMethod As String = "POST") As String
 		  #If RBVersion > 2018.03 Then
 		    Dim client As URLConnection = mClient
 		    Dim req As Variant = Request.ToObject
@@ -347,9 +355,15 @@ Private Class OpenAIClient
 		    Else
 		      client.SetRequestContent(req.StringValue, "application/json")
 		    End If
-		    Return client.SendSync(RequestMethod, OPENAI_URL + APIURL, 0)
+		    mURLConnectionError = Nil
+		    Try
+		      Return client.SendSync(RequestMethod, OPENAI_URL + APIEndpoint, 0)
+		    Catch err
+		      mURLConnectionError = err
+		    End Try
+		    
 		  #Else
-		    #pragma Unused APIURL
+		    #pragma Unused APIEndpoint
 		    #pragma Unused Request
 		    #pragma Unused RequestMethod
 		  #endif
@@ -357,17 +371,83 @@ Private Class OpenAIClient
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
-		Private Function SendRequest_URLConnection(APIURL As String, RequestMethod As String = "GET") As String
+		Private Function SendRequest_URLConnection(APIEndpoint As String, RequestMethod As String = "GET") As String
 		  #If RBVersion > 2018.03 Then
 		    Dim client As URLConnection = mClient
-		    Return client.SendSync(RequestMethod, OPENAI_URL + APIURL, 0)
+		    mURLConnectionError = Nil
+		    Try
+		      Return client.SendSync(RequestMethod, OPENAI_URL + APIEndpoint, 0)
+		    Catch err
+		      mURLConnectionError = err
+		    End Try
 		  #Else
-		    #pragma Unused APIURL
+		    #pragma Unused APIEndpoint
 		    #pragma Unused RequestMethod
 		  #endif
 		End Function
 	#tag EndMethod
 
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  #If USE_RBLIBCURL Then
+			    Dim curl As cURLClient = mClient
+			    Return curl.LastError
+			    
+			  #ElseIf USE_MBS Then
+			    Dim curl As CURLSMBS = mClient
+			    Return curl.Lasterror
+			    
+			  #ElseIf RBVersion > 2018.03 Then
+			    If mURLConnectionError <> Nil Then Return mURLConnectionError.ErrorNumber
+			    
+			  #endif
+			End Get
+		#tag EndGetter
+		LastErrorCode As Integer
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  #If USE_RBLIBCURL Then
+			    Dim curl As cURLClient = mClient
+			    Return curl.LastErrorMessage
+			    
+			  #ElseIf USE_MBS Then
+			    Dim curl As CURLSMBS = mClient
+			    Return curl.LasterrorMessage
+			    
+			  #ElseIf RBVersion > 2018.03 Then
+			    If mURLConnectionError <> Nil Then Return mURLConnectionError.Reason
+			    
+			  #endif
+			End Get
+		#tag EndGetter
+		LastErrorMessage As String
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  #If USE_RBLIBCURL Then
+			    Dim curl As cURLClient = mClient
+			    Return curl.LastStatusCode
+			    
+			  #ElseIf USE_MBS Then
+			    Dim curl As CURLSMBS = mClient
+			    Return curl.GetInfoResponseCode()
+			    
+			  #ElseIf RBVersion > 2018.03 Then
+			    Dim connection As URLConnection = mClient
+			    Return connection.HTTPStatusCode
+			    
+			  #endif
+			End Get
+		#tag EndGetter
+		LastStatusCode As Integer
+	#tag EndComputedProperty
 
 	#tag Property, Flags = &h21
 		Private mClient As Variant
@@ -378,7 +458,15 @@ Private Class OpenAIClient
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
+		Private mLastErrorCode As Integer
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
 		Private mMaskBuffer As MemoryBlock
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mURLConnectionError As RuntimeException
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
