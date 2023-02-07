@@ -15,7 +15,8 @@ Protected Class Response
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Response.Create
 		  
 		  Dim client As New OpenAIClient
-		  Dim response As New JSONItem(client.SendRequest(Endpoint))
+		  Dim data As String = client.SendRequest(Endpoint)
+		  Dim response As New JSONItem(data)
 		  If response = Nil Or response.HasName("error") Then Raise New OpenAIException(response)
 		  Return New OpenAI.Response(response, client)
 		  
