@@ -31,32 +31,38 @@ Inherits OpenAI.Model
 
 	#tag Method, Flags = &h0
 		 Shared Function Create(TrainingFile As OpenAI.File, BaseModel As OpenAI.Model, Name As String = "") As OpenAI.FineTune
-		  Return FineTune.Create(TrainingFile.ID, BaseModel, Name)
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		 Shared Function Create(TrainingFileID As String, BaseModel As OpenAI.Model, Name As String = "") As OpenAI.FineTune
 		  If Not BaseModel.AllowFineTuning Then
 		    Raise New OpenAIException("The specified AI model ('" + BaseModel.ID + "') cannot be fine-tuned.")
 		  End If
 		  
 		  Dim client As New OpenAIClient
 		  Dim request As New OpenAI.Request
-		  request.TrainingFile = TrainingFileID
+		  request.TrainingFile = TrainingFile.ID
 		  request.Model = BaseModel
 		  If Name <> "" Then request.Suffix = Name
+		  If PrevalidateRequests And Not FineTune.IsValid(Request) Then Raise New OpenAIException("The request appears to be invalid.")
 		  Dim result As New JSONItem(client.SendRequest("/v1/fine-tunes", request))
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
 		  ReDim FineTuneList(-1) ' force refresh
 		  Return New OpenAI.FineTune(result, client)
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		 Shared Function Create(TrainingFileID As String, BaseModel As OpenAI.Model, Name As String = "") As OpenAI.FineTune
+		  Dim file As OpenAI.File = OpenAI.File.Lookup(TrainingFileID)
+		  If file = Nil Then
+		    Raise New OpenAIException("The specified training file ('" + TrainingFileID + "') was not found on the server.")
+		  End If
+		  Return FineTune.Create(file, BaseModel, Name)
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Sub Delete()
 		  Dim result As New JSONItem(mclient.SendRequest("/v1/models/" + Me.ID, "DELETE"))
-		  If result.HasName("error") Then Raise New OpenAIException(result)
+		  If result.HasName("error") Then Raise New OpenAIException(result) Else ReDim FineTuneList(-1)
 		End Sub
 	#tag EndMethod
 
