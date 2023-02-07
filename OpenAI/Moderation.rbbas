@@ -55,7 +55,7 @@ Inherits OpenAI.Response
 		  If Request.LogItBias <> Nil Then Return False
 		  If Request.LogProbabilities <> 0 Then Return False
 		  If Request.MaskImage <> Nil Then Return False
-		  If Request.MaxTokens >= 0 Then Return False
+		  If Request.MaxTokens > 1 Then Return False
 		  ' If Request.MaxTokens >= 2048 Then Return False
 		  If Request.Model = Nil Then Return False ' required
 		  If Request.NumberOfEpochs <> 1 Then Return False
