@@ -35,7 +35,11 @@ Protected Class FineTuneData
 		  Do Until tis.EOF()
 		    Dim jsonl As String = tis.ReadLine.Trim
 		    If jsonl = "" Then Continue
-		    mLines.Append(New JSONItem(jsonl))
+		    Try
+		      mLines.Append(New JSONItem(jsonl))
+		    Catch err As JSONException
+		      Raise New OpenAIException("Invalid JSON line: '" + jsonl + "'" + EndOfLine + err.Message)
+		    End Try
 		  Loop
 		  tis.Close()
 		End Sub
@@ -48,7 +52,11 @@ Protected Class FineTuneData
 		  For i As Integer = 0 To UBound(lines)
 		    Dim jsonl As String = lines(i).Trim
 		    If jsonl = "" Then Continue
-		    mLines.Append(New JSONItem(jsonl))
+		    Try
+		      mLines.Append(New JSONItem(jsonl))
+		    Catch err As JSONException
+		      Raise New OpenAIException("Invalid JSON line: '" + jsonl + "'" + EndOfLine + err.Message)
+		    End Try
 		  Next
 		End Sub
 	#tag EndMethod
@@ -91,11 +99,7 @@ Protected Class FineTuneData
 	#tag Method, Flags = &h0
 		Sub Save(TrainingFile As FolderItem)
 		  Dim out As BinaryStream = BinaryStream.Create(TrainingFile)
-		  For i As Integer = 0 To UBound(mLines)
-		    Dim js As JSONItem = mLines(i)
-		    js.Compact = True
-		    out.Write(js.ToString + EndOfLine.UNIX)
-		  Next
+		  WriteToStream(out)
 		  out.Close
 		  
 		End Sub
@@ -105,15 +109,22 @@ Protected Class FineTuneData
 		Function ToString() As String
 		  Dim dataset As New MemoryBlock(0)
 		  Dim out As New BinaryStream(dataset)
-		  For i As Integer = 0 To UBound(mLines)
-		    Dim js As JSONItem = mLines(i)
-		    js.Compact = True
-		    out.Write(js.ToString + EndOfLine.UNIX)
-		  Next
+		  WriteToStream(out)
 		  out.Close
 		  
 		  Return DefineEncoding(dataset, Encodings.UTF8)
 		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub WriteToStream(Stream As BinaryStream)
+		  For i As Integer = 0 To UBound(mLines)
+		    Dim js As JSONItem = mLines(i)
+		    js.Compact = True
+		    Stream.Write(js.ToString + EndOfLine.UNIX)
+		  Next
+		  
+		End Sub
 	#tag EndMethod
 
 
