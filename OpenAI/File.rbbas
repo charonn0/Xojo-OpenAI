@@ -50,6 +50,7 @@ Inherits OpenAI.Response
 		  request.File = FileContent
 		  request.FileName = FileName
 		  request.Purpose = Purpose
+		  If PrevalidateRequests And Not File.IsValid(Request) Then Raise New OpenAIException("The request appears to be invalid.")
 		  Dim result As New JSONItem(client.SendRequest("/v1/files", request))
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
 		  ReDim FileList(-1) ' force refresh

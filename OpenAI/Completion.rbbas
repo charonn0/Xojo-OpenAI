@@ -19,6 +19,7 @@ Inherits OpenAI.Response
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Completion.Create
 		  ' https://beta.openai.com/docs/api-reference/completions
 		  
+		  If PrevalidateRequests And Not Completion.IsValid(Request) Then Raise New OpenAIException("The request appears to be invalid.")
 		  Dim client As New OpenAIClient
 		  Dim response As New JSONItem(client.SendRequest("/v1/completions", request))
 		  If response = Nil Or response.HasName("error") Then Raise New OpenAIException(response)
@@ -53,6 +54,7 @@ Inherits OpenAI.Response
 		  ' https://beta.openai.com/docs/api-reference/edits
 		  
 		  
+		  If PrevalidateRequests And Not Completion.IsValid(Request) Then Raise New OpenAIException("The request appears to be invalid.")
 		  Dim client As New OpenAIClient
 		  Dim response As New JSONItem(client.SendRequest("/v1/edits", request))
 		  If response = Nil Or response.HasName("error") Then Raise New OpenAIException(response)

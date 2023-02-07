@@ -9,13 +9,22 @@ Protected Module OpenAI
 	#tag EndMethod
 
 
-	#tag Property, Flags = &h0
+	#tag Property, Flags = &h1
 		#tag Note
 			You will need an OpenAI API key in order to interact with the OpenAI API
 			
 			https://platform.openai.com/account/api-keys
 		#tag EndNote
-		APIKey As String = "YOUR API KEY HERE"
+		Protected APIKey As String = "YOUR API KEY HERE"
+	#tag EndProperty
+
+	#tag Property, Flags = &h1
+		#tag Note
+			When enabled, requests will be checked for basic sanity (using the IsValid() shared methods) before
+			being sent over the wire. This check is not fool-proof. Please report any requests that give false
+			positives/negatives
+		#tag EndNote
+		Protected PrevalidateRequests As Boolean = True
 	#tag EndProperty
 
 

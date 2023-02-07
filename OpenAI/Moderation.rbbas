@@ -12,6 +12,7 @@ Inherits OpenAI.Response
 
 	#tag Method, Flags = &h0
 		 Shared Function Create(Request As OpenAI.Request) As OpenAI.Moderation
+		  If PrevalidateRequests And Not Moderation.IsValid(Request) Then Raise New OpenAIException("The request appears to be invalid.")
 		  Dim client As New OpenAIClient
 		  Dim result As New JSONItem(client.SendRequest("/v1/moderations", Request))
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)

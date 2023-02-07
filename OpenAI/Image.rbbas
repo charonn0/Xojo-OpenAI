@@ -18,6 +18,7 @@ Inherits OpenAI.Response
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Image.CreateVariation
 		  ' https://beta.openai.com/docs/api-reference/images/create-variation
 		  
+		  If PrevalidateRequests And Not Image.IsValid(Request) Then Raise New OpenAIException("The request appears to be invalid.")
 		  Dim client As New OpenAIClient
 		  Dim result As New JSONItem(client.SendRequest("/v1/images/variations", Request))
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
@@ -50,6 +51,7 @@ Inherits OpenAI.Response
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Image.Edit
 		  ' https://beta.openai.com/docs/api-reference/images/create-edit
 		  
+		  If PrevalidateRequests And Not Image.IsValid(Request) Then Raise New OpenAIException("The request appears to be invalid.")
 		  If Request.SourceImage <> Nil Then
 		    If Request.SourceImage.Width <> Request.SourceImage.Height Then Raise New OpenAIException("Pictures submitted to the API must be square.")
 		    If Request.MaskImage <> Nil And _
@@ -92,6 +94,7 @@ Inherits OpenAI.Response
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Image.Generate
 		  ' https://beta.openai.com/docs/api-reference/images/create
 		  
+		  If PrevalidateRequests And Not Image.IsValid(Request) Then Raise New OpenAIException("The request appears to be invalid.")
 		  Dim client As New OpenAIClient
 		  Dim result As New JSONItem(client.SendRequest("/v1/images/generations", Request))
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
