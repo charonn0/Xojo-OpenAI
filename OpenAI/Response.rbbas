@@ -1,6 +1,5 @@
 #tag Class
 Protected Class Response
-Implements OpenAI.Serializable
 	#tag Method, Flags = &h1
 		Protected Sub Constructor(ResponseData As JSONItem, Client As OpenAIClient)
 		  mResponse = ResponseData
@@ -85,8 +84,6 @@ Implements OpenAI.Serializable
 
 	#tag Method, Flags = &h0
 		Function ToString() As String
-		  // Part of the Serializable interface.
-		  
 		  Return mResponse.ToString()
 		End Function
 	#tag EndMethod

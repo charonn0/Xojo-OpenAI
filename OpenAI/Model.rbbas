@@ -1,6 +1,5 @@
 #tag Class
 Protected Class Model
-Implements OpenAI.Serializable
 	#tag Method, Flags = &h1
 		Protected Sub Constructor(Response As JSONItem)
 		  mModel = Response
@@ -66,8 +65,6 @@ Implements OpenAI.Serializable
 
 	#tag Method, Flags = &h0
 		Function ToString() As String
-		  // Part of the Serializable interface.
-		  
 		  Return mModel.ToString()
 		End Function
 	#tag EndMethod
@@ -75,7 +72,6 @@ Implements OpenAI.Serializable
 
 	#tag Note, Name = About models
 		https://beta.openai.com/docs/models/overview
-		
 	#tag EndNote
 
 
