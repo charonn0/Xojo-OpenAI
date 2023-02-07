@@ -77,7 +77,7 @@ Inherits OpenAI.Response
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.File.Delete
 		  
 		  Dim result As New JSONItem(mClient.SendRequest("/v1/files/" + Me.ID, "DELETE"))
-		  If result.HasName("error") Then Raise New OpenAIException(result)
+		  If result.HasName("error") Then Raise New OpenAIException(result) Else ReDim FileList(-1)
 		End Sub
 	#tag EndMethod
 
