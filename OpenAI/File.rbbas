@@ -51,7 +51,13 @@ Inherits OpenAI.Response
 		  request.FileName = FileName
 		  request.Purpose = Purpose
 		  If PrevalidateRequests And Not File.IsValid(Request) Then Raise New OpenAIException("The request appears to be invalid.")
-		  Dim result As New JSONItem(client.SendRequest("/v1/files", request))
+		  Dim result As JSONItem
+		  Dim data As String = client.SendRequest("/v1/files", request)
+		  Try
+		    result = New JSONItem(data)
+		  Catch err As JSONException
+		    Raise New OpenAIException(client.LastErrorMessage)
+		  End Try
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
 		  ReDim FileList(-1) ' force refresh
 		  Return New OpenAI.File(result, client)
@@ -150,7 +156,13 @@ Inherits OpenAI.Response
 		Protected Shared Sub ListAllFiles()
 		  ReDim FileList(-1)
 		  Dim client As New OpenAIClient
-		  Dim result As New JSONItem(client.SendRequest("/v1/files"))
+		  Dim result As JSONItem
+		  Dim data As String = client.SendRequest("/v1/files")
+		  Try
+		    result = New JSONItem(data)
+		  Catch err As JSONException
+		    Raise New OpenAIException(client.LastErrorMessage)
+		  End Try
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
 		  result = result.Value("data")
 		  For i As Integer = 0 To result.Count - 1

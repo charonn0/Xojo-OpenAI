@@ -20,7 +20,13 @@ Inherits OpenAI.Response
 		  
 		  If PrevalidateRequests And Not Image.IsValid(Request) Then Raise New OpenAIException("The request appears to be invalid.")
 		  Dim client As New OpenAIClient
-		  Dim result As New JSONItem(client.SendRequest("/v1/images/variations", Request))
+		  Dim data As String = client.SendRequest("/v1/images/variations", Request)
+		  Dim result As JSONItem
+		  Try
+		    result = New JSONItem(data)
+		  Catch err As JSONException
+		    Raise New OpenAIException(client.LastErrorMessage)
+		  End Try
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
 		  Return New OpenAI.Image(result, client)
 		End Function
@@ -61,7 +67,13 @@ Inherits OpenAI.Response
 		  End If
 		  
 		  Dim client As New OpenAIClient
-		  Dim result As New JSONItem(client.SendRequest("/v1/images/edits", Request))
+		  Dim result As JSONItem
+		  Dim data As String = client.SendRequest("/v1/images/edits", Request)
+		  Try
+		    result = New JSONItem(data)
+		  Catch err As JSONException
+		    Raise New OpenAIException(client.LastErrorMessage)
+		  End Try
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
 		  Return New OpenAI.Image(result, client)
 		End Function
@@ -96,7 +108,13 @@ Inherits OpenAI.Response
 		  
 		  If PrevalidateRequests And Not Image.IsValid(Request) Then Raise New OpenAIException("The request appears to be invalid.")
 		  Dim client As New OpenAIClient
-		  Dim result As New JSONItem(client.SendRequest("/v1/images/generations", Request))
+		  Dim data As String = client.SendRequest("/v1/images/generations", Request)
+		  Dim result As JSONItem
+		  Try
+		    result = New JSONItem(data)
+		  Catch err As JSONException
+		    Raise New OpenAIException(client.LastErrorMessage)
+		  End Try
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
 		  Return New OpenAI.Image(result, client)
 		End Function

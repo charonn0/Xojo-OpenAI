@@ -22,7 +22,13 @@ Protected Class Model
 		Private Shared Sub ListAvailableModels()
 		  ReDim ModelList(-1)
 		  Dim client As New OpenAIClient
-		  Dim lst As New JSONItem(client.SendRequest("/v1/models"))
+		  Dim data As String = client.SendRequest("/v1/models")
+		  Dim lst As JSONItem
+		  Try
+		    lst = New JSONItem(data)
+		  Catch err As JSONException
+		    Raise New OpenAIException(client.LastErrorMessage)
+		  End Try
 		  If lst = Nil Or Not lst.HasName("data") Then Raise New OpenAIException(lst)
 		  lst = lst.Value("data")
 		  

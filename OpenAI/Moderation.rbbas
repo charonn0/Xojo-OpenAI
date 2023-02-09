@@ -14,7 +14,13 @@ Inherits OpenAI.Response
 		 Shared Function Create(Request As OpenAI.Request) As OpenAI.Moderation
 		  If PrevalidateRequests And Not Moderation.IsValid(Request) Then Raise New OpenAIException("The request appears to be invalid.")
 		  Dim client As New OpenAIClient
-		  Dim result As New JSONItem(client.SendRequest("/v1/moderations", Request))
+		  Dim data As String = client.SendRequest("/v1/moderations", Request)
+		  Dim result As JSONItem
+		  Try
+		    result = New JSONItem(data)
+		  Catch err As JSONException
+		    Raise New OpenAIException(client.LastErrorMessage)
+		  End Try
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
 		  Return New OpenAI.Moderation(result, client)
 		End Function

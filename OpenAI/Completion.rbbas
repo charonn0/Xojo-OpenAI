@@ -21,7 +21,13 @@ Inherits OpenAI.Response
 		  
 		  If PrevalidateRequests And Not Completion.IsValid(Request) Then Raise New OpenAIException("The request appears to be invalid.")
 		  Dim client As New OpenAIClient
-		  Dim response As New JSONItem(client.SendRequest("/v1/completions", request))
+		  Dim data As String = client.SendRequest("/v1/completions", request)
+		  Dim response As JSONItem
+		  Try
+		    response = New JSONItem(data)
+		  Catch err As JSONException
+		    Raise New OpenAIException(client.LastErrorMessage)
+		  End Try
 		  If response = Nil Or response.HasName("error") Then Raise New OpenAIException(response)
 		  Return New OpenAI.Completion(response, client)
 		  
@@ -56,7 +62,13 @@ Inherits OpenAI.Response
 		  
 		  If PrevalidateRequests And Not Completion.IsValid(Request) Then Raise New OpenAIException("The request appears to be invalid.")
 		  Dim client As New OpenAIClient
-		  Dim response As New JSONItem(client.SendRequest("/v1/edits", request))
+		  Dim response As JSONItem
+		  Dim data As String = client.SendRequest("/v1/edits", request)
+		  Try
+		    response = New JSONItem(data)
+		  Catch err As JSONException
+		    Raise New OpenAIException(client.LastErrorMessage)
+		  End Try
 		  If response = Nil Or response.HasName("error") Then Raise New OpenAIException(response)
 		  Return New OpenAI.Completion(response, client)
 		  

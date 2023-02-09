@@ -41,7 +41,13 @@ Inherits OpenAI.Model
 		  request.Model = BaseModel
 		  If Name <> "" Then request.Suffix = Name
 		  If PrevalidateRequests And Not FineTune.IsValid(Request) Then Raise New OpenAIException("The request appears to be invalid.")
-		  Dim result As New JSONItem(client.SendRequest("/v1/fine-tunes", request))
+		  Dim data As String = client.SendRequest("/v1/fine-tunes", request)
+		  Dim result As JSONItem
+		  Try
+		    result = New JSONItem(data)
+		  Catch err As JSONException
+		    Raise New OpenAIException(client.LastErrorMessage)
+		  End Try
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
 		  ReDim FineTuneList(-1) ' force refresh
 		  Return New OpenAI.FineTune(result, client)
@@ -118,7 +124,13 @@ Inherits OpenAI.Model
 		Private Shared Sub ListMyFineTunes()
 		  ReDim FineTuneList(-1)
 		  Dim client As New OpenAIClient
-		  Dim lst As New JSONItem(client.SendRequest("/v1/fine-tunes"))
+		  Dim lst As JSONItem
+		  Dim data As String = client.SendRequest("/v1/fine-tunes")
+		  Try
+		    lst = New JSONItem(data)
+		  Catch err As JSONException
+		    Raise New OpenAIException(client.LastErrorMessage)
+		  End Try
 		  If lst = Nil Or Not lst.HasName("data") Then Raise New OpenAIException(lst)
 		  lst = lst.Value("data")
 		  
