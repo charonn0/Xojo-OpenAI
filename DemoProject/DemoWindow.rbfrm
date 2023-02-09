@@ -748,8 +748,8 @@ Begin Window DemoWindow
          Left            =   364
          LockBottom      =   False
          LockedInPosition=   False
-         LockLeft        =   True
-         LockRight       =   False
+         LockLeft        =   False
+         LockRight       =   True
          LockTop         =   False
          Scope           =   0
          TabIndex        =   20
@@ -773,9 +773,9 @@ Begin Window DemoWindow
          Left            =   364
          LockBottom      =   ""
          LockedInPosition=   False
-         LockLeft        =   True
-         LockRight       =   ""
-         LockTop         =   True
+         LockLeft        =   False
+         LockRight       =   True
+         LockTop         =   False
          Maximum         =   0
          Scope           =   0
          TabPanelIndex   =   0
