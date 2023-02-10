@@ -18,7 +18,10 @@ Inherits OpenAI.Response
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Image.CreateVariation
 		  ' https://beta.openai.com/docs/api-reference/images/create-variation
 		  
-		  If PrevalidateRequests And Not Image.IsValid(Request) Then Raise New OpenAIException("The request appears to be invalid.")
+		  If PrevalidateRequests Then
+		    Dim err As ValidationError = Image.IsValid(Request)
+		    If err <> ValidationError.None Then Raise New OpenAIException(err)
+		  End If
 		  Dim client As New OpenAIClient
 		  Dim data As String = client.SendRequest("/v1/images/variations", Request)
 		  Dim result As JSONItem
@@ -57,7 +60,10 @@ Inherits OpenAI.Response
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Image.Edit
 		  ' https://beta.openai.com/docs/api-reference/images/create-edit
 		  
-		  If PrevalidateRequests And Not Image.IsValid(Request) Then Raise New OpenAIException("The request appears to be invalid.")
+		  If PrevalidateRequests Then
+		    Dim err As ValidationError = Image.IsValid(Request)
+		    If err <> ValidationError.None Then Raise New OpenAIException(err)
+		  End If
 		  If Request.SourceImage <> Nil Then
 		    If Request.SourceImage.Width <> Request.SourceImage.Height Then Raise New OpenAIException("Pictures submitted to the API must be square.")
 		    If Request.MaskImage <> Nil And _
@@ -106,7 +112,10 @@ Inherits OpenAI.Response
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Image.Generate
 		  ' https://beta.openai.com/docs/api-reference/images/create
 		  
-		  If PrevalidateRequests And Not Image.IsValid(Request) Then Raise New OpenAIException("The request appears to be invalid.")
+		  If PrevalidateRequests Then
+		    Dim err As ValidationError = Image.IsValid(Request)
+		    If err <> ValidationError.None Then Raise New OpenAIException(err)
+		  End If
 		  Dim client As New OpenAIClient
 		  Dim data As String = client.SendRequest("/v1/images/generations", Request)
 		  Dim result As JSONItem
@@ -153,50 +162,50 @@ Inherits OpenAI.Response
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		 Shared Function IsValid(Request As OpenAI.Request) As Boolean
-		  If Request.BatchSize <> 1 Then Return False
-		  If Request.BestOf <> 1 Then Return False
-		  If Request.ClassificationBetas <> Nil Then Return False
-		  If Request.ClassificationNClasses <> 1 Then Return False
-		  If Request.ClassificationPositiveClass <> "" Then Return False
-		  If Request.ComputeClassificationMetrics <> False Then Return False
-		  ' If Request.Echo <> False Then Return False
-		  If Request.File <> Nil Then Return False
-		  If Request.FileName <> "" Then Return False
-		  ' If Request.FineTuneID <> "" Then Return False
-		  If Request.FrequencyPenalty > 0.00001 Then Return False
-		  If Request.Input <> "" Then Return False
-		  If Request.Instruction <> "" Then Return False
-		  If Request.LearningRateMultiplier > 0.00001 Then Return False
-		  If Request.LogItBias <> Nil Then Return False
-		  If Request.LogProbabilities <> 0 Then Return False
-		  If Request.MaskImage <> Nil Then Return False
-		  If Request.MaxTokens > 1 Then Return False
-		  ' If Request.MaxTokens >= 2048 Then Return False
-		  If Request.Model <> Nil Then Return False
-		  If Request.NumberOfEpochs <> 1 Then Return False
-		  If Request.NumberOfResults < 1 Then Return False ' optional
-		  If Request.PresencePenalty > 0.00001 Then Return False
-		  If Request.Prompt = "" Then Return False ' required
-		  If Request.Prompt.Len > 1000 Then Return False ' max length exceeded
-		  If Request.PromptLossWeight > 0.00001 Then Return False
-		  If Request.Purpose <> "" Then Return False
-		  ' If Request.ResultsAsURL = True Then Return False
+		 Shared Function IsValid(Request As OpenAI.Request) As OpenAI.ValidationError
+		  If Request.BatchSize <> 1 Then Return ValidationError.BatchSize
+		  If Request.BestOf <> 1 Then Return ValidationError.BestOf
+		  If Request.ClassificationBetas <> Nil Then Return ValidationError.ClassificationBetas
+		  If Request.ClassificationNClasses <> 1 Then Return ValidationError.ClassificationNClasses
+		  If Request.ClassificationPositiveClass <> "" Then Return ValidationError.ClassificationPositiveClass
+		  If Request.ComputeClassificationMetrics <> False Then Return ValidationError.ComputeClassificationMetrics
+		  ' If Request.Echo <> False Then Return ValidationError.Echo
+		  If Request.File <> Nil Then Return ValidationError.File
+		  If Request.FileName <> "" Then Return ValidationError.FileName
+		  ' If Request.FineTuneID <> "" Then Return ValidationError.FineTuneID
+		  If Request.FrequencyPenalty > 0.00001 Then Return ValidationError.FrequencyPenalty
+		  If Request.Input <> "" Then Return ValidationError.Input
+		  If Request.Instruction <> "" Then Return ValidationError.Instruction
+		  If Request.LearningRateMultiplier > 0.00001 Then Return ValidationError.LearningRateMultiplier
+		  If Request.LogItBias <> Nil Then Return ValidationError.LogItBias
+		  If Request.LogProbabilities <> 0 Then Return ValidationError.LogProbabilities
+		  If Request.MaskImage <> Nil Then Return ValidationError.MaskImage
+		  If Request.MaxTokens > 1 Then Return ValidationError.MaxTokens
+		  ' If Request.MaxTokens >= 2048 Then Return ValidationError.MaxTokens
+		  If Request.Model <> Nil Then Return ValidationError.Model
+		  If Request.NumberOfEpochs <> 1 Then Return ValidationError.NumberOfEpochs
+		  If Request.NumberOfResults < 1 Then Return ValidationError.NumberOfResults ' optional
+		  If Request.PresencePenalty > 0.00001 Then Return ValidationError.PresencePenalty
+		  If Request.Prompt = "" Then Return ValidationError.Prompt ' required
+		  If Request.Prompt.Len > 1000 Then Return ValidationError.Prompt ' max length exceeded
+		  If Request.PromptLossWeight > 0.00001 Then Return ValidationError.PromptLossWeight
+		  If Request.Purpose <> "" Then Return ValidationError.Purpose
+		  ' If Request.ResultsAsURL = True Then Return ValidationError.ResultsAsURL
 		  If Request.Size <> "" Then
 		    Select Case Request.Size
 		    Case "256x256", "512x512", "1024x1024"
 		    Else
-		      Return False
+		      Return ValidationError.Size
 		    End Select
 		  End If
-		  ' If Request.SourceImage <> Nil Then Return False
-		  If Request.Stop <> "" Then Return False
-		  If Request.Suffix <> "" Then Return False
-		  If Request.Temperature > 0.00001 Then Return False
-		  If Request.Top_P > 0.00001 Then Return False
-		  If Request.TrainingFile <> "" Then Return False
-		  If Request.ValidationFile <> "" Then Return False
-		  Return True
+		  ' If Request.SourceImage <> Nil Then Return ValidationError.
+		  If Request.Stop <> "" Then Return ValidationError.Stop
+		  If Request.Suffix <> "" Then Return ValidationError.Suffix
+		  If Request.Temperature > 0.00001 Then Return ValidationError.Temperature
+		  If Request.Top_P > 0.00001 Then Return ValidationError.Top_P
+		  If Request.TrainingFile <> "" Then Return ValidationError.TrainingFile
+		  If Request.ValidationFile <> "" Then Return ValidationError.ValidationFile
+		  Return ValidationError.None
 		End Function
 	#tag EndMethod
 

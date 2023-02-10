@@ -49,6 +49,44 @@ Protected Module OpenAI
 		JSONObject
 	#tag EndEnum
 
+	#tag Enum, Name = ValidationError, Type = Integer, Flags = &h1
+		BatchSize
+		  BestOf
+		  ClassificationBetas
+		  ClassificationNClasses
+		  ClassificationPositiveClass
+		  ComputeClassificationMetrics
+		  Echo
+		  File
+		  FileName
+		  FineTuneID
+		  FrequencyPenalty
+		  Input
+		  Instruction
+		  LearningRateMultiplier
+		  LogItBias
+		  LogProbabilities
+		  MaskImage
+		  MaxTokens
+		  Model
+		  NumberOfEpochs
+		  NumberOfResults
+		  PresencePenalty
+		  Prompt
+		  PromptLossWeight
+		  Purpose
+		  ResultsAsURL
+		  Size
+		  SourceImage
+		  Stop
+		  Suffix
+		  Temperature
+		  Top_P
+		  TrainingFile
+		  ValidationFile
+		None
+	#tag EndEnum
+
 
 	#tag ViewBehavior
 		#tag ViewProperty

@@ -14,6 +14,84 @@ Inherits RuntimeException
 	#tag EndMethod
 
 	#tag Method, Flags = &h1000
+		Sub Constructor(Validation As OpenAI.ValidationError)
+		  Dim err As String
+		  Select Case Validation
+		  Case ValidationError.BatchSize
+		    err = "BatchSize"
+		  Case ValidationError.BestOf
+		    err = "BestOf"
+		  Case ValidationError.ClassificationBetas
+		    err = "ClassificationBetas"
+		  Case ValidationError.ClassificationNClasses
+		    err = "ClassificationNClasses"
+		  Case ValidationError.ClassificationPositiveClass
+		    err = "ClassificationPositiveClass"
+		  Case ValidationError.ComputeClassificationMetrics
+		    err = "ComputeClassificationMetrics"
+		  Case ValidationError.Echo
+		    err = "Echo"
+		  Case ValidationError.File
+		    err = "File"
+		  Case ValidationError.FileName
+		    err = "FileName"
+		  Case ValidationError.FineTuneID
+		    err = "FineTuneID"
+		  Case ValidationError.FrequencyPenalty
+		    err = "FrequencyPenalty"
+		  Case ValidationError.Input
+		    err = "Input"
+		  Case ValidationError.Instruction
+		    err = "Instruction"
+		  Case ValidationError.LearningRateMultiplier
+		    err = "LearningRateMultiplier"
+		  Case ValidationError.LogItBias
+		    err = "LogItBias"
+		  Case ValidationError.LogProbabilities
+		    err = "LogProbabilities"
+		  Case ValidationError.MaskImage
+		    err = "MaskImage"
+		  Case ValidationError.MaxTokens
+		    err = "MaxTokens"
+		  Case ValidationError.Model
+		    err = "Model"
+		  Case ValidationError.NumberOfEpochs
+		    err = "NumberOfEpochs"
+		  Case ValidationError.NumberOfResults
+		    err = "NumberOfResults"
+		  Case ValidationError.PresencePenalty
+		    err = "PresencePenalty"
+		  Case ValidationError.Prompt
+		    err = "Prompt"
+		  Case ValidationError.PromptLossWeight
+		    err = "PromptLossWeight"
+		  Case ValidationError.Purpose
+		    err = "Purpose"
+		  Case ValidationError.ResultsAsURL
+		    err = "ResultsAsURL"
+		  Case ValidationError.Size
+		    err = "Size"
+		  Case ValidationError.SourceImage
+		    err = "SourceImage"
+		  Case ValidationError.Stop
+		    err = "Stop"
+		  Case ValidationError.Suffix
+		    err = "Suffix"
+		  Case ValidationError.Temperature
+		    err = "Temperature"
+		  Case ValidationError.Top_P
+		    err = "Top_P"
+		  Case ValidationError.TrainingFile
+		    err = "TrainingFile"
+		  Case ValidationError.ValidationFile
+		    err = "ValidationFile"
+		  End Select
+		  
+		  Me.Message = "Request parameter " + err + " appears to be invalid."
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h1000
 		Sub Constructor(Message As String)
 		  Me.Message = Message
 		End Sub

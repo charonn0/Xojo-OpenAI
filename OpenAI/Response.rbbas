@@ -82,8 +82,9 @@ Protected Class Response
 
 	#tag Method, Flags = &h0
 		 Shared Function IsValid(Request As OpenAI.Request) As Boolean
-		  Return Completion.IsValid(Request) Or File.IsValid(Request) Or FineTune.IsValid(Request) _
-		  Or Image.IsValid(Request) Or Moderation.IsValid(Request)
+		  Return Completion.IsValid(Request) = ValidationError.None Or File.IsValid(Request) = ValidationError.None _
+		   Or FineTune.IsValid(Request) = ValidationError.None Or Image.IsValid(Request) = ValidationError.None _
+		   Or Moderation.IsValid(Request) = ValidationError.None
 		End Function
 	#tag EndMethod
 
