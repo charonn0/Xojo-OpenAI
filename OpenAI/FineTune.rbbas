@@ -3,21 +3,34 @@ Protected Class FineTune
 Inherits OpenAI.Model
 	#tag Method, Flags = &h0
 		Sub Cancel()
-		  Dim data As String = mClient.SendRequest("/v1/fine-tunes/" + Me.ID + "/cancel", "POST")
-		  Dim result As JSONItem
+		  Do Until mLock.TryEnter()
+		    #If RBVersion < 2020 Then
+		      App.YieldToNextThread()
+		    #Else
+		      Thread.YieldToNext()
+		    #EndIf
+		  Loop
+		  
 		  Try
-		    result = New JSONItem(data)
-		    mModel = result
-		  Catch err As JSONException
-		    Raise New OpenAIException(mClient.LastErrorMessage)
+		    Dim data As String = mClient.SendRequest("/v1/fine-tunes/" + Me.ID + "/cancel", "POST")
+		    Dim result As JSONItem
+		    Try
+		      result = New JSONItem(data)
+		      mModel = result
+		    Catch err As JSONException
+		      Raise New OpenAIException(mClient)
+		    End Try
+		    If result.HasName("error") Then Raise New OpenAIException(result)
+		  Finally
+		    mLock.Leave()
 		  End Try
-		  If result.HasName("error") Then Raise New OpenAIException(result) Else ReDim FineTuneList(-1)
 		  
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h1001
 		Protected Sub Constructor(ResponseData As JSONItem, Client As OpenAIClient)
+		  mLock = New CriticalSection()
 		  // Calling the overridden superclass constructor.
 		  // Constructor(ResponseData As JSONItem) -- From Model
 		  Super.Constructor(ResponseData)
@@ -78,25 +91,49 @@ Inherits OpenAI.Model
 
 	#tag Method, Flags = &h0
 		Sub Delete()
-		  Dim data As String = mclient.SendRequest("/v1/models/" + Me.ID, "DELETE")
-		  Dim result As JSONItem
+		  Do Until mLock.TryEnter()
+		    #If RBVersion < 2020 Then
+		      App.YieldToNextThread()
+		    #Else
+		      Thread.YieldToNext()
+		    #EndIf
+		  Loop
+		  
 		  Try
-		    result = New JSONItem(data)
-		    mModel = result
-		  Catch err As JSONException
-		    Raise New OpenAIException(mClient.LastErrorMessage)
+		    Dim data As String = mclient.SendRequest("/v1/models/" + Me.ID, "DELETE")
+		    Dim result As JSONItem
+		    Try
+		      result = New JSONItem(data)
+		      mModel = result
+		    Catch err As JSONException
+		      Raise New OpenAIException(mClient)
+		    End Try
+		    If result.HasName("error") Then Raise New OpenAIException(result) Else ReDim FineTuneList(-1)
+		  Finally
+		    mLock.Leave()
 		  End Try
-		  If result.HasName("error") Then Raise New OpenAIException(result) Else ReDim FineTuneList(-1)
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Function GetResult(Index As Integer) As OpenAI.File
-		  If mModel.HasName("result_files") Then
-		    Dim results As JSONItem = mModel.Value("result_files")
-		    results = results.Child(Index)
-		    Return OpenAI.File.Lookup(results.Value("id").StringValue)
-		  End If
+		  Do Until mLock.TryEnter()
+		    #If RBVersion < 2020 Then
+		      App.YieldToNextThread()
+		    #Else
+		      Thread.YieldToNext()
+		    #EndIf
+		  Loop
+		  
+		  Try
+		    If mModel.HasName("result_files") Then
+		      Dim results As JSONItem = mModel.Value("result_files")
+		      results = results.Child(Index)
+		      Return OpenAI.File.Lookup(results.Value("id").StringValue)
+		    End If
+		  Finally
+		    mLock.Leave()
+		  End Try
 		End Function
 	#tag EndMethod
 
@@ -142,21 +179,33 @@ Inherits OpenAI.Model
 
 	#tag Method, Flags = &h0
 		Function ListEvents() As JSONItem
-		  Dim data As String = mClient.SendRequest("/v1/fine-tunes/" + Me.ID + "/events")
-		  Dim result As JSONItem
+		  Do Until mLock.TryEnter()
+		    #If RBVersion < 2020 Then
+		      App.YieldToNextThread()
+		    #Else
+		      Thread.YieldToNext()
+		    #EndIf
+		  Loop
+		  
 		  Try
-		    result = New JSONItem(data)
-		    If result.HasName("data") Then
-		      Return result.Value("data")
+		    Dim data As String = mClient.SendRequest("/v1/fine-tunes/" + Me.ID + "/events")
+		    Dim result As JSONItem
+		    Try
+		      result = New JSONItem(data)
+		      If result.HasName("data") Then
+		        Return result.Value("data")
+		      End If
+		    Catch err As JSONException
+		      Raise New OpenAIException(mClient)
+		    End Try
+		    If result.HasName("error") Then
+		      Raise New OpenAIException(result)
+		    Else
+		      Raise New OpenAIException("Weird JSON reply!" + EndOfLine + data)
 		    End If
-		  Catch err As JSONException
-		    Raise New OpenAIException(mClient.LastErrorMessage)
+		  Finally
+		    mLock.Leave()
 		  End Try
-		  If result.HasName("error") Then
-		    Raise New OpenAIException(result)
-		  Else
-		    Raise New OpenAIException("Weird JSON reply!" + EndOfLine + data)
-		  End If
 		End Function
 	#tag EndMethod
 
@@ -201,19 +250,31 @@ Inherits OpenAI.Model
 
 	#tag Method, Flags = &h0
 		Sub Refresh()
-		  Dim data As String = mClient.SendRequest("/v1/fine-tunes/" + Me.ID)
-		  Dim result As JSONItem
+		  Do Until mLock.TryEnter()
+		    #If RBVersion < 2020 Then
+		      App.YieldToNextThread()
+		    #Else
+		      Thread.YieldToNext()
+		    #EndIf
+		  Loop
+		  
 		  Try
-		    result = New JSONItem(data)
-		    mModel = result
-		  Catch err As JSONException
-		    Raise New OpenAIException(mClient.LastErrorMessage)
+		    Dim data As String = mClient.SendRequest("/v1/fine-tunes/" + Me.ID)
+		    Dim result As JSONItem
+		    Try
+		      result = New JSONItem(data)
+		      mModel = result
+		    Catch err As JSONException
+		      Raise New OpenAIException(mClient)
+		    End Try
+		    If result.HasName("error") Then
+		      Raise New OpenAIException(result)
+		    Else
+		      Raise New OpenAIException("Weird JSON reply!" + EndOfLine + data)
+		    End If
+		  Finally
+		    mLock.Leave()
 		  End Try
-		  If result.HasName("error") Then
-		    Raise New OpenAIException(result)
-		  Else
-		    Raise New OpenAIException("Weird JSON reply!" + EndOfLine + data)
-		  End If
 		End Sub
 	#tag EndMethod
 
@@ -240,13 +301,29 @@ Inherits OpenAI.Model
 		IsPending As Boolean
 	#tag EndComputedProperty
 
+	#tag Property, Flags = &h21
+		Private mLock As CriticalSection
+	#tag EndProperty
+
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
-			  If mModel.HasName("result_files") Then
-			    Dim results As JSONItem = mModel.Value("result_files")
-			    Return results.Count
-			  End If
+			  Do Until mLock.TryEnter()
+			    #If RBVersion < 2020 Then
+			      App.YieldToNextThread()
+			    #Else
+			      Thread.YieldToNext()
+			    #EndIf
+			  Loop
+			  
+			  Try
+			    If mModel.HasName("result_files") Then
+			      Dim results As JSONItem = mModel.Value("result_files")
+			      Return results.Count
+			    End If
+			  Finally
+			    mLock.Leave()
+			  End Try
 			End Get
 		#tag EndGetter
 		ResultCount As Integer
@@ -255,7 +332,19 @@ Inherits OpenAI.Model
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
-			  If mModel.HasName("status") Then Return mModel.Value("status")
+			  Do Until mLock.TryEnter()
+			    #If RBVersion < 2020 Then
+			      App.YieldToNextThread()
+			    #Else
+			      Thread.YieldToNext()
+			    #EndIf
+			  Loop
+			  
+			  Try
+			    If mModel.HasName("status") Then Return mModel.Value("status")
+			  Finally
+			    mLock.Leave()
+			  End Try
 			End Get
 		#tag EndGetter
 		Status As String
