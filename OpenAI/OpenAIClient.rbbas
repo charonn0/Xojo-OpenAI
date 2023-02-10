@@ -193,7 +193,7 @@ Private Class OpenAIClient
 		    'error
 		    Dim data As String = curl.OutputData
 		    If data.Trim = "" Then
-		      Raise New OpenAIException(curl.LastErrorMessage)
+		      Raise New OpenAIException(Me)
 		    Else
 		      Raise New OpenAIException(New JSONItem(data))
 		    End If
@@ -216,7 +216,7 @@ Private Class OpenAIClient
 		    'error
 		    Dim data As String = curl.OutputData
 		    If data.Trim = "" Then
-		      Raise New OpenAIException(curl.LastErrorMessage)
+		      Raise New OpenAIException(Me)
 		    Else
 		      Raise New OpenAIException(New JSONItem(data))
 		    End If

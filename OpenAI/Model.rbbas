@@ -27,7 +27,7 @@ Protected Class Model
 		  Try
 		    lst = New JSONItem(data)
 		  Catch err As JSONException
-		    Raise New OpenAIException(client.LastErrorMessage)
+		    Raise New OpenAIException(client)
 		  End Try
 		  If lst = Nil Or Not lst.HasName("data") Then Raise New OpenAIException(lst)
 		  lst = lst.Value("data")

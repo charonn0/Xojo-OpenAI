@@ -59,7 +59,7 @@ Inherits OpenAI.Response
 		  Try
 		    result = New JSONItem(data)
 		  Catch err As JSONException
-		    Raise New OpenAIException(client.LastErrorMessage)
+		    Raise New OpenAIException(client)
 		  End Try
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
 		  ReDim FileList(-1) ' force refresh
@@ -164,7 +164,7 @@ Inherits OpenAI.Response
 		  Try
 		    result = New JSONItem(data)
 		  Catch err As JSONException
-		    Raise New OpenAIException(client.LastErrorMessage)
+		    Raise New OpenAIException(client)
 		  End Try
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
 		  result = result.Value("data")

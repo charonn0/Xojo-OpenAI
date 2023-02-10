@@ -92,6 +92,13 @@ Inherits RuntimeException
 	#tag EndMethod
 
 	#tag Method, Flags = &h1000
+		Sub Constructor(Client As OpenAIClient)
+		  Me.ErrorNumber = Client.LastErrorCode
+		  Me.Message = "HTTP " + Str(Client.LastStatusCode) + ": " + Client.LastErrorMessage
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h1000
 		Sub Constructor(Message As String)
 		  Me.Message = Message
 		End Sub

@@ -28,7 +28,7 @@ Inherits OpenAI.Response
 		  Try
 		    result = New JSONItem(data)
 		  Catch err As JSONException
-		    Raise New OpenAIException(client.LastErrorMessage)
+		    Raise New OpenAIException(client)
 		  End Try
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
 		  Return New OpenAI.Image(result, client)
@@ -78,7 +78,7 @@ Inherits OpenAI.Response
 		  Try
 		    result = New JSONItem(data)
 		  Catch err As JSONException
-		    Raise New OpenAIException(client.LastErrorMessage)
+		    Raise New OpenAIException(client)
 		  End Try
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
 		  Return New OpenAI.Image(result, client)
@@ -122,7 +122,7 @@ Inherits OpenAI.Response
 		  Try
 		    result = New JSONItem(data)
 		  Catch err As JSONException
-		    Raise New OpenAIException(client.LastErrorMessage)
+		    Raise New OpenAIException(client)
 		  End Try
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
 		  Return New OpenAI.Image(result, client)

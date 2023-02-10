@@ -20,7 +20,7 @@ Protected Class Response
 		  Try
 		    response = New JSONItem(data)
 		  Catch err As JSONException
-		    Raise New OpenAIException(client.LastErrorMessage)
+		    Raise New OpenAIException(client)
 		  End Try
 		  If response = Nil Or response.HasName("error") Then Raise New OpenAIException(response)
 		  Return New OpenAI.Response(response, client)
@@ -41,7 +41,7 @@ Protected Class Response
 		  Try
 		    response = New JSONItem(data)
 		  Catch err As JSONException
-		    Raise New OpenAIException(client.LastErrorMessage)
+		    Raise New OpenAIException(client)
 		  End Try
 		  If response = Nil Or response.HasName("error") Then Raise New OpenAIException(response)
 		  Return New OpenAI.Response(response, client)

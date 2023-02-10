@@ -57,7 +57,7 @@ Inherits OpenAI.Model
 		  Try
 		    result = New JSONItem(data)
 		  Catch err As JSONException
-		    Raise New OpenAIException(client.LastErrorMessage)
+		    Raise New OpenAIException(client)
 		  End Try
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
 		  ReDim FineTuneList(-1) ' force refresh
@@ -169,7 +169,7 @@ Inherits OpenAI.Model
 		  Try
 		    lst = New JSONItem(data)
 		  Catch err As JSONException
-		    Raise New OpenAIException(client.LastErrorMessage)
+		    Raise New OpenAIException(client)
 		  End Try
 		  If lst = Nil Or Not lst.HasName("data") Then Raise New OpenAIException(lst)
 		  lst = lst.Value("data")
