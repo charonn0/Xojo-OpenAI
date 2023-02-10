@@ -86,8 +86,14 @@ Inherits OpenAI.Response
 		  ' See:
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.File.Delete
 		  
-		  Dim result As New JSONItem(mClient.SendRequest("/v1/files/" + Me.ID, "DELETE"))
-		  If result.HasName("error") Then Raise New OpenAIException(result) Else ReDim FileList(-1)
+		  Dim data As String = mClient.SendRequest("/v1/files/" + Me.ID, "DELETE")
+		  Dim response As JSONItem
+		  Try
+		    response = New JSONItem(data)
+		  Catch err As JSONException
+		    Raise New OpenAIException(mClient)
+		  End Try
+		  If response = Nil Or response.HasName("error") Then Raise New OpenAIException(response) Else ReDim FileList(-1)
 		End Sub
 	#tag EndMethod
 
@@ -109,7 +115,20 @@ Inherits OpenAI.Response
 		  
 		  #pragma Unused Index
 		  If mResponse.HasName("filename") Then
-		    Return mClient.SendRequest("/v1/files/" + ID + "/content")
+		    Dim data As String = mClient.SendRequest("/v1/files/" + ID + "/content")
+		    If mClient.LastStatusCode <> 200 Then
+		      Dim err As JSONItem
+		      Try
+		        err = New JSONItem(data)
+		      Catch error As JSONException
+		      End Try
+		      If err <> Nil Then
+		        Raise New OpenAIException(err)
+		      Else
+		        Raise New OpenAIException(mClient)
+		      End If
+		    End If
+		    Return data
 		  End If
 		End Function
 	#tag EndMethod
