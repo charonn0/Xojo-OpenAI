@@ -19,7 +19,7 @@ Inherits OpenAI.Response
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Completion.Create
 		  ' https://beta.openai.com/docs/api-reference/completions
 		  
-		  If PrevalidateRequests Then
+		  If Completion.Prevalidate Then
 		    Dim err As ValidationError = Completion.IsValid(Request)
 		    If err <> ValidationError.None Then Raise New OpenAIException(err)
 		  End If
@@ -63,7 +63,7 @@ Inherits OpenAI.Response
 		  ' https://beta.openai.com/docs/api-reference/edits
 		  
 		  
-		  If PrevalidateRequests Then
+		  If Completion.Prevalidate Then
 		    Dim err As ValidationError = Completion.IsValid(Request)
 		    If err <> ValidationError.None Then Raise New OpenAIException(err)
 		  End If
@@ -159,6 +159,30 @@ Inherits OpenAI.Response
 		  Return OpenAI.ResultType.String
 		End Function
 	#tag EndMethod
+
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Note
+			When enabled, requests will be checked for basic sanity (using the IsValid() shared method) before
+			being sent over the wire. This check is not fool-proof. Please report any requests that give false
+			positives/negatives
+		#tag EndNote
+		#tag Getter
+			Get
+			  Return ValidationOpt
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  ValidationOpt = value
+			End Set
+		#tag EndSetter
+		Shared Prevalidate As Boolean
+	#tag EndComputedProperty
+
+	#tag Property, Flags = &h21
+		Private Shared ValidationOpt As Boolean = True
+	#tag EndProperty
 
 
 	#tag ViewBehavior

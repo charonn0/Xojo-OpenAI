@@ -12,7 +12,7 @@ Inherits OpenAI.Response
 
 	#tag Method, Flags = &h0
 		 Shared Function Create(Request As OpenAI.Request) As OpenAI.Moderation
-		  If PrevalidateRequests Then
+		  If Moderation.Prevalidate Then
 		    Dim err As ValidationError = Moderation.IsValid(Request)
 		    If err <> ValidationError.None Then Raise New OpenAIException(err)
 		  End If
@@ -92,6 +92,30 @@ Inherits OpenAI.Response
 		  Return OpenAI.ResultType.JSONObject
 		End Function
 	#tag EndMethod
+
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Note
+			When enabled, requests will be checked for basic sanity (using the IsValid() shared method) before
+			being sent over the wire. This check is not fool-proof. Please report any requests that give false
+			positives/negatives
+		#tag EndNote
+		#tag Getter
+			Get
+			  Return ValidationOpt
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  ValidationOpt = value
+			End Set
+		#tag EndSetter
+		Shared Prevalidate As Boolean
+	#tag EndComputedProperty
+
+	#tag Property, Flags = &h21
+		Private Shared ValidationOpt As Boolean = True
+	#tag EndProperty
 
 
 	#tag ViewBehavior

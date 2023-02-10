@@ -18,15 +18,6 @@ Protected Module OpenAI
 		Protected APIKey As String = "YOUR API KEY HERE"
 	#tag EndProperty
 
-	#tag Property, Flags = &h1
-		#tag Note
-			When enabled, requests will be checked for basic sanity (using the IsValid() shared methods) before
-			being sent over the wire. This check is not fool-proof. Please report any requests that give false
-			positives/negatives
-		#tag EndNote
-		Protected PrevalidateRequests As Boolean = True
-	#tag EndProperty
-
 
 	#tag Constant, Name = OPENAI_URL, Type = String, Dynamic = False, Default = \"https://api.openai.com", Scope = Private
 	#tag EndConstant

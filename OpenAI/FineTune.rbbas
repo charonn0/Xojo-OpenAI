@@ -61,7 +61,7 @@ Inherits OpenAI.Model
 		  request.TrainingFile = TrainingFile.ID
 		  request.Model = BaseModel
 		  If Name <> "" Then request.Suffix = Name
-		  If PrevalidateRequests Then
+		  If FineTune.Prevalidate Then
 		    Dim err As ValidationError = FineTune.IsValid(Request)
 		    If err <> ValidationError.None Then Raise New OpenAIException(err)
 		  End If
@@ -308,6 +308,20 @@ Inherits OpenAI.Model
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  Return ValidationOpt
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  ValidationOpt = value
+			End Set
+		#tag EndSetter
+		Shared Prevalidate As Boolean
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
 			  Do Until mLock.TryEnter()
 			    #If RBVersion < 2020 Then
 			      App.YieldToNextThread()
@@ -349,6 +363,10 @@ Inherits OpenAI.Model
 		#tag EndGetter
 		Status As String
 	#tag EndComputedProperty
+
+	#tag Property, Flags = &h21
+		Private Shared ValidationOpt As Boolean = True
+	#tag EndProperty
 
 
 	#tag ViewBehavior

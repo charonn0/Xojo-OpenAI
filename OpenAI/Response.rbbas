@@ -81,10 +81,9 @@ Protected Class Response
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		 Shared Function IsValid(Request As OpenAI.Request) As Boolean
-		  Return Completion.IsValid(Request) = ValidationError.None Or File.IsValid(Request) = ValidationError.None _
-		   Or FineTune.IsValid(Request) = ValidationError.None Or Image.IsValid(Request) = ValidationError.None _
-		   Or Moderation.IsValid(Request) = ValidationError.None
+		 Shared Function IsValid(Request As OpenAI.Request) As OpenAI.ValidationError
+		  ' For custom requests just assume the user knows what they're doing
+		  Return ValidationError.None
 		End Function
 	#tag EndMethod
 
@@ -132,6 +131,30 @@ Protected Class Response
 	#tag EndProperty
 
 	#tag ComputedProperty, Flags = &h0
+		#tag Note
+			When enabled, requests will be checked for basic sanity (using the IsValid() shared method) before
+			being sent over the wire. This check is not fool-proof. Please report any requests that give false
+			positives/negatives
+		#tag EndNote
+		#tag Getter
+			Get
+			  Return ValidationOpt
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  ValidationOpt = value
+			  Completion.Prevalidate = value
+			  File.Prevalidate = value
+			  FineTune.Prevalidate = value
+			  Image.Prevalidate = value
+			  Moderation.Prevalidate = value
+			End Set
+		#tag EndSetter
+		Shared Prevalidate As Boolean
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
 			  Dim results As JSONItem
@@ -158,6 +181,10 @@ Protected Class Response
 		#tag EndGetter
 		ResultCount As Integer
 	#tag EndComputedProperty
+
+	#tag Property, Flags = &h21
+		Private Shared ValidationOpt As Boolean = True
+	#tag EndProperty
 
 
 	#tag ViewBehavior

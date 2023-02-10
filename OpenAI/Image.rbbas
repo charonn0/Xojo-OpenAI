@@ -18,7 +18,7 @@ Inherits OpenAI.Response
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Image.CreateVariation
 		  ' https://beta.openai.com/docs/api-reference/images/create-variation
 		  
-		  If PrevalidateRequests Then
+		  If Image.Prevalidate Then
 		    Dim err As ValidationError = Image.IsValid(Request)
 		    If err <> ValidationError.None Then Raise New OpenAIException(err)
 		  End If
@@ -60,7 +60,7 @@ Inherits OpenAI.Response
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Image.Edit
 		  ' https://beta.openai.com/docs/api-reference/images/create-edit
 		  
-		  If PrevalidateRequests Then
+		  If Image.Prevalidate Then
 		    Dim err As ValidationError = Image.IsValid(Request)
 		    If err <> ValidationError.None Then Raise New OpenAIException(err)
 		  End If
@@ -112,7 +112,7 @@ Inherits OpenAI.Response
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Image.Generate
 		  ' https://beta.openai.com/docs/api-reference/images/create
 		  
-		  If PrevalidateRequests Then
+		  If Image.Prevalidate Then
 		    Dim err As ValidationError = Image.IsValid(Request)
 		    If err <> ValidationError.None Then Raise New OpenAIException(err)
 		  End If
@@ -219,6 +219,30 @@ Inherits OpenAI.Response
 		  End If
 		End Function
 	#tag EndMethod
+
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Note
+			When enabled, requests will be checked for basic sanity (using the IsValid() shared method) before
+			being sent over the wire. This check is not fool-proof. Please report any requests that give false
+			positives/negatives
+		#tag EndNote
+		#tag Getter
+			Get
+			  Return ValidationOpt
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  ValidationOpt = value
+			End Set
+		#tag EndSetter
+		Shared Prevalidate As Boolean
+	#tag EndComputedProperty
+
+	#tag Property, Flags = &h21
+		Private Shared ValidationOpt As Boolean = True
+	#tag EndProperty
 
 
 	#tag ViewBehavior
