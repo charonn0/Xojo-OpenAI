@@ -3,8 +3,16 @@ Protected Class FineTune
 Inherits OpenAI.Model
 	#tag Method, Flags = &h0
 		Sub Cancel()
-		  Dim result As New JSONItem(mClient.SendRequest("/v1/fine-tunes/" + Me.ID + "/cancel", "POST"))
-		  If result.HasName("error") Then Raise New OpenAIException(result)
+		  Dim data As String = mClient.SendRequest("/v1/fine-tunes/" + Me.ID + "/cancel", "POST")
+		  Dim result As JSONItem
+		  Try
+		    result = New JSONItem(data)
+		    mModel = result
+		  Catch err As JSONException
+		    Raise New OpenAIException(mClient.LastErrorMessage)
+		  End Try
+		  If result.HasName("error") Then Raise New OpenAIException(result) Else ReDim FineTuneList(-1)
+		  
 		End Sub
 	#tag EndMethod
 
@@ -70,7 +78,14 @@ Inherits OpenAI.Model
 
 	#tag Method, Flags = &h0
 		Sub Delete()
-		  Dim result As New JSONItem(mclient.SendRequest("/v1/models/" + Me.ID, "DELETE"))
+		  Dim data As String = mclient.SendRequest("/v1/models/" + Me.ID, "DELETE")
+		  Dim result As JSONItem
+		  Try
+		    result = New JSONItem(data)
+		    mModel = result
+		  Catch err As JSONException
+		    Raise New OpenAIException(mClient.LastErrorMessage)
+		  End Try
 		  If result.HasName("error") Then Raise New OpenAIException(result) Else ReDim FineTuneList(-1)
 		End Sub
 	#tag EndMethod
@@ -127,9 +142,21 @@ Inherits OpenAI.Model
 
 	#tag Method, Flags = &h0
 		Function ListEvents() As JSONItem
-		  Dim result As New JSONItem(mClient.SendRequest("/v1/fine-tunes/" + Me.ID + "/events"))
-		  If result.HasName("error") Then Raise New OpenAIException(result)
-		  Return result
+		  Dim data As String = mClient.SendRequest("/v1/fine-tunes/" + Me.ID + "/events")
+		  Dim result As JSONItem
+		  Try
+		    result = New JSONItem(data)
+		    If result.HasName("data") Then
+		      Return result.Value("data")
+		    End If
+		  Catch err As JSONException
+		    Raise New OpenAIException(mClient.LastErrorMessage)
+		  End Try
+		  If result.HasName("error") Then
+		    Raise New OpenAIException(result)
+		  Else
+		    Raise New OpenAIException("Weird JSON reply!" + EndOfLine + data)
+		  End If
 		End Function
 	#tag EndMethod
 
@@ -172,10 +199,67 @@ Inherits OpenAI.Model
 		End Function
 	#tag EndMethod
 
+	#tag Method, Flags = &h0
+		Sub Refresh()
+		  Dim data As String = mClient.SendRequest("/v1/fine-tunes/" + Me.ID)
+		  Dim result As JSONItem
+		  Try
+		    result = New JSONItem(data)
+		    mModel = result
+		  Catch err As JSONException
+		    Raise New OpenAIException(mClient.LastErrorMessage)
+		  End Try
+		  If result.HasName("error") Then
+		    Raise New OpenAIException(result)
+		  Else
+		    Raise New OpenAIException("Weird JSON reply!" + EndOfLine + data)
+		  End If
+		End Sub
+	#tag EndMethod
+
 
 	#tag Property, Flags = &h21
 		Private Shared FineTuneList() As FineTune
 	#tag EndProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  Return Me.Status = "succeeded" Or Me.Status = "cancelled"
+			End Get
+		#tag EndGetter
+		IsComplete As Boolean
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  Return Me.Status = "pending"
+			End Get
+		#tag EndGetter
+		IsPending As Boolean
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mModel.HasName("result_files") Then
+			    Dim results As JSONItem = mModel.Value("result_files")
+			    Return results.Count
+			  End If
+			End Get
+		#tag EndGetter
+		ResultCount As Integer
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mModel.HasName("status") Then Return mModel.Value("status")
+			End Get
+		#tag EndGetter
+		Status As String
+	#tag EndComputedProperty
 
 
 	#tag ViewBehavior

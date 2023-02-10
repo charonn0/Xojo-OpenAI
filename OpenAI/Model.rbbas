@@ -33,7 +33,8 @@ Protected Class Model
 		  lst = lst.Value("data")
 		  
 		  For i As Integer = 0 To lst.Count - 1
-		    ModelList.Append(New OpenAI.Model(lst.Child(i)))
+		    Dim m As New OpenAI.Model(lst.Child(i))
+		    ModelList.Append(m)
 		  Next
 		  
 		  ModelList.Append(New OpenAI.Model(New JSONItem(TEXT_MODERATION_LATEST)))
