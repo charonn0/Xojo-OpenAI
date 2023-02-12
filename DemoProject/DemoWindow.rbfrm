@@ -944,6 +944,19 @@ End
 
 #tag WindowCode
 	#tag Method, Flags = &h21
+		Private Sub LoadModels()
+		  ModelList.DeleteAllRows()
+		  ModelList.AddRow("Automatic")
+		  For i As Integer = 0 To OpenAI.Model.Count - 1
+		    Dim mdl As OpenAI.Model = OpenAI.Model.Lookup(i)
+		    ModelList.AddRow(mdl.ID)
+		    ModelList.RowTag(ModelList.LastIndex) = mdl
+		  Next
+		  ModelList.ListIndex = 0
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
 		Private Sub RunCreateImage(Sender As Thread)
 		  #pragma Unused Sender
 		  Dim request As New OpenAI.Request()
@@ -951,8 +964,7 @@ End
 		  request.Size = "512x512"
 		  request.ResultsAsURL = False
 		  If mResultCount > 1 And mResultCount <= 10 Then request.NumberOfResults = mResultCount
-		  Dim img As OpenAI.Response = OpenAI.Image.Generate(request)
-		  mAPIImage = img.GetResult()
+		  mAPIReply = OpenAI.Image.Generate(request)
 		  RefreshTimer.Mode = Timer.ModeSingle
 		  
 		Exception err As OpenAI.OpenAIException
@@ -969,11 +981,7 @@ End
 		  request.Size = "512x512"
 		  request.ResultsAsURL = True
 		  If mResultCount > 1 And mResultCount <= 10 Then request.NumberOfResults = mResultCount
-		  Dim txt As OpenAI.Response = OpenAI.Image.Generate(request)
-		  mAPIReply = ""
-		  For i As Integer = 0 To txt.ResultCount - 1
-		    mAPIReply = mAPIReply + txt.GetResult(i)
-		  Next
+		  mAPIReply = OpenAI.Image.Generate(request)
 		  RefreshTimer.Mode = Timer.ModeSingle
 		  
 		Exception err As OpenAI.OpenAIException
@@ -995,11 +1003,7 @@ End
 		    request.Model = mModel
 		  End If
 		  If mResultCount > 1 Then request.NumberOfResults = mResultCount
-		  Dim txt As OpenAI.Response = OpenAI.Completion.Create(request)
-		  mAPIReply = ""
-		  For i As Integer = 0 To txt.ResultCount - 1
-		    mAPIReply = mAPIReply + txt.GetResult(i)
-		  Next
+		  mAPIReply = OpenAI.Completion.Create(request)
 		  RefreshTimer.Mode = Timer.ModeSingle
 		  
 		Exception err As OpenAI.OpenAIException
@@ -1019,13 +1023,7 @@ End
 		    request.Model = mModel
 		  End If
 		  If mResultCount > 1 Then request.NumberOfResults = mResultCount
-		  Dim obj As OpenAI.Response = OpenAI.Moderation.Create(request)
-		  mAPIReply = ""
-		  For i As Integer = 0 To obj.ResultCount - 1
-		    Dim js As JSONItem = obj.GetResult(i)
-		    js.Compact = False
-		    mAPIReply = mAPIReply + js.ToString
-		  Next
+		  mAPIReply = OpenAI.Moderation.Create(request)
 		  RefreshTimer.Mode = Timer.ModeSingle
 		  
 		Exception err As OpenAI.OpenAIException
@@ -1066,7 +1064,7 @@ End
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
-		Private mAPIReply As String
+		Private mAPIReply As OpenAI.Response
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
@@ -1104,6 +1102,37 @@ End
 
 #tag EndWindowCode
 
+#tag Events ReplyText
+	#tag Event
+		Function ConstructContextualMenu(base as MenuItem, x as Integer, y as Integer) As Boolean
+		  #pragma Unused x
+		  #pragma Unused y
+		  If Me.Text <> "" And mAPIReply <> Nil Then
+		    Dim serialize As New MenuItem("Dump to file...")
+		    serialize.Tag = mAPIReply
+		    base.Append(serialize)
+		    Return True
+		  End If
+		End Function
+	#tag EndEvent
+	#tag Event
+		Function ContextualMenuAction(hitItem as MenuItem) As Boolean
+		  Select Case hitItem.Text
+		  Case "Dump to file..."
+		    Dim f As FolderItem = GetSaveFolderItem(".json", mAPIReply.ID + ".json")
+		    If f <> Nil Then
+		      Dim s As String = mAPIReply.ToString()
+		      Dim bs As BinaryStream = BinaryStream.Create(f)
+		      bs.Write(s)
+		      bs.Close()
+		    End If
+		  End Select
+		  
+		  Return True
+		  
+		End Function
+	#tag EndEvent
+#tag EndEvents
 #tag Events ReplyImageCanvas
 	#tag Event
 		Function ConstructContextualMenu(base as MenuItem, x as Integer, y as Integer) As Boolean
@@ -1111,7 +1140,8 @@ End
 		  #pragma Unused y
 		  
 		  If mAPIImage <> Nil Then
-		    base.Append(New MenuItem("Save as..."))
+		    base.Append(New MenuItem("Save picture..."))
+		    base.Append(New MenuItem("Dump to file..."))
 		    Dim scle As New MenuItem("Scale preview")
 		    scle.Checked = mScale
 		    base.Append(scle)
@@ -1123,7 +1153,7 @@ End
 	#tag Event
 		Function ContextualMenuAction(hitItem as MenuItem) As Boolean
 		  Select Case hitItem.Text
-		  Case "Save as..."
+		  Case "Save picture..."
 		    If mAPIImage <> Nil Then
 		      Dim out As FolderItem = GetSaveFolderItem("", "output.png")
 		      If out <> Nil Then mAPIImage.Save(out, Picture.SaveAsPNG)
@@ -1133,6 +1163,16 @@ End
 		  Case "Scale preview"
 		    mScale = Not mScale
 		    Me.Invalidate(True)
+		    Return True
+		    
+		  Case "Dump to file..."
+		    Dim f As FolderItem = GetSaveFolderItem(".json", mAPIReply.ID + ".json")
+		    If f <> Nil Then
+		      Dim s As String = mAPIReply.ToString()
+		      Dim bs As BinaryStream = BinaryStream.Create(f)
+		      bs.Write(s)
+		      bs.Close()
+		    End If
 		    Return True
 		    
 		  End Select
@@ -1256,6 +1296,7 @@ End
 #tag Events ModelList
 	#tag Event
 		Sub Change()
+		  If Me.ListIndex < 0 Then Return
 		  mModel = Me.RowTag(Me.ListIndex)
 		End Sub
 	#tag EndEvent
@@ -1274,6 +1315,35 @@ End
 		    If mdl <> Nil Then ModelInfoWindow.ShowModel(mdl)
 		    Return True
 		  End If
+		End Function
+	#tag EndEvent
+	#tag Event
+		Function ConstructContextualMenu(base as MenuItem, x as Integer, y as Integer) As Boolean
+		  Dim row As Integer = Me.RowFromXY(x, y)
+		  If row > -1 And Me.RowTag(row) <> Nil Then
+		    Dim serialize As New MenuItem("Dump to file...")
+		    serialize.Tag = Me.RowTag(row)
+		    base.Append(serialize)
+		    Return True
+		  End If
+		End Function
+	#tag EndEvent
+	#tag Event
+		Function ContextualMenuAction(hitItem as MenuItem) As Boolean
+		  Select Case hitItem.Text
+		  Case "Dump to file..."
+		    Dim mdl As OpenAI.Model = hitItem.Tag
+		    Dim f As FolderItem = GetSaveFolderItem(".json", mdl.ID + ".json")
+		    If f <> Nil Then
+		      Dim s As String = mdl.ToString()
+		      Dim bs As BinaryStream = BinaryStream.Create(f)
+		      bs.Write(s)
+		      bs.Close()
+		    End If
+		  End Select
+		  
+		  Return True
+		  
 		End Function
 	#tag EndEvent
 #tag EndEvents
@@ -1336,15 +1406,7 @@ End
 		    Return
 		  End If
 		  
-		  ModelList.DeleteAllRows()
-		  ModelList.AddRow("Automatic")
-		  For i As Integer = 0 To OpenAI.Model.Count - 1
-		    Dim mdl As OpenAI.Model = OpenAI.Model.Lookup(i)
-		    ModelList.AddRow(mdl.ID)
-		    ModelList.RowTag(ModelList.LastIndex) = mdl
-		  Next
-		  ModelList.ListIndex = 0
-		  
+		  LoadModels()
 		  OpenAIGroup.Enabled = True
 		  APIKeyLbl.Enabled = False
 		  APIKeyField.Enabled = False
@@ -1358,12 +1420,24 @@ End
 		Sub Action()
 		  If mLastError <> Nil Then ' an error occurred
 		    mAPIImage = Nil
-		    mAPIReply = ""
+		    mAPIReply = Nil
 		    ReplyText.Text = mLastError.Message
 		    Call MsgBox("OpenAI rejected the request.", 16, "API Error")
 		    mLastError = Nil
 		  Else
-		    ReplyText.Text = RTrim(mAPIReply)
+		    Select Case mAPIReply.ResultType
+		    Case OpenAI.ResultType.String, OpenAI.ResultType.PictureURL
+		      mAPIImage = Nil
+		      ReplyText.Text = RTrim(mAPIReply.GetResult)
+		    Case OpenAI.ResultType.JSONObject
+		      mAPIImage = Nil
+		      Dim js As JSONItem = mAPIReply.GetResult
+		      js.Compact = False
+		      ReplyText.Text = RTrim(js.ToString)
+		    Case OpenAI.ResultType.Picture
+		      ReplyText.Text = ""
+		      mAPIImage = mAPIReply.GetResult
+		    End Select
 		  End If
 		  
 		  Self.Title = "Xojo-OpenAI Playground - Ready"
