@@ -1398,13 +1398,14 @@ End
 		  End If
 		  Self.Title = "Xojo-OpenAI Playground - Working..."
 		  OpenAI.APIKey = APIKeyField.Text
-		  Dim count As Integer = OpenAI.Model.Count()
-		  If count <= 0 Then
-		    Call MsgBox("Invalid API Key!", 16, "Key Rejected")
+		  Try
+		    Call OpenAI.Model.Count()
+		  Catch err As OpenAI.OpenAIException
+		    Call MsgBox(err.Message, 16, "Key Rejected")
 		    OpenAI.APIKey = ""
 		    Self.Title = "Xojo-OpenAI Playground"
 		    Return
-		  End If
+		  End Try
 		  
 		  LoadModels()
 		  OpenAIGroup.Enabled = True
