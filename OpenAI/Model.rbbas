@@ -85,7 +85,9 @@ Protected Class Model
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  If Not mModel.HasName("permission") Then Return False
 			  Dim perms As JSONItem = mModel.Value("permission")
+			  If perms = Nil Then Return False
 			  perms = perms.Child(0)
 			  Return perms.Value("allow_create_engine")
 			  
@@ -99,7 +101,9 @@ Protected Class Model
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  If Not mModel.HasName("permission") Then Return False
 			  Dim perms As JSONItem = mModel.Value("permission")
+			  If perms = Nil Then Return False
 			  perms = perms.Child(0)
 			  Return perms.Value("allow_fine_tuning")
 			  
@@ -113,7 +117,9 @@ Protected Class Model
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  If Not mModel.HasName("permission") Then Return False
 			  Dim perms As JSONItem = mModel.Value("permission")
+			  If perms = Nil Then Return False
 			  perms = perms.Child(0)
 			  Return perms.Value("allow_logprobs")
 			  
@@ -127,7 +133,9 @@ Protected Class Model
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  If Not mModel.HasName("permission") Then Return False
 			  Dim perms As JSONItem = mModel.Value("permission")
+			  If perms = Nil Then Return False
 			  perms = perms.Child(0)
 			  Return perms.Value("allow_sampling")
 			  
@@ -141,7 +149,9 @@ Protected Class Model
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  If Not mModel.HasName("permission") Then Return False
 			  Dim perms As JSONItem = mModel.Value("permission")
+			  If perms = Nil Then Return False
 			  perms = perms.Child(0)
 			  Return perms.Value("allow_search_indices")
 			  
@@ -155,7 +165,9 @@ Protected Class Model
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  If Not mModel.HasName("permission") Then Return False
 			  Dim perms As JSONItem = mModel.Value("permission")
+			  If perms = Nil Then Return False
 			  perms = perms.Child(0)
 			  Return perms.Value("allow_view")
 			  
