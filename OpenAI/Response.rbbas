@@ -83,6 +83,7 @@ Protected Class Response
 	#tag Method, Flags = &h0
 		 Shared Function IsValid(Request As OpenAI.Request) As OpenAI.ValidationError
 		  ' For custom requests just assume the user knows what they're doing
+		  #pragma Unused Request
 		  Return ValidationError.None
 		End Function
 	#tag EndMethod
