@@ -963,7 +963,7 @@ Begin Window DemoWindow
       TabPanelIndex   =   0
       Text            =   "Waiting for API key"
       TextAlign       =   0
-      TextColor       =   &h00808080
+      TextColor       =   &c00000000
       TextFont        =   "System"
       TextSize        =   0
       TextUnit        =   0
