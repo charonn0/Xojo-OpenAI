@@ -8,6 +8,9 @@ Private Class OpenAIClient
 		    curl.EasyHandle.FailOnServerError = False
 		    curl.BearerToken = APIKey
 		    curl.EasyHandle.UserAgent = USER_AGENT_STRING
+		    If OpenAI.OrganizationID <> "" Then
+		      curl.RequestHeaders.SetHeader("OpenAI-Organization", OpenAI.OrganizationID)
+		    End If
 		    mClient = curl
 		    
 		    Dim share As libcURL.ShareHandle = ShareHandle
@@ -30,6 +33,9 @@ Private Class OpenAIClient
 		    curl.OptionXOAuth2Bearer = APIKey
 		    curl.OptionHTTPAuth = CURLAUTH_BEARER
 		    curl.OptionUserAgent = USER_AGENT_STRING
+		    If OpenAI.OrganizationID <> "" Then
+		      curl.SetOptionHTTPHeader(Array("OpenAI-Organization: " + OpenAI.OrganizationID))
+		    End If
 		    ' curl.OptionSSLVerifyHost = 2
 		    ' curl.OptionSSLVerifyPeer = 1
 		    mClient = curl
@@ -38,6 +44,9 @@ Private Class OpenAIClient
 		    Dim connection As New URLConnection
 		    connection.RequestHeader("Authorization") = "Bearer " + APIKey
 		    connection.RequestHeader("User-Agent") = USER_AGENT_STRING
+		    If OpenAI.OrganizationID <> "" Then
+		      connection.RequestHeader("OpenAI-Organization") = OpenAI.OrganizationID
+		    End If
 		    mClient = connection
 		    
 		  #Else

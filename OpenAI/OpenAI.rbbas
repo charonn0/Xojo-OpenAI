@@ -18,6 +18,15 @@ Protected Module OpenAI
 		Protected APIKey As String = "YOUR API KEY HERE"
 	#tag EndProperty
 
+	#tag Property, Flags = &h1
+		#tag Note
+			For users who belong to multiple organizations, you can specify which organization is
+			used for API requests. Usage from these API requests will count against the specified
+			organization's subscription quota.
+		#tag EndNote
+		Protected OrganizationID As String
+	#tag EndProperty
+
 
 	#tag Constant, Name = OPENAI_URL, Type = String, Dynamic = False, Default = \"https://api.openai.com", Scope = Private
 	#tag EndConstant
