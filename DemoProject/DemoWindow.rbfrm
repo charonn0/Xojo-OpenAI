@@ -1492,7 +1492,7 @@ End
 		    If finres = "" Then
 		      StatusBarLbl.Text = "Complete. Token usage: Prompt:" + ptc + " / Reply:" + rtc + " / Total:" + tc
 		    Else
-		      StatusBarLbl.Text = "Complete. Token usage: Prompt:" + ptc + " / Reply:" + rtc + " / Total:" + " / Finish reason:" + mAPIReply.FinishReason
+		      StatusBarLbl.Text = "Complete. Token usage: Prompt:" + ptc + " / Reply:" + rtc + " / Total:" + tc + " / Finish reason:" + mAPIReply.FinishReason
 		    End If
 		  End If
 		End Sub
