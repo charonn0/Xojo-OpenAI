@@ -179,7 +179,11 @@ Inherits OpenAI.Response
 		  If Request.LearningRateMultiplier > 0.00001 Then Return ValidationError.LearningRateMultiplier
 		  If Request.LogItBias <> Nil Then Return ValidationError.LogItBias
 		  If Request.LogProbabilities <> 0 Then Return ValidationError.LogProbabilities
-		  If Request.MaskImage <> Nil Then Return ValidationError.MaskImage
+		  If Request.MaskImage <> Nil Then
+		    If Request.SourceImage = Nil Then Return ValidationError.MaskImage
+		    If Request.SourceImage.Width <> Request.MaskImage.Width Then Return ValidationError.MaskImage
+		    If Request.SourceImage.Height <> Request.MaskImage.Height Then Return ValidationError.MaskImage
+		  End If
 		  If Request.MaxTokens > 1 Then Return ValidationError.MaxTokens
 		  ' If Request.MaxTokens >= 2048 Then Return ValidationError.MaxTokens
 		  If Request.Model <> Nil Then Return ValidationError.Model
@@ -198,7 +202,9 @@ Inherits OpenAI.Response
 		      Return ValidationError.Size
 		    End Select
 		  End If
-		  ' If Request.SourceImage <> Nil Then Return ValidationError.
+		  If Request.SourceImage <> Nil Then
+		    If Request.SourceImage.Width <> Request.SourceImage.Height Then Return ValidationError.SourceImage
+		  End If
 		  If Request.Stop <> "" Then Return ValidationError.Stop
 		  If Request.Suffix <> "" Then Return ValidationError.Suffix
 		  If Request.Temperature > 0.00001 Then Return ValidationError.Temperature
