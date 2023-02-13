@@ -158,6 +158,36 @@ Protected Class Response
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  If mResponse.HasName("usage") Then
+			    Dim usage As JSONItem = mResponse.Value("usage")
+			    Return usage.Lookup("prompt_tokens", 0)
+			  End If
+			  
+			  Exception err As KeyNotFoundException
+			    Return 0
+			End Get
+		#tag EndGetter
+		PromptTokenCount As Integer
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mResponse.HasName("usage") Then
+			    Dim usage As JSONItem = mResponse.Value("usage")
+			    Return usage.Lookup("completion_tokens", 0)
+			  End If
+			  
+			  Exception err As KeyNotFoundException
+			    Return 0
+			End Get
+		#tag EndGetter
+		ReplyTokenCount As Integer
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
 			  Dim results As JSONItem
 			  Select Case True
 			  Case mResponse.HasName("data")
@@ -181,6 +211,21 @@ Protected Class Response
 			End Get
 		#tag EndGetter
 		ResultCount As Integer
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mResponse.HasName("usage") Then
+			    Dim usage As JSONItem = mResponse.Value("usage")
+			    Return usage.Lookup("total_tokens", 0)
+			  End If
+			  
+			  Exception err As KeyNotFoundException
+			    Return 0
+			End Get
+		#tag EndGetter
+		TokenCount As Integer
 	#tag EndComputedProperty
 
 	#tag Property, Flags = &h21
