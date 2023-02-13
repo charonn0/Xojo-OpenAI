@@ -29,7 +29,7 @@ Begin Window DemoWindow
       Bold            =   False
       Caption         =   "OpenAI"
       Enabled         =   False
-      Height          =   508
+      Height          =   486
       HelpTag         =   ""
       Index           =   -2147483648
       InitialParent   =   ""
@@ -176,7 +176,7 @@ Begin Window DemoWindow
          DataSource      =   ""
          Enabled         =   True
          Format          =   ""
-         Height          =   211
+         Height          =   189
          HelpTag         =   ""
          HideSelection   =   True
          Index           =   -2147483648
@@ -218,7 +218,7 @@ Begin Window DemoWindow
          DoubleBuffer    =   False
          Enabled         =   True
          EraseBackground =   True
-         Height          =   211
+         Height          =   189
          HelpTag         =   ""
          Index           =   -2147483648
          InitialParent   =   "OpenAIGroup"
@@ -939,6 +939,40 @@ Begin Window DemoWindow
       Visible         =   True
       Width           =   333
    End
+   Begin Label StatusBarLbl
+      AutoDeactivate  =   True
+      Bold            =   ""
+      DataField       =   ""
+      DataSource      =   ""
+      Enabled         =   True
+      Height          =   20
+      HelpTag         =   ""
+      Index           =   -2147483648
+      InitialParent   =   ""
+      Italic          =   True
+      Left            =   11
+      LockBottom      =   True
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   True
+      LockTop         =   False
+      Multiline       =   ""
+      Scope           =   0
+      Selectable      =   False
+      TabIndex        =   5
+      TabPanelIndex   =   0
+      Text            =   "Waiting for API key"
+      TextAlign       =   0
+      TextColor       =   &h00808080
+      TextFont        =   "System"
+      TextSize        =   0
+      TextUnit        =   0
+      Top             =   557
+      Transparent     =   False
+      Underline       =   ""
+      Visible         =   True
+      Width           =   894
+   End
 End
 #tag EndWindow
 
@@ -1221,7 +1255,7 @@ End
 	#tag Event
 		Sub Action()
 		  If PromptText.Text = "" Then Return
-		  Self.Title = "Xojo-OpenAI Playground - Working..."
+		  StatusBarLbl.Text = "Working..."
 		  mAPIPrompt = PromptText.Text
 		  DoGenImageBtn.Enabled = False
 		  DoGenImageURLBtn.Enabled = False
@@ -1240,7 +1274,7 @@ End
 	#tag Event
 		Sub Action()
 		  If PromptText.Text = "" Then Return
-		  Self.Title = "Xojo-OpenAI Playground - Working..."
+		  StatusBarLbl.Text = "Working..."
 		  mAPIPrompt = PromptText.Text
 		  DoGenImageBtn.Enabled = False
 		  DoGenImageURLBtn.Enabled = False
@@ -1259,7 +1293,7 @@ End
 	#tag Event
 		Sub Action()
 		  If PromptText.Text = "" Then Return
-		  Self.Title = "Xojo-OpenAI Playground - Working..."
+		  StatusBarLbl.Text = "Working..."
 		  mAPIPrompt = PromptText.Text
 		  DoGenImageBtn.Enabled = False
 		  DoGenImageURLBtn.Enabled = False
@@ -1278,7 +1312,7 @@ End
 	#tag Event
 		Sub Action()
 		  If PromptText.Text = "" Then Return
-		  Self.Title = "Xojo-OpenAI Playground - Working..."
+		  StatusBarLbl.Text = "Working..."
 		  mAPIPrompt = PromptText.Text
 		  DoGenImageBtn.Enabled = False
 		  DoGenImageURLBtn.Enabled = False
@@ -1377,7 +1411,7 @@ End
 		  If mWorker = Nil Then Return
 		  If MsgBox("Abort this request?", 4 + 48, "Confirm abort") <> 6 Then Return
 		  mWorker.Kill()
-		  Self.Title = "Xojo-OpenAI Playground - Aborted"
+		  StatusBarLbl.Text = "Aborted"
 		  DoGenImageBtn.Enabled = True
 		  DoGenImageURLBtn.Enabled = True
 		  DoCompletionBtn.Enabled = True
@@ -1396,14 +1430,14 @@ End
 		    MsgBox("Please enter your OpenAI API key to begin.")
 		    Return
 		  End If
-		  Self.Title = "Xojo-OpenAI Playground - Working..."
+		  StatusBarLbl.Text = "Working..."
 		  OpenAI.APIKey = APIKeyField.Text
 		  Try
 		    Call OpenAI.Model.Count()
 		  Catch err As OpenAI.OpenAIException
 		    Call MsgBox(err.Message, 16, "Key Rejected")
 		    OpenAI.APIKey = ""
-		    Self.Title = "Xojo-OpenAI Playground"
+		    StatusBarLbl.Text = "Waiting for API key"
 		    Return
 		  End Try
 		  
@@ -1412,7 +1446,7 @@ End
 		  APIKeyLbl.Enabled = False
 		  APIKeyField.Enabled = False
 		  Me.Enabled = False
-		  Self.Title = "Xojo-OpenAI Playground - Ready"
+		  StatusBarLbl.Text = "Ready"
 		End Sub
 	#tag EndEvent
 #tag EndEvents
@@ -1425,6 +1459,7 @@ End
 		    ReplyText.Text = mLastError.Message
 		    Call MsgBox("OpenAI rejected the request.", 16, "API Error")
 		    mLastError = Nil
+		    StatusBarLbl.Text = "Error"
 		  Else
 		    Select Case mAPIReply.ResultType
 		    Case OpenAI.ResultType.String, OpenAI.ResultType.PictureURL
@@ -1439,9 +1474,9 @@ End
 		      ReplyText.Text = ""
 		      mAPIImage = mAPIReply.GetResult
 		    End Select
+		    StatusBarLbl.Text = "Ready"
 		  End If
 		  
-		  Self.Title = "Xojo-OpenAI Playground - Ready"
 		  ReplyImageCanvas.Invalidate(True)
 		  DoGenImageBtn.Enabled = True
 		  DoGenImageURLBtn.Enabled = True
@@ -1450,11 +1485,15 @@ End
 		  DoAbortBtn.Visible = False
 		  RequestProgressBar.Visible = False
 		  If mAPIReply <> Nil And mAPIReply.TokenCount > 0 Then
-		    ReplyInfoLbl.Text = "Reply/Output:    (Usage: P:" + Str(mAPIReply.PromptTokenCount) + " / R:" + Str(mAPIReply.ReplyTokenCount) + " / T:" + Str(mAPIReply.TokenCount) + ")"
-		    ReplyInfoLbl.HelpTag = "Token usage: Prompt:" + Str(mAPIReply.PromptTokenCount) + " / Reply:" + Str(mAPIReply.ReplyTokenCount) + " / Total:" + Str(mAPIReply.TokenCount)
-		  Else
-		    ReplyInfoLbl.Text = "Reply/Output:"
-		    ReplyInfoLbl.HelpTag = ""
+		    Dim ptc As String = Str(mAPIReply.PromptTokenCount)
+		    Dim rtc As String = Str(mAPIReply.ReplyTokenCount)
+		    Dim tc As String = Str(mAPIReply.TokenCount)
+		    Dim finres As String = mAPIReply.FinishReason
+		    If finres = "" Then
+		      StatusBarLbl.Text = "Complete. Token usage: Prompt:" + ptc + " / Reply:" + rtc + " / Total:" + tc
+		    Else
+		      StatusBarLbl.Text = "Complete. Token usage: Prompt:" + ptc + " / Reply:" + rtc + " / Total:" + " / Finish reason:" + mAPIReply.FinishReason
+		    End If
 		  End If
 		End Sub
 	#tag EndEvent

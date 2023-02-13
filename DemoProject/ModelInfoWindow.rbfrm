@@ -185,6 +185,8 @@ End
 	#tag EndEvent
 	#tag Event
 		Function CellClick(row as Integer, column as Integer, x as Integer, y as Integer) As Boolean
+		  #pragma Unused x
+		  #pragma Unused y
 		  If column <> 1 Or row < 0 Or row > Me.ListCount - 1 Then Return False
 		  If Me.Cell(row, 0) = "Root" Then
 		    Dim mdl As OpenAI.Model = mModel.Root
