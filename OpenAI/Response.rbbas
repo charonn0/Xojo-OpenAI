@@ -49,6 +49,18 @@ Protected Class Response
 		End Function
 	#tag EndMethod
 
+	#tag Method, Flags = &h0
+		Function FinishReason(Index As Integer = 0) As String
+		  ' Returns the reason for finishing the result at Index, as a String.
+		  ' Not all endpoints supply this information.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Response.FinishReason
+		  
+		  Return GetResultAttribute(Index, "finish_reason")
+		End Function
+	#tag EndMethod
+
 	#tag Method, Flags = &h1
 		Protected Function GetCreationDate() As Date
 		  Return time_t(mResponse.Value("created"))
@@ -77,6 +89,29 @@ Protected Class Response
 		  End Select
 		  
 		  Return results.Child(Index)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function GetResultAttribute(Index As Integer, AttributeName As String, DefaultValue As Variant = Nil) As Variant
+		  Dim results As JSONItem
+		  Select Case True
+		  Case mResponse.HasName("data")
+		    results = mResponse.Value("data")
+		    
+		  Case mResponse.HasName("choices")
+		    results = mResponse.Value("choices")
+		    
+		  Case mResponse.HasName("results")
+		    results = mResponse.Value("results")
+		    
+		  Case mResponse.HasName("error")
+		    Raise New OpenAIException(mResponse)
+		    
+		  End Select
+		  
+		  results = results.Child(Index)
+		  Return results.Lookup(AttributeName, DefaultValue)
 		End Function
 	#tag EndMethod
 
