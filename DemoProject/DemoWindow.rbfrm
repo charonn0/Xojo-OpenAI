@@ -130,7 +130,7 @@ Begin Window DemoWindow
          Visible         =   True
          Width           =   186
       End
-      Begin Label Label3
+      Begin Label ReplyInfoLbl
          AutoDeactivate  =   True
          Bold            =   False
          DataField       =   ""
@@ -162,7 +162,7 @@ Begin Window DemoWindow
          Transparent     =   False
          Underline       =   False
          Visible         =   True
-         Width           =   186
+         Width           =   292
       End
       Begin TextArea ReplyText
          AcceptTabs      =   False
@@ -1449,6 +1449,13 @@ End
 		  DoModerationBtn.Enabled = True
 		  DoAbortBtn.Visible = False
 		  RequestProgressBar.Visible = False
+		  If mAPIReply <> Nil And mAPIReply.TokenCount > 0 Then
+		    ReplyInfoLbl.Text = "Reply/Output:    (Usage: P:" + Str(mAPIReply.PromptTokenCount) + " / R:" + Str(mAPIReply.ReplyTokenCount) + " / T:" + Str(mAPIReply.TokenCount) + ")"
+		    ReplyInfoLbl.HelpTag = "Token usage: Prompt:" + Str(mAPIReply.PromptTokenCount) + " / Reply:" + Str(mAPIReply.ReplyTokenCount) + " / Total:" + Str(mAPIReply.TokenCount)
+		  Else
+		    ReplyInfoLbl.Text = "Reply/Output:"
+		    ReplyInfoLbl.HelpTag = ""
+		  End If
 		End Sub
 	#tag EndEvent
 #tag EndEvents
