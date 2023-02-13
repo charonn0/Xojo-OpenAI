@@ -286,10 +286,24 @@ Protected Class Model
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  Dim mdl As OpenAI.Model
 			  If mModel.HasName("root") And mModel.Value("root") <> Nil Then
 			    Dim nm As String = mModel.Value("root")
-			    Return OpenAI.Model.Lookup(nm)
+			    mdl = OpenAI.Model.Lookup(nm)
+			    If Not (mdl Is Me) Then Return mdl
 			  End If
+			  Select Case True
+			  Case InStr(Me.ID, "davinci") > 0
+			    mdl = OpenAI.Model.Lookup("davinci")
+			  Case InStr(Me.ID, "babbage") > 0
+			    mdl = OpenAI.Model.Lookup("babbage")
+			  Case InStr(Me.ID, "ada") > 0
+			    mdl = OpenAI.Model.Lookup("ada")
+			  Case InStr(Me.ID, "curie") > 0
+			    mdl = OpenAI.Model.Lookup("curie")
+			  End Select
+			  If mdl Is Me Then Return Nil
+			  Return mdl
 			  
 			  Exception err As KeyNotFoundException
 			    Return Nil
@@ -299,10 +313,10 @@ Protected Class Model
 	#tag EndComputedProperty
 
 
-	#tag Constant, Name = TEXT_MODERATION_LATEST, Type = String, Dynamic = False, Default = \"{\"id\": \"text-moderation-latest\"\x2C \"object\": \"model\"\x2C \"owned_by\": \"organization-owner\"\x2C \"permission\": null}", Scope = Private
+	#tag Constant, Name = TEXT_MODERATION_LATEST, Type = String, Dynamic = False, Default = \"{\"id\":\"text-moderation-latest\"\x2C\"object\":\"model\"\x2C\"created\":0\x2C\"owned_by\":\"openai\"\x2C\"permission\":[{\"id\":\"\"\x2C\"object\":\"model_permission\"\x2C\"created\":0\x2C\"allow_create_engine\":false\x2C\"allow_sampling\":false\x2C\"allow_logprobs\":false\x2C\"allow_search_indices\":false\x2C\"allow_view\":false\x2C\"allow_fine_tuning\":false\x2C\"organization\":\"*\"\x2C\"group\":null\x2C\"is_blocking\":false}]\x2C\"root\":\"text-moderation\"\x2C\"parent\":null}", Scope = Private
 	#tag EndConstant
 
-	#tag Constant, Name = TEXT_MODERATION_STABLE, Type = String, Dynamic = False, Default = \"{\"id\": \"text-moderation-stable\"\x2C \"object\": \"model\"\x2C \"owned_by\": \"organization-owner\"\x2C \"permission\": null}", Scope = Private
+	#tag Constant, Name = TEXT_MODERATION_STABLE, Type = String, Dynamic = False, Default = \"{\"id\":\"text-moderation-stable\"\x2C\"object\":\"model\"\x2C\"created\":0\x2C\"owned_by\":\"openai\"\x2C\"permission\":[{\"id\":\"\"\x2C\"object\":\"model_permission\"\x2C\"created\":0\x2C\"allow_create_engine\":false\x2C\"allow_sampling\":false\x2C\"allow_logprobs\":false\x2C\"allow_search_indices\":false\x2C\"allow_view\":false\x2C\"allow_fine_tuning\":false\x2C\"organization\":\"*\"\x2C\"group\":null\x2C\"is_blocking\":false}]\x2C\"root\":\"text-moderation\"\x2C\"parent\":null}", Scope = Private
 	#tag EndConstant
 
 
