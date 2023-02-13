@@ -108,8 +108,8 @@ End
 #tag EndWindow
 
 #tag WindowCode
-	#tag Method, Flags = &h0
-		Sub ShowModel(Model As OpenAI.Model)
+	#tag Method, Flags = &h21
+		Private Sub DisplayModel(Model As OpenAI.Model)
 		  ModelInfoList.DeleteAllRows()
 		  mModel = Model
 		  Dim props() As Introspection.PropertyInfo = Introspection.GetType(mModel).GetProperties()
@@ -128,6 +128,12 @@ End
 		      End Try
 		    End If
 		  Next
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub ShowModel(Model As OpenAI.Model)
+		  DisplayModel(Model)
 		  Me.ShowModal()
 		  
 		End Sub
@@ -163,6 +169,31 @@ End
 		      Return True
 		    End If
 		  End Select
+		End Function
+	#tag EndEvent
+	#tag Event
+		Function CellTextPaint(g As Graphics, row As Integer, column As Integer, x as Integer, y as Integer) As Boolean
+		  If column <> 1 Or row < 0 Or row > Me.ListCount - 1 Then Return False
+		  If Me.Cell(row, 0) = "Root" Then
+		    g.ForeColor = &c0000FF00
+		    g.Underline = True
+		    g.DrawString(Me.Cell(row, column), x, y)
+		    Return True
+		  End If
+		  
+		End Function
+	#tag EndEvent
+	#tag Event
+		Function CellClick(row as Integer, column as Integer, x as Integer, y as Integer) As Boolean
+		  If column <> 1 Or row < 0 Or row > Me.ListCount - 1 Then Return False
+		  If Me.Cell(row, 0) = "Root" Then
+		    Dim mdl As OpenAI.Model = mModel.Root
+		    If mdl <> Nil Then
+		      DisplayModel(mdl)
+		      Return True
+		    End If
+		  End If
+		  
 		End Function
 	#tag EndEvent
 #tag EndEvents
