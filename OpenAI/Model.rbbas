@@ -37,6 +37,9 @@ Protected Class Model
 		    ModelList.Append(m)
 		  Next
 		  
+		  ' text-moderation-stable and text-moderation-latest are the two models that
+		  ' may be used with the Moderation endpoint, but they are not listed by the
+		  ' Models endpoint, so they're added here
 		  ModelList.Append(New OpenAI.Model(New JSONItem(TEXT_MODERATION_LATEST)))
 		  ModelList.Append(New OpenAI.Model(New JSONItem(TEXT_MODERATION_STABLE)))
 		  
