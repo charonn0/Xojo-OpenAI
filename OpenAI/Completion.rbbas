@@ -130,7 +130,7 @@ Inherits OpenAI.Response
 		  ' If Request.Instruction <> "" Then Return ValidationError.Instruction
 		  If Request.LearningRateMultiplier > 0.00001 Then Return ValidationError.LearningRateMultiplier
 		  ' If Request.LogItBias <> Nil Then Return ValidationError.LogItBias
-		  ' If Request.LogProbabilities <> 0 Then Return ValidationError.LogProbabilities
+		  If Request.LogProbabilities > 5 Then Return ValidationError.LogProbabilities
 		  If Request.MaskImage <> Nil Then Return ValidationError.MaskImage
 		  If Request.MaxTokens >= 2048 Then Return ValidationError.MaxTokens ' newer Models can do 4096
 		  If Request.Model = Nil Then Return ValidationError.Model ' required
