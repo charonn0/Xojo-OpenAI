@@ -1464,7 +1464,11 @@ End
 		    Select Case mAPIReply.ResultType
 		    Case OpenAI.ResultType.String, OpenAI.ResultType.PictureURL
 		      mAPIImage = Nil
-		      ReplyText.Text = RTrim(mAPIReply.GetResult)
+		      ReplyText.Text = ""
+		      For i As Integer = 0 To mAPIReply.ResultCount - 1
+		        Dim s As String = Trim(mAPIReply.GetResult(i)) 
+		        ReplyText.Text = ReplyText.Text + "[result #" + Str(i) + "]" + EndOfLine + s + EndOfLine
+		      Next
 		    Case OpenAI.ResultType.JSONObject
 		      mAPIImage = Nil
 		      Dim js As JSONItem = mAPIReply.GetResult
