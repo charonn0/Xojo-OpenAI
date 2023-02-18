@@ -116,6 +116,48 @@ Protected Class Response
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Function GetTokenProbabilities(Index As Integer = 0) As Double()
+		  ' Returns the token probabilities for the result at Index, as a Double array.
+		  ' The 'logprobs' parameter must have been specified in the request, and not all
+		  ' endpoints support it.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Response.GetTokenProbabilities
+		  
+		  Dim list() As Double
+		  Dim logprobs As JSONItem = GetResultAttribute(Index, "logprobs")
+		  If logprobs = Nil Then Return list
+		  logprobs = logprobs.Value("token_logprobs")
+		  For i As Integer = 0 To logprobs.Count - 1
+		    list.Append(logprobs.Value(i))
+		  Next
+		  Return list
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function GetTokens(Index As Integer = 0) As String()
+		  ' Returns the tokenized result at Index, as a String array.
+		  ' The 'logprobs' parameter must have been specified in the request, and not all
+		  ' endpoints support it.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Response.GetTokens
+		  
+		  Dim list() As String
+		  Dim logprobs As JSONItem = GetResultAttribute(Index, "logprobs")
+		  If logprobs = Nil Then Return list
+		  logprobs = logprobs.Value("tokens")
+		  For i As Integer = 0 To logprobs.Count - 1
+		    list.Append(logprobs.Value(i))
+		  Next
+		  Return list
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		 Shared Function IsValid(Request As OpenAI.Request) As OpenAI.ValidationError
 		  ' For custom requests just assume the user knows what they're doing
 		  #pragma Unused Request
