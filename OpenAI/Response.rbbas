@@ -57,7 +57,7 @@ Protected Class Response
 		  ' See:
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Response.FinishReason
 		  
-		  Return GetResultAttribute(Index, "finish_reason")
+		  Return GetResultAttribute(Index, "finish_reason", "")
 		End Function
 	#tag EndMethod
 
