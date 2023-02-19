@@ -1466,8 +1466,8 @@ End
 		      mAPIImage = Nil
 		      ReplyText.Text = ""
 		      For i As Integer = 0 To mAPIReply.ResultCount - 1
-		        Dim s As String = Trim(mAPIReply.GetResult(i)) 
-		        ReplyText.Text = ReplyText.Text + "[result #" + Str(i) + "]" + EndOfLine + s + EndOfLine
+		        Dim s As String = Trim(mAPIReply.GetResult(i))
+		        ReplyText.Text = ReplyText.Text + "[result #" + Str(i + 1) + "]" + EndOfLine + s + EndOfLine + EndOfLine
 		      Next
 		    Case OpenAI.ResultType.JSONObject
 		      mAPIImage = Nil
