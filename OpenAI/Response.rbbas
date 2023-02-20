@@ -8,15 +8,15 @@ Protected Class Response
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		 Shared Function Create(Endpoint As String) As OpenAI.Response
-		  ' Perform a GET request against the specified API Endpoint.
+		 Shared Function Create(Endpoint As String, Request As OpenAI.Request, RequestMethod As String = "POST") As OpenAI.Response
+		  ' Perform the specified request against the specified API Endpoint.
 		  '
 		  ' See:
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Response.Create
 		  
 		  Dim client As New OpenAIClient
-		  Dim data As String = client.SendRequest(Endpoint)
 		  Dim response As JSONItem
+		  Dim data As String = client.SendRequest(Endpoint, request, RequestMethod)
 		  Try
 		    response = New JSONItem(data)
 		  Catch err As JSONException
@@ -29,15 +29,15 @@ Protected Class Response
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		 Shared Function Create(Endpoint As String, Request As OpenAI.Request) As OpenAI.Response
+		 Shared Function Create(Endpoint As String, RequestMethod As String = "GET") As OpenAI.Response
 		  ' Perform the specified request against the specified API Endpoint.
 		  '
 		  ' See:
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Response.Create
 		  
 		  Dim client As New OpenAIClient
+		  Dim data As String = client.SendRequest(Endpoint, RequestMethod)
 		  Dim response As JSONItem
-		  Dim data As String = client.SendRequest(Endpoint, request)
 		  Try
 		    response = New JSONItem(data)
 		  Catch err As JSONException
