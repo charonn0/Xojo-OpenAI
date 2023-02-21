@@ -73,8 +73,8 @@ Protected Class Model
 		End Function
 	#tag EndMethod
 
-	#tag Method, Flags = &h21
-		Private Sub Operator_Convert(FromName As String)
+	#tag Method, Flags = &h0
+		Sub Operator_Convert(FromName As String)
 		  Dim m As Model = OpenAI.Model.Lookup(FromName)
 		  If m = Nil Then Raise New OpenAIException("Invalid model name: '" + FromName + "'")
 		  Me.Constructor(m.mModel)
