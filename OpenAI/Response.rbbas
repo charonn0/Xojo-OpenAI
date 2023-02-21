@@ -115,45 +115,9 @@ Protected Class Response
 		End Function
 	#tag EndMethod
 
-	#tag Method, Flags = &h0
-		Function GetTokenProbabilities(Index As Integer = 0) As Double()
-		  ' Returns the token probabilities for the result at Index, as a Double array.
-		  ' The 'logprobs' parameter must have been specified in the request, and not all
-		  ' endpoints support it.
-		  '
-		  ' See:
-		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Response.GetTokenProbabilities
-		  
-		  Dim list() As Double
-		  Dim logprobs As JSONItem = GetResultAttribute(Index, "logprobs")
-		  If logprobs = Nil Then Return list
-		  logprobs = logprobs.Value("token_logprobs")
-		  For i As Integer = 0 To logprobs.Count - 1
-		    list.Append(logprobs.Value(i))
-		  Next
-		  Return list
-		  
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Function GetTokens(Index As Integer = 0) As String()
-		  ' Returns the tokenized result at Index, as a String array.
-		  ' The 'logprobs' parameter must have been specified in the request, and not all
-		  ' endpoints support it.
-		  '
-		  ' See:
-		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Response.GetTokens
-		  
-		  Dim list() As String
-		  Dim logprobs As JSONItem = GetResultAttribute(Index, "logprobs")
-		  If logprobs = Nil Then Return list
-		  logprobs = logprobs.Value("tokens")
-		  For i As Integer = 0 To logprobs.Count - 1
-		    list.Append(logprobs.Value(i))
-		  Next
-		  Return list
-		  
+	#tag Method, Flags = &h1
+		Protected Function GetResultType() As OpenAI.ResultType
+		  Return OpenAI.ResultType.JSONObject
 		End Function
 	#tag EndMethod
 
@@ -166,9 +130,13 @@ Protected Class Response
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function ResultType(Index As Integer = 0) As OpenAI.ResultType
-		  #pragma Unused Index
-		  Return OpenAI.ResultType.JSONObject
+		Function Tokens(ResultIndex As Integer = 0) As OpenAI.TokenEngine
+		  If UBound(mTokens) = -1 Then
+		    For i As Integer = 0 To Me.ResultCount - 1
+		      mTokens.Append(New TokenEngineCreator(Me, i))
+		    Next
+		  End If
+		  Return mTokens(ResultIndex)
 		End Function
 	#tag EndMethod
 
@@ -206,6 +174,10 @@ Protected Class Response
 
 	#tag Property, Flags = &h1
 		Protected mResponse As JSONItem
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mTokens() As OpenAI.TokenEngine
 	#tag EndProperty
 
 	#tag ComputedProperty, Flags = &h0
@@ -288,6 +260,15 @@ Protected Class Response
 			End Get
 		#tag EndGetter
 		ResultCount As Integer
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  return Me.GetResultType()
+			End Get
+		#tag EndGetter
+		ResultType As OpenAI.ResultType
 	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0

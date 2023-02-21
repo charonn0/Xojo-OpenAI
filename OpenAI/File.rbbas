@@ -133,6 +133,12 @@ Inherits OpenAI.Response
 		End Function
 	#tag EndMethod
 
+	#tag Method, Flags = &h1
+		Protected Function GetResultType() As OpenAI.ResultType
+		  Return OpenAI.ResultType.String
+		End Function
+	#tag EndMethod
+
 	#tag Method, Flags = &h0
 		 Shared Function IsValid(Request As OpenAI.Request) As OpenAI.ValidationError
 		  If Request.BatchSize <> 1 Then Return ValidationError.BatchSize
@@ -217,13 +223,6 @@ Inherits OpenAI.Response
 		    Dim f As File = FileList(i)
 		    If f.ID = FileID Then Return f
 		  Next
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Function ResultType(Index As Integer = 0) As OpenAI.ResultType
-		  #pragma Unused Index
-		  Return OpenAI.ResultType.String
 		End Function
 	#tag EndMethod
 

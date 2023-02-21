@@ -161,6 +161,17 @@ Inherits OpenAI.Response
 		End Function
 	#tag EndMethod
 
+	#tag Method, Flags = &h1
+		Protected Function GetResultType() As OpenAI.ResultType
+		  Dim results As JSONItem = Super.GetResult()
+		  If results.HasName("b64_json") Then
+		    Return OpenAI.ResultType.Picture
+		  ElseIf results.HasName("url") Then
+		    Return OpenAI.ResultType.PictureURL
+		  End If
+		End Function
+	#tag EndMethod
+
 	#tag Method, Flags = &h0
 		 Shared Function IsValid(Request As OpenAI.Request) As OpenAI.ValidationError
 		  If Request.BatchSize <> 1 Then Return ValidationError.BatchSize
@@ -212,17 +223,6 @@ Inherits OpenAI.Response
 		  If Request.TrainingFile <> "" Then Return ValidationError.TrainingFile
 		  If Request.ValidationFile <> "" Then Return ValidationError.ValidationFile
 		  Return ValidationError.None
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Function ResultType(Index As Integer = 0) As OpenAI.ResultType
-		  Dim results As JSONItem = Super.GetResult(Index)
-		  If results.HasName("b64_json") Then
-		    Return OpenAI.ResultType.Picture
-		  ElseIf results.HasName("url") Then
-		    Return OpenAI.ResultType.PictureURL
-		  End If
 		End Function
 	#tag EndMethod
 
