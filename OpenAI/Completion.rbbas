@@ -141,7 +141,7 @@ Inherits OpenAI.Response
 		    If Request.Model <> Nil And Not Request.Model.AllowLogProbs Then Return ValidationError.LogProbabilities
 		  End If
 		  If Request.MaskImage <> Nil Then Return ValidationError.MaskImage
-		  If Request.MaxTokens >= 2048 Then Return ValidationError.MaxTokens ' newer Models can do 4096
+		  If Request.MaxTokens > 2048 Then Return ValidationError.MaxTokens ' newer Models can do 4096
 		  If Request.Model = Nil Then Return ValidationError.Model ' required
 		  If Request.NumberOfEpochs <> 1 Then Return ValidationError.NumberOfEpochs
 		  If Request.NumberOfResults < 1 Then Return ValidationError.NumberOfResults
