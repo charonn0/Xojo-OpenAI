@@ -43,7 +43,7 @@ Factory methods generally come in two flavors: basic and advanced. The basic ver
 ```realbasic
   OpenAI.APIKey = "YOUR API KEY"
   Dim request As New OpenAI.Request
-  request.Model = OpenAI.Model.Lookup("text-davinci-003")
+  request.Model = "text-davinci-003"
   request.MaxTokens = 60
   request.Prompt = "What is the airspeed velocity of an unladen European swallow?"
   Dim result As OpenAI.Response = OpenAI.Completion.Create(request)
