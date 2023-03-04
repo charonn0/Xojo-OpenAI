@@ -66,6 +66,7 @@ Inherits OpenAI.Response
 		  If Request.FrequencyPenalty > 0.00001 Then Return ValidationError.FrequencyPenalty
 		  If Request.Input = "" Then Return ValidationError.Input ' required
 		  If Request.Instruction <> "" Then Return ValidationError.Instruction
+		  If Request.Language <> "" Then Return ValidationError.Language
 		  If Request.LearningRateMultiplier > 0.00001 Then Return ValidationError.LearningRateMultiplier
 		  If Request.LogItBias <> Nil Then Return ValidationError.LogItBias
 		  If Request.LogProbabilities <> 0 Then Return ValidationError.LogProbabilities
@@ -80,7 +81,13 @@ Inherits OpenAI.Response
 		  If Request.Prompt <> "" Then Return ValidationError.Prompt
 		  If Request.PromptLossWeight > 0.00001 Then Return ValidationError.PromptLossWeight
 		  If Request.Purpose <> "" Then Return ValidationError.Purpose
+		  If Request.ResultsAsBase64 = True Then Return ValidationError.ResultsAsType
+		  If Request.ResultsAsJSON = True Then Return ValidationError.ResultsAsType
+		  If Request.ResultsAsJSON_Verbose = True Then Return ValidationError.ResultsAsType
+		  If Request.ResultsAsSRT = True Then Return ValidationError.ResultsAsType
+		  If Request.ResultsAsText = True Then Return ValidationError.ResultsAsType
 		  If Request.ResultsAsURL = True Then Return ValidationError.ResultsAsURL
+		  If Request.ResultsAsVTT = True Then Return ValidationError.ResultsAsType
 		  If Request.Size <> "" Then Return ValidationError.Size
 		  If Request.SourceImage <> Nil Then Return ValidationError.SourceImage
 		  If Request.Stop <> "" Then Return ValidationError.Stop
