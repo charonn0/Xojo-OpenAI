@@ -49,6 +49,7 @@ Inherits OpenAI.Response
 		  Dim client As New OpenAIClient
 		  request.File = FileContent
 		  request.FileName = FileName
+		  request.FileMIMEType = "application/x-jsonlines"
 		  request.Purpose = Purpose
 		  If Completion.Prevalidate Then
 		    Dim err As ValidationError = File.IsValid(Request)
