@@ -242,10 +242,6 @@ Protected Class Model
 	#tag EndComputedProperty
 
 	#tag Property, Flags = &h1
-		Protected mClient As OpenAIClient
-	#tag EndProperty
-
-	#tag Property, Flags = &h1
 		Protected mModel As JSONItem
 	#tag EndProperty
 
