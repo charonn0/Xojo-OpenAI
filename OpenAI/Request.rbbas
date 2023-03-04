@@ -7,6 +7,18 @@ Protected Class Request
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Function IsSet(KeyName As String) As Boolean
+		  Return mRequest.HasName(KeyName)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub Set(KeyName As String, KeyValue As Variant)
+		  mRequest.Value(KeyName) = KeyValue
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Function ToObject() As Variant
 		  If SourceImage = Nil And MaskImage = Nil And File = Nil Then
 		    mRequest.Compact = True
@@ -29,9 +41,12 @@ Protected Class Request
 		    
 		  ElseIf File <> Nil Then
 		    Dim d As New Dictionary
+		    For i As Integer = 0 To mRequest.Count - 1
+		      Dim n As String = mRequest.Name(i)
+		      Dim v As String = mRequest.Value(n)
+		      d.Value(n) = v
+		    Next
 		    d.Value("file") = File
-		    d.Value("purpose") = Purpose
-		    If User <> "" Then d.Value("user") = User
 		    Return d
 		  End If
 		End Function
@@ -159,6 +174,20 @@ Protected Class Request
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  return mFileMIMEType
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  mFileMIMEType = value
+			End Set
+		#tag EndSetter
+		FileMIMEType As String
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
 			  return mFileName
 			End Get
 		#tag EndGetter
@@ -224,6 +253,20 @@ Protected Class Request
 			End Set
 		#tag EndSetter
 		Instruction As String
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mRequest.HasName("language") Then Return mRequest.Value("language")
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  mRequest.Value("language") = value
+			End Set
+		#tag EndSetter
+		Language As String
 	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0
@@ -297,8 +340,26 @@ Protected Class Request
 		MaxTokens As Integer
 	#tag EndComputedProperty
 
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mRequest.HasName("messages") Then Return mRequest.Value("messages")
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  mRequest.Value("messages") = value
+			End Set
+		#tag EndSetter
+		Messages As JSONItem
+	#tag EndComputedProperty
+
 	#tag Property, Flags = &h21
 		Private mFileContent As MemoryBlock
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mFileMIMEType As String
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
@@ -421,17 +482,119 @@ Protected Class Request
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
-			  If mRequest.HasName("response_format") Then
-			    Return mRequest.Value("response_format") = "url"
-			  End If
+			  Return mRequest.Lookup("response_format", "")
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  mRequest.Value("response_format") = value
+			End Set
+		#tag EndSetter
+		ResponseFormat As String
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  Return ResponseFormat = "b64_json"
 			End Get
 		#tag EndGetter
 		#tag Setter
 			Set
 			  If value Then
-			    mRequest.Value("response_format") = "url"
+			    ResponseFormat = "b64_json"
 			  Else
-			    mRequest.Value("response_format") = "b64_json"
+			    UnSet("response_format")
+			  End If
+			End Set
+		#tag EndSetter
+		ResultsAsBase64 As Boolean
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  Return ResponseFormat = "json"
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  If value Then
+			    ResponseFormat = "json"
+			  Else
+			    UnSet("response_format")
+			  End If
+			End Set
+		#tag EndSetter
+		ResultsAsJSON As Boolean
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  Return ResponseFormat = "verbose_json"
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  If value Then
+			    ResponseFormat = "verbose_json"
+			  Else
+			    UnSet("response_format")
+			  End If
+			End Set
+		#tag EndSetter
+		ResultsAsJSON_Verbose As Boolean
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  Return ResponseFormat = "srt"
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  If value Then
+			    ResponseFormat = "srt"
+			  Else
+			    UnSet("response_format")
+			  End If
+			End Set
+		#tag EndSetter
+		ResultsAsSRT As Boolean
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  Return ResponseFormat = "text"
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  If value Then
+			    ResponseFormat = "text"
+			  Else
+			    UnSet("response_format")
+			  End If
+			End Set
+		#tag EndSetter
+		ResultsAsText As Boolean
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  Return ResponseFormat = "url"
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  If value Then
+			    ResponseFormat = "url"
+			  Else
+			    ResponseFormat = "b64_json"
 			  End If
 			End Set
 		#tag EndSetter
@@ -441,10 +604,28 @@ Protected Class Request
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  Return ResponseFormat = "vtt"
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  If value Then
+			    ResponseFormat = "vtt"
+			  Else
+			    UnSet("response_format")
+			  End If
+			End Set
+		#tag EndSetter
+		ResultsAsVTT As Boolean
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
 			  If mRequest.HasName("size") Then
 			    Return mRequest.Value("size")
 			  ElseIf SourceImage <> Nil Then
-			     Return "1024x1024"
+			    Return "1024x1024"
 			  End If
 			End Get
 		#tag EndGetter
