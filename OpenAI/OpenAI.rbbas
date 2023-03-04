@@ -63,11 +63,13 @@ Protected Module OpenAI
 		  FrequencyPenalty
 		  Input
 		  Instruction
+		  Language
 		  LearningRateMultiplier
 		  LogItBias
 		  LogProbabilities
 		  MaskImage
 		  MaxTokens
+		  Messages
 		  Model
 		  NumberOfEpochs
 		  NumberOfResults
@@ -75,7 +77,7 @@ Protected Module OpenAI
 		  Prompt
 		  PromptLossWeight
 		  Purpose
-		  ResultsAsURL
+		  ResultsAsType
 		  Size
 		  SourceImage
 		  Stop
@@ -84,7 +86,8 @@ Protected Module OpenAI
 		  Top_P
 		  TrainingFile
 		  ValidationFile
-		None
+		  None
+		ResultsAsURL=ValidationError.ResultsAsType
 	#tag EndEnum
 
 
