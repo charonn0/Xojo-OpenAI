@@ -2,33 +2,29 @@
 Protected Class ChatCompletion
 Inherits OpenAI.Response
 	#tag Method, Flags = &h1001
-		Protected Sub Constructor(ResponseData As JSONItem, Client As OpenAIClient)
-		  Me.Constructor(ResponseData, Client, New ChatCompletionData)
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h1001
 		Protected Sub Constructor(ResponseData As JSONItem, Client As OpenAIClient, ChatLog As OpenAI.ChatCompletionData)
 		  // Calling the overridden superclass constructor.
 		  // Constructor(ResponseData As JSONItem, Client As OpenAIClient) -- From Response
 		  Super.Constructor(ResponseData, Client)
 		  mChatLog = ChatLog
+		  ChatLog.AddMessage(GetResultRole, GetResult)
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		 Shared Function Create(ChatLog As OpenAI.ChatCompletionData, Role As String, Content As String, Model As OpenAI.Model = Nil) As OpenAI.ChatCompletion
-		  ' Starts a new chat. ChatLog contains at least the first message in the chat (i.e., the "system" message).
-		  ' Role is the name of the entity that is speaking (one of "user", "assistant", and "system"). Content
-		  ' is the message they are sending to the chat.
+		 Shared Function Create(Optional ChatLog As OpenAI.ChatCompletionData, Role As String, Content As String, Model As OpenAI.Model = Nil) As OpenAI.ChatCompletion
+		  ' Starts a new chat. ChatLog contains zero or more messages representing the context of
+		  ' the conversation so far. Role is the name of the entity that is speaking (one of "user",
+		  ' "assistant", and "system"). Content is the message they are sending to the chat.
 		  '
-		  ' Returns a new instance of ChatCompletion containing the generated reply to that message. Call GenerateNext()
-		  ' on that instance to continue the conversation in context.
+		  ' Returns a new instance of ChatCompletion containing the generated reply to that message.
+		  ' Call GenerateNext() on that instance to continue the conversation in context.
 		  '
 		  ' See:
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.ChatCompletion.Create
 		  ' https://platform.openai.com/docs/api-reference/chat/create
 		  
+		  If ChatLog = Nil Then ChatLog = New ChatCompletionData()
 		  ChatLog.AddMessage(Role, Content)
 		  Dim request As New OpenAI.Request
 		  If Model = Nil Then Model = "gpt-3.5-turbo"
@@ -59,53 +55,65 @@ Inherits OpenAI.Response
 		End Function
 	#tag EndMethod
 
+	#tag Method, Flags = &h21
+		Private Shared Function CreateNext(Request As OpenAI.Request, Client As OpenAIClient) As OpenAI.ChatCompletion
+		  If ChatCompletion.Prevalidate Then
+		    Dim err As ValidationError = ChatCompletion.IsValid(Request)
+		    If err <> ValidationError.None Then Raise New OpenAIException(err)
+		  End If
+		  Dim data As String = Client.SendRequest("/v1/chat/completions", request)
+		  Dim response As JSONItem
+		  Try
+		    response = New JSONItem(data)
+		  Catch err As JSONException
+		    Raise New OpenAIException(Client)
+		  End Try
+		  If response = Nil Or response.HasName("error") Then Raise New OpenAIException(response)
+		  Dim msgs As JSONItem = Request.Messages
+		  Return New OpenAI.ChatCompletion(response, Client, New ChatCompletionData(msgs))
+		  
+		End Function
+	#tag EndMethod
+
 	#tag Method, Flags = &h0
-		Function GenerateNext(Role As String, Content As String, Model As OpenAI.Model = Nil, ResultIndex As Integer = 0) As OpenAI.ChatCompletion
+		Function GenerateNext(Role As String, Content As String, Model As OpenAI.Model = Nil) As OpenAI.ChatCompletion
 		  ' Pass the Role and Content of the next chat message to receive a new instance of ChatCompletion
 		  ' containing the generated reply to that message.
 		  '
 		  ' See:
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.ChatCompletion.GenerateNext
 		  
-		  ChatLog.AddMessage(GetResultRole(ResultIndex), GetResultContent(ResultIndex))
 		  ChatLog.AddMessage(Role, Content)
 		  Dim request As New OpenAI.Request
 		  If Model = Nil Then Model = "gpt-3.5-turbo"
 		  request.Model = Model
 		  request.Messages = ChatLog
-		  Return ChatCompletion.Create(request)
+		  Return ChatCompletion.CreateNext(request, mClient)
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Function GetResult(Index As Integer = 0) As Variant
-		  ' Returns the message at Index, as a JSONItem.
+		  ' Returns the message at Index, as a string.
 		  '
 		  ' See:
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Response.GetResult
 		  
 		  Dim results As JSONItem = Super.GetResult(Index)
-		  If results.HasName("message") Then Return results
-		  
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Function GetResultContent(Index As Integer = 0) As String
-		  ' Returns the content part of the message at Index, as a String.
-		  '
-		  ' See:
-		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.ChatCompletion.GetResultContent
-		  
-		  Dim results As JSONItem = Me.GetResult(Index)
 		  results = results.Value("message")
 		  Return results.Value("content")
+		  
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Function GetResultRole(Index As Integer = 0) As String
-		  Dim results As JSONItem = Me.GetResult(Index)
+		  ' Returns the role part of the message at Index, as a String.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.ChatCompletion.GetResultRole
+		  
+		  Dim results As JSONItem = Super.GetResult(Index)
 		  results = results.Value("message")
 		  Return results.Value("role")
 		End Function
@@ -113,7 +121,7 @@ Inherits OpenAI.Response
 
 	#tag Method, Flags = &h1
 		Protected Function GetResultType() As OpenAI.ResultType
-		  Return OpenAI.ResultType.JSONObject
+		  Return OpenAI.ResultType.String
 		End Function
 	#tag EndMethod
 
