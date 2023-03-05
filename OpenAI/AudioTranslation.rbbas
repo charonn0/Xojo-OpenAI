@@ -149,7 +149,8 @@ Inherits OpenAI.Response
 		  If Request.ComputeClassificationMetrics <> False Then Return ValidationError.ComputeClassificationMetrics
 		  If Request.Echo <> False Then Return ValidationError.Echo
 		  If Request.File = Nil Then Return ValidationError.File ' required
-		  ' If Request.FileName <> "" Then Return ValidationError.FileName
+		  If Request.FileName = "" Then Return ValidationError.FileName ' required
+		  If Request.FileMIMEType = "" Then Return ValidationError.FileMIMEType ' required
 		  If Request.FineTuneID <> "" Then Return ValidationError.FineTuneID
 		  If Request.FrequencyPenalty > 0.00001 Then Return ValidationError.FrequencyPenalty
 		  If Request.Input <> "" Then Return ValidationError.Input
@@ -163,7 +164,7 @@ Inherits OpenAI.Response
 		  ' If Request.MaxTokens >= 2048 Then Return ValidationError.MaxTokens
 		  If Request.Model = Nil Then Return ValidationError.Model ' required
 		  If Request.NumberOfEpochs <> 1 Then Return ValidationError.NumberOfEpochs
-		  If Request.NumberOfResults <> 1 Then Return ValidationError.NumberOfResults ' optional
+		  If Request.NumberOfResults <> 1 Then Return ValidationError.NumberOfResults
 		  If Request.PresencePenalty > 0.00001 Then Return ValidationError.PresencePenalty
 		  ' If Request.Prompt <> "" Then Return ValidationError.Prompt
 		  If Request.PromptLossWeight > 0.00001 Then Return ValidationError.PromptLossWeight
