@@ -11,6 +11,31 @@ Inherits OpenAI.Response
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		 Shared Function Create(AudioFile As FolderItem, Language As String = "", Prompt As String = "", FileMIMEType As String = "") As OpenAI.AudioTranscription
+		  '
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.AudioTranscription.Create
+		  ' https://platform.openai.com/docs/api-reference/audio/create
+		  
+		  Dim request As New OpenAI.Request
+		  Dim bs As BinaryStream = BinaryStream.Open(AudioFile)
+		  Dim mb As MemoryBlock = bs.Read(bs.Length)
+		  bs.Close
+		  If FileMIMEType = "" Then FileMIMEType = MIMEType(AudioFile)
+		  If AudioTranscription.Prevalidate And FileMIMEType = "" Then Raise New OpenAIException("Unrecognized media file format.")
+		  request.File = mb
+		  request.Model = "whisper-1"
+		  request.FileName = AudioFile.Name
+		  request.FileMIMEType = FileMIMEType
+		  request.ResultsAsJSON = True
+		  If Prompt <> "" Then request.Prompt = Prompt
+		  If Language <> "" Then request.Language = Language
+		  Return OpenAI.AudioTranscription.Create(request)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		 Shared Function Create(Request As OpenAI.Request) As OpenAI.AudioTranscription
 		  '
 		  '
@@ -21,9 +46,17 @@ Inherits OpenAI.Response
 		  If AudioTranscription.Prevalidate Then
 		    Dim err As ValidationError = AudioTranscription.IsValid(Request)
 		    If err <> ValidationError.None Then Raise New OpenAIException(err)
+		    Select Case True
+		    Case Request.ResultsAsText, Request.ResultsAsSRT, Request.ResultsAsVTT
+		      Raise New OpenAIException("This method can only operate on JSON results.")
+		    Case Request.ResultsAsJSON, Request.ResultsAsJSON_Verbose
+		    Else
+		      Raise New OpenAIException("No valid result output type was specified.")
+		    End Select
 		  End If
 		  Dim client As New OpenAIClient
-		  Dim data As String = client.SendRequest("/v1/audio/transcriptions", Request)
+		  Dim data As String = client.SendRequest(API_ENDPOINT, Request)
+		  data = DefineEncoding(data, Encodings.UTF8)
 		  Dim result As JSONItem
 		  Try
 		    result = New JSONItem(data)
@@ -36,6 +69,63 @@ Inherits OpenAI.Response
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		 Shared Function CreateRaw(AudioFile As FolderItem, ResponseFormat As String, Language As String = "", Prompt As String = "", FileMIMEType As String = "") As String
+		  '
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.AudioTranscription.CreateRaw
+		  ' https://platform.openai.com/docs/api-reference/audio/create
+		  
+		  Dim request As New OpenAI.Request
+		  Dim bs As BinaryStream = BinaryStream.Open(AudioFile)
+		  Dim mb As MemoryBlock = bs.Read(bs.Length)
+		  bs.Close
+		  If FileMIMEType = "" Then FileMIMEType = MIMEType(AudioFile)
+		  If AudioTranscription.Prevalidate And FileMIMEType = "" Then Raise New OpenAIException("Unrecognized media file format.")
+		  request.File = mb
+		  request.Model = "whisper-1"
+		  request.FileName = AudioFile.Name
+		  request.FileMIMEType = FileMIMEType
+		  Select Case ResponseFormat
+		  Case "json"
+		    request.ResultsAsJSON = True
+		  Case "text", ""
+		    request.ResultsAsText = True
+		  Case "srt"
+		    request.ResultsAsSRT = True
+		  Case "verbose_json"
+		    request.ResultsAsJSON_Verbose = True
+		  Case "vtt"
+		    request.ResultsAsVTT = True
+		  Else
+		    Raise New OpenAIException("Unsupported ResponseFormat: '" + ResponseFormat + "'.")
+		  End Select
+		  If Prompt <> "" Then request.Prompt = Prompt
+		  If Language <> "" Then request.Language = Language
+		  Return OpenAI.AudioTranscription.CreateRaw(request)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		 Shared Function CreateRaw(Request As OpenAI.Request) As String
+		  '
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.AudioTranscription.CreateRaw
+		  ' https://platform.openai.com/docs/api-reference/audio/create
+		  
+		  If AudioTranscription.Prevalidate Then
+		    Dim err As ValidationError = AudioTranscription.IsValid(Request)
+		    If err <> ValidationError.None Then Raise New OpenAIException(err)
+		  End If
+		  Dim client As New OpenAIClient
+		  Dim data As String = client.SendRequest(API_ENDPOINT, Request)
+		  If client.LastErrorCode <> 0 Then Raise New OpenAIException(client)
+		  Return DefineEncoding(data, Encodings.UTF8)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Function GetResult(Index As Integer = 0) As Variant
 		  ' Returns the result at Index, as a Picture object or a String URL.
 		  '
@@ -43,18 +133,7 @@ Inherits OpenAI.Response
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Response.GetResult
 		  
 		  #pragma Unused Index
-		  Select Case True
-		  Case mResponse.HasName("json")
-		    Return mResponse.Value("json")
-		  Case mResponse.HasName("text")
-		    Return mResponse.Value("text")
-		  Case mResponse.HasName("srt")
-		    Return mResponse.Value("srt")
-		  Case mResponse.HasName("verbose_json")
-		    Return mResponse.Value("verbose_json")
-		  Case mResponse.HasName("vtt")
-		    Return mResponse.Value("vtt")
-		  End Select
+		  Return mResponse.Lookup("text", "")
 		End Function
 	#tag EndMethod
 
@@ -74,7 +153,9 @@ Inherits OpenAI.Response
 		  If Request.ComputeClassificationMetrics <> False Then Return ValidationError.ComputeClassificationMetrics
 		  If Request.Echo <> False Then Return ValidationError.Echo
 		  If Request.File = Nil Then Return ValidationError.File ' required
-		  ' If Request.FileName <> "" Then Return ValidationError.FileName
+		  If Request.File.Size > 1024 * 1024 * 25 Then Return ValidationError.File ' 25MB file size limit.
+		  If Request.FileName = "" Then Return ValidationError.FileName ' required
+		  If Request.FileMIMEType = "" Then Return ValidationError.FileMIMEType
 		  If Request.FineTuneID <> "" Then Return ValidationError.FineTuneID
 		  If Request.FrequencyPenalty > 0.00001 Then Return ValidationError.FrequencyPenalty
 		  If Request.Input <> "" Then Return ValidationError.Input
@@ -105,29 +186,11 @@ Inherits OpenAI.Response
 		  If Request.SourceImage <> Nil Then Return ValidationError.SourceImage
 		  If Request.Stop <> "" Then Return ValidationError.Stop
 		  If Request.Suffix <> "" Then Return ValidationError.Suffix
-		  If Request.Temperature > 0.00001 Then Return ValidationError.Temperature
+		  ' If Request.Temperature > 0.00001 Then Return ValidationError.Temperature
 		  If Request.Top_P > 0.00001 Then Return ValidationError.Top_P
 		  If Request.TrainingFile <> "" Then Return ValidationError.TrainingFile
 		  If Request.ValidationFile <> "" Then Return ValidationError.ValidationFile
 		  Return ValidationError.None
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		 Shared Function SendRequest(Request As OpenAI.Request) As String
-		  '
-		  '
-		  ' See:
-		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.AudioTranscription.CreateString
-		  ' https://platform.openai.com/docs/api-reference/audio/create
-		  
-		  If AudioTranscription.Prevalidate Then
-		    Dim err As ValidationError = AudioTranscription.IsValid(Request)
-		    If err <> ValidationError.None Then Raise New OpenAIException(err)
-		  End If
-		  Dim client As New OpenAIClient
-		  Dim data As String = client.SendRequest("/v1/audio/transcriptions", Request)
-		  Return data
 		End Function
 	#tag EndMethod
 
@@ -154,6 +217,10 @@ Inherits OpenAI.Response
 	#tag Property, Flags = &h21
 		Private Shared ValidationOpt As Boolean = True
 	#tag EndProperty
+
+
+	#tag Constant, Name = API_ENDPOINT, Type = String, Dynamic = False, Default = \"/v1/audio/transcriptions", Scope = Public
+	#tag EndConstant
 
 
 	#tag ViewBehavior
