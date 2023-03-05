@@ -81,7 +81,7 @@ Private Class OpenAIClient
 		    ElseIf Fields.Value(key) IsA MemoryBlock Then
 		      Dim v As MemoryBlock = Fields.Value(key)
 		      out.Write("Content-Disposition: form-data; name=""" + key + """; filename=""" + Request.FileName + """" + CRLF)
-		      out.Write("Content-Type: application/x-jsonlines" + CRLF + CRLF)
+		      out.Write("Content-Type: " + Request.FileMIMEType + CRLF + CRLF)
 		      out.Write(v + CRLF)
 		    End If
 		  Next
