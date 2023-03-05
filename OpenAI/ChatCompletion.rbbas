@@ -36,6 +36,14 @@ Inherits OpenAI.Response
 
 	#tag Method, Flags = &h0
 		 Shared Function Create(Request As OpenAI.Request) As OpenAI.ChatCompletion
+		  ' Starts a new chat according to the Request's parameters. Returns a new instance of ChatCompletion
+		  ' containing the generated reply to that message. Call GenerateNext() on that instance to continue
+		  ' the conversation in context.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.ChatCompletion.Create
+		  ' https://platform.openai.com/docs/api-reference/chat/create
+		  
 		  If ChatCompletion.Prevalidate Then
 		    Dim err As ValidationError = ChatCompletion.IsValid(Request)
 		    If err <> ValidationError.None Then Raise New OpenAIException(err)
@@ -180,6 +188,11 @@ Inherits OpenAI.Response
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  ' Returns an instance of ChatCompletionData containing the conversation so far. 
+			  '
+			  ' See:
+			  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.ChatCompletion.ChatLog
+			  
 			  return mChatLog
 			End Get
 		#tag EndGetter
