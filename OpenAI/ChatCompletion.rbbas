@@ -3,15 +3,21 @@ Protected Class ChatCompletion
 Inherits OpenAI.Response
 	#tag Method, Flags = &h1001
 		Protected Sub Constructor(ResponseData As JSONItem, Client As OpenAIClient)
+		  Me.Constructor(ResponseData, Client, New ChatCompletionData)
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h1001
+		Protected Sub Constructor(ResponseData As JSONItem, Client As OpenAIClient, ChatLog As OpenAI.ChatCompletionData)
 		  // Calling the overridden superclass constructor.
 		  // Constructor(ResponseData As JSONItem, Client As OpenAIClient) -- From Response
 		  Super.Constructor(ResponseData, Client)
-		  
+		  mChatLog = ChatLog
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		 Shared Function Create(ChatLog As OpenAI.ChatPrompt, Role As String, Content As String, Model As OpenAI.Model = Nil) As OpenAI.ChatCompletion
+		 Shared Function Create(ChatLog As OpenAI.ChatCompletionData, Role As String, Content As String, Model As OpenAI.Model = Nil) As OpenAI.ChatCompletion
 		  ChatLog.AppendMessage(Role, Content)
 		  Dim request As New OpenAI.Request
 		  If Model = Nil Then Model = "gpt-3.5-turbo"
@@ -36,8 +42,21 @@ Inherits OpenAI.Response
 		    Raise New OpenAIException(client)
 		  End Try
 		  If response = Nil Or response.HasName("error") Then Raise New OpenAIException(response)
-		  Return New OpenAI.ChatCompletion(response, client)
+		  Dim msgs As JSONItem = Request.Messages
+		  Return New OpenAI.ChatCompletion(response, client, New ChatCompletionData(msgs))
 		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function GenerateNext(Role As String, Content As String, Model As OpenAI.Model = Nil, ResultIndex As Integer = 0) As OpenAI.ChatCompletion
+		  ChatLog.AppendMessage(GetResultRole(ResultIndex), GetResultContent(ResultIndex))
+		  ChatLog.AppendMessage(Role, Content)
+		  Dim request As New OpenAI.Request
+		  If Model = Nil Then Model = "gpt-3.5-turbo"
+		  request.Model = Model
+		  request.Messages = ChatLog
+		  Return ChatCompletion.Create(request)
 		End Function
 	#tag EndMethod
 
@@ -136,6 +155,19 @@ Inherits OpenAI.Response
 		End Function
 	#tag EndMethod
 
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  return mChatLog
+			End Get
+		#tag EndGetter
+		ChatLog As OpenAI.ChatCompletionData
+	#tag EndComputedProperty
+
+	#tag Property, Flags = &h21
+		Private mChatLog As OpenAI.ChatCompletionData
+	#tag EndProperty
 
 	#tag ComputedProperty, Flags = &h0
 		#tag Note
