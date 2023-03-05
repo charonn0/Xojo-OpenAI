@@ -85,6 +85,7 @@ Protected Module OpenAI
 		  ComputeClassificationMetrics
 		  Echo
 		  File
+		  FileMIMEType
 		  FileName
 		  FineTuneID
 		  FrequencyPenalty
