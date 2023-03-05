@@ -18,7 +18,18 @@ Inherits OpenAI.Response
 
 	#tag Method, Flags = &h0
 		 Shared Function Create(ChatLog As OpenAI.ChatCompletionData, Role As String, Content As String, Model As OpenAI.Model = Nil) As OpenAI.ChatCompletion
-		  ChatLog.AppendMessage(Role, Content)
+		  ' Starts a new chat. ChatLog contains at least the first message in the chat (i.e., the "system" message).
+		  ' Role is the name of the entity that is speaking (one of "user", "assistant", and "system"). Content
+		  ' is the message they are sending to the chat.
+		  '
+		  ' Returns a new instance of ChatCompletion containing the generated reply to that message. Call GenerateNext()
+		  ' on that instance to continue the conversation in context.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.ChatCompletion.Create
+		  ' https://platform.openai.com/docs/api-reference/chat/create
+		  
+		  ChatLog.AddMessage(Role, Content)
 		  Dim request As New OpenAI.Request
 		  If Model = Nil Then Model = "gpt-3.5-turbo"
 		  request.Model = Model
@@ -50,8 +61,14 @@ Inherits OpenAI.Response
 
 	#tag Method, Flags = &h0
 		Function GenerateNext(Role As String, Content As String, Model As OpenAI.Model = Nil, ResultIndex As Integer = 0) As OpenAI.ChatCompletion
-		  ChatLog.AppendMessage(GetResultRole(ResultIndex), GetResultContent(ResultIndex))
-		  ChatLog.AppendMessage(Role, Content)
+		  ' Pass the Role and Content of the next chat message to receive a new instance of ChatCompletion
+		  ' containing the generated reply to that message.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.ChatCompletion.GenerateNext
+		  
+		  ChatLog.AddMessage(GetResultRole(ResultIndex), GetResultContent(ResultIndex))
+		  ChatLog.AddMessage(Role, Content)
 		  Dim request As New OpenAI.Request
 		  If Model = Nil Then Model = "gpt-3.5-turbo"
 		  request.Model = Model
@@ -81,20 +98,16 @@ Inherits OpenAI.Response
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.ChatCompletion.GetResultContent
 		  
 		  Dim results As JSONItem = Me.GetResult(Index)
-		  If results.HasName("message") Then
-		    results = results.Value("message")
-		    Return results.Value("content")
-		  End If
+		  results = results.Value("message")
+		  Return results.Value("content")
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Function GetResultRole(Index As Integer = 0) As String
 		  Dim results As JSONItem = Me.GetResult(Index)
-		  If results.HasName("message") Then
-		    results = results.Value("message")
-		    Return results.Value("role")
-		  End If
+		  results = results.Value("message")
+		  Return results.Value("role")
 		End Function
 	#tag EndMethod
 

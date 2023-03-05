@@ -1,7 +1,7 @@
 #tag Class
 Protected Class ChatCompletionData
 	#tag Method, Flags = &h0
-		Sub AppendMessage(Role As String, Content As String)
+		Sub AddMessage(Role As String, Content As String)
 		  Dim msg As New JSONItem()
 		  msg.Value("role") = Role
 		  msg.Value("content") = Content
@@ -35,6 +35,16 @@ Protected Class ChatCompletionData
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		 Shared Function Load(ChatLogFile As FolderItem) As OpenAI.ChatCompletionData
+		  Dim bs As BinaryStream = BinaryStream.Open(ChatLogFile)
+		  Dim cht As String = bs.Read(bs.Length)
+		  bs.Close
+		  Dim js As New JSONItem(cht)
+		  Return New ChatCompletionData(js)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Function Operator_Convert() As JSONItem
 		  Return mMessages
 		End Function
@@ -43,6 +53,37 @@ Protected Class ChatCompletionData
 	#tag Method, Flags = &h0
 		Sub RemoveMessage(Index As Integer)
 		  mMessages.Remove(Index)
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub Save(ChatLogFile As FolderItem)
+		  Dim out As BinaryStream = BinaryStream.Create(ChatLogFile)
+		  WriteToStream(out)
+		  out.Close
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function ToString() As String
+		  Dim dataset As New MemoryBlock(0)
+		  Dim out As New BinaryStream(dataset)
+		  WriteToStream(out)
+		  out.Close
+		  
+		  Return DefineEncoding(dataset, Encodings.UTF8)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub WriteToStream(Stream As BinaryStream)
+		  For i As Integer = 0 To mMessages.Count - 1
+		    Dim js As JSONItem = mMessages.Child(i)
+		    js.Compact = True
+		    Stream.Write(js.ToString + EndOfLine.UNIX)
+		  Next
+		  
 		End Sub
 	#tag EndMethod
 
