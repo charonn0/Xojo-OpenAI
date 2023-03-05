@@ -1,10 +1,10 @@
 #tag Class
 Protected Class AudioTranslation
-Inherits OpenAI.Response
+Inherits OpenAI.AudioTranscription
 	#tag Method, Flags = &h1001
 		Protected Sub Constructor(ResponseData As JSONItem, Client As OpenAIClient)
 		  // Calling the overridden superclass constructor.
-		  // Constructor(ResponseData As JSONItem, Client As OpenAIClient) -- From Response
+		  // Constructor(ResponseData As JSONItem, Client As OpenAIClient) -- From AudioTranscription
 		  Super.Constructor(ResponseData, Client)
 		  
 		End Sub
@@ -12,7 +12,11 @@ Inherits OpenAI.Response
 
 	#tag Method, Flags = &h0
 		 Shared Function Create(AudioFile As FolderItem, Prompt As String = "", FileMIMEType As String = "audio/*") As OpenAI.AudioTranslation
+		  ' Creates a new English translation of the AudioFile. AudioFile must be <=25MB and be of a supported
+		  ' media file type. Prompt is a natual language hint to the AI as to what it's hearing. FileMIMEType
+		  ' specifies the MIMEType if the AudioFile isn't using a standard file name extension (.mp3, etc.)
 		  '
+		  ' Returns an instance of AudioTranslation containing the result. The operation my take several minutes.
 		  '
 		  ' See:
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.AudioTranslation.Create
@@ -34,7 +38,8 @@ Inherits OpenAI.Response
 
 	#tag Method, Flags = &h0
 		 Shared Function Create(Request As OpenAI.Request) As OpenAI.AudioTranslation
-		  '
+		  ' Sends the specified translation Request and returns an instance of AudioTranslation containing
+		  ' the result on success. The operation my take several minutes.
 		  '
 		  ' See:
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.AudioTranslation.Create
@@ -52,7 +57,7 @@ Inherits OpenAI.Response
 		    End Select
 		  End If
 		  Dim client As New OpenAIClient
-		  Dim data As String = client.SendRequest(API_ENDPOINT, Request)
+		  Dim data As String = client.SendRequest("/v1/audio/translations", Request)
 		  data = DefineEncoding(data, Encodings.UTF8)
 		  Dim result As JSONItem
 		  Try
@@ -67,7 +72,13 @@ Inherits OpenAI.Response
 
 	#tag Method, Flags = &h0
 		 Shared Function CreateRaw(AudioFile As FolderItem, ResponseFormat As String, Prompt As String = "", FileMIMEType As String = "") As String
+		  ' Creates a new English translation of the AudioFile. AudioFile must be <=25MB and be of a
+		  ' supported media file type. ResponseFormat indicates which of the supported response formats
+		  ' you want returned; refer to the OpenAI documentation for a description of supported formats.
+		  ' Prompt is a natual language hint to the AI as to what it's hearing. FileMIMEType specifies
+		  ' the MIMEType if the AudioFile isn't using a standard file name extension (.mp3, etc.)
 		  '
+		  ' Returns plain string containing the result. The operation my take several minutes.
 		  '
 		  ' See:
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.AudioTranslation.CreateRaw
@@ -115,27 +126,9 @@ Inherits OpenAI.Response
 		    If err <> ValidationError.None Then Raise New OpenAIException(err)
 		  End If
 		  Dim client As New OpenAIClient
-		  Dim data As String = client.SendRequest(API_ENDPOINT, Request)
+		  Dim data As String = client.SendRequest("/v1/audio/translations", Request)
 		  If client.LastErrorCode <> 0 Then Raise New OpenAIException(client)
 		  Return DefineEncoding(data, Encodings.UTF8)
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Function GetResult(Index As Integer = 0) As Variant
-		  ' Returns the result at Index, as a Picture object or a String URL.
-		  '
-		  ' See:
-		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Response.GetResult
-		  
-		  #pragma Unused Index
-		  Return mResponse.Lookup("text", "")
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h1
-		Protected Function GetResultType() As OpenAI.ResultType
-		  Return OpenAI.ResultType.String
 		End Function
 	#tag EndMethod
 
@@ -212,10 +205,6 @@ Inherits OpenAI.Response
 	#tag Property, Flags = &h21
 		Private Shared ValidationOpt As Boolean = True
 	#tag EndProperty
-
-
-	#tag Constant, Name = API_ENDPOINT, Type = String, Dynamic = False, Default = \"/v1/audio/translations", Scope = Public
-	#tag EndConstant
 
 
 	#tag ViewBehavior

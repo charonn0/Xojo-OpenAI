@@ -12,7 +12,12 @@ Inherits OpenAI.Response
 
 	#tag Method, Flags = &h0
 		 Shared Function Create(AudioFile As FolderItem, Language As String = "", Prompt As String = "", FileMIMEType As String = "") As OpenAI.AudioTranscription
+		  ' Creates a new transcript of the AudioFile. AudioFile must be <=25MB and be of a supported media file
+		  ' type. Language indicates the language being spoken. Prompt is a natual language hint to the AI as to
+		  ' what it's hearing. FileMIMEType specifies the MIMEType if the AudioFile isn't using a standard file
+		  ' name extension (.mp3, etc.)
 		  '
+		  ' Returns an instance of AudioTranscription containing the result. The operation my take several minutes.
 		  '
 		  ' See:
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.AudioTranscription.Create
@@ -37,7 +42,8 @@ Inherits OpenAI.Response
 
 	#tag Method, Flags = &h0
 		 Shared Function Create(Request As OpenAI.Request) As OpenAI.AudioTranscription
-		  '
+		  ' Sends the specified transcript Request and returns an instance of AudioTranscription containing
+		  ' the result on success. The operation my take several minutes.
 		  '
 		  ' See:
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.AudioTranscription.Create
@@ -55,7 +61,7 @@ Inherits OpenAI.Response
 		    End Select
 		  End If
 		  Dim client As New OpenAIClient
-		  Dim data As String = client.SendRequest(API_ENDPOINT, Request)
+		  Dim data As String = client.SendRequest("/v1/audio/transcriptions", Request)
 		  data = DefineEncoding(data, Encodings.UTF8)
 		  Dim result As JSONItem
 		  Try
@@ -70,7 +76,13 @@ Inherits OpenAI.Response
 
 	#tag Method, Flags = &h0
 		 Shared Function CreateRaw(AudioFile As FolderItem, ResponseFormat As String, Language As String = "", Prompt As String = "", FileMIMEType As String = "") As String
+		  ' Creates a new transcript of the AudioFile. AudioFile must be <=25MB and be of a supported media file
+		  ' type. ResponseFormat indicates which of the supported response formats you want returned; refer to
+		  ' the OpenAI documentation for a description of supported formats. Language indicates the language being
+		  ' spoken. Prompt is a natual language hint to the AI as to what it's hearing. FileMIMEType specifies the
+		  ' MIMEType if the AudioFile isn't using a standard file name extension (.mp3, etc.)
 		  '
+		  ' Returns plain string containing the result. The operation my take several minutes.
 		  '
 		  ' See:
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.AudioTranscription.CreateRaw
@@ -108,7 +120,8 @@ Inherits OpenAI.Response
 
 	#tag Method, Flags = &h0
 		 Shared Function CreateRaw(Request As OpenAI.Request) As String
-		  '
+		  ' Sends the specified transcript Request and returns a plain string containing the result
+		  ' on success. The operation my take several minutes.
 		  '
 		  ' See:
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.AudioTranscription.CreateRaw
@@ -119,7 +132,7 @@ Inherits OpenAI.Response
 		    If err <> ValidationError.None Then Raise New OpenAIException(err)
 		  End If
 		  Dim client As New OpenAIClient
-		  Dim data As String = client.SendRequest(API_ENDPOINT, Request)
+		  Dim data As String = client.SendRequest("/v1/audio/transcriptions", Request)
 		  If client.LastErrorCode <> 0 Then Raise New OpenAIException(client)
 		  Return DefineEncoding(data, Encodings.UTF8)
 		End Function
@@ -127,7 +140,7 @@ Inherits OpenAI.Response
 
 	#tag Method, Flags = &h0
 		Function GetResult(Index As Integer = 0) As Variant
-		  ' Returns the result at Index, as a Picture object or a String URL.
+		  ' Returns the result at Index, as a String.
 		  '
 		  ' See:
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Response.GetResult
@@ -217,10 +230,6 @@ Inherits OpenAI.Response
 	#tag Property, Flags = &h21
 		Private Shared ValidationOpt As Boolean = True
 	#tag EndProperty
-
-
-	#tag Constant, Name = API_ENDPOINT, Type = String, Dynamic = False, Default = \"/v1/audio/transcriptions", Scope = Public
-	#tag EndConstant
 
 
 	#tag ViewBehavior
