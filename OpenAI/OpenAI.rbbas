@@ -1,6 +1,33 @@
 #tag Module
 Protected Module OpenAI
 	#tag Method, Flags = &h21
+		Private Function MIMEType(File As FolderItem) As String
+		  Select Case NthField(File.Name, ".", CountFields(File.Name, "."))
+		  Case "mp3"
+		    Return "audio/mp3"
+		  Case "mp4"
+		    Return "video/mp4"
+		  Case "mpeg"
+		    Return "video/mpeg"
+		  Case "mpga"
+		    Return "audio/mpeg"
+		  Case "m4a"
+		    Return "audio/mp4"
+		  Case "wav"
+		    Return "audio/wav"
+		  Case "webm"
+		    Return "video/webm"
+		  Case "png"
+		    Return "image/png"
+		  Case "json"
+		    Return "application/json"
+		  Case "jsonl"
+		    Return "application/x-jsonlines"
+		  End Select
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
 		Private Function time_t(Count As Integer) As Date
 		  Dim d As New Date(1970, 1, 1, 0, 0, 0, 0.0) 'UNIX epoch
 		  d.TotalSeconds = d.TotalSeconds + Count
@@ -58,6 +85,7 @@ Protected Module OpenAI
 		  ComputeClassificationMetrics
 		  Echo
 		  File
+		  FileMIMEType
 		  FileName
 		  FineTuneID
 		  FrequencyPenalty
