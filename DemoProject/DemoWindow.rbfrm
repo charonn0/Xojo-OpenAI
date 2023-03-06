@@ -1358,6 +1358,9 @@ End
 	#tag EndEvent
 	#tag Event
 		Sub Paint(g As Graphics)
+		  #If RBVersion > 2012.01 Then
+		    #pragma Unused areas
+		  #endif
 		  If g.Width <= 0 Or g.Height <= 0 Then Return
 		  If mAPIImage <> Nil Then
 		    Dim ratio As Double = 1.0
@@ -1594,7 +1597,11 @@ End
 		  mAudioFile = GetOpenFolderItem("")
 		  If mAudioFile = Nil Or Not mAudioFile.Exists Or mAudioFile.Directory Then Return
 		  StatusBarLbl.Text = "Working..."
-		  PromptText.Text = mAudioFile.Name
+		  #If RBVersion > 2019 Then
+		    PromptText.Text = mAudioFile.NativePath
+		  #Else
+		    PromptText.Text = mAudioFile.AbsolutePath
+		  #endif
 		  DoGenImageBtn.Enabled = False
 		  DoGenImageURLBtn.Enabled = False
 		  DoCompletionBtn.Enabled = False
