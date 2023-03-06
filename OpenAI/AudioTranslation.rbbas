@@ -53,7 +53,7 @@ Inherits OpenAI.AudioTranscription
 		      Raise New OpenAIException("This method can only operate on JSON results.")
 		    Case Request.ResultsAsJSON, Request.ResultsAsJSON_Verbose
 		    Else
-		      Raise New OpenAIException("No valid result output type was specified.")
+		      Request.ResultsAsJSON = True
 		    End Select
 		  End If
 		  Dim client As New OpenAIClient
