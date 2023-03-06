@@ -256,11 +256,17 @@ End
 		      m2 = mLastResponse.ChatLog.GetMessage(mLastResponse.ChatLog.MessageCount - 2)
 		    End If
 		    If m2 <> Nil Then
-		      ChatMessagesList.AddRow(m2.Value("role").Trim, m2.Value("content").Trim)
+		      Dim r, c As String
+		      r = m2.Value("role")
+		      c = m2.Value("content")
+		      ChatMessagesList.AddRow(r.Trim, c.Trim)
 		      ChatMessagesList.RowTag(ChatMessagesList.LastIndex) = m2
 		    End If
 		    If m1 <> Nil Then
-		      ChatMessagesList.AddRow(m1.Value("role").Trim, m1.Value("content").Trim)
+		      Dim r, c As String
+		      r = m1.Value("role")
+		      c = m1.Value("content")
+		      ChatMessagesList.AddRow(r.Trim, c.Trim)
 		      ChatMessagesList.RowTag(ChatMessagesList.LastIndex) = m1
 		    End If
 		  End If
