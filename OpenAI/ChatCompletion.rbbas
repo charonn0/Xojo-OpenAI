@@ -1,10 +1,10 @@
 #tag Class
 Protected Class ChatCompletion
-Inherits OpenAI.Response
+Inherits OpenAI.Completion
 	#tag Method, Flags = &h1001
 		Protected Sub Constructor(ResponseData As JSONItem, Client As OpenAIClient, ChatLog As OpenAI.ChatCompletionData)
 		  // Calling the overridden superclass constructor.
-		  // Constructor(ResponseData As JSONItem, Client As OpenAIClient) -- From Response
+		  // Constructor(ResponseData As JSONItem, Client As OpenAIClient) -- From Completion
 		  Super.Constructor(ResponseData, Client)
 		  mChatLog = ChatLog
 		  ChatLog.AddMessage(GetResultRole, GetResult)
@@ -124,12 +124,6 @@ Inherits OpenAI.Response
 		  Dim results As JSONItem = Super.GetResult(Index)
 		  results = results.Value("message")
 		  Return results.Value("role")
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h1
-		Protected Function GetResultType() As OpenAI.ResultType
-		  Return OpenAI.ResultType.String
 		End Function
 	#tag EndMethod
 
