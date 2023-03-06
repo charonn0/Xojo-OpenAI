@@ -75,7 +75,6 @@ Inherits OpenAI.AudioTranscription
 		  ' Sends the specified translation Request and returns a plain string containing the result
 		  ' on success. The operation my take several minutes.
 		  '
-		  ' Returns plain string containing the result. The operation my take several minutes.
 		  '
 		  ' See:
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.AudioTranslation.CreateRaw
