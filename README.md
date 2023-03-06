@@ -32,7 +32,10 @@ OpenAI API endpoints are exposed through several object classes:
 |[`/v1/images/generations`](https://beta.openai.com/docs/api-reference/images/create) and [`/v1/images/edits`](https://beta.openai.com/docs/api-reference/images/create-edit)|[`Image`](https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Image)|An image that was generated or modified.| 
 |[`/v1/models`](https://beta.openai.com/docs/api-reference/models)|[`Model`](https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Model)|List and select from the available AI models|
 |[`/v1/fine-tunes`](https://beta.openai.com/docs/api-reference/fine-tunes)|[`FineTune`](https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.FineTune)|A base `Model` that has been, is being, or will be fine-tuned using a previously uploaded `File`.| 
-|[`/v1/files`](https://beta.openai.com/docs/api-reference/files)|[`File`](https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.File)|A fine-tuning file that was or will be uploaded.| 
+|[`/v1/files`](https://beta.openai.com/docs/api-reference/files)|[`File`](https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.File)|A fine-tuning file that was or will be uploaded.|
+|[`/v1/audio/transcriptions`](https://platform.openai.com/docs/api-reference/audio/create)|[`AudioTranscription`](https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.AudioTranscription)|A transcript of an audio file.| 
+|[`/v1/audio/translations`](https://platform.openai.com/docs/api-reference/audio/create)|[`AudioTranslation`](https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.AudioTranslation)|An English translation of an audio file.| 
+|[`/v1/chat/completions`](https://platform.openai.com/docs/api-reference/chat/create)|[`ChatCompletion`](https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.ChatCompletion)|An AI response to a chat conversation prompt.| 
 
 To make a request of the API, call the appropriate factory method on the corresponding object class. For example, to make a request of the `/v1/completions` endpoint you would use the [OpenAI.Completion.Create](https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Completion.Create) factory method, whereas the `/v1/edits` endpoint is accessed using the [OpenAI.Completion.Edit](https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Completion.Edit) factory method. Factory methods perform the request and return a [OpenAI.Response](https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Response) object (or one of its subclasses) containing the response.
 
@@ -71,11 +74,17 @@ If both `USE_RBLIBCURL` and `USE_MBS` are `True` then `USE_RBLIBCURL` takes prec
 
 If you are using neither RB-libcURL nor MBS then set both `USE_RBLIBCURL` and `USE_MBS` to `False` to avoid compiler errors.
 
-## Examples
-* [Correct natural language](https://github.com/charonn0/Xojo-OpenAI/wiki/Examples#correct-text)
-* [Translate natural language](https://github.com/charonn0/Xojo-OpenAI/wiki/Examples#translate-text)
-* [Answers from supplied text](https://github.com/charonn0/Xojo-OpenAI/wiki/Examples#answer-questions-based-on-supplied-text)
-* [Detect offensive content](https://github.com/charonn0/Xojo-OpenAI/wiki/Examples#check-text-for-offensive-content)
-* [Generate picture](https://github.com/charonn0/Xojo-OpenAI/wiki/Examples#generate-picture)
-* [Edit picture](https://github.com/charonn0/Xojo-OpenAI/wiki/Examples#edit-a-picture)
+## [Examples](https://github.com/charonn0/Xojo-OpenAI/wiki/Examples)
+* Text
+  * [Correct natural language](https://github.com/charonn0/Xojo-OpenAI/wiki/Examples#correct-text)
+  * [Translate natural language](https://github.com/charonn0/Xojo-OpenAI/wiki/Examples#translate-text)
+  * [Answers from supplied text](https://github.com/charonn0/Xojo-OpenAI/wiki/Examples#answer-questions-based-on-supplied-text)
+  * [Detect offensive content](https://github.com/charonn0/Xojo-OpenAI/wiki/Examples#check-text-for-offensive-content)
+  * [Chat with an AI assistant](https://github.com/charonn0/Xojo-OpenAI/wiki/Examples#chatting-with-an-ai-assistant)
+* Images
+  * [Generate picture](https://github.com/charonn0/Xojo-OpenAI/wiki/Examples#generate-picture)
+  * [Edit picture](https://github.com/charonn0/Xojo-OpenAI/wiki/Examples#edit-a-picture)
+* Audio
+  * [Translate audio](https://github.com/charonn0/Xojo-OpenAI/wiki/Examples#translate-audio)
+  * [Generate subtitles](https://github.com/charonn0/Xojo-OpenAI/wiki/Examples#generate-subtitles-for-a-video)
 * [Sending custom requests](https://github.com/charonn0/Xojo-OpenAI/wiki/Examples#sending-a-custom-request)
