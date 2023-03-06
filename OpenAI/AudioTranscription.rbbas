@@ -151,6 +151,12 @@ Inherits OpenAI.Response
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
+		Protected Function GetResultCount() As Integer
+		  Return 1
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
 		Protected Function GetResultType() As OpenAI.ResultType
 		  Return OpenAI.ResultType.String
 		End Function
