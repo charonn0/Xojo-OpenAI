@@ -1575,7 +1575,11 @@ End
 		  mAudioFile = GetOpenFolderItem("")
 		  If mAudioFile = Nil Or Not mAudioFile.Exists Or mAudioFile.Directory Then Return
 		  StatusBarLbl.Text = "Working..."
-		  PromptText.Text = mAudioFile.Name
+		  #If RBVersion > 2019 Then
+		    PromptText.Text = mAudioFile.NativePath
+		  #Else
+		    PromptText.Text = mAudioFile.AbsolutePath
+		  #endif
 		  DoGenImageBtn.Enabled = False
 		  DoGenImageURLBtn.Enabled = False
 		  DoCompletionBtn.Enabled = False
@@ -1597,11 +1601,7 @@ End
 		  mAudioFile = GetOpenFolderItem("")
 		  If mAudioFile = Nil Or Not mAudioFile.Exists Or mAudioFile.Directory Then Return
 		  StatusBarLbl.Text = "Working..."
-		  #If RBVersion > 2019 Then
-		    PromptText.Text = mAudioFile.NativePath
-		  #Else
-		    PromptText.Text = mAudioFile.AbsolutePath
-		  #endif
+		  PromptText.Text = mAudioFile.Name
 		  DoGenImageBtn.Enabled = False
 		  DoGenImageURLBtn.Enabled = False
 		  DoCompletionBtn.Enabled = False
