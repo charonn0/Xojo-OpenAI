@@ -116,6 +116,31 @@ Protected Class Response
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
+		Protected Function GetResultCount() As Integer
+		  Dim results As JSONItem
+		  Select Case True
+		  Case mResponse.HasName("data")
+		    results = mResponse.Value("data")
+		    
+		  Case mResponse.HasName("choices")
+		    results = mResponse.Value("choices")
+		    
+		  Case mResponse.HasName("results")
+		    results = mResponse.Value("results")
+		    
+		  Case mResponse.HasName("error")
+		    Raise New OpenAIException(mResponse)
+		    
+		  End Select
+		  Return results.Count
+		  
+		  
+		Exception err As KeyNotFoundException
+		  Return 0
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
 		Protected Function GetResultType() As OpenAI.ResultType
 		  Return OpenAI.ResultType.JSONObject
 		End Function
@@ -237,26 +262,7 @@ Protected Class Response
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
-			  Dim results As JSONItem
-			  Select Case True
-			  Case mResponse.HasName("data")
-			    results = mResponse.Value("data")
-			    
-			  Case mResponse.HasName("choices")
-			    results = mResponse.Value("choices")
-			    
-			  Case mResponse.HasName("results")
-			    results = mResponse.Value("results")
-			    
-			  Case mResponse.HasName("error")
-			    Raise New OpenAIException(mResponse)
-			    
-			  End Select
-			  Return results.Count
-			  
-			  
-			  Exception err As KeyNotFoundException
-			    Return 0
+			  Return Me.GetResultCount()
 			End Get
 		#tag EndGetter
 		ResultCount As Integer
@@ -293,6 +299,11 @@ Protected Class Response
 
 	#tag ViewBehavior
 		#tag ViewProperty
+			Name="ID"
+			Group="Behavior"
+			Type="String"
+		#tag EndViewProperty
+		#tag ViewProperty
 			Name="Index"
 			Visible=true
 			Group="ID"
@@ -313,6 +324,16 @@ Protected Class Response
 			InheritedFrom="Object"
 		#tag EndViewProperty
 		#tag ViewProperty
+			Name="PromptTokenCount"
+			Group="Behavior"
+			Type="Integer"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="ReplyTokenCount"
+			Group="Behavior"
+			Type="Integer"
+		#tag EndViewProperty
+		#tag ViewProperty
 			Name="ResultCount"
 			Group="Behavior"
 			Type="Integer"
@@ -322,6 +343,11 @@ Protected Class Response
 			Visible=true
 			Group="ID"
 			InheritedFrom="Object"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="TokenCount"
+			Group="Behavior"
+			Type="Integer"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Top"
