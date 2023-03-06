@@ -194,6 +194,7 @@ Protected Class Request
 		#tag Setter
 			Set
 			  mFileName = value
+			  If mFileMIMEType = "" Then FileMIMEType = MIMEType(SpecialFolder.Temporary.Child(mFileName))
 			End Set
 		#tag EndSetter
 		FileName As String
