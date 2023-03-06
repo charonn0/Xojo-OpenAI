@@ -7,7 +7,7 @@ Begin Window DemoWindow
    Frame           =   0
    FullScreen      =   False
    HasBackColor    =   False
-   Height          =   5.78e+2
+   Height          =   6.47e+2
    ImplicitInstance=   True
    LiveResize      =   True
    MacProcID       =   0
@@ -29,7 +29,7 @@ Begin Window DemoWindow
       Bold            =   False
       Caption         =   "OpenAI"
       Enabled         =   False
-      Height          =   486
+      Height          =   555
       HelpTag         =   ""
       Index           =   -2147483648
       InitialParent   =   ""
@@ -141,7 +141,7 @@ Begin Window DemoWindow
          Index           =   -2147483648
          InitialParent   =   "OpenAIGroup"
          Italic          =   False
-         Left            =   44
+         Left            =   36
          LockBottom      =   False
          LockedInPosition=   False
          LockLeft        =   True
@@ -158,7 +158,7 @@ Begin Window DemoWindow
          TextFont        =   "System"
          TextSize        =   0.0
          TextUnit        =   0
-         Top             =   327
+         Top             =   373
          Transparent     =   False
          Underline       =   False
          Visible         =   True
@@ -176,7 +176,7 @@ Begin Window DemoWindow
          DataSource      =   ""
          Enabled         =   True
          Format          =   ""
-         Height          =   189
+         Height          =   207
          HelpTag         =   ""
          HideSelection   =   True
          Index           =   -2147483648
@@ -204,7 +204,7 @@ Begin Window DemoWindow
          TextFont        =   "System"
          TextSize        =   0.0
          TextUnit        =   0
-         Top             =   347
+         Top             =   398
          Underline       =   False
          UseFocusRing    =   True
          Visible         =   True
@@ -218,7 +218,7 @@ Begin Window DemoWindow
          DoubleBuffer    =   False
          Enabled         =   True
          EraseBackground =   True
-         Height          =   189
+         Height          =   207
          HelpTag         =   ""
          Index           =   -2147483648
          InitialParent   =   "OpenAIGroup"
@@ -232,7 +232,7 @@ Begin Window DemoWindow
          TabIndex        =   4
          TabPanelIndex   =   0
          TabStop         =   True
-         Top             =   347
+         Top             =   398
          UseFocusRing    =   True
          Visible         =   True
          Width           =   512
@@ -248,7 +248,7 @@ Begin Window DemoWindow
          Index           =   -2147483648
          InitialParent   =   "OpenAIGroup"
          Italic          =   False
-         Left            =   375
+         Left            =   367
          LockBottom      =   False
          LockedInPosition=   False
          LockLeft        =   True
@@ -265,7 +265,7 @@ Begin Window DemoWindow
          TextFont        =   "System"
          TextSize        =   0.0
          TextUnit        =   0
-         Top             =   327
+         Top             =   373
          Transparent     =   False
          Underline       =   False
          Visible         =   True
@@ -413,7 +413,7 @@ Begin Window DemoWindow
          GridLinesVertical=   0
          HasHeading      =   True
          HeadingIndex    =   -1
-         Height          =   138
+         Height          =   184
          HelpTag         =   ""
          Hierarchical    =   False
          Index           =   -2147483648
@@ -467,7 +467,7 @@ Begin Window DemoWindow
          TabPanelIndex   =   0
          TabStop         =   True
          TickStyle       =   1
-         Top             =   269
+         Top             =   321
          Value           =   64
          Visible         =   True
          Width           =   336
@@ -495,7 +495,7 @@ Begin Window DemoWindow
          TabPanelIndex   =   0
          TabStop         =   True
          TickStyle       =   1
-         Top             =   246
+         Top             =   298
          Value           =   0
          Visible         =   True
          Width           =   336
@@ -528,7 +528,7 @@ Begin Window DemoWindow
          TextFont        =   "System"
          TextSize        =   0
          TextUnit        =   0
-         Top             =   272
+         Top             =   324
          Transparent     =   False
          Underline       =   ""
          Visible         =   True
@@ -562,7 +562,7 @@ Begin Window DemoWindow
          TextFont        =   "System"
          TextSize        =   0
          TextUnit        =   0
-         Top             =   249
+         Top             =   301
          Transparent     =   False
          Underline       =   ""
          Visible         =   True
@@ -596,7 +596,7 @@ Begin Window DemoWindow
          TextFont        =   "System"
          TextSize        =   0
          TextUnit        =   0
-         Top             =   272
+         Top             =   324
          Transparent     =   False
          Underline       =   ""
          Visible         =   True
@@ -630,7 +630,7 @@ Begin Window DemoWindow
          TextFont        =   "System"
          TextSize        =   0
          TextUnit        =   0
-         Top             =   249
+         Top             =   301
          Transparent     =   False
          Underline       =   ""
          Visible         =   True
@@ -659,7 +659,7 @@ Begin Window DemoWindow
          TabPanelIndex   =   0
          TabStop         =   True
          TickStyle       =   1
-         Top             =   292
+         Top             =   344
          Value           =   1
          Visible         =   True
          Width           =   336
@@ -692,7 +692,7 @@ Begin Window DemoWindow
          TextFont        =   "System"
          TextSize        =   0
          TextUnit        =   0
-         Top             =   295
+         Top             =   347
          Transparent     =   False
          Underline       =   ""
          Visible         =   True
@@ -726,7 +726,7 @@ Begin Window DemoWindow
          TextFont        =   "System"
          TextSize        =   0
          TextUnit        =   0
-         Top             =   295
+         Top             =   347
          Transparent     =   False
          Underline       =   ""
          Visible         =   True
@@ -758,7 +758,7 @@ Begin Window DemoWindow
          TextFont        =   "System"
          TextSize        =   0.0
          TextUnit        =   0
-         Top             =   215
+         Top             =   271
          Underline       =   False
          Visible         =   False
          Width           =   209
@@ -779,9 +779,102 @@ Begin Window DemoWindow
          Maximum         =   0
          Scope           =   0
          TabPanelIndex   =   0
-         Top             =   203
+         Top             =   259
          Value           =   0
          Visible         =   False
+         Width           =   209
+      End
+      Begin PushButton DoTranscriptionBtn
+         AutoDeactivate  =   True
+         Bold            =   False
+         ButtonStyle     =   0
+         Cancel          =   False
+         Caption         =   "Transcribe a media file"
+         Default         =   False
+         Enabled         =   True
+         Height          =   22
+         HelpTag         =   ""
+         Index           =   -2147483648
+         InitialParent   =   "OpenAIGroup"
+         Italic          =   False
+         Left            =   364
+         LockBottom      =   False
+         LockedInPosition=   False
+         LockLeft        =   False
+         LockRight       =   True
+         LockTop         =   False
+         Scope           =   0
+         TabIndex        =   21
+         TabPanelIndex   =   0
+         TabStop         =   True
+         TextFont        =   "System"
+         TextSize        =   0.0
+         TextUnit        =   0
+         Top             =   186
+         Underline       =   False
+         Visible         =   True
+         Width           =   209
+      End
+      Begin PushButton DoTranslationBtn
+         AutoDeactivate  =   True
+         Bold            =   False
+         ButtonStyle     =   0
+         Cancel          =   False
+         Caption         =   "Translate a media file"
+         Default         =   False
+         Enabled         =   True
+         Height          =   22
+         HelpTag         =   ""
+         Index           =   -2147483648
+         InitialParent   =   "OpenAIGroup"
+         Italic          =   False
+         Left            =   364
+         LockBottom      =   False
+         LockedInPosition=   False
+         LockLeft        =   False
+         LockRight       =   True
+         LockTop         =   False
+         Scope           =   0
+         TabIndex        =   22
+         TabPanelIndex   =   0
+         TabStop         =   True
+         TextFont        =   "System"
+         TextSize        =   0.0
+         TextUnit        =   0
+         Top             =   208
+         Underline       =   False
+         Visible         =   True
+         Width           =   209
+      End
+      Begin PushButton DoChatBtn
+         AutoDeactivate  =   True
+         Bold            =   False
+         ButtonStyle     =   0
+         Cancel          =   False
+         Caption         =   "Start a chat"
+         Default         =   False
+         Enabled         =   True
+         Height          =   22
+         HelpTag         =   ""
+         Index           =   -2147483648
+         InitialParent   =   "OpenAIGroup"
+         Italic          =   False
+         Left            =   364
+         LockBottom      =   False
+         LockedInPosition=   False
+         LockLeft        =   False
+         LockRight       =   True
+         LockTop         =   False
+         Scope           =   0
+         TabIndex        =   23
+         TabPanelIndex   =   0
+         TabStop         =   True
+         TextFont        =   "System"
+         TextSize        =   0.0
+         TextUnit        =   0
+         Top             =   230
+         Underline       =   False
+         Visible         =   True
          Width           =   209
       End
    End
@@ -896,13 +989,13 @@ Begin Window DemoWindow
       Height          =   32
       Index           =   -2147483648
       InitialParent   =   ""
-      Left            =   ""
+      Left            =   0
       LockedInPosition=   False
       Mode            =   0
       Period          =   1
       Scope           =   0
       TabPanelIndex   =   0
-      Top             =   ""
+      Top             =   0
       Width           =   32
    End
    Begin Label URLLbl
@@ -963,11 +1056,11 @@ Begin Window DemoWindow
       TabPanelIndex   =   0
       Text            =   "Waiting for API key"
       TextAlign       =   0
-      TextColor       =   &c00000000
+      TextColor       =   "&c00000000"
       TextFont        =   "System"
       TextSize        =   0
       TextUnit        =   0
-      Top             =   557
+      Top             =   626
       Transparent     =   False
       Underline       =   ""
       Visible         =   True
@@ -1066,6 +1159,52 @@ End
 		End Sub
 	#tag EndMethod
 
+	#tag Method, Flags = &h21
+		Private Sub RunDoTranscription(Sender As Thread)
+		  #pragma Unused Sender
+		  Dim request As New OpenAI.Request()
+		  Dim bs As BinaryStream = BinaryStream.Open(mAudioFile)
+		  request.File = bs.Read(bs.Length)
+		  bs.Close
+		  request.FileName = mAudioFile.Name
+		  If mTemperature > 0.0000001 Then request.Temperature = mTemperature
+		  If mModel = Nil Then
+		    request.Model = OpenAI.Model.Lookup("whisper-1")
+		  Else
+		    request.Model = mModel
+		  End If
+		  mAPIReply = OpenAI.AudioTranscription.Create(request)
+		  RefreshTimer.Mode = Timer.ModeSingle
+		  
+		Exception err As OpenAI.OpenAIException
+		  mLastError = err
+		  RefreshTimer.Mode = Timer.ModeSingle
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub RunDoTranslation(Sender As Thread)
+		  #pragma Unused Sender
+		  Dim request As New OpenAI.Request()
+		  Dim bs As BinaryStream = BinaryStream.Open(mAudioFile)
+		  request.File = bs.Read(bs.Length)
+		  bs.Close
+		  request.FileName = mAudioFile.Name
+		  If mTemperature > 0.0000001 Then request.Temperature = mTemperature
+		  If mModel = Nil Then
+		    request.Model = OpenAI.Model.Lookup("whisper-1")
+		  Else
+		    request.Model = mModel
+		  End If
+		  mAPIReply = OpenAI.AudioTranslation.Create(request)
+		  RefreshTimer.Mode = Timer.ModeSingle
+		  
+		Exception err As OpenAI.OpenAIException
+		  mLastError = err
+		  RefreshTimer.Mode = Timer.ModeSingle
+		End Sub
+	#tag EndMethod
+
 	#tag Method, Flags = &h1
 		Protected Shared Function Scale(Source As Picture, Ratio As Double = 1.0) As Picture
 		  //Returns a scaled version of the passed Picture object.
@@ -1099,6 +1238,10 @@ End
 
 	#tag Property, Flags = &h21
 		Private mAPIReply As OpenAI.Response
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mAudioFile As FolderItem
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
@@ -1423,6 +1566,58 @@ End
 		End Sub
 	#tag EndEvent
 #tag EndEvents
+#tag Events DoTranscriptionBtn
+	#tag Event
+		Sub Action()
+		  mAudioFile = GetOpenFolderItem("")
+		  If mAudioFile = Nil Or Not mAudioFile.Exists Or mAudioFile.Directory Then Return
+		  StatusBarLbl.Text = "Working..."
+		  PromptText.Text = mAudioFile.Name
+		  DoGenImageBtn.Enabled = False
+		  DoGenImageURLBtn.Enabled = False
+		  DoCompletionBtn.Enabled = False
+		  DoModerationBtn.Enabled = False
+		  DoTranscriptionBtn.Enabled = False
+		  DoTranslationBtn.Enabled = False
+		  DoAbortBtn.Visible = True
+		  RequestProgressBar.Visible = True
+		  mWorker = New Thread
+		  AddHandler mWorker.Run, WeakAddressOf RunDoTranscription
+		  mWorker.Priority = 3
+		  mWorker.Run()
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events DoTranslationBtn
+	#tag Event
+		Sub Action()
+		  mAudioFile = GetOpenFolderItem("")
+		  If mAudioFile = Nil Or Not mAudioFile.Exists Or mAudioFile.Directory Then Return
+		  StatusBarLbl.Text = "Working..."
+		  PromptText.Text = mAudioFile.Name
+		  DoGenImageBtn.Enabled = False
+		  DoGenImageURLBtn.Enabled = False
+		  DoCompletionBtn.Enabled = False
+		  DoModerationBtn.Enabled = False
+		  DoTranscriptionBtn.Enabled = False
+		  DoTranslationBtn.Enabled = False
+		  DoAbortBtn.Visible = True
+		  RequestProgressBar.Visible = True
+		  mWorker = New Thread
+		  AddHandler mWorker.Run, WeakAddressOf RunDoTranslation
+		  mWorker.Priority = 3
+		  mWorker.Run()
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events DoChatBtn
+	#tag Event
+		Sub Action()
+		  Dim chatwnd As New ChatWindow
+		  chatwnd.Show()
+		End Sub
+	#tag EndEvent
+#tag EndEvents
 #tag Events SetAPIKeyBtn
 	#tag Event
 		Sub Action()
@@ -1486,6 +1681,8 @@ End
 		  DoGenImageURLBtn.Enabled = True
 		  DoCompletionBtn.Enabled = True
 		  DoModerationBtn.Enabled = True
+		  DoTranscriptionBtn.Enabled = True
+		  DoTranslationBtn.Enabled = True
 		  DoAbortBtn.Visible = False
 		  RequestProgressBar.Visible = False
 		  If mAPIReply <> Nil And mAPIReply.TokenCount > 0 Then
