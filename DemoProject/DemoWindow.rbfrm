@@ -1227,6 +1227,21 @@ End
 		End Function
 	#tag EndMethod
 
+	#tag Method, Flags = &h21
+		Private Sub ToggleLockUI()
+		  DoGenImageBtn.Enabled = Not DoGenImageBtn.Enabled
+		  DoGenImageURLBtn.Enabled = Not DoGenImageURLBtn.Enabled
+		  DoCompletionBtn.Enabled = Not DoCompletionBtn.Enabled
+		  DoModerationBtn.Enabled = Not DoModerationBtn.Enabled
+		  DoTranscriptionBtn.Enabled = Not DoTranscriptionBtn.Enabled
+		  DoTranslationBtn.Enabled = Not DoTranslationBtn.Enabled
+		  DoChatBtn.Enabled = Not DoChatBtn.Enabled
+		  DoAbortBtn.Visible = Not DoAbortBtn.Visible
+		  RequestProgressBar.Visible = Not RequestProgressBar.Visible
+		  
+		End Sub
+	#tag EndMethod
+
 
 	#tag Property, Flags = &h21
 		Private mAPIImage As Picture
@@ -1403,12 +1418,7 @@ End
 		  If PromptText.Text = "" Then Return
 		  StatusBarLbl.Text = "Working..."
 		  mAPIPrompt = PromptText.Text
-		  DoGenImageBtn.Enabled = False
-		  DoGenImageURLBtn.Enabled = False
-		  DoCompletionBtn.Enabled = False
-		  DoModerationBtn.Enabled = False
-		  DoAbortBtn.Visible = True
-		  RequestProgressBar.Visible = True
+		  ToggleLockUI()
 		  mWorker = New Thread
 		  AddHandler mWorker.Run, WeakAddressOf RunDoCompletion
 		  mWorker.Priority = 3
@@ -1422,12 +1432,7 @@ End
 		  If PromptText.Text = "" Then Return
 		  StatusBarLbl.Text = "Working..."
 		  mAPIPrompt = PromptText.Text
-		  DoGenImageBtn.Enabled = False
-		  DoGenImageURLBtn.Enabled = False
-		  DoCompletionBtn.Enabled = False
-		  DoModerationBtn.Enabled = False
-		  DoAbortBtn.Visible = True
-		  RequestProgressBar.Visible = True
+		  ToggleLockUI()
 		  mWorker = New Thread
 		  AddHandler mWorker.Run, WeakAddressOf RunCreateImageURL
 		  mWorker.Priority = 3
@@ -1441,12 +1446,7 @@ End
 		  If PromptText.Text = "" Then Return
 		  StatusBarLbl.Text = "Working..."
 		  mAPIPrompt = PromptText.Text
-		  DoGenImageBtn.Enabled = False
-		  DoGenImageURLBtn.Enabled = False
-		  DoCompletionBtn.Enabled = False
-		  DoModerationBtn.Enabled = False
-		  DoAbortBtn.Visible = True
-		  RequestProgressBar.Visible = True
+		  ToggleLockUI()
 		  mWorker = New Thread
 		  AddHandler mWorker.Run, WeakAddressOf RunCreateImage
 		  mWorker.Priority = 3
@@ -1460,12 +1460,7 @@ End
 		  If PromptText.Text = "" Then Return
 		  StatusBarLbl.Text = "Working..."
 		  mAPIPrompt = PromptText.Text
-		  DoGenImageBtn.Enabled = False
-		  DoGenImageURLBtn.Enabled = False
-		  DoCompletionBtn.Enabled = False
-		  DoModerationBtn.Enabled = False
-		  DoAbortBtn.Visible = True
-		  RequestProgressBar.Visible = True
+		  ToggleLockUI()
 		  mWorker = New Thread
 		  AddHandler mWorker.Run, WeakAddressOf RunDoModeration
 		  mWorker.Priority = 3
@@ -1580,14 +1575,7 @@ End
 		  #Else
 		    PromptText.Text = mAudioFile.AbsolutePath
 		  #endif
-		  DoGenImageBtn.Enabled = False
-		  DoGenImageURLBtn.Enabled = False
-		  DoCompletionBtn.Enabled = False
-		  DoModerationBtn.Enabled = False
-		  DoTranscriptionBtn.Enabled = False
-		  DoTranslationBtn.Enabled = False
-		  DoAbortBtn.Visible = True
-		  RequestProgressBar.Visible = True
+		  ToggleLockUI()
 		  mWorker = New Thread
 		  AddHandler mWorker.Run, WeakAddressOf RunDoTranscription
 		  mWorker.Priority = 3
@@ -1602,14 +1590,7 @@ End
 		  If mAudioFile = Nil Or Not mAudioFile.Exists Or mAudioFile.Directory Then Return
 		  StatusBarLbl.Text = "Working..."
 		  PromptText.Text = mAudioFile.Name
-		  DoGenImageBtn.Enabled = False
-		  DoGenImageURLBtn.Enabled = False
-		  DoCompletionBtn.Enabled = False
-		  DoModerationBtn.Enabled = False
-		  DoTranscriptionBtn.Enabled = False
-		  DoTranslationBtn.Enabled = False
-		  DoAbortBtn.Visible = True
-		  RequestProgressBar.Visible = True
+		  ToggleLockUI()
 		  mWorker = New Thread
 		  AddHandler mWorker.Run, WeakAddressOf RunDoTranslation
 		  mWorker.Priority = 3
@@ -1684,14 +1665,7 @@ End
 		  End If
 		  
 		  ReplyImageCanvas.Invalidate(True)
-		  DoGenImageBtn.Enabled = True
-		  DoGenImageURLBtn.Enabled = True
-		  DoCompletionBtn.Enabled = True
-		  DoModerationBtn.Enabled = True
-		  DoTranscriptionBtn.Enabled = True
-		  DoTranslationBtn.Enabled = True
-		  DoAbortBtn.Visible = False
-		  RequestProgressBar.Visible = False
+		  ToggleLockUI()
 		  If mAPIReply <> Nil And mAPIReply.TokenCount > 0 Then
 		    Dim ptc As String = Str(mAPIReply.PromptTokenCount)
 		    Dim rtc As String = Str(mAPIReply.ReplyTokenCount)

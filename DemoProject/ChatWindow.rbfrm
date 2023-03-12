@@ -30,11 +30,11 @@ Begin Window ChatWindow
       Bold            =   ""
       Border          =   True
       ColumnCount     =   2
-      ColumnsResizable=   ""
-      ColumnWidths    =   "15%,100%"
+      ColumnsResizable=   True
+      ColumnWidths    =   "15%,*"
       DataField       =   ""
       DataSource      =   ""
-      DefaultRowHeight=   -1
+      DefaultRowHeight=   32
       Enabled         =   True
       EnableDrag      =   ""
       EnableDragReorder=   ""
@@ -44,7 +44,7 @@ Begin Window ChatWindow
       HeadingIndex    =   -1
       Height          =   389
       HelpTag         =   ""
-      Hierarchical    =   ""
+      Hierarchical    =   True
       Index           =   -2147483648
       InitialParent   =   ""
       InitialValue    =   "Role	Content"
@@ -57,7 +57,7 @@ Begin Window ChatWindow
       LockTop         =   True
       RequiresSelection=   ""
       Scope           =   0
-      ScrollbarHorizontal=   True
+      ScrollbarHorizontal=   False
       ScrollBarVertical=   True
       SelectionType   =   0
       TabIndex        =   0
@@ -220,6 +220,48 @@ End
 
 #tag EndWindowCode
 
+#tag Events ChatMessagesList
+	#tag Event
+		Function CellTextPaint(g As Graphics, row As Integer, column As Integer, x as Integer, y as Integer) As Boolean
+		  ' Dim txt As String = Me.Cell(row, column)
+		  ' Dim w As Double = g.StringWidth(txt)
+		  ' Dim h As Double = g.StringHeight(txt, w)
+		  ' If w > g.Width Then
+		  ' g.DrawString(txt, x, h + 2, g.Width, False)
+		  ' Return True
+		  ' End If
+		End Function
+	#tag EndEvent
+	#tag Event
+		Function ConstructContextualMenu(base as MenuItem, x as Integer, y as Integer) As Boolean
+		  Dim row As Integer = Me.RowFromXY(x, y)
+		  If row > -1 And Me.RowTag(row) <> Nil Then
+		    Dim serialize As New MenuItem("Dump to file...")
+		    serialize.Tag = Me.RowTag(row)
+		    base.Append(serialize)
+		    Return True
+		  End If
+		End Function
+	#tag EndEvent
+	#tag Event
+		Function ContextualMenuAction(hitItem as MenuItem) As Boolean
+		  Select Case hitItem.Text
+		  Case "Dump to file..."
+		    Dim chat As JSONItem = hitItem.Tag
+		    Dim f As FolderItem = GetSaveFolderItem(".json", "chatmessage.json")
+		    If f <> Nil Then
+		      Dim s As String = chat.ToString()
+		      Dim bs As BinaryStream = BinaryStream.Create(f)
+		      bs.Write(s)
+		      bs.Close()
+		    End If
+		  End Select
+		  
+		  Return True
+		  
+		End Function
+	#tag EndEvent
+#tag EndEvents
 #tag Events SendMsgBtn
 	#tag Event
 		Sub Action()
