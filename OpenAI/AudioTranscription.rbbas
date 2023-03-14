@@ -17,7 +17,7 @@ Inherits OpenAI.Response
 		  ' what it's hearing. FileMIMEType specifies the MIMEType if the AudioFile isn't using a standard file
 		  ' name extension (.mp3, etc.)
 		  '
-		  ' Returns an instance of AudioTranscription containing the result. The operation my take several minutes.
+		  ' Returns an instance of AudioTranscription containing the result. The operation may take several minutes.
 		  '
 		  ' See:
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.AudioTranscription.Create
@@ -43,7 +43,7 @@ Inherits OpenAI.Response
 	#tag Method, Flags = &h0
 		 Shared Function Create(Request As OpenAI.Request) As OpenAI.AudioTranscription
 		  ' Sends the specified transcript Request and returns an instance of AudioTranscription containing
-		  ' the result on success. The operation my take several minutes.
+		  ' the result on success. The operation may take several minutes.
 		  '
 		  ' See:
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.AudioTranscription.Create
@@ -82,7 +82,7 @@ Inherits OpenAI.Response
 		  ' spoken. Prompt is a natual language hint to the AI as to what it's hearing. FileMIMEType specifies the
 		  ' MIMEType if the AudioFile isn't using a standard file name extension (.mp3, etc.)
 		  '
-		  ' Returns plain string containing the result. The operation my take several minutes.
+		  ' Returns plain string containing the result. The operation may take several minutes.
 		  '
 		  ' See:
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.AudioTranscription.CreateRaw
@@ -121,7 +121,7 @@ Inherits OpenAI.Response
 	#tag Method, Flags = &h0
 		 Shared Function CreateRaw(Request As OpenAI.Request) As String
 		  ' Sends the specified transcript Request and returns a plain string containing the result
-		  ' on success. The operation my take several minutes.
+		  ' on success. The operation may take several minutes.
 		  '
 		  ' See:
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.AudioTranscription.CreateRaw
