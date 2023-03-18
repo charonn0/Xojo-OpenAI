@@ -67,7 +67,7 @@ Inherits OpenAI.Response
 		  If Request.SourceImage <> Nil Then
 		    If Request.SourceImage.Width <> Request.SourceImage.Height Then Raise New OpenAIException("Pictures submitted to the API must be square.")
 		    If Request.MaskImage <> Nil And _
-		      (Request.MaskImage.Width <> Request.MaskImage.Width Or Request.MaskImage.Height <> Request.MaskImage.Height) Then
+		      (Request.MaskImage.Width <> Request.SourceImage.Width Or Request.MaskImage.Height <> Request.SourceImage.Height) Then
 		      Raise New OpenAIException("The mask picture must have the same dimensions as the source picture.")
 		    End If
 		  End If
