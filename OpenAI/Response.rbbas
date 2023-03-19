@@ -15,13 +15,7 @@ Protected Class Response
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Response.Create
 		  
 		  Dim client As New OpenAIClient
-		  Dim response As JSONItem
-		  Dim data As String = client.SendRequest(Endpoint, request, RequestMethod)
-		  Try
-		    response = New JSONItem(data)
-		  Catch err As JSONException
-		    Raise New OpenAIException(client)
-		  End Try
+		  Dim response As JSONItem = CreateRaw(client, Endpoint, Request, RequestMethod)
 		  If response = Nil Or response.HasName("error") Then Raise New OpenAIException(response)
 		  Return New OpenAI.Response(response, client)
 		  
@@ -36,15 +30,37 @@ Protected Class Response
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Response.Create
 		  
 		  Dim client As New OpenAIClient
-		  Dim data As String = client.SendRequest(Endpoint, RequestMethod)
+		  Dim response As JSONItem = CreateRaw(client, Endpoint, RequestMethod)
+		  If response = Nil Or response.HasName("error") Then Raise New OpenAIException(response)
+		  Return New OpenAI.Response(response, client)
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Shared Function CreateRaw(Client As OpenAIClient, Endpoint As String, Request As OpenAI.Request, RequestMethod As String = "POST") As JSONItem
+		  Dim response As JSONItem
+		  Dim data As String = Client.SendRequest(Endpoint, request, RequestMethod)
+		  Try
+		    response = New JSONItem(data)
+		  Catch err As JSONException
+		    Raise New OpenAIException(Client)
+		  End Try
+		  Return response
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Shared Function CreateRaw(Client As OpenAIClient, Endpoint As String, RequestMethod As String = "GET") As JSONItem
+		  Dim data As String = Client.SendRequest(Endpoint, RequestMethod)
 		  Dim response As JSONItem
 		  Try
 		    response = New JSONItem(data)
 		  Catch err As JSONException
-		    Raise New OpenAIException(client)
+		    Raise New OpenAIException(Client)
 		  End Try
-		  If response = Nil Or response.HasName("error") Then Raise New OpenAIException(response)
-		  Return New OpenAI.Response(response, client)
+		  Return response
 		  
 		End Function
 	#tag EndMethod

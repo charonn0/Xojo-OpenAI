@@ -17,13 +17,7 @@ Inherits OpenAI.Response
 		    If err <> ValidationError.None Then Raise New OpenAIException(err)
 		  End If
 		  Dim client As New OpenAIClient
-		  Dim data As String = client.SendRequest("/v1/moderations", Request)
-		  Dim result As JSONItem
-		  Try
-		    result = New JSONItem(data)
-		  Catch err As JSONException
-		    Raise New OpenAIException(client)
-		  End Try
+		  Dim result As JSONItem = Response.CreateRaw(client, "/v1/moderations", Request)
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
 		  Return New OpenAI.Moderation(result, client)
 		End Function

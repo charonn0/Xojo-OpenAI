@@ -57,14 +57,7 @@ Inherits OpenAI.AudioTranscription
 		    End Select
 		  End If
 		  Dim client As New OpenAIClient
-		  Dim data As String = client.SendRequest("/v1/audio/translations", Request)
-		  data = DefineEncoding(data, Encodings.UTF8)
-		  Dim result As JSONItem
-		  Try
-		    result = New JSONItem(data)
-		  Catch err As JSONException
-		    Raise New OpenAIException(client)
-		  End Try
+		  Dim result As JSONItem = Response.CreateRaw(client, "/v1/audio/translations", Request)
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
 		  Return New OpenAI.AudioTranslation(result, client)
 		End Function

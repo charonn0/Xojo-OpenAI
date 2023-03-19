@@ -55,13 +55,7 @@ Inherits OpenAI.Response
 		    Dim err As ValidationError = File.IsValid(Request)
 		    If err <> ValidationError.None Then Raise New OpenAIException(err)
 		  End If
-		  Dim result As JSONItem
-		  Dim data As String = client.SendRequest("/v1/files", request)
-		  Try
-		    result = New JSONItem(data)
-		  Catch err As JSONException
-		    Raise New OpenAIException(client)
-		  End Try
+		  Dim result As JSONItem = Response.CreateRaw(client, "/v1/files", request)
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
 		  ReDim FileList(-1) ' force refresh
 		  Return New OpenAI.File(result, client)
@@ -192,13 +186,7 @@ Inherits OpenAI.Response
 		Protected Shared Sub ListAllFiles()
 		  ReDim FileList(-1)
 		  Dim client As New OpenAIClient
-		  Dim result As JSONItem
-		  Dim data As String = client.SendRequest("/v1/files")
-		  Try
-		    result = New JSONItem(data)
-		  Catch err As JSONException
-		    Raise New OpenAIException(client)
-		  End Try
+		  Dim result As JSONItem = Response.CreateRaw(client, "/v1/files")
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
 		  result = result.Value("data")
 		  For i As Integer = 0 To result.Count - 1

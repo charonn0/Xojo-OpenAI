@@ -24,13 +24,7 @@ Inherits OpenAI.Response
 		    If err <> ValidationError.None Then Raise New OpenAIException(err)
 		  End If
 		  Dim client As New OpenAIClient
-		  Dim data As String = client.SendRequest("/v1/completions", request)
-		  Dim response As JSONItem
-		  Try
-		    response = New JSONItem(data)
-		  Catch err As JSONException
-		    Raise New OpenAIException(client)
-		  End Try
+		  Dim response As JSONItem = Response.CreateRaw(client, "/v1/completions", request)
 		  If response = Nil Or response.HasName("error") Then Raise New OpenAIException(response)
 		  Return New OpenAI.Completion(response, client)
 		  
@@ -68,13 +62,7 @@ Inherits OpenAI.Response
 		    If err <> ValidationError.None Then Raise New OpenAIException(err)
 		  End If
 		  Dim client As New OpenAIClient
-		  Dim response As JSONItem
-		  Dim data As String = client.SendRequest("/v1/edits", request)
-		  Try
-		    response = New JSONItem(data)
-		  Catch err As JSONException
-		    Raise New OpenAIException(client)
-		  End Try
+		  Dim response As JSONItem = Response.CreateRaw(client, "/v1/edits", request)
 		  If response = Nil Or response.HasName("error") Then Raise New OpenAIException(response)
 		  Return New OpenAI.Completion(response, client)
 		  
