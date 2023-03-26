@@ -224,7 +224,7 @@ Inherits OpenAI.Response
 		#tag EndNote
 		#tag Getter
 			Get
-			  Return ValidationOpt
+			  Return ValidationOpt And Response.Prevalidate
 			End Get
 		#tag EndGetter
 		#tag Setter

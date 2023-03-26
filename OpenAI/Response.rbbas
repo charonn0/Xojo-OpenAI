@@ -235,11 +235,6 @@ Protected Class Response
 		#tag Setter
 			Set
 			  ValidationOpt = value
-			  Completion.Prevalidate = value
-			  File.Prevalidate = value
-			  FineTune.Prevalidate = value
-			  Image.Prevalidate = value
-			  Moderation.Prevalidate = value
 			End Set
 		#tag EndSetter
 		Shared Prevalidate As Boolean
