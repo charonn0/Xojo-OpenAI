@@ -42,6 +42,8 @@ Private Class OpenAIClient
 		    
 		  #ElseIf RBVersion > 2018.03 Then
 		    Dim connection As New URLConnection
+		    AddHandler connection.ContentReceived, WeakAddressOf URLConnectionContentsReceivedHandler
+		    AddHandler connection.Error, WeakAddressOf URLConnectionErrorHandler
 		    connection.RequestHeader("Authorization") = "Bearer " + OpenAI.APIKey
 		    connection.RequestHeader("User-Agent") = USER_AGENT_STRING
 		    If OpenAI.OrganizationID <> "" Then
@@ -358,12 +360,25 @@ Private Class OpenAIClient
 		    Else
 		      client.SetRequestContent(req.StringValue, "application/json")
 		    End If
+		    mURLConnectionContent = ""
 		    mURLConnectionError = Nil
-		    Try
-		      Return client.SendSync(RequestMethod, OPENAI_URL + APIEndpoint, 0)
-		    Catch err
-		      mURLConnectionError = err
-		    End Try
+		    client.Send(RequestMethod, OPENAI_URL + APIEndpoint, 0)
+		    Do Until mURLConnectionContent <> "" Or mURLConnectionError <> Nil
+		      #If RBVersion < 2020 Then
+		        If App.CurrentThread = Nil Then
+		          App.DoEvents()
+		        Else
+		          App.YieldToNextThread()
+		        End If
+		      #Else
+		        If Thread.Current = Nil Then
+		          App.DoEvents()
+		        Else
+		          Thread.YieldToNext()
+		        End If
+		      #EndIf
+		    Loop
+		    Return mURLConnectionContent
 		    
 		  #Else
 		    #pragma Unused APIEndpoint
@@ -377,17 +392,46 @@ Private Class OpenAIClient
 		Private Function SendRequest_URLConnection(APIEndpoint As String, RequestMethod As String = "GET") As String
 		  #If RBVersion > 2018.03 Then
 		    Dim client As URLConnection = mClient
+		    mURLConnectionContent = ""
 		    mURLConnectionError = Nil
-		    Try
-		      Return client.SendSync(RequestMethod, OPENAI_URL + APIEndpoint, 0)
-		    Catch err
-		      mURLConnectionError = err
-		    End Try
+		    client.Send(RequestMethod, OPENAI_URL + APIEndpoint, 0)
+		    Do Until mURLConnectionContent <> "" Or mURLConnectionError <> Nil
+		      #If RBVersion < 2020 Then
+		        If App.CurrentThread = Nil Then
+		          App.DoEvents()
+		        Else
+		          App.YieldToNextThread()
+		        End If
+		      #Else
+		        If Thread.Current = Nil Then
+		          App.DoEvents()
+		        Else
+		          Thread.YieldToNext()
+		        End If
+		      #EndIf
+		    Loop
+		    Return mURLConnectionContent
 		  #Else
 		    #pragma Unused APIEndpoint
 		    #pragma Unused RequestMethod
 		  #endif
 		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub URLConnectionContentsReceivedHandler(Sender As Object, URL As String, HTTPStatus As Integer, Content As String)
+		  #pragma Unused Sender
+		  #pragma Unused URL
+		  #pragma Unused HTTPStatus
+		  mURLConnectionContent = Content
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub URLConnectionErrorHandler(Sender As Object, err As RuntimeException)
+		  #pragma Unused Sender
+		  mURLConnectionError = err
+		End Sub
 	#tag EndMethod
 
 
@@ -466,6 +510,10 @@ Private Class OpenAIClient
 
 	#tag Property, Flags = &h21
 		Private mMaskBuffer As MemoryBlock
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mURLConnectionContent As String
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
