@@ -26,6 +26,7 @@ Class=ChatCompletionData;OpenAI/ChatCompletionData.rbbas;&h6DD957FF;&h755B3FFF;f
 Class=AudioTranscription;OpenAI/AudioTranscription.rbbas;&h4B4F8FFF;&h755B3FFF;false
 Class=AudioTranslation;OpenAI/AudioTranslation.rbbas;&h5E0BAFFF;&h755B3FFF;false
 Window=ChatWindow;DemoProject/ChatWindow.rbfrm;&h590DAFFF;&h3578F7FF;false
+Class=ChatLogArea;DemoProject/ChatLogArea.rbbas;&h2329DFFF;&h3578F7FF;false
 DefaultWindow=DemoWindow
 MajorVersion=1
 MinorVersion=0

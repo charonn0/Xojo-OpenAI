@@ -24,55 +24,6 @@ Begin Window ChatWindow
    Title           =   "AI Assistant Chat"
    Visible         =   True
    Width           =   6.48e+2
-   Begin Listbox ChatMessagesList
-      AutoDeactivate  =   True
-      AutoHideScrollbars=   True
-      Bold            =   ""
-      Border          =   True
-      ColumnCount     =   2
-      ColumnsResizable=   True
-      ColumnWidths    =   "15%,*"
-      DataField       =   ""
-      DataSource      =   ""
-      DefaultRowHeight=   32
-      Enabled         =   True
-      EnableDrag      =   ""
-      EnableDragReorder=   ""
-      GridLinesHorizontal=   2
-      GridLinesVertical=   0
-      HasHeading      =   True
-      HeadingIndex    =   -1
-      Height          =   389
-      HelpTag         =   ""
-      Hierarchical    =   True
-      Index           =   -2147483648
-      InitialParent   =   ""
-      InitialValue    =   "Role	Content"
-      Italic          =   ""
-      Left            =   0
-      LockBottom      =   True
-      LockedInPosition=   False
-      LockLeft        =   True
-      LockRight       =   True
-      LockTop         =   True
-      RequiresSelection=   ""
-      Scope           =   0
-      ScrollbarHorizontal=   False
-      ScrollBarVertical=   True
-      SelectionType   =   0
-      TabIndex        =   0
-      TabPanelIndex   =   0
-      TabStop         =   True
-      TextFont        =   "System"
-      TextSize        =   0
-      TextUnit        =   0
-      Top             =   0
-      Underline       =   ""
-      UseFocusRing    =   True
-      Visible         =   True
-      Width           =   648
-      _ScrollWidth    =   -1
-   End
    Begin TextField ChatMessageField
       AcceptTabs      =   ""
       Alignment       =   0
@@ -201,6 +152,51 @@ Begin Window ChatWindow
       Top             =   37
       Width           =   32
    End
+   Begin ChatLogArea ChatMessages
+      AcceptTabs      =   ""
+      Alignment       =   0
+      AutoDeactivate  =   True
+      AutomaticallyCheckSpelling=   True
+      BackColor       =   &hFFFFFF
+      Bold            =   ""
+      Border          =   True
+      DataField       =   ""
+      DataSource      =   ""
+      Enabled         =   True
+      Format          =   ""
+      Height          =   389
+      HelpTag         =   ""
+      HideSelection   =   True
+      Index           =   -2147483648
+      Italic          =   ""
+      Left            =   0
+      LimitText       =   0
+      LockBottom      =   True
+      LockedInPosition=   False
+      LockLeft        =   True
+      LockRight       =   True
+      LockTop         =   True
+      Mask            =   ""
+      Multiline       =   True
+      ReadOnly        =   ""
+      Scope           =   0
+      ScrollbarHorizontal=   ""
+      ScrollbarVertical=   True
+      Styled          =   True
+      TabIndex        =   4
+      TabPanelIndex   =   0
+      TabStop         =   True
+      Text            =   ""
+      TextColor       =   &h000000
+      TextFont        =   "System"
+      TextSize        =   0
+      TextUnit        =   0
+      Top             =   0
+      Underline       =   ""
+      UseFocusRing    =   True
+      Visible         =   True
+      Width           =   648
+   End
 End
 #tag EndWindow
 
@@ -220,48 +216,6 @@ End
 
 #tag EndWindowCode
 
-#tag Events ChatMessagesList
-	#tag Event
-		Function CellTextPaint(g As Graphics, row As Integer, column As Integer, x as Integer, y as Integer) As Boolean
-		  ' Dim txt As String = Me.Cell(row, column)
-		  ' Dim w As Double = g.StringWidth(txt)
-		  ' Dim h As Double = g.StringHeight(txt, w)
-		  ' If w > g.Width Then
-		  ' g.DrawString(txt, x, h + 2, g.Width, False)
-		  ' Return True
-		  ' End If
-		End Function
-	#tag EndEvent
-	#tag Event
-		Function ConstructContextualMenu(base as MenuItem, x as Integer, y as Integer) As Boolean
-		  Dim row As Integer = Me.RowFromXY(x, y)
-		  If row > -1 And Me.RowTag(row) <> Nil Then
-		    Dim serialize As New MenuItem("Dump to file...")
-		    serialize.Tag = Me.RowTag(row)
-		    base.Append(serialize)
-		    Return True
-		  End If
-		End Function
-	#tag EndEvent
-	#tag Event
-		Function ContextualMenuAction(hitItem as MenuItem) As Boolean
-		  Select Case hitItem.Text
-		  Case "Dump to file..."
-		    Dim chat As JSONItem = hitItem.Tag
-		    Dim f As FolderItem = GetSaveFolderItem(".json", "chatmessage.json")
-		    If f <> Nil Then
-		      Dim s As String = chat.ToString()
-		      Dim bs As BinaryStream = BinaryStream.Create(f)
-		      bs.Write(s)
-		      bs.Close()
-		    End If
-		  End Select
-		  
-		  Return True
-		  
-		End Function
-	#tag EndEvent
-#tag EndEvents
 #tag Events SendMsgBtn
 	#tag Event
 		Sub Action()
@@ -301,15 +255,13 @@ End
 		      Dim r, c As String
 		      r = m2.Value("role")
 		      c = m2.Value("content")
-		      ChatMessagesList.AddRow(r.Trim, c.Trim)
-		      ChatMessagesList.RowTag(ChatMessagesList.LastIndex) = m2
+		      ChatMessages.AppendMessage(r.Trim, c.Trim, mLastResponse)
 		    End If
 		    If m1 <> Nil Then
 		      Dim r, c As String
 		      r = m1.Value("role")
 		      c = m1.Value("content")
-		      ChatMessagesList.AddRow(r.Trim, c.Trim)
-		      ChatMessagesList.RowTag(ChatMessagesList.LastIndex) = m1
+		      ChatMessages.AppendMessage(r.Trim, c.Trim, mLastResponse)
 		    End If
 		  End If
 		  SendMsgBtn.Enabled = True
