@@ -51,6 +51,15 @@ Private Class OpenAIClient
 		    End If
 		    mClient = connection
 		    
+		  #ElseIf RBVersion > 2014.02 Then
+		    Dim connection As New HTTPSecureSocket
+		    connection.ConnectionType = SSLSocket.TLSv12
+		    connection.SetRequestHeader("Authorization", "Bearer " + OpenAI.APIKey)
+		    If OpenAI.OrganizationID <> "" Then
+		      connection.SetRequestHeader("OpenAI-Organization", OpenAI.OrganizationID)
+		    End If
+		    mClient = connection
+		    
 		  #Else
 		    #pragma Warning "No supported HTTPS library enabled."
 		    Raise New OpenAIException("No supported HTTPS library enabled.")
@@ -120,6 +129,8 @@ Private Class OpenAIClient
 		    Return SendRequest_MBS(APIEndpoint, Request, RequestMethod)
 		  #ElseIf RBVersion > 2018.03 Then
 		    Return SendRequest_URLConnection(APIEndpoint, Request, RequestMethod)
+		  #ElseIf RBVersion > 2014.02 Then
+		    Return SendRequest_HTTPSecureSocket(APIEndpoint, Request, RequestMethod)
 		  #Else
 		    #pragma Unused APIEndpoint
 		    #pragma Unused Request
@@ -141,6 +152,46 @@ Private Class OpenAIClient
 		    Return SendRequest_MBS(APIEndpoint, RequestMethod)
 		  #ElseIf RBVersion > 2018.03 Then
 		    Return SendRequest_URLConnection(APIEndpoint, RequestMethod)
+		  #ElseIf RBVersion > 2014.02 Then
+		    Return SendRequest_HTTPSecureSocket(APIEndpoint, RequestMethod)
+		  #Else
+		    #pragma Unused APIEndpoint
+		    #pragma Unused RequestMethod
+		  #endif
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Function SendRequest_HTTPSecureSocket(APIEndpoint As String, Request As OpenAI.Request, RequestMethod As String = "POST") As String
+		  #If RBVersion > 2014.02 Then
+		    If RequestMethod <> "POST" Then Raise New OpenAIException("The current HTTPS library does not support this operation.")
+		    Dim client As HTTPSecureSocket = mClient
+		    Dim req As Variant = Request.ToObject
+		    If req IsA Dictionary Then
+		      Dim boundary As String
+		      Dim data As MemoryBlock = CreateMultipartForm(req, Request, boundary)
+		      client.SetRequestContent(data, "multipart/form-data; boundary=" + boundary)
+		    Else
+		      client.SetRequestContent(req.StringValue, "application/json")
+		    End If
+		    
+		    Return client.Post(OPENAI_URL + APIEndpoint, 0)
+		    
+		  #Else
+		    #pragma Unused APIEndpoint
+		    #pragma Unused Request
+		    #pragma Unused RequestMethod
+		  #endif
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Function SendRequest_HTTPSecureSocket(APIEndpoint As String, RequestMethod As String = "GET") As String
+		  #If RBVersion > 2014.02 Then
+		    If RequestMethod <> "GET" Then Raise New OpenAIException("The current HTTPS library does not support this operation.")
+		    Dim client As HTTPSecureSocket = mClient
+		    Return client.Get(OPENAI_URL + APIEndpoint, 0)
+		    
 		  #Else
 		    #pragma Unused APIEndpoint
 		    #pragma Unused RequestMethod
