@@ -1601,7 +1601,7 @@ End
 #tag Events DoChatBtn
 	#tag Event
 		Sub Action()
-		  Dim chatwnd As New ChatWindow
+		  Dim chatwnd As New ChatWindow(mModel)
 		  chatwnd.Show()
 		End Sub
 	#tag EndEvent

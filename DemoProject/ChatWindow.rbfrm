@@ -201,12 +201,30 @@ End
 #tag EndWindow
 
 #tag WindowCode
+	#tag Method, Flags = &h0
+		Sub Constructor(Model As OpenAI.Model)
+		  // Calling the overridden superclass constructor.
+		  Super.Constructor()
+		  mModel = Model
+		  
+		End Sub
+	#tag EndMethod
+
+
 	#tag Property, Flags = &h21
 		Private mContent As String
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
+		Private mLastError As RuntimeException
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
 		Private mLastResponse As OpenAI.ChatCompletion
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mModel As OpenAI.Model
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
@@ -233,35 +251,44 @@ End
 	#tag Event
 		Sub Run()
 		  If mLastResponse = Nil Then
-		    mLastResponse = OpenAI.ChatCompletion.Create(Lowercase(mRole), mContent)
+		    mLastResponse = OpenAI.ChatCompletion.Create(Nil, Lowercase(mRole), mContent, mModel)
 		  Else
-		    mLastResponse = mLastResponse.GenerateNext(Lowercase(mRole), mContent)
+		    mLastResponse = mLastResponse.GenerateNext(Lowercase(mRole), mContent, mModel)
 		  End If
 		  ResponseTimer.Mode = Timer.ModeSingle
+		  
+		  Exception err As OpenAI.OpenAIException
+		    mLastError = err
+		    ResponseTimer.Mode = Timer.ModeSingle
 		End Sub
 	#tag EndEvent
 #tag EndEvents
 #tag Events ResponseTimer
 	#tag Event
 		Sub Action()
-		  If mLastResponse = Nil Then Return
-		  If mLastResponse.ChatLog.MessageCount > 0 Then
-		    Dim m1, m2 As JSONItem
-		    m1 = mLastResponse.ChatLog.GetMessage(mLastResponse.ChatLog.MessageCount - 1)
-		    If mLastResponse.ChatLog.MessageCount > 1 Then
-		      m2 = mLastResponse.ChatLog.GetMessage(mLastResponse.ChatLog.MessageCount - 2)
-		    End If
-		    If m2 <> Nil Then
-		      Dim r, c As String
-		      r = m2.Value("role")
-		      c = m2.Value("content")
-		      ChatMessages.AppendMessage(r.Trim, c.Trim, mLastResponse)
-		    End If
-		    If m1 <> Nil Then
-		      Dim r, c As String
-		      r = m1.Value("role")
-		      c = m1.Value("content")
-		      ChatMessages.AppendMessage(r.Trim, c.Trim, mLastResponse)
+		  If mLastError <> Nil Then
+		    Call MsgBox(mLastError.Message, 16, "API Error")
+		    mLastError = Nil
+		  Else
+		    If mLastResponse = Nil Then Return
+		    If mLastResponse.ChatLog.MessageCount > 0 Then
+		      Dim m1, m2 As JSONItem
+		      m1 = mLastResponse.ChatLog.GetMessage(mLastResponse.ChatLog.MessageCount - 1)
+		      If mLastResponse.ChatLog.MessageCount > 1 Then
+		        m2 = mLastResponse.ChatLog.GetMessage(mLastResponse.ChatLog.MessageCount - 2)
+		      End If
+		      If m2 <> Nil Then
+		        Dim r, c As String
+		        r = m2.Value("role")
+		        c = m2.Value("content")
+		        ChatMessages.AppendMessage(r.Trim, c.Trim, mLastResponse)
+		      End If
+		      If m1 <> Nil Then
+		        Dim r, c As String
+		        r = m1.Value("role")
+		        c = m1.Value("content")
+		        ChatMessages.AppendMessage(r.Trim, c.Trim, mLastResponse)
+		      End If
 		    End If
 		  End If
 		  SendMsgBtn.Enabled = True
