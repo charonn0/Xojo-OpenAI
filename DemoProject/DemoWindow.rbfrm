@@ -1567,7 +1567,7 @@ End
 #tag Events DoTranscriptionBtn
 	#tag Event
 		Sub Action()
-		  mAudioFile = GetOpenFolderItem("")
+		  mAudioFile = GetOpenFolderItem(UploadabeFileTypes.All)
 		  If mAudioFile = Nil Or Not mAudioFile.Exists Or mAudioFile.Directory Then Return
 		  StatusBarLbl.Text = "Working..."
 		  #If RBVersion > 2019 Then
@@ -1586,7 +1586,7 @@ End
 #tag Events DoTranslationBtn
 	#tag Event
 		Sub Action()
-		  mAudioFile = GetOpenFolderItem("")
+		  mAudioFile = GetOpenFolderItem(UploadabeFileTypes.All)
 		  If mAudioFile = Nil Or Not mAudioFile.Exists Or mAudioFile.Directory Then Return
 		  StatusBarLbl.Text = "Working..."
 		  PromptText.Text = mAudioFile.Name
