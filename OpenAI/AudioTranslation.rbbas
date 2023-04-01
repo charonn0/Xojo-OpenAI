@@ -57,6 +57,7 @@ Inherits OpenAI.AudioTranscription
 		    End Select
 		  End If
 		  Dim client As New OpenAIClient
+		  client.ForceHTTP1_1 = True
 		  Dim result As JSONItem = Response.CreateRaw(client, "/v1/audio/translations", Request)
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
 		  Return New OpenAI.AudioTranslation(result, client)
@@ -121,6 +122,7 @@ Inherits OpenAI.AudioTranscription
 		    If err <> ValidationError.None Then Raise New OpenAIException(err)
 		  End If
 		  Dim client As New OpenAIClient
+		  client.ForceHTTP1_1 = True
 		  Dim data As String = client.SendRequest("/v1/audio/translations", Request)
 		  If client.LastErrorCode <> 0 Then Raise New OpenAIException(client)
 		  Return DefineEncoding(data, Encodings.UTF8)
