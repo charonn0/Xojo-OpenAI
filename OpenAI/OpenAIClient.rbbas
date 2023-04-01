@@ -4,6 +4,9 @@ Private Class OpenAIClient
 		Sub Constructor()
 		  #If USE_RBLIBCURL Then
 		    Dim curl As New cURLClient
+		    #If FORCE_HTTP1_1 Then
+		      curl.HTTPVersion = libcURL.HTTPVersion.HTTP1_1
+		    #endif
 		    curl.EasyHandle.UseProgressEvent = False
 		    curl.EasyHandle.FailOnServerError = False
 		    curl.BearerToken = OpenAI.APIKey
@@ -28,6 +31,9 @@ Private Class OpenAIClient
 		  #ElseIf USE_MBS Then
 		    Const CURLAUTH_BEARER = 64
 		    Dim curl As New CURLSMBS
+		    #If FORCE_HTTP1_1 Then
+		      curl.OptionHTTPVersion = 2
+		    #endif
 		    curl.OptionVerbose = True
 		    curl.CollectOutputData = True
 		    curl.OptionXOAuth2Bearer = OpenAI.APIKey
@@ -575,6 +581,9 @@ Private Class OpenAIClient
 		Private Shared ShareHandle As Variant
 	#tag EndProperty
 
+
+	#tag Constant, Name = FORCE_HTTP1_1, Type = Boolean, Dynamic = False, Default = \"False", Scope = Private
+	#tag EndConstant
 
 End Class
 #tag EndClass
