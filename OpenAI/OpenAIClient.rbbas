@@ -4,9 +4,6 @@ Private Class OpenAIClient
 		Sub Constructor()
 		  #If USE_RBLIBCURL Then
 		    Dim curl As New cURLClient
-		    #If FORCE_HTTP1_1 Then
-		      curl.HTTPVersion = libcURL.HTTPVersion.HTTP1_1
-		    #endif
 		    curl.EasyHandle.UseProgressEvent = False
 		    curl.EasyHandle.FailOnServerError = False
 		    curl.BearerToken = OpenAI.APIKey
@@ -31,9 +28,6 @@ Private Class OpenAIClient
 		  #ElseIf USE_MBS Then
 		    Const CURLAUTH_BEARER = 64
 		    Dim curl As New CURLSMBS
-		    #If FORCE_HTTP1_1 Then
-		      curl.OptionHTTPVersion = 2
-		    #endif
 		    curl.OptionVerbose = True
 		    curl.CollectOutputData = True
 		    curl.OptionXOAuth2Bearer = OpenAI.APIKey
@@ -495,6 +489,30 @@ Private Class OpenAIClient
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  return mForceHTTP1_1
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  #If USE_RBLIBCURL Then
+			    Dim curl As cURLClient = mClient
+			    curl.HTTPVersion = libcURL.HTTPVersion.HTTP1_1
+			    mForceHTTP1_1 = value
+			    
+			  #ElseIf USE_MBS Then
+			    Const CURLAUTH_BEARER = 64
+			    Dim curl As CURLSMBS = mClient
+			    curl.OptionHTTPVersion = 2
+			    mForceHTTP1_1 = value
+			  #EndIf
+			End Set
+		#tag EndSetter
+		ForceHTTP1_1 As Boolean
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
 			  #If USE_RBLIBCURL Then
 			    Dim curl As cURLClient = mClient
 			    Return curl.LastError
@@ -558,6 +576,10 @@ Private Class OpenAIClient
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
+		Private mForceHTTP1_1 As Boolean = False
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
 		Private mImageBuffer As MemoryBlock
 	#tag EndProperty
 
@@ -581,9 +603,6 @@ Private Class OpenAIClient
 		Private Shared ShareHandle As Variant
 	#tag EndProperty
 
-
-	#tag Constant, Name = FORCE_HTTP1_1, Type = Boolean, Dynamic = False, Default = \"False", Scope = Private
-	#tag EndConstant
 
 End Class
 #tag EndClass
