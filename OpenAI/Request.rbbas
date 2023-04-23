@@ -13,43 +13,15 @@ Protected Class Request
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub Set(KeyName As String, KeyValue As Variant)
-		  mRequest.Value(KeyName) = KeyValue
-		End Sub
+		Function Operator_Convert() As JSONItem
+		  Return mRequest
+		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function ToObject() As Variant
-		  If SourceImage = Nil And MaskImage = Nil And File = Nil Then
-		    mRequest.Compact = True
-		    Return mRequest.ToString()
-		    
-		  ElseIf SourceImage <> Nil Then
-		    Dim d As New Dictionary
-		    If Size <> "1024x1024" Then d.Value("size") = Size
-		    If NumberOfResults > 1 Then d.Value("n") = Str(NumberOfResults, "#0")
-		    If ResultsAsURL Then
-		      d.Value("response_format") = "url"
-		    Else
-		      d.Value("response_format") = "b64_json"
-		    End If
-		    If User <> "" Then d.Value("user") = User
-		    If SourceImage <> Nil Then d.Value("image") = SourceImage
-		    If MaskImage <> Nil Then d.Value("mask") = MaskImage
-		    If Prompt <> "" Then d.Value("prompt") = Prompt
-		    Return d
-		    
-		  ElseIf File <> Nil Then
-		    Dim d As New Dictionary
-		    For i As Integer = 0 To mRequest.Count - 1
-		      Dim n As String = mRequest.Name(i)
-		      Dim v As String = mRequest.Value(n)
-		      d.Value(n) = v
-		    Next
-		    d.Value("file") = File
-		    Return d
-		  End If
-		End Function
+		Sub Set(KeyName As String, KeyValue As Variant)
+		  mRequest.Value(KeyName) = KeyValue
+		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0

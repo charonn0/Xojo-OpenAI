@@ -3,29 +3,50 @@ Private Class OpenAIClient
 	#tag Method, Flags = &h0
 		Sub Constructor()
 		  #If USE_RBLIBCURL Then
-		    Dim curl As New cURLClient
-		    curl.EasyHandle.UseProgressEvent = False
-		    curl.EasyHandle.FailOnServerError = False
-		    curl.BearerToken = OpenAI.APIKey
-		    curl.EasyHandle.UserAgent = USER_AGENT_STRING
-		    If OpenAI.OrganizationID <> "" Then
-		      curl.RequestHeaders.SetHeader("OpenAI-Organization", OpenAI.OrganizationID)
-		    End If
-		    mClient = curl
-		    
-		    Dim share As libcURL.ShareHandle = ShareHandle
-		    If share = Nil Then
-		      share = New libcURL.ShareHandle
-		      share.ShareConnections = True
-		      share.ShareCookies = True
-		      share.ShareDNSCache = True
-		      share.ShareSSL = True
-		      ShareHandle = share
-		    End If
-		    share.AddTransfer(curl.EasyHandle)
-		    
+		    Me.Constructor_RBLibcurl()
 		    
 		  #ElseIf USE_MBS Then
+		    Me.Constructor_MBS()
+		    
+		  #ElseIf RBVersion > 2018.03 Then
+		    Me.Constructor_URLConnection()
+		    
+		  #ElseIf RBVersion > 2014.02 Then
+		    Me.Constructor_HTTPSecureSocket()
+		    
+		  #Else
+		    #pragma Warning "No supported HTTPS library enabled."
+		    Raise New OpenAIException("No supported HTTPS library enabled.")
+		    ' At least one of the following HTTPS libraries must be available: 
+		    ' 
+		    '  * URLConnection class (Xojo 2018r3 or newer)
+		    '  * HTTPSecureSocket class (Xojo 2014r3 to 2018r2; some API features limited)
+		    '  * The RB-libcURL curl wrapper (Set OpenAI.USE_RBLIBCURL=True)
+		    '  * The MonkeyBread curl plugin (Set OpenAI.USE_MBS=True)
+		    '
+		    ' See: https://github.com/charonn0/Xojo-OpenAI/wiki#using-rb-libcurl-or-mbs
+		    
+		  #endif
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub Constructor_HTTPSecureSocket()
+		  #If RBVersion > 2014.02 Then
+		    Dim connection As New HTTPSecureSocket
+		    connection.ConnectionType = SSLSocket.TLSv12
+		    connection.SetRequestHeader("Authorization", "Bearer " + OpenAI.APIKey)
+		    If OpenAI.OrganizationID <> "" Then
+		      connection.SetRequestHeader("OpenAI-Organization", OpenAI.OrganizationID)
+		    End If
+		    mClient = connection
+		  #endif
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub Constructor_MBS()
+		  #If USE_MBS Then
 		    Const CURLAUTH_BEARER = 64
 		    Dim curl As New CURLSMBS
 		    curl.OptionVerbose = True
@@ -39,8 +60,41 @@ Private Class OpenAIClient
 		    ' curl.OptionSSLVerifyHost = 2
 		    ' curl.OptionSSLVerifyPeer = 1
 		    mClient = curl
+		  #endif
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub Constructor_RBLibcurl()
+		  #If USE_RBLIBCURL Then
+		    Dim curl As New cURLClient
+		    curl.EasyHandle.UseProgressEvent = False
+		    curl.EasyHandle.FailOnServerError = False
+		    curl.BearerToken = OpenAI.APIKey
+		    curl.EasyHandle.UserAgent = USER_AGENT_STRING
+		    If OpenAI.OrganizationID <> "" Then
+		      curl.RequestHeaders.SetHeader("OpenAI-Organization", OpenAI.OrganizationID)
+		    End If
+		    mClient = curl
 		    
-		  #ElseIf RBVersion > 2018.03 Then
+		    ' A curl "share" handle allows multiple transfers to share connection caches (among other things)
+		    Dim share As libcURL.ShareHandle = ShareHandle
+		    If share = Nil Then
+		      share = New libcURL.ShareHandle
+		      share.ShareConnections = True
+		      share.ShareCookies = True
+		      share.ShareDNSCache = True
+		      share.ShareSSL = True
+		      ShareHandle = share
+		    End If
+		    share.AddTransfer(curl.EasyHandle)
+		  #endif
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub Constructor_URLConnection()
+		  #If RBVersion > 2018.03 Then
 		    Dim connection As New URLConnection
 		    AddHandler connection.ContentReceived, WeakAddressOf URLConnectionContentsReceivedHandler
 		    AddHandler connection.Error, WeakAddressOf URLConnectionErrorHandler
@@ -50,19 +104,6 @@ Private Class OpenAIClient
 		      connection.RequestHeader("OpenAI-Organization") = OpenAI.OrganizationID
 		    End If
 		    mClient = connection
-		    
-		  #ElseIf RBVersion > 2014.02 Then
-		    Dim connection As New HTTPSecureSocket
-		    connection.ConnectionType = SSLSocket.TLSv12
-		    connection.SetRequestHeader("Authorization", "Bearer " + OpenAI.APIKey)
-		    If OpenAI.OrganizationID <> "" Then
-		      connection.SetRequestHeader("OpenAI-Organization", OpenAI.OrganizationID)
-		    End If
-		    mClient = connection
-		    
-		  #Else
-		    #pragma Warning "No supported HTTPS library enabled."
-		    Raise New OpenAIException("No supported HTTPS library enabled.")
 		  #endif
 		End Sub
 	#tag EndMethod
@@ -99,6 +140,45 @@ Private Class OpenAIClient
 		  out.Write("--" + Boundary + "--" + CRLF)
 		  out.Close
 		  Return data
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Shared Function CreateRequestPayload(Request As OpenAI.Request, ByRef IsMultipart As Boolean) As Variant
+		  If Request.SourceImage = Nil And Request.MaskImage = Nil And Request.File = Nil Then
+		    Dim js As JSONItem = Request
+		    js.Compact = True
+		    IsMultipart = False
+		    Return js.ToString()
+		    
+		  ElseIf Request.SourceImage <> Nil Then
+		    Dim d As New Dictionary
+		    If Request.Size <> "1024x1024" Then d.Value("size") = Request.Size
+		    If Request.NumberOfResults > 1 Then d.Value("n") = Str(Request.NumberOfResults, "#0")
+		    If Request.ResultsAsURL Then
+		      d.Value("response_format") = "url"
+		    Else
+		      d.Value("response_format") = "b64_json"
+		    End If
+		    If Request.User <> "" Then d.Value("user") = Request.User
+		    If Request.SourceImage <> Nil Then d.Value("image") = Request.SourceImage
+		    If Request.MaskImage <> Nil Then d.Value("mask") = Request.MaskImage
+		    If Request.Prompt <> "" Then d.Value("prompt") = Request.Prompt
+		    IsMultipart = True
+		    Return d
+		    
+		  ElseIf Request.File <> Nil Then
+		    Dim d As New Dictionary
+		    Dim js As JSONItem = Request
+		    For i As Integer = 0 To js.Count - 1
+		      Dim n As String = js.Name(i)
+		      Dim v As String = js.Value(n)
+		      d.Value(n) = v
+		    Next
+		    d.Value("file") = Request.File
+		    IsMultipart = True
+		    Return d
+		  End If
 		End Function
 	#tag EndMethod
 
@@ -166,8 +246,9 @@ Private Class OpenAIClient
 		  #If RBVersion > 2014.02 Then
 		    If RequestMethod <> "POST" Then Raise New OpenAIException("The current HTTPS library does not support this operation.")
 		    Dim client As HTTPSecureSocket = mClient
-		    Dim req As Variant = Request.ToObject
-		    If req IsA Dictionary Then
+		    Dim ismultipart As Boolean
+		    Dim req As Variant = CreateRequestPayload(Request, ismultipart)
+		    If ismultipart Then
 		      Dim boundary As String
 		      Dim data As MemoryBlock = CreateMultipartForm(req, Request, boundary)
 		      client.SetRequestContent(data, "multipart/form-data; boundary=" + boundary)
@@ -202,10 +283,11 @@ Private Class OpenAIClient
 	#tag Method, Flags = &h21
 		Private Function SendRequest_MBS(APIEndpoint As String, Request As OpenAI.Request, RequestMethod As String = "POST") As String
 		  #If USE_MBS Then
-		    Dim req As Variant = Request.ToObject()
+		    Dim ismultipart As Boolean
+		    Dim req As Variant = CreateRequestPayload(Request, ismultipart)
 		    Dim curl As CURLSMBS = mClient
 		    curl.OptionCustomRequest = RequestMethod
-		    If req IsA Dictionary Then
+		    If ismultipart Then
 		      Dim d As Dictionary = req
 		      For Each name As String In d.Keys
 		        Select Case VarType(d.Value(name))
@@ -289,10 +371,10 @@ Private Class OpenAIClient
 		  #If USE_RBLIBCURL Then
 		    Dim client As cURLClient = mClient
 		    client.SetRequestMethod(RequestMethod)
-		    Dim requestobj As Variant = Request.ToObject()
+		    Dim ismultipart As Boolean
+		    Dim requestobj As Variant = CreateRequestPayload(Request, ismultipart)
 		    
-		    
-		    If requestobj IsA Dictionary Then ' POST an HTTP form
+		    If ismultipart Then ' POST an HTTP form
 		      Dim d As Dictionary = requestobj
 		      Dim form As New libcURL.MultipartForm
 		      For Each name As String In d.Keys
@@ -403,8 +485,9 @@ Private Class OpenAIClient
 		Private Function SendRequest_URLConnection(APIEndpoint As String, Request As OpenAI.Request, RequestMethod As String = "POST") As String
 		  #If RBVersion > 2018.03 Then
 		    Dim client As URLConnection = mClient
-		    Dim req As Variant = Request.ToObject
-		    If req IsA Dictionary Then
+		    Dim ismultipart As Boolean
+		    Dim req As Variant = CreateRequestPayload(Request, ismultipart)
+		    If ismultipart Then
 		      Dim boundary As String
 		      Dim data As MemoryBlock = CreateMultipartForm(req, Request, boundary)
 		      client.SetRequestContent(data, "multipart/form-data; boundary=" + boundary)
@@ -494,16 +577,30 @@ Private Class OpenAIClient
 		#tag EndGetter
 		#tag Setter
 			Set
+			  ' If we're using RB-libcURL or CURLMBS then we might be using HTTP/2 by default.
+			  ' Set this to True to force HTTP/1.1 for this instance of OpenAIClient. Changing
+			  ' this setting may force curl to establish a new connection to the server.
+			  
 			  #If USE_RBLIBCURL Then
 			    Dim curl As cURLClient = mClient
-			    curl.HTTPVersion = libcURL.HTTPVersion.HTTP1_1
+			    If value Then
+			      curl.HTTPVersion = libcURL.HTTPVersion.HTTP1_1
+			    Else
+			      curl.HTTPVersion = libcURL.HTTPVersion.None
+			    End If
 			    mForceHTTP1_1 = value
 			    
 			  #ElseIf USE_MBS Then
-			    Const CURLAUTH_BEARER = 64
 			    Dim curl As CURLSMBS = mClient
-			    curl.OptionHTTPVersion = 2
+			    If value Then
+			      curl.OptionHTTPVersion = 2
+			    Else
+			      curl.OptionHTTPVersion = 0
+			    End If
 			    mForceHTTP1_1 = value
+			    
+			  #Else
+			    #pragma Unused value
 			  #EndIf
 			End Set
 		#tag EndSetter
@@ -603,6 +700,12 @@ Private Class OpenAIClient
 		Private Shared ShareHandle As Variant
 	#tag EndProperty
 
+
+	#tag Constant, Name = PAYLOADTYPE_JSON, Type = Double, Dynamic = False, Default = \"1", Scope = Private
+	#tag EndConstant
+
+	#tag Constant, Name = PAYLOADTYPE_MULTIPART, Type = Double, Dynamic = False, Default = \"2", Scope = Private
+	#tag EndConstant
 
 End Class
 #tag EndClass
