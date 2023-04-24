@@ -96,7 +96,7 @@ Begin Window DemoWindow
          Visible         =   True
          Width           =   300
       End
-      Begin Label Label2
+      Begin Label PromptLbl
          AutoDeactivate  =   True
          Bold            =   False
          DataField       =   ""
@@ -877,6 +877,40 @@ Begin Window DemoWindow
          Visible         =   True
          Width           =   209
       End
+      Begin Label TokenEstimateLbl
+         AutoDeactivate  =   True
+         Bold            =   False
+         DataField       =   ""
+         DataSource      =   ""
+         Enabled         =   True
+         Height          =   20
+         HelpTag         =   ""
+         Index           =   -2147483648
+         InitialParent   =   "OpenAIGroup"
+         Italic          =   False
+         Left            =   36
+         LockBottom      =   False
+         LockedInPosition=   False
+         LockLeft        =   True
+         LockRight       =   True
+         LockTop         =   False
+         Multiline       =   False
+         Scope           =   0
+         Selectable      =   False
+         TabIndex        =   24
+         TabPanelIndex   =   0
+         Text            =   "Estimated token usage: 0"
+         TextAlign       =   0
+         TextColor       =   &h00808080
+         TextFont        =   "System"
+         TextSize        =   0.0
+         TextUnit        =   0
+         Top             =   315
+         Transparent     =   False
+         Underline       =   False
+         Visible         =   True
+         Width           =   286
+      End
    End
    Begin TextField APIKeyField
       AcceptTabs      =   False
@@ -1294,6 +1328,13 @@ End
 
 #tag EndWindowCode
 
+#tag Events PromptText
+	#tag Event
+		Sub TextChange()
+		  TokenEstimateLbl.Text = "Estimated token usage: " + Str(OpenAI.EstimateTokenCount(Me.Text, OpenAI.TokenEstimationMethod.Max), "###,###,##0.0")
+		End Sub
+	#tag EndEvent
+#tag EndEvents
 #tag Events ReplyText
 	#tag Event
 		Function ConstructContextualMenu(base as MenuItem, x as Integer, y as Integer) As Boolean

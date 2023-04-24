@@ -1,5 +1,49 @@
 #tag Module
 Protected Module OpenAI
+	#tag Method, Flags = &h1
+		Protected Function EstimateTokenCount(Text As String, Method As OpenAI.TokenEstimationMethod = OpenAI.TokenEstimationMethod.Max) As Double
+		  ' method can be "average", "words", "chars", "max", "min", defaults To "max"
+		  ' "average" Is the average Of words And chars
+		  ' "words" Is the word count divided by 0.75
+		  ' "chars" Is the char count divided by 4
+		  ' "max" Is the Max Of word And char
+		  ' "min" Is the Min Of word And char
+		  
+		  Dim wordcount As Integer = CountFields(text, " ")
+		  Dim charcount As Integer = text.Len
+		  Dim wordestimate As Double = wordcount / 0.75
+		  Dim charestimate As Double = charcount / 4.0
+		  
+		  Static punc() As String = Split("!@#$%^&*()_+=-][\|}{';"":/.,?><`~", "")
+		  Dim extratokens As Integer
+		  For i As Integer = 1 To Text.Len
+		    Dim s As String = Text.Mid(i, 1)
+		    If punc.IndexOf(s) > -1 Then extratokens = extratokens + 1
+		  Next
+		  
+		  wordestimate = wordestimate + extratokens
+		  charestimate = charestimate + extratokens
+		  
+		  Select Case Method
+		  Case TokenEstimationMethod.Average
+		    Return (wordestimate + charestimate) / 2
+		    
+		  Case TokenEstimationMethod.Words
+		    Return wordestimate
+		    
+		  Case TokenEstimationMethod.Characters
+		    Return charestimate
+		    
+		  Case TokenEstimationMethod.Max
+		    Return Max(wordestimate, charestimate)
+		    
+		  Case TokenEstimationMethod.Min
+		    Return Min(wordestimate, charestimate)
+		    
+		  End Select
+		End Function
+	#tag EndMethod
+
 	#tag Method, Flags = &h21
 		Private Function MIMEType(File As FolderItem) As String
 		  Select Case NthField(File.Name, ".", CountFields(File.Name, "."))
@@ -61,7 +105,7 @@ Protected Module OpenAI
 	#tag Constant, Name = USER_AGENT_STRING, Type = String, Dynamic = False, Default = \"Xojo-OpenAI/0.1", Scope = Private
 	#tag EndConstant
 
-	#tag Constant, Name = USE_MBS, Type = Boolean, Dynamic = False, Default = \"False", Scope = Private
+	#tag Constant, Name = USE_MBS, Type = Boolean, Dynamic = False, Default = \"True", Scope = Private
 	#tag EndConstant
 
 	#tag Constant, Name = USE_RBLIBCURL, Type = Boolean, Dynamic = False, Default = \"False", Scope = Private
@@ -74,6 +118,14 @@ Protected Module OpenAI
 		  PictureURL
 		  FileObject
 		JSONObject
+	#tag EndEnum
+
+	#tag Enum, Name = TokenEstimationMethod, Type = Integer, Flags = &h1
+		Average
+		  Words
+		  Characters
+		  Max
+		Min
 	#tag EndEnum
 
 	#tag Enum, Name = ValidationError, Type = Integer, Flags = &h1
@@ -120,13 +172,6 @@ Protected Module OpenAI
 
 
 	#tag ViewBehavior
-		#tag ViewProperty
-			Name="APIKey"
-			Group="Behavior"
-			InitialValue="YOUR API KEY HERE"
-			Type="String"
-			EditorType="MultiLineEditor"
-		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Index"
 			Visible=true
