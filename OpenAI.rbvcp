@@ -28,6 +28,7 @@ Class=AudioTranslation;OpenAI/AudioTranslation.rbbas;&h5E0BAFFF;&h755B3FFF;false
 Window=ChatWindow;DemoProject/ChatWindow.rbfrm;&h590DAFFF;&h3578F7FF;false
 Class=ChatLogArea;DemoProject/ChatLogArea.rbbas;&h2329DFFF;&h3578F7FF;false
 FileTypeSet=UploadabeFileTypes;DemoProject/UploadabeFileTypes.rbbas;&h7E783FFF;&h3578F7FF;false
+Class=Embedding;OpenAI/Embedding.rbbas;&h242D37FF;&h755B3FFF;false
 DefaultWindow=DemoWindow
 MajorVersion=1
 MinorVersion=0
