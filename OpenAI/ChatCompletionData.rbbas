@@ -8,7 +8,7 @@ Protected Class ChatCompletionData
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.ChatCompletionData.AddMessage
 		  
 		  Dim msg As New JSONItem()
-		  msg.Value("role") = Role
+		  msg.Value("role") = Lowercase(Role)
 		  msg.Value("content") = Content
 		  mMessages.Append(msg)
 		End Sub
@@ -49,7 +49,7 @@ Protected Class ChatCompletionData
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.ChatCompletionData.InsertMessage
 		  
 		  Dim msg As New JSONItem()
-		  msg.Value("role") = Role
+		  msg.Value("role") = Lowercase(Role)
 		  msg.Value("content") = Content
 		  mMessages.Insert(Index, msg)
 		End Sub
