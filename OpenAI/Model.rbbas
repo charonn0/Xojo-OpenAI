@@ -3,6 +3,34 @@ Protected Class Model
 	#tag Method, Flags = &h1
 		Protected Sub Constructor(Response As JSONItem)
 		  mModel = Response
+		  Select Case Me.ID
+		  Case "whisper-1"
+		    mEndpoint = "/v1/audio/transcriptions;/v1/audio/translations"
+		  Case "gpt-4", "gpt-4-0613", "gpt-4-32k", "gpt-4-32k-0613", "gpt-3.5-turbo", "gpt-3.5-turbo-0613", _
+		     "gpt-3.5-turbo-16k", "gpt-3.5-turbo-16k-0613", "gpt-3.5-turbo-0301"
+		    mEndpoint = "/v1/chat/completions"
+		  Case "text-davinci-003", "text-davinci-002", "text-curie-001", "text-babbage-001", "text-ada-001", _
+		    "babbage-code-search-code", "text-similarity-babbage-001", "text-davinci-001", "babbage-code-search-text", _
+		    "babbage-similarity", "code-search-babbage-text-001", "code-search-babbage-code-001", "text-similarity-ada-001", _
+		    "curie-instruct-beta", "ada-code-search-code", "ada-similarity", "code-search-ada-text-001", _
+		    "text-search-ada-query-001", "davinci-search-document", "ada-code-search-text", "davinci-instruct-beta", _
+		    "text-similarity-curie-001", "code-search-ada-code-001", "ada-search-query", "text-search-davinci-query-001", _
+		    "curie-search-query", "davinci-search-query", "babbage-search-document", "ada-search-document", _
+		    "text-search-curie-query-001", "text-search-babbage-doc-001", "curie-search-document", "text-search-curie-doc-001", _
+		    "babbage-search-query", "text-search-davinci-doc-001", "text-search-babbage-query-001", "curie-similarity", _
+		    "text-similarity-davinci-001", "davinci-similarity"
+		    mEndpoint = "/v1/completions"
+		  Case "text-davinci-edit-001", "code-davinci-edit-001"
+		    mEndpoint = "/v1/edits"
+		  Case "davinci", "curie", "babbage", "ada"
+		    mEndpoint = "/v1/fine-tunes"
+		  Case "text-embedding-ada-002", "text-search-ada-doc-001"
+		    mEndpoint = "/v1/embeddings"
+		  Case "text-moderation-stable", "text-moderation-latest"
+		    mEndpoint = "/v1/moderations"
+		  Else
+		    mEndpoint = ""
+		  End Select
 		End Sub
 	#tag EndMethod
 
@@ -204,6 +232,18 @@ Protected Class Model
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  ' Returns the API endpoint associated with this AI Model. If the Model is associated with more
+			  ' than one endpoint then they will be delimited by semicolons (;).
+			  
+			  return mEndpoint
+			End Get
+		#tag EndGetter
+		Endpoint As String
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
 			  Dim perms As JSONItem = mModel.Value("permission")
 			  perms = perms.Child(0)
 			  If perms.Value("group") <> Nil Then Return perms.Value("group")
@@ -240,6 +280,10 @@ Protected Class Model
 		#tag EndGetter
 		IsBlocking As Boolean
 	#tag EndComputedProperty
+
+	#tag Property, Flags = &h21
+		Private mEndpoint As String
+	#tag EndProperty
 
 	#tag Property, Flags = &h1
 		Protected mModel As JSONItem
