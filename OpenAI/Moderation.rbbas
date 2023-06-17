@@ -68,7 +68,7 @@ Inherits OpenAI.Response
 		  If Request.MaxTokens > 1 Then Return ValidationError.MaxTokens
 		  ' If Request.MaxTokens >= 2048 Then Return ValidationError.MaxTokens
 		  If Request.Model = Nil Then Return ValidationError.Model ' required
-		  If Request.Model.ID <> "text-moderation-latest" And Request.Model.ID <> "text-moderation-stable" Then Return ValidationError.Model
+		  If Request.Model.Endpoint <> "/v1/moderations" Then Return ValidationError.Model
 		  If Request.NumberOfEpochs <> 1 Then Return ValidationError.NumberOfEpochs
 		  If Request.NumberOfResults <> 1 Then Return ValidationError.NumberOfResults
 		  If Request.PresencePenalty > 0.00001 Then Return ValidationError.PresencePenalty
