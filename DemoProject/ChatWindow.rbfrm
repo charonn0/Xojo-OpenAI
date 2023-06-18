@@ -201,15 +201,27 @@ End
 #tag EndWindow
 
 #tag WindowCode
+	#tag Event
+		Sub Open()
+		  Self.Title = "AI Assistant Chat - " + mModel.ID
+		End Sub
+	#tag EndEvent
+
+
 	#tag Method, Flags = &h0
-		Sub Constructor(Model As OpenAI.Model)
+		Sub Constructor(Model As OpenAI.Model, Backlog As OpenAI.ChatCompletionData = Nil)
+		  mModel = Model
+		  mBacklog = Backlog
 		  // Calling the overridden superclass constructor.
 		  Super.Constructor()
-		  mModel = Model
 		  
 		End Sub
 	#tag EndMethod
 
+
+	#tag Property, Flags = &h21
+		Private mBacklog As OpenAI.ChatCompletionData
+	#tag EndProperty
 
 	#tag Property, Flags = &h21
 		Private mContent As String
@@ -238,11 +250,29 @@ End
 	#tag Event
 		Sub Action()
 		  If ChatMessageField.Text.Trim <> "" Then
-		    Me.Enabled = False
-		    mRole = RoleList.Text
-		    mContent = ChatMessageField.Text
-		    ChatMessageField.Text = ""
-		    RequestThread.Run()
+		    If RoleList.Text = "User" Then
+		      Me.Enabled = False
+		      mRole = RoleList.Text
+		      mContent = ChatMessageField.Text
+		      RequestThread.Run()
+		    Else
+		      If mBacklog = Nil Then mBacklog = New OpenAI.ChatCompletionData()
+		      mBacklog.AddMessage(RoleList.Text, ChatMessageField.Text)
+		      ChatMessages.AppendMessage(RoleList.Text, ChatMessageField.Text, mLastResponse)
+		    End If
+		  End If
+		  ChatMessageField.Text = ""
+		  Me.Enabled = True
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events RoleList
+	#tag Event
+		Sub Change()
+		  If Me.Text = "User" Then
+		    SendMsgBtn.Caption = "Send"
+		  Else
+		    SendMsgBtn.Caption = "Insert"
 		  End If
 		End Sub
 	#tag EndEvent
@@ -251,15 +281,15 @@ End
 	#tag Event
 		Sub Run()
 		  If mLastResponse = Nil Then
-		    mLastResponse = OpenAI.ChatCompletion.Create(Nil, Lowercase(mRole), mContent, mModel)
+		    mLastResponse = OpenAI.ChatCompletion.Create(mBacklog, Lowercase(mRole), mContent, mModel)
 		  Else
 		    mLastResponse = mLastResponse.GenerateNext(Lowercase(mRole), mContent, mModel)
 		  End If
 		  ResponseTimer.Mode = Timer.ModeSingle
 		  
-		  Exception err As OpenAI.OpenAIException
-		    mLastError = err
-		    ResponseTimer.Mode = Timer.ModeSingle
+		Exception err As OpenAI.OpenAIException
+		  mLastError = err
+		  ResponseTimer.Mode = Timer.ModeSingle
 		End Sub
 	#tag EndEvent
 #tag EndEvents

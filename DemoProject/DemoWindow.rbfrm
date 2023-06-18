@@ -41,7 +41,7 @@ Begin Window DemoWindow
       LockRight       =   True
       LockTop         =   True
       Scope           =   0
-      TabIndex        =   0
+      TabIndex        =   2
       TabPanelIndex   =   0
       TextFont        =   "System"
       TextSize        =   0.0
@@ -82,7 +82,7 @@ Begin Window DemoWindow
          ScrollbarHorizontal=   False
          ScrollbarVertical=   True
          Styled          =   True
-         TabIndex        =   0
+         TabIndex        =   1
          TabPanelIndex   =   0
          TabStop         =   True
          Text            =   ""
@@ -116,7 +116,7 @@ Begin Window DemoWindow
          Multiline       =   False
          Scope           =   0
          Selectable      =   False
-         TabIndex        =   1
+         TabIndex        =   0
          TabPanelIndex   =   0
          Text            =   "Prompt/Input:"
          TextAlign       =   0
@@ -150,7 +150,7 @@ Begin Window DemoWindow
          Multiline       =   False
          Scope           =   0
          Selectable      =   False
-         TabIndex        =   2
+         TabIndex        =   21
          TabPanelIndex   =   0
          Text            =   "Reply/Output:"
          TextAlign       =   0
@@ -196,7 +196,7 @@ Begin Window DemoWindow
          ScrollbarHorizontal=   False
          ScrollbarVertical=   True
          Styled          =   True
-         TabIndex        =   3
+         TabIndex        =   22
          TabPanelIndex   =   0
          TabStop         =   True
          Text            =   ""
@@ -229,7 +229,7 @@ Begin Window DemoWindow
          LockRight       =   True
          LockTop         =   True
          Scope           =   0
-         TabIndex        =   4
+         TabIndex        =   24
          TabPanelIndex   =   0
          TabStop         =   True
          Top             =   398
@@ -257,7 +257,7 @@ Begin Window DemoWindow
          Multiline       =   False
          Scope           =   0
          Selectable      =   False
-         TabIndex        =   5
+         TabIndex        =   23
          TabPanelIndex   =   0
          Text            =   "Image output:"
          TextAlign       =   0
@@ -291,7 +291,7 @@ Begin Window DemoWindow
          LockRight       =   True
          LockTop         =   False
          Scope           =   0
-         TabIndex        =   6
+         TabIndex        =   5
          TabPanelIndex   =   0
          TabStop         =   True
          TextFont        =   "System"
@@ -322,7 +322,7 @@ Begin Window DemoWindow
          LockRight       =   True
          LockTop         =   False
          Scope           =   0
-         TabIndex        =   7
+         TabIndex        =   4
          TabPanelIndex   =   0
          TabStop         =   True
          TextFont        =   "System"
@@ -353,7 +353,7 @@ Begin Window DemoWindow
          LockRight       =   True
          LockTop         =   False
          Scope           =   0
-         TabIndex        =   8
+         TabIndex        =   3
          TabPanelIndex   =   0
          TabStop         =   True
          TextFont        =   "System"
@@ -384,7 +384,7 @@ Begin Window DemoWindow
          LockRight       =   True
          LockTop         =   False
          Scope           =   0
-         TabIndex        =   9
+         TabIndex        =   6
          TabPanelIndex   =   0
          TabStop         =   True
          TextFont        =   "System"
@@ -400,7 +400,7 @@ Begin Window DemoWindow
          AutoHideScrollbars=   True
          Bold            =   ""
          Border          =   True
-         ColumnCount     =   1
+         ColumnCount     =   2
          ColumnsResizable=   ""
          ColumnWidths    =   ""
          DataField       =   ""
@@ -413,14 +413,14 @@ Begin Window DemoWindow
          GridLinesVertical=   0
          HasHeading      =   True
          HeadingIndex    =   -1
-         Height          =   184
+         Height          =   189
          HelpTag         =   ""
-         Hierarchical    =   False
+         Hierarchical    =   True
          Index           =   -2147483648
          InitialParent   =   "OpenAIGroup"
-         InitialValue    =   "Select an AI model"
+         InitialValue    =   "AI model	Used for"
          Italic          =   ""
-         Left            =   609
+         Left            =   578
          LockBottom      =   ""
          LockedInPosition=   False
          LockLeft        =   False
@@ -431,17 +431,17 @@ Begin Window DemoWindow
          ScrollbarHorizontal=   ""
          ScrollBarVertical=   True
          SelectionType   =   0
-         TabIndex        =   10
+         TabIndex        =   11
          TabPanelIndex   =   0
          TabStop         =   True
          TextFont        =   "System"
          TextSize        =   0
          TextUnit        =   0
-         Top             =   105
+         Top             =   100
          Underline       =   ""
          UseFocusRing    =   True
          Visible         =   True
-         Width           =   258
+         Width           =   307
          _ScrollWidth    =   -1
       End
       Begin Slider MaxTokensSlider
@@ -463,7 +463,7 @@ Begin Window DemoWindow
          Minimum         =   1
          PageStep        =   32
          Scope           =   0
-         TabIndex        =   11
+         TabIndex        =   16
          TabPanelIndex   =   0
          TabStop         =   True
          TickStyle       =   1
@@ -491,7 +491,7 @@ Begin Window DemoWindow
          Minimum         =   0
          PageStep        =   20
          Scope           =   0
-         TabIndex        =   12
+         TabIndex        =   13
          TabPanelIndex   =   0
          TabStop         =   True
          TickStyle       =   1
@@ -520,7 +520,7 @@ Begin Window DemoWindow
          Multiline       =   ""
          Scope           =   0
          Selectable      =   False
-         TabIndex        =   13
+         TabIndex        =   15
          TabPanelIndex   =   0
          Text            =   "Max tokens:"
          TextAlign       =   2
@@ -554,7 +554,7 @@ Begin Window DemoWindow
          Multiline       =   ""
          Scope           =   0
          Selectable      =   False
-         TabIndex        =   14
+         TabIndex        =   12
          TabPanelIndex   =   0
          Text            =   "Temperature:"
          TextAlign       =   2
@@ -588,7 +588,7 @@ Begin Window DemoWindow
          Multiline       =   ""
          Scope           =   0
          Selectable      =   False
-         TabIndex        =   15
+         TabIndex        =   17
          TabPanelIndex   =   0
          Text            =   64
          TextAlign       =   0
@@ -622,7 +622,7 @@ Begin Window DemoWindow
          Multiline       =   ""
          Scope           =   0
          Selectable      =   False
-         TabIndex        =   16
+         TabIndex        =   14
          TabPanelIndex   =   0
          Text            =   0.00
          TextAlign       =   0
@@ -655,7 +655,7 @@ Begin Window DemoWindow
          Minimum         =   1
          PageStep        =   20
          Scope           =   0
-         TabIndex        =   17
+         TabIndex        =   19
          TabPanelIndex   =   0
          TabStop         =   True
          TickStyle       =   1
@@ -718,7 +718,7 @@ Begin Window DemoWindow
          Multiline       =   ""
          Scope           =   0
          Selectable      =   False
-         TabIndex        =   19
+         TabIndex        =   20
          TabPanelIndex   =   0
          Text            =   1
          TextAlign       =   0
@@ -752,7 +752,7 @@ Begin Window DemoWindow
          LockRight       =   True
          LockTop         =   False
          Scope           =   0
-         TabIndex        =   20
+         TabIndex        =   10
          TabPanelIndex   =   0
          TabStop         =   True
          TextFont        =   "System"
@@ -804,7 +804,7 @@ Begin Window DemoWindow
          LockRight       =   True
          LockTop         =   False
          Scope           =   0
-         TabIndex        =   21
+         TabIndex        =   7
          TabPanelIndex   =   0
          TabStop         =   True
          TextFont        =   "System"
@@ -835,7 +835,7 @@ Begin Window DemoWindow
          LockRight       =   True
          LockTop         =   False
          Scope           =   0
-         TabIndex        =   22
+         TabIndex        =   8
          TabPanelIndex   =   0
          TabStop         =   True
          TextFont        =   "System"
@@ -866,7 +866,7 @@ Begin Window DemoWindow
          LockRight       =   True
          LockTop         =   False
          Scope           =   0
-         TabIndex        =   23
+         TabIndex        =   9
          TabPanelIndex   =   0
          TabStop         =   True
          TextFont        =   "System"
@@ -897,7 +897,7 @@ Begin Window DemoWindow
          Multiline       =   False
          Scope           =   0
          Selectable      =   False
-         TabIndex        =   24
+         TabIndex        =   2
          TabPanelIndex   =   0
          Text            =   "Estimated token usage: 0"
          TextAlign       =   0
@@ -940,7 +940,7 @@ Begin Window DemoWindow
       Password        =   False
       ReadOnly        =   False
       Scope           =   0
-      TabIndex        =   1
+      TabIndex        =   0
       TabPanelIndex   =   0
       TabStop         =   True
       Text            =   ""
@@ -974,7 +974,7 @@ Begin Window DemoWindow
       LockRight       =   True
       LockTop         =   True
       Scope           =   0
-      TabIndex        =   2
+      TabIndex        =   1
       TabPanelIndex   =   0
       TabStop         =   True
       TextFont        =   "System"
@@ -1005,7 +1005,7 @@ Begin Window DemoWindow
       Multiline       =   False
       Scope           =   0
       Selectable      =   False
-      TabIndex        =   3
+      TabIndex        =   4
       TabPanelIndex   =   0
       Text            =   "API Key:"
       TextAlign       =   2
@@ -1052,7 +1052,7 @@ Begin Window DemoWindow
       Multiline       =   ""
       Scope           =   0
       Selectable      =   False
-      TabIndex        =   4
+      TabIndex        =   5
       TabPanelIndex   =   0
       Text            =   "https://github.com/charonn0/Xojo-OpenAI"
       TextAlign       =   1
@@ -1086,7 +1086,7 @@ Begin Window DemoWindow
       Multiline       =   ""
       Scope           =   0
       Selectable      =   False
-      TabIndex        =   5
+      TabIndex        =   3
       TabPanelIndex   =   0
       Text            =   "Waiting for API key"
       TextAlign       =   0
@@ -1105,12 +1105,53 @@ End
 
 #tag WindowCode
 	#tag Method, Flags = &h21
+		Private Shared Sub FillGradient(g As Graphics, StartColor As Color, EndColor As Color)
+		  Dim ratio, endratio as Double
+		  For i As Integer = 0 To g.Height
+		    ratio = ((g.Height - i) / g.Height)
+		    endratio = (i / g.Height)
+		    g.ForeColor = RGB(startColor.Red * endratio + endColor.Red * ratio, startColor.Green * endratio + endColor.Green * ratio, _
+		    startColor.Blue * endratio + endColor.Blue * ratio)
+		    g.DrawLine(0, i, g.Width, i)
+		  next
+		  g.ForeColor = endColor
+		  g.DrawLine(0, 0, g.Width, 0)
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
 		Private Sub LoadModels()
 		  ModelList.DeleteAllRows()
-		  ModelList.AddRow("Automatic")
+		  ModelList.AddFolder("Automatic")
+		  ModelList.Cell(ModelList.LastIndex, 1) = "Any"
 		  For i As Integer = 0 To OpenAI.Model.Count - 1
 		    Dim mdl As OpenAI.Model = OpenAI.Model.Lookup(i)
-		    ModelList.AddRow(mdl.ID)
+		    Dim usedfor As String
+		    Select Case mdl.Endpoint
+		    Case "/v1/audio/transcriptions;/v1/audio/translations"
+		      usedfor = "Audio"
+		      
+		    Case "/v1/chat/completions"
+		      usedfor = "Chat"
+		      
+		    Case "/v1/completions"
+		      usedfor = "Text completion"
+		      
+		    Case "/v1/edits"
+		      usedfor = "Text modification"
+		      
+		    Case "/v1/fine-tunes"
+		      usedfor = "Fine tuning"
+		      
+		    Case "/v1/embeddings"
+		      usedfor = "Embeddings"
+		      
+		    Case "/v1/moderations"
+		      usedfor = "Moderation"
+		    End Select
+		    ModelList.AddFolder(mdl.ID)
+		    ModelList.Cell(ModelList.LastIndex, 1) = usedfor
 		    ModelList.RowTag(ModelList.LastIndex) = mdl
 		  Next
 		  ModelList.ListIndex = 0
@@ -1307,6 +1348,10 @@ End
 
 	#tag Property, Flags = &h21
 		Private mModel As OpenAI.Model
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mModelListHasFocus As Boolean
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
@@ -1513,22 +1558,15 @@ End
 	#tag Event
 		Sub Change()
 		  If Me.ListIndex < 0 Then Return
-		  mModel = Me.RowTag(Me.ListIndex)
-		End Sub
-	#tag EndEvent
-	#tag Event
-		Sub DoubleClick()
-		  If Me.ListIndex > -1 Then
-		    Dim mdl As OpenAI.Model = Me.RowTag(Me.ListIndex)
-		    If mdl <> Nil Then ModelInfoWindow.ShowModel(mdl)
-		  End If
+		  Dim mdl As OpenAI.Model = Me.RowTag(Me.ListIndex)
+		  If mdl <> Nil Then mModel = mdl
 		End Sub
 	#tag EndEvent
 	#tag Event
 		Function KeyDown(Key As String) As Boolean
 		  If Asc(Key) = &h0D And Me.ListIndex > -1 Then
 		    Dim mdl As OpenAI.Model = Me.RowTag(Me.ListIndex)
-		    If mdl <> Nil Then ModelInfoWindow.ShowModel(mdl)
+		    If mdl <> Nil Then Me.Expanded(Me.ListIndex) = Not Me.Expanded(Me.ListIndex)
 		    Return True
 		  End If
 		End Function
@@ -1557,6 +1595,93 @@ End
 		      bs.Close()
 		    End If
 		  End Select
+		  
+		  Return True
+		  
+		End Function
+	#tag EndEvent
+	#tag Event
+		Sub ExpandRow(row As Integer)
+		  Dim mdl As OpenAI.Model = Me.RowTag(row)
+		  If mdl <> Nil Then
+		    Dim props() As Introspection.PropertyInfo = Introspection.GetType(mdl).GetProperties()
+		    For i As Integer = 0 To UBound(props)
+		      If props(i).IsPublic Then
+		        Try
+		          Dim vle As Variant = props(i).Value(mdl)
+		          Me.InsertRow(row + 1, props(i).Name, 1)
+		          If vle IsA OpenAI.Model Then
+		            Dim modl As OpenAI.Model = vle
+		            Me.Cell(Me.LastIndex, 1) = modl.ID
+		          Else
+		            Me.Cell(Me.LastIndex, 1) = vle.StringValue
+		          End If
+		        Catch
+		        End Try
+		      End If
+		    Next
+		    
+		  Else
+		    ' "Automatic" model
+		    Me.InsertRow(row + 1, "Auto", 1)
+		    Me.Cell(Me.LastIndex, 1) = "matic"
+		  End If
+		End Sub
+	#tag EndEvent
+	#tag Event
+		Sub DoubleClick()
+		  Me.Expanded(Me.ListIndex) = Not Me.Expanded(Me.ListIndex)
+		End Sub
+	#tag EndEvent
+	#tag Event
+		Function CellTextPaint(g As Graphics, row As Integer, column As Integer, x as Integer, y as Integer) As Boolean
+		  If Me.Selected(row) Then
+		    g.ForeColor = &cFFFFFF00
+		    g.DrawString(Me.Cell(row, column), x, y)
+		    Return True
+		  End If
+		End Function
+	#tag EndEvent
+	#tag Event
+		Sub GotFocus()
+		  mModelListHasFocus = True
+		End Sub
+	#tag EndEvent
+	#tag Event
+		Sub LostFocus()
+		  mModelListHasFocus = False
+		End Sub
+	#tag EndEvent
+	#tag Event
+		Function CellBackgroundPaint(g As Graphics, row As Integer, column As Integer) As Boolean
+		  Dim start, stop As Color
+		  If row > Me.ListCount - 1 Then Return False
+		  If Me.RowTag(row) <> Nil Or Me.Cell(row, 0) = "Automatic" Then
+		    If Me.Selected(row) Then
+		      If mModelListHasFocus Then
+		        start = &c0080C000
+		        stop = &c7DBEFF00
+		      Else
+		        start = &c80808000
+		        stop = &cC0C0C000
+		      End If
+		      FillGradient(g, start, stop)
+		      If mModelListHasFocus Then
+		        g.ForeColor = &c0080FF00
+		      Else
+		        g.ForeColor = &c80808000
+		      End If
+		      If column = 0 Then
+		        g.DrawRect(0, 0, g.Width + 1, g.Height)
+		      Else
+		        g.DrawRect(-1, 0, g.Width - 2, g.Height)
+		      End If
+		    End If
+		    
+		  Else
+		    g.ForeColor = &cC0C0C000
+		    g.FillRect(0, 0, g.Width, g.Height)
+		  End If
 		  
 		  Return True
 		  

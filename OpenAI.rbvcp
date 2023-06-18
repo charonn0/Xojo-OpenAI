@@ -20,7 +20,6 @@ Class=FineTuneData;OpenAI/FineTuneData.rbbas;&h247617FF;&h755B3FFF;false
 Folder=DemoProject;DemoProject;&h3578F7FF;&h0;false
 Window=DemoWindow;DemoProject/DemoWindow.rbfrm;&h4FC08FFF;&h3578F7FF;false
 Picture=transparencycheckerboard;DemoProject/transparency-checkerboard.png;&h424F6FFF;&h3578F7FF;false;0;&h0
-Window=ModelInfoWindow;DemoProject/ModelInfoWindow.rbfrm;&h71B06FFF;&h3578F7FF;false
 Class=ChatCompletion;OpenAI/ChatCompletion.rbbas;&h50CDAFFF;&h755B3FFF;false
 Class=ChatCompletionData;OpenAI/ChatCompletionData.rbbas;&h6DD957FF;&h755B3FFF;false
 Class=AudioTranscription;OpenAI/AudioTranscription.rbbas;&h4B4F8FFF;&h755B3FFF;false
