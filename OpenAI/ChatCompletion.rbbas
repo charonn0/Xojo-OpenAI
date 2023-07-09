@@ -27,7 +27,7 @@ Inherits OpenAI.Response
 		  If ChatLog = Nil Then ChatLog = New ChatCompletionData()
 		  ChatLog.AddMessage(Role, Content)
 		  Dim request As New OpenAI.Request
-		  If Model = Nil Then Model = "gpt-3.5-turbo"
+		  If Model = Nil Then Model = "gpt-4"
 		  request.Model = Model
 		  request.Messages = ChatLog
 		  Return ChatCompletion.Create(request)
@@ -81,7 +81,7 @@ Inherits OpenAI.Response
 		  
 		  ChatLog.AddMessage(Role, Content)
 		  Dim request As New OpenAI.Request
-		  If Model = Nil Then Model = "gpt-3.5-turbo"
+		  If Model = Nil Then Model = "gpt-4"
 		  request.Model = Model
 		  request.Messages = ChatLog
 		  Return ChatCompletion.CreateNext(request, mClient)

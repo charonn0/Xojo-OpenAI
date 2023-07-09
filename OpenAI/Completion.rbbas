@@ -40,7 +40,7 @@ Inherits OpenAI.Response
 		  ' https://beta.openai.com/docs/api-reference/completions
 		  
 		  Dim request As New OpenAI.Request()
-		  If Model = Nil Then Model = OpenAI.Model.Lookup("text-davinci-003")
+		  If Model = Nil Then Model = OpenAI.Model.Lookup("gpt-3.5-turbo-instruct")
 		  request.Model = Model
 		  request.Prompt = Prompt
 		  If ResultCount > 1 Then request.NumberOfResults = ResultCount
@@ -78,7 +78,7 @@ Inherits OpenAI.Response
 		  ' https://beta.openai.com/docs/api-reference/edits
 		  
 		  Dim request As New OpenAI.Request
-		  If Model = Nil Then Model = OpenAI.Model.Lookup("text-davinci-edit-001")
+		  If Model = Nil Then Model = OpenAI.Model.Lookup("gpt-4")
 		  request.Model = Model
 		  request.Input = TextToEdit
 		  request.Instruction = EditInstruction

@@ -337,6 +337,67 @@ Protected Class Model
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  ' If an AI Model has been deprecated by OpenAI, this property will contain a list
+			  ' of its recommended replacement(s). If a model is not deprecated this property 
+			  ' will be empty.
+			  '
+			  ' See:
+			  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Model.Replacement
+			  ' https://platform.openai.com/docs/deprecations
+			  
+			  Static deprecations As Dictionary
+			  If deprecations = Nil Then
+			    deprecations = New Dictionary( _
+			    "ada":"ada-002",_
+			    "ada":"ada-002",_
+			    "babbage":"babbage-002",_
+			    "babbage":"babbage-002",_
+			    "code-cushman-001":"gpt-4",_
+			    "code-cushman-002":"gpt-4",_
+			    "code-davinci-001":"gpt-4",_
+			    "code-davinci-002":"gpt-4",_
+			    "code-davinci-002":"gpt-3.5-turbo-base",_
+			    "code-davinci-edit-001":"gpt-4",_
+			    "code-search-ada-code-001":"text-embedding-ada-002",_
+			    "code-search-ada-text-001":"text-embedding-ada-002",_
+			    "code-search-babbage-code-001":"text-embedding-ada-002",_
+			    "code-search-babbage-text-001":"text-embedding-ada-002",_
+			    "curie":"curie-002",_
+			    "curie":"curie-002",_
+			    "davinci":"davinci-002",_
+			    "davinci":"davinci-002, gpt-3.5-turbo, gpt-4",_
+			    "gpt-3.5-turbo-0301":"gpt-3.5-turbo-0613",_
+			    "gpt-4-0314":"gpt-4-0613",_
+			    "gpt-4-32k-0314":"gpt-4-32k-0613",_
+			    "text-ada-001":"gpt-3.5-turbo-instruct",_
+			    "text-babbage-001":"gpt-3.5-turbo-instruct",_
+			    "text-curie-001":"gpt-3.5-turbo-instruct",_
+			    "text-davinci-001":"gpt-3.5-turbo-instruct",_
+			    "text-davinci-002":"gpt-3.5-turbo-instruct",_
+			    "text-davinci-003":"gpt-3.5-turbo-instruct",_
+			    "text-davinci-edit-001":"gpt-4",_
+			    "text-search-ada-doc-001":"text-embedding-ada-002",_
+			    "text-search-ada-query-001":"text-embedding-ada-002",_
+			    "text-search-babbage-doc-001":"text-embedding-ada-002",_
+			    "text-search-babbage-query-001":"text-embedding-ada-002",_
+			    "text-search-curie-doc-001":"text-embedding-ada-002",_
+			    "text-search-curie-query-001":"text-embedding-ada-002",_
+			    "text-search-davinci-doc-001":"text-embedding-ada-002",_
+			    "text-search-davinci-query-001":"text-embedding-ada-002",_
+			    "text-similarity-ada-001":"text-embedding-ada-002",_
+			    "text-similarity-babbage-001":"text-embedding-ada-002",_
+			    "text-similarity-curie-001":"text-embedding-ada-002",_
+			    "text-similarity-davinci-001":"text-embedding-ada-002")
+			  End If
+			  Return deprecations.Lookup(Me.ID, "")
+			End Get
+		#tag EndGetter
+		Replacement As String
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
 			  Dim mdl As OpenAI.Model
 			  If mModel.HasName("root") And mModel.Value("root") <> Nil Then
 			    Dim nm As String = mModel.Value("root")
