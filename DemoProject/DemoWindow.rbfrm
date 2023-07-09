@@ -1559,7 +1559,9 @@ End
 		Sub Change()
 		  If Me.ListIndex < 0 Then Return
 		  Dim mdl As OpenAI.Model = Me.RowTag(Me.ListIndex)
-		  If mdl <> Nil Then mModel = mdl
+		  If mdl <> Nil Or Me.Cell(Me.ListIndex, 0) = "Automatic" Then
+		    mModel = mdl
+		  End If
 		End Sub
 	#tag EndEvent
 	#tag Event
@@ -1635,7 +1637,7 @@ End
 	#tag EndEvent
 	#tag Event
 		Function CellTextPaint(g As Graphics, row As Integer, column As Integer, x as Integer, y as Integer) As Boolean
-		  If Me.Selected(row) Then
+		  If Me.Selected(row) And (Me.RowTag(row) <> Nil Or Me.Cell(row, 0) = "Automatic") Then
 		    g.ForeColor = &cFFFFFF00
 		    g.DrawString(Me.Cell(row, column), x, y)
 		    Return True
@@ -1656,34 +1658,33 @@ End
 		Function CellBackgroundPaint(g As Graphics, row As Integer, column As Integer) As Boolean
 		  Dim start, stop As Color
 		  If row > Me.ListCount - 1 Then Return False
-		  If Me.RowTag(row) <> Nil Or Me.Cell(row, 0) = "Automatic" Then
-		    If Me.Selected(row) Then
-		      If mModelListHasFocus Then
-		        start = &c0080C000
-		        stop = &c7DBEFF00
-		      Else
-		        start = &c80808000
-		        stop = &cC0C0C000
-		      End If
-		      FillGradient(g, start, stop)
-		      If mModelListHasFocus Then
-		        g.ForeColor = &c0080FF00
-		      Else
-		        g.ForeColor = &c80808000
-		      End If
-		      If column = 0 Then
-		        g.DrawRect(0, 0, g.Width + 1, g.Height)
-		      Else
-		        g.DrawRect(-1, 0, g.Width - 2, g.Height)
-		      End If
+		  ' If Me.RowTag(row) <> Nil Or Me.Cell(row, 0) = "Automatic" Then
+		  If Me.Selected(row) Then
+		    If mModelListHasFocus Then
+		      start = &c0080C000
+		      stop = &c7DBEFF00
+		    Else
+		      start = &c80808000
+		      stop = &cC0C0C000
 		    End If
-		    
-		  Else
-		    g.ForeColor = &cC0C0C000
-		    g.FillRect(0, 0, g.Width, g.Height)
+		    FillGradient(g, start, stop)
+		    If mModelListHasFocus Then
+		      g.ForeColor = &c0080FF00
+		    Else
+		      g.ForeColor = &c80808000
+		    End If
+		    If column = 0 Then
+		      g.DrawRect(0, 0, g.Width + 1, g.Height)
+		    Else
+		      g.DrawRect(-1, 0, g.Width - 2, g.Height)
+		    End If
 		  End If
-		  
 		  Return True
+		  ' Else
+		  ' g.ForeColor = &cC0C0C000
+		  ' g.FillRect(0, 0, g.Width, g.Height)
+		  ' Return False
+		  ' End If
 		  
 		End Function
 	#tag EndEvent
