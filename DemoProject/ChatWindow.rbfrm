@@ -210,6 +210,7 @@ End
 
 	#tag Method, Flags = &h0
 		Sub Constructor(Model As OpenAI.Model, Backlog As OpenAI.ChatCompletionData = Nil)
+		  If Model = Nil Then Model = OpenAI.Model.Lookup("gpt-4")
 		  mModel = Model
 		  mBacklog = Backlog
 		  // Calling the overridden superclass constructor.
