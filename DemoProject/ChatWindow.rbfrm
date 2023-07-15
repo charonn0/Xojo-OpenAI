@@ -263,7 +263,7 @@ End
 		    End If
 		  End If
 		  ChatMessageField.Text = ""
-		  Me.Enabled = True
+		  Me.Caption = "Waiting"
 		End Sub
 	#tag EndEvent
 #tag EndEvents
@@ -323,6 +323,7 @@ End
 		    End If
 		  End If
 		  SendMsgBtn.Enabled = True
+		  SendMsgBtn.Caption = "Send"
 		End Sub
 	#tag EndEvent
 #tag EndEvents
