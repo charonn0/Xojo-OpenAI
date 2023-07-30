@@ -2,12 +2,12 @@
 Protected Module OpenAI
 	#tag Method, Flags = &h1
 		Protected Function EstimateTokenCount(Text As String, Method As OpenAI.TokenEstimationMethod = OpenAI.TokenEstimationMethod.Max) As Double
-		  ' method can be "average", "words", "chars", "max", "min", defaults To "max"
-		  ' "average" Is the average Of words And chars
-		  ' "words" Is the word count divided by 0.75
-		  ' "chars" Is the char count divided by 4
-		  ' "max" Is the Max Of word And char
-		  ' "min" Is the Min Of word And char
+		  ' Method can be Average, Words, Charaters, Max, or Min. Defaults To Max
+		  ' Words is the word count divided by 0.75
+		  ' Characters is the char count divided by 4
+		  ' Average is the average of Words and Characters
+		  ' Max is the larger of Words and Characters
+		  ' Min is the smaller of Words and Characters
 		  
 		  Dim wordcount As Integer = CountFields(text, " ")
 		  Dim charcount As Integer = text.Len
@@ -16,10 +16,11 @@ Protected Module OpenAI
 		  
 		  Static punc() As String = Split("!@#$%^&*()_+=-][\|}{';"":/.,?><`~", "")
 		  Dim extratokens As Integer
-		  For i As Integer = 1 To Text.Len
-		    Dim s As String = Text.Mid(i, 1)
+		  Dim bs As New BinaryStream(Text)
+		  Do Until bs.EOF
+		    Dim s As String = bs.Read(1)
 		    If punc.IndexOf(s) > -1 Then extratokens = extratokens + 1
-		  Next
+		  Loop
 		  
 		  wordestimate = wordestimate + extratokens
 		  charestimate = charestimate + extratokens
@@ -102,7 +103,7 @@ Protected Module OpenAI
 	#tag Constant, Name = OPENAI_URL, Type = String, Dynamic = False, Default = \"https://api.openai.com", Scope = Private
 	#tag EndConstant
 
-	#tag Constant, Name = USER_AGENT_STRING, Type = String, Dynamic = False, Default = \"Xojo-OpenAI/0.1", Scope = Private
+	#tag Constant, Name = USER_AGENT_STRING, Type = String, Dynamic = False, Default = \"Xojo-OpenAI/1.0", Scope = Private
 	#tag EndConstant
 
 	#tag Constant, Name = USE_MBS, Type = Boolean, Dynamic = False, Default = \"True", Scope = Private
