@@ -459,7 +459,7 @@ Begin Window DemoWindow
          LockLeft        =   False
          LockRight       =   True
          LockTop         =   False
-         Maximum         =   2048
+         Maximum         =   32768
          Minimum         =   1
          PageStep        =   32
          Scope           =   0
@@ -1693,7 +1693,7 @@ End
 	#tag Event
 		Sub ValueChanged()
 		  mMaxTokens = Me.Value
-		  MaxTokensLbl.Text = Format(mMaxTokens, "#,##0")
+		  MaxTokensLbl.Text = Format(mMaxTokens, "##,##0")
 		End Sub
 	#tag EndEvent
 #tag EndEvents
