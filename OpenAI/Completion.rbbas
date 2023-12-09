@@ -131,7 +131,6 @@ Inherits OpenAI.Response
 		  End If
 		  If Request.MaskImage <> Nil Then Return ValidationError.MaskImage
 		  If Request.Model = Nil Then Return ValidationError.Model ' required
-		  If Request.MaxTokens > Request.Model.MaxTokens Then Return ValidationError.MaxTokens
 		  If Request.Model.Endpoint <> "/v1/completions" Then Return ValidationError.Model
 		  If Request.NumberOfEpochs <> 1 Then Return ValidationError.NumberOfEpochs
 		  If Request.NumberOfResults < 1 Then Return ValidationError.NumberOfResults
