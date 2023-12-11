@@ -112,7 +112,7 @@ Inherits OpenAI.Response
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		 Shared Function Generate(Prompt As String, Size As String = "1024x1024", AsURL As Boolean = False) As OpenAI.Image
+		 Shared Function Generate(Prompt As String, Size As String = "1024x1024", AsURL As Boolean = False, Model As OpenAI.Model = Nil) As OpenAI.Image
 		  ' Generate one or more images according to a natural language prompt.
 		  '
 		  ' See:
@@ -120,6 +120,7 @@ Inherits OpenAI.Response
 		  ' https://beta.openai.com/docs/api-reference/images/create
 		  
 		  Dim request As New OpenAI.Request()
+		  request.Model = Model
 		  request.Prompt = Prompt
 		  request.Size = Size
 		  request.ResultsAsURL = AsURL
