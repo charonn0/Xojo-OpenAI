@@ -120,6 +120,7 @@ Inherits OpenAI.Response
 		  ' https://beta.openai.com/docs/api-reference/images/create
 		  
 		  Dim request As New OpenAI.Request()
+		  If Model = Nil Then Model = "dall-e-3"
 		  request.Model = Model
 		  request.Prompt = Prompt
 		  request.Size = Size
