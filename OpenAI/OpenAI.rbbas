@@ -142,6 +142,7 @@ Protected Module OpenAI
 		  FileName
 		  FineTuneID
 		  FrequencyPenalty
+		  HighQuality
 		  Input
 		  Instruction
 		  Language
@@ -162,6 +163,7 @@ Protected Module OpenAI
 		  Size
 		  SourceImage
 		  Stop
+		  Style
 		  Suffix
 		  Temperature
 		  Top_P

@@ -203,6 +203,24 @@ Protected Class Request
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  If mRequest.HasName("quality") Then Return (mRequest.Value("quality") = "hd")
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  If value Then
+			    Set("quality", "hd")
+			  Else
+			    UnSet("quality")
+			  End If
+			End Set
+		#tag EndSetter
+		HighQuality As Boolean
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
 			  If mRequest.HasName("input") Then Return mRequest.Value("input")
 			End Get
 		#tag EndGetter
@@ -637,6 +655,20 @@ Protected Class Request
 			End Set
 		#tag EndSetter
 		Stop As String
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  Return mRequest.Lookup("style", "")
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  mRequest.Value("style") = value
+			End Set
+		#tag EndSetter
+		Style As String
 	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0

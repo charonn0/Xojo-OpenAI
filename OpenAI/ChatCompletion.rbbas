@@ -134,6 +134,7 @@ Inherits OpenAI.Response
 		  If Request.FileName <> "" Then Return ValidationError.FileName
 		  If Request.FineTuneID <> "" Then Return ValidationError.FineTuneID
 		  ' If Request.FrequencyPenalty > 0.00001 Then Return ValidationError.FrequencyPenalty
+		  If Request.IsSet("quality") Then Return ValidationError.HighQuality
 		  If Request.Input <> "" Then Return ValidationError.Input
 		  If Request.Instruction <> "" Then Return ValidationError.Instruction
 		  If Request.Language <> "" Then Return ValidationError.Language
@@ -164,6 +165,7 @@ Inherits OpenAI.Response
 		  If Request.Size <> "" Then Return ValidationError.Size
 		  If Request.SourceImage <> Nil Then Return ValidationError.SourceImage
 		  ' If Request.Stop <> "" Then Return ValidationError.Stop
+		  If Request.IsSet("style") Then Return ValidationError.Style
 		  If Request.Suffix <> "" Then Return ValidationError.Suffix
 		  ' If Request.Temperature > 0.00001 Then Return ValidationError.Temperature
 		  ' If Request.Top_P > 0.00001 Then Return ValidationError.Top_P

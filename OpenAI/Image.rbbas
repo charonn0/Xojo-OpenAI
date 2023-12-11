@@ -167,6 +167,7 @@ Inherits OpenAI.Response
 		  If Request.FileName <> "" Then Return ValidationError.FileName
 		  ' If Request.FineTuneID <> "" Then Return ValidationError.FineTuneID
 		  If Request.FrequencyPenalty > 0.00001 Then Return ValidationError.FrequencyPenalty
+		  ' If Request.IsSet("quality") Then Return ValidationError.HighQuality
 		  If Request.Input <> "" Then Return ValidationError.Input
 		  If Request.Instruction <> "" Then Return ValidationError.Instruction
 		  If Request.Language <> "" Then Return ValidationError.Language
@@ -180,7 +181,7 @@ Inherits OpenAI.Response
 		  End If
 		  If Request.MaxTokens > 1 Then Return ValidationError.MaxTokens
 		  ' If Request.MaxTokens >= 2048 Then Return ValidationError.MaxTokens
-		  If Request.Model <> Nil Then Return ValidationError.Model
+		  ' If Request.Model <> Nil Then Return ValidationError.Model
 		  If Request.NumberOfEpochs <> 1 Then Return ValidationError.NumberOfEpochs
 		  If Request.NumberOfResults < 1 Then Return ValidationError.NumberOfResults ' optional
 		  If Request.PresencePenalty > 0.00001 Then Return ValidationError.PresencePenalty
@@ -206,6 +207,7 @@ Inherits OpenAI.Response
 		    If Request.SourceImage.Width <> Request.SourceImage.Height Then Return ValidationError.SourceImage
 		  End If
 		  If Request.Stop <> "" Then Return ValidationError.Stop
+		  ' If Request.IsSet("style") Then Return ValidationError.Style
 		  If Request.Suffix <> "" Then Return ValidationError.Suffix
 		  If Request.Temperature > 0.00001 Then Return ValidationError.Temperature
 		  If Request.Top_P > 0.00001 Then Return ValidationError.Top_P

@@ -39,6 +39,8 @@ Inherits RuntimeException
 		    err = "FineTuneID"
 		  Case ValidationError.FrequencyPenalty
 		    err = "FrequencyPenalty"
+		  Case ValidationError.HighQuality
+		    err = "HighQuality"
 		  Case ValidationError.Input
 		    err = "Input"
 		  Case ValidationError.Instruction
@@ -75,6 +77,8 @@ Inherits RuntimeException
 		    err = "SourceImage"
 		  Case ValidationError.Stop
 		    err = "Stop"
+		  Case ValidationError.Style
+		    err = "Style"
 		  Case ValidationError.Suffix
 		    err = "Suffix"
 		  Case ValidationError.Temperature
