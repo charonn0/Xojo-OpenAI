@@ -49,10 +49,11 @@ Inherits OpenAI.Response
 		    If err <> ValidationError.None Then Raise New OpenAIException(err)
 		  End If
 		  Dim client As New OpenAIClient
-		  Dim response As JSONItem = Response.CreateRaw(client, "/v1/chat/completions", request)
-		  If response = Nil Or response.HasName("error") Then Raise New OpenAIException(response)
+		  Dim result As JSONItem = Response.CreateRaw(client, "/v1/chat/completions", request)
+		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
+		  If Not result.HasName("model") And Request.Model <> Nil Then result.Value("model") = Request.Model.ID
 		  Dim msgs As JSONItem = Request.Messages
-		  Return New OpenAI.ChatCompletion(response, client, New ChatCompletionData(msgs))
+		  Return New OpenAI.ChatCompletion(result, client, New ChatCompletionData(msgs))
 		  
 		End Function
 	#tag EndMethod

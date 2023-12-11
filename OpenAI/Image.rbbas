@@ -25,6 +25,7 @@ Inherits OpenAI.Response
 		  Dim client As New OpenAIClient
 		  Dim result As JSONItem = Response.CreateRaw(client, "/v1/images/variations", Request)
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
+		  If Not result.HasName("model") And Request.Model <> Nil Then result.Value("model") = Request.Model.ID
 		  Return New OpenAI.Image(result, client)
 		End Function
 	#tag EndMethod
@@ -69,6 +70,7 @@ Inherits OpenAI.Response
 		  Dim client As New OpenAIClient
 		  Dim result As JSONItem = Response.CreateRaw(client, "/v1/images/edits", Request)
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
+		  If Not result.HasName("model") And Request.Model <> Nil Then result.Value("model") = Request.Model.ID
 		  Return New OpenAI.Image(result, client)
 		End Function
 	#tag EndMethod
@@ -107,6 +109,7 @@ Inherits OpenAI.Response
 		  Dim client As New OpenAIClient
 		  Dim result As JSONItem = Response.CreateRaw(client, "/v1/images/generations", Request)
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
+		  If Not result.HasName("model") And Request.Model <> Nil Then result.Value("model") = Request.Model.ID
 		  Return New OpenAI.Image(result, client)
 		End Function
 	#tag EndMethod

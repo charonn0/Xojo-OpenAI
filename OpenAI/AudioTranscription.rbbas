@@ -64,6 +64,7 @@ Inherits OpenAI.Response
 		  client.ForceHTTP1_1 = True
 		  Dim result As JSONItem = Response.CreateRaw(client, "/v1/audio/transcriptions", Request)
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
+		  If Not result.HasName("model") And Request.Model <> Nil Then result.Value("model") = Request.Model.ID
 		  Return New OpenAI.AudioTranscription(result, client)
 		End Function
 	#tag EndMethod

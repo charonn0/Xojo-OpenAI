@@ -24,9 +24,10 @@ Inherits OpenAI.Response
 		    If err <> ValidationError.None Then Raise New OpenAIException(err)
 		  End If
 		  Dim client As New OpenAIClient
-		  Dim response As JSONItem = Response.CreateRaw(client, "/v1/completions", request)
-		  If response = Nil Or response.HasName("error") Then Raise New OpenAIException(response)
-		  Return New OpenAI.Completion(response, client)
+		  Dim result As JSONItem = Response.CreateRaw(client, "/v1/completions", request)
+		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
+		  If Not result.HasName("model") And Request.Model <> Nil Then result.Value("model") = Request.Model.ID
+		  Return New OpenAI.Completion(result, client)
 		  
 		End Function
 	#tag EndMethod
