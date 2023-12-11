@@ -118,7 +118,8 @@ Protected Module OpenAI
 		  Picture
 		  PictureURL
 		  FileObject
-		JSONObject
+		  JSONObject
+		Audio
 	#tag EndEnum
 
 	#tag Enum, Name = TokenEstimationMethod, Type = Integer, Flags = &h1
@@ -161,6 +162,7 @@ Protected Module OpenAI
 		  Purpose
 		  ResultsAsType
 		  Size
+		  Speed
 		  SourceImage
 		  Stop
 		  Style
@@ -169,6 +171,7 @@ Protected Module OpenAI
 		  Top_P
 		  TrainingFile
 		  ValidationFile
+		  Voice
 		  None
 		ResultsAsURL=ValidationError.ResultsAsType
 	#tag EndEnum

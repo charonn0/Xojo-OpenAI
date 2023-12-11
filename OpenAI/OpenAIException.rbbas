@@ -73,6 +73,8 @@ Inherits RuntimeException
 		    err = "ResultsAsURL"
 		  Case ValidationError.Size
 		    err = "Size"
+		  Case ValidationError.Speed
+		    err = "Speed"
 		  Case ValidationError.SourceImage
 		    err = "SourceImage"
 		  Case ValidationError.Stop
@@ -89,6 +91,8 @@ Inherits RuntimeException
 		    err = "TrainingFile"
 		  Case ValidationError.ValidationFile
 		    err = "ValidationFile"
+		  Case ValidationError.Voice
+		    err = "Voice"
 		  End Select
 		  
 		  Me.Message = "Request parameter " + err + " appears to be invalid."

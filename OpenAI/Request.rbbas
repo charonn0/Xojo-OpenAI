@@ -487,6 +487,24 @@ Protected Class Request
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  Return ResponseFormat = "aac"
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  If value Then
+			    ResponseFormat = "aac"
+			  Else
+			    UnSet("response_format")
+			  End If
+			End Set
+		#tag EndSetter
+		ResultsAsAAC As Boolean
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
 			  Return ResponseFormat = "b64_json"
 			End Get
 		#tag EndGetter
@@ -500,6 +518,24 @@ Protected Class Request
 			End Set
 		#tag EndSetter
 		ResultsAsBase64 As Boolean
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  Return ResponseFormat = "flac"
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  If value Then
+			    ResponseFormat = "flac"
+			  Else
+			    UnSet("response_format")
+			  End If
+			End Set
+		#tag EndSetter
+		ResultsAsFLAC As Boolean
 	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0
@@ -536,6 +572,42 @@ Protected Class Request
 			End Set
 		#tag EndSetter
 		ResultsAsJSON_Verbose As Boolean
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  Return ResponseFormat = "mp3"
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  If value Then
+			    ResponseFormat = "mp3"
+			  Else
+			    UnSet("response_format")
+			  End If
+			End Set
+		#tag EndSetter
+		ResultsAsMP3 As Boolean
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  Return ResponseFormat = "opus"
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  If value Then
+			    ResponseFormat = "opus"
+			  Else
+			    UnSet("response_format")
+			  End If
+			End Set
+		#tag EndSetter
+		ResultsAsOpus As Boolean
 	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0
@@ -641,6 +713,20 @@ Protected Class Request
 			End Set
 		#tag EndSetter
 		SourceImage As Picture
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mRequest.HasName("speed") Then Return mRequest.Value("speed")
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  mRequest.Value("speed") = value
+			End Set
+		#tag EndSetter
+		Speed As Single
 	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0
@@ -753,6 +839,20 @@ Protected Class Request
 			End Set
 		#tag EndSetter
 		ValidationFile As String
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  Return mRequest.Lookup("voice", "")
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  mRequest.Value("voice") = value
+			End Set
+		#tag EndSetter
+		Voice As String
 	#tag EndComputedProperty
 
 

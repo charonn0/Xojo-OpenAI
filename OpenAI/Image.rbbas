@@ -197,6 +197,10 @@ Inherits OpenAI.Response
 		  If Request.ResultsAsText = True Then Return ValidationError.ResultsAsType
 		  ' If Request.ResultsAsURL = True Then Return ValidationError.ResultsAsURL
 		  If Request.ResultsAsVTT = True Then Return ValidationError.ResultsAsType
+		  If Request.ResultsAsMP3 = True Then Return ValidationError.ResultsAsType
+		  If Request.ResultsAsOpus = True Then Return ValidationError.ResultsAsType
+		  If Request.ResultsAsAAC = True Then Return ValidationError.ResultsAsType
+		  If Request.ResultsAsFLAC = True Then Return ValidationError.ResultsAsType
 		  If Request.Size <> "" Then
 		    Select Case Request.Size
 		    Case "256x256", "512x512", "1024x1024"
@@ -204,6 +208,7 @@ Inherits OpenAI.Response
 		      Return ValidationError.Size
 		    End Select
 		  End If
+		  If Request.IsSet("speed") Then Return ValidationError.Speed
 		  If Request.SourceImage <> Nil Then
 		    If Request.SourceImage.Width <> Request.SourceImage.Height Then Return ValidationError.SourceImage
 		  End If
@@ -214,6 +219,7 @@ Inherits OpenAI.Response
 		  If Request.Top_P > 0.00001 Then Return ValidationError.Top_P
 		  If Request.TrainingFile <> "" Then Return ValidationError.TrainingFile
 		  If Request.ValidationFile <> "" Then Return ValidationError.ValidationFile
+		  If Request.Voice <> "" Then Return ValidationError.Voice
 		  Return ValidationError.None
 		End Function
 	#tag EndMethod
