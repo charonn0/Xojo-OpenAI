@@ -1149,6 +1149,13 @@ End
 		      
 		    Case "/v1/moderations"
 		      usedfor = "Moderation"
+		      
+		    Case "/v1/images/generations"
+		      usedfor = "Image generating"
+		      
+		    Case "/v1/audio/speech"
+		      usedfor = "Text-to-Speech"
+		      
 		    End Select
 		    ModelList.AddFolder(mdl.ID)
 		    ModelList.Cell(ModelList.LastIndex, 1) = usedfor
