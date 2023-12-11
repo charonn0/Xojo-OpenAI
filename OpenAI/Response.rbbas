@@ -213,6 +213,18 @@ Protected Class Response
 		Protected mClient As OpenAIClient
 	#tag EndProperty
 
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mResponse.HasName("model") Then
+			    Return OpenAI.Model.Lookup(mResponse.Value("model").StringValue)
+			  End If
+			  
+			End Get
+		#tag EndGetter
+		Model As OpenAI.Model
+	#tag EndComputedProperty
+
 	#tag Property, Flags = &h1
 		Protected mResponse As JSONItem
 	#tag EndProperty
