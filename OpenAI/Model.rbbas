@@ -28,8 +28,20 @@ Protected Class Model
 		    mEndpoint = "/v1/embeddings"
 		  Case "text-moderation-stable", "text-moderation-latest"
 		    mEndpoint = "/v1/moderations"
+		  Case "tts-1", "tts-1-hd"
+		    mEndpoint = "/v1/audio/speech"
+		  Case "dall-e-2", "dall-e-2"
+		    mEndpoint = "/v1/images/generations"
 		  Else
-		    mEndpoint = ""
+		    If Left(Me.ID, 3) = "GPT" Then
+		      mEndpoint = "/v1/chat/completions"
+		    ElseIf Left(Me.ID, 4) = "dall" Then
+		      mEndpoint = "/v1/images/generations"
+		    ElseIf Left(Me.ID, 3) = "tts" Then
+		      mEndpoint = "/v1/audio/speech"
+		    Else
+		      mEndpoint = ""
+		    End If
 		  End Select
 		End Sub
 	#tag EndMethod
