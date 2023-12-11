@@ -1163,9 +1163,10 @@ End
 		  #pragma Unused Sender
 		  Dim request As New OpenAI.Request()
 		  request.Prompt = mAPIPrompt
-		  request.Size = "512x512"
+		  request.Size = "1024x1024"
 		  request.ResultsAsURL = False
 		  If mResultCount > 1 And mResultCount <= 10 Then request.NumberOfResults = mResultCount
+		  If mModel <> Nil Then request.Model = mModel Else request.Model = "dall-e-2"
 		  mAPIReply = OpenAI.Image.Generate(request)
 		  RefreshTimer.Mode = Timer.ModeSingle
 		  
@@ -1180,9 +1181,10 @@ End
 		  #pragma Unused Sender
 		  Dim request As New OpenAI.Request()
 		  request.Prompt = mAPIPrompt
-		  request.Size = "512x512"
+		  request.Size = "1024x1024"
 		  request.ResultsAsURL = True
 		  If mResultCount > 1 And mResultCount <= 10 Then request.NumberOfResults = mResultCount
+		  If mModel <> Nil Then request.Model = mModel Else request.Model = "dall-e-2"
 		  mAPIReply = OpenAI.Image.Generate(request)
 		  RefreshTimer.Mode = Timer.ModeSingle
 		  
