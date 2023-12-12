@@ -200,10 +200,7 @@ Protected Class Response
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
-			  Return mResponse.Value("id")
-			  
-			  Exception err As KeyNotFoundException
-			    Return ""
+			  Return mResponse.Lookup("id", "")
 			End Get
 		#tag EndGetter
 		ID As String
