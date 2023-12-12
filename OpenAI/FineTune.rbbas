@@ -1,5 +1,5 @@
 #tag Class
-Protected Class FineTune
+ Attributes ( deprecated ) Protected Class FineTune
 Inherits OpenAI.Model
 	#tag Method, Flags = &h0
 		Sub Cancel()
@@ -51,7 +51,7 @@ Inherits OpenAI.Model
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		 Shared Function Create(TrainingFile As OpenAI.File, BaseModel As OpenAI.Model, Name As String = "") As OpenAI.FineTune
+		Attributes( deprecated )  Shared Function Create(TrainingFile As OpenAI.File, BaseModel As OpenAI.Model, Name As String = "") As OpenAI.FineTune
 		  If Not BaseModel.AllowFineTuning Then
 		    Raise New OpenAIException("The specified AI model ('" + BaseModel.ID + "') cannot be fine-tuned.")
 		  End If
@@ -80,7 +80,7 @@ Inherits OpenAI.Model
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		 Shared Function Create(TrainingFileID As String, BaseModel As OpenAI.Model, Name As String = "") As OpenAI.FineTune
+		Attributes( deprecated )  Shared Function Create(TrainingFileID As String, BaseModel As OpenAI.Model, Name As String = "") As OpenAI.FineTune
 		  Dim file As OpenAI.File = OpenAI.File.Lookup(TrainingFileID)
 		  If file = Nil Then
 		    Raise New OpenAIException("The specified training file ('" + TrainingFileID + "') was not found on the server.")

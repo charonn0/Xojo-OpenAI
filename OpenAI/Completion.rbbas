@@ -1,5 +1,5 @@
 #tag Class
-Protected Class Completion
+ Attributes ( deprecated ) Protected Class Completion
 Inherits OpenAI.Response
 	#tag Method, Flags = &h1001
 		Protected Sub Constructor(ResponseData As JSONItem, Client As OpenAIClient)
@@ -11,7 +11,7 @@ Inherits OpenAI.Response
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		 Shared Function Create(Request As OpenAI.Request) As OpenAI.Completion
+		Attributes( deprecated )  Shared Function Create(Request As OpenAI.Request) As OpenAI.Completion
 		  ' Given a prompt, the model will return one or more predicted completions, and can also
 		  ' return the probabilities of alternative tokens at each position.
 		  ' 
@@ -33,7 +33,7 @@ Inherits OpenAI.Response
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		 Shared Function Create(Prompt As String, ResultCount As Integer = 1, Model As OpenAI.Model = Nil) As OpenAI.Completion
+		Attributes( deprecated )  Shared Function Create(Prompt As String, ResultCount As Integer = 1, Model As OpenAI.Model = Nil) As OpenAI.Completion
 		  ' Given a prompt, the model will return one or more predicted completions.
 		  '
 		  ' See:
@@ -50,7 +50,7 @@ Inherits OpenAI.Response
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		 Shared Function Edit(Request As OpenAI.Request) As OpenAI.Completion
+		Attributes( deprecated )  Shared Function Edit(Request As OpenAI.Request) As OpenAI.Completion
 		  ' Given a prompt and an instruction, the model will return an edited version of the prompt.
 		  '
 		  ' See:
@@ -71,7 +71,7 @@ Inherits OpenAI.Response
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		 Shared Function Edit(TextToEdit As String, EditInstruction As String, ResultCount As Integer = 1, Model As OpenAI.Model = Nil) As OpenAI.Completion
+		Attributes( deprecated )  Shared Function Edit(TextToEdit As String, EditInstruction As String, ResultCount As Integer = 1, Model As OpenAI.Model = Nil) As OpenAI.Completion
 		  ' Given a prompt and an instruction, the model will return an edited version of the prompt.
 		  '
 		  ' See:
