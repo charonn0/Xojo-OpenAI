@@ -17,7 +17,7 @@ Inherits OpenAI.Response
 		  ' 
 		  ' See:
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Completion.Create
-		  ' https://beta.openai.com/docs/api-reference/completions
+		  ' https://platform.openai.com/docs/api-reference/completions
 		  
 		  If Completion.Prevalidate Then
 		    Dim err As ValidationError = Completion.IsValid(Request)
@@ -38,7 +38,7 @@ Inherits OpenAI.Response
 		  '
 		  ' See:
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Completion.Create
-		  ' https://beta.openai.com/docs/api-reference/completions
+		  ' https://platform.openai.com/docs/api-reference/completions
 		  
 		  Dim request As New OpenAI.Request()
 		  If Model = Nil Then Model = OpenAI.Model.Lookup("gpt-3.5-turbo-instruct")
@@ -55,7 +55,7 @@ Inherits OpenAI.Response
 		  '
 		  ' See:
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Completion.Edit
-		  ' https://beta.openai.com/docs/api-reference/edits
+		  ' https://platform.openai.com/docs/api-reference/edits
 		  
 		  
 		  If Completion.Prevalidate Then
@@ -76,7 +76,7 @@ Inherits OpenAI.Response
 		  '
 		  ' See:
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Completion.Edit
-		  ' https://beta.openai.com/docs/api-reference/edits
+		  ' https://platform.openai.com/docs/api-reference/edits
 		  
 		  Dim request As New OpenAI.Request
 		  If Model = Nil Then Model = OpenAI.Model.Lookup("text-davinci-edit-001")

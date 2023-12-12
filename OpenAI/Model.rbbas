@@ -129,7 +129,7 @@ Protected Class Model
 
 
 	#tag Note, Name = About models
-		https://beta.openai.com/docs/models/overview
+		https://platform.openai.com/docs/models/overview
 	#tag EndNote
 
 

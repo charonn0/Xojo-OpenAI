@@ -16,7 +16,7 @@ Inherits OpenAI.Response
 		  '
 		  ' See:
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Image.CreateVariation
-		  ' https://beta.openai.com/docs/api-reference/images/create-variation
+		  ' https://platform.openai.com/docs/api-reference/images/create-variation
 		  
 		  If Image.Prevalidate Then
 		    Dim err As ValidationError = Image.IsValid(Request)
@@ -36,7 +36,7 @@ Inherits OpenAI.Response
 		  '
 		  ' See:
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Image.CreateVariation
-		  ' https://beta.openai.com/docs/api-reference/images/create-variation
+		  ' https://platform.openai.com/docs/api-reference/images/create-variation
 		  
 		  Dim request As New OpenAI.Request()
 		  request.SourceImage = Prompt
@@ -53,7 +53,7 @@ Inherits OpenAI.Response
 		  '
 		  ' See:
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Image.Edit
-		  ' https://beta.openai.com/docs/api-reference/images/create-edit
+		  ' https://platform.openai.com/docs/api-reference/images/create-edit
 		  
 		  If Image.Prevalidate Then
 		    Dim err As ValidationError = Image.IsValid(Request)
@@ -82,7 +82,7 @@ Inherits OpenAI.Response
 		  '
 		  ' See:
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Image.Edit
-		  ' https://beta.openai.com/docs/api-reference/images/create-edit
+		  ' https://platform.openai.com/docs/api-reference/images/create-edit
 		  
 		  Dim request As New OpenAI.Request()
 		  request.Prompt = Prompt
@@ -100,7 +100,7 @@ Inherits OpenAI.Response
 		  '
 		  ' See:
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Image.Generate
-		  ' https://beta.openai.com/docs/api-reference/images/create
+		  ' https://platform.openai.com/docs/api-reference/images/create
 		  
 		  If Image.Prevalidate Then
 		    Dim err As ValidationError = Image.IsValid(Request)
@@ -120,7 +120,7 @@ Inherits OpenAI.Response
 		  '
 		  ' See:
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Image.Generate
-		  ' https://beta.openai.com/docs/api-reference/images/create
+		  ' https://platform.openai.com/docs/api-reference/images/create
 		  
 		  Dim request As New OpenAI.Request()
 		  If Model = Nil Then Model = "dall-e-3"

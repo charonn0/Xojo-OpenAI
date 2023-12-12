@@ -27,7 +27,7 @@ Inherits OpenAI.Response
 		  '
 		  ' See:
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.File.Create
-		  ' https://beta.openai.com/docs/api-reference/files/upload
+		  ' https://platform.openai.com/docs/api-reference/files/upload
 		  
 		  If FileName = "" Then FileName = FileContent.Name
 		  Dim bs As BinaryStream = BinaryStream.Open(FileContent)
@@ -43,7 +43,7 @@ Inherits OpenAI.Response
 		  '
 		  ' See:
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.File.Create
-		  ' https://beta.openai.com/docs/api-reference/files/upload
+		  ' https://platform.openai.com/docs/api-reference/files/upload
 		  
 		  Dim request As New OpenAI.Request
 		  Dim client As New OpenAIClient
@@ -68,7 +68,7 @@ Inherits OpenAI.Response
 		  '
 		  ' See:
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.File.Create
-		  ' https://beta.openai.com/docs/api-reference/files/upload
+		  ' https://platform.openai.com/docs/api-reference/files/upload
 		  
 		  Return File.Create(FileContent.ToString, "fine-tune", FileName)
 		End Function
