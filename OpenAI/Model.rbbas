@@ -30,7 +30,7 @@ Protected Class Model
 		    mEndpoint = "/v1/moderations"
 		  Case "tts-1", "tts-1-hd"
 		    mEndpoint = "/v1/audio/speech"
-		  Case "dall-e-2", "dall-e-2"
+		  Case "dall-e-2", "dall-e-3"
 		    mEndpoint = "/v1/images/generations"
 		  Else
 		    If Left(Me.ID, 3) = "GPT" Then
