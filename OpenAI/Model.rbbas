@@ -256,6 +256,7 @@ Protected Class Model
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  If Not mModel.HasName("permission") Then Return ""
 			  Dim perms As JSONItem = mModel.Value("permission")
 			  perms = perms.Child(0)
 			  If perms.Value("group") <> Nil Then Return perms.Value("group")
@@ -282,6 +283,7 @@ Protected Class Model
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  If Not mModel.HasName("permission") Then Return False
 			  Dim perms As JSONItem = mModel.Value("permission")
 			  perms = perms.Child(0)
 			  Return perms.Value("is_blocking")
@@ -308,6 +310,7 @@ Protected Class Model
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  If Not mModel.HasName("permission") Then Return ""
 			  Dim perms As JSONItem = mModel.Value("permission")
 			  perms = perms.Child(0)
 			  Return perms.Value("organization")
