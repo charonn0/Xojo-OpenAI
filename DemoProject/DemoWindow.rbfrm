@@ -271,37 +271,6 @@ Begin Window DemoWindow
          Visible         =   True
          Width           =   186
       End
-      Begin PushButton DoCompletionBtn
-         AutoDeactivate  =   True
-         Bold            =   False
-         ButtonStyle     =   0
-         Cancel          =   False
-         Caption         =   "Submit a natural language prompt"
-         Default         =   False
-         Enabled         =   True
-         Height          =   22
-         HelpTag         =   ""
-         Index           =   -2147483648
-         InitialParent   =   "OpenAIGroup"
-         Italic          =   False
-         Left            =   364
-         LockBottom      =   False
-         LockedInPosition=   False
-         LockLeft        =   False
-         LockRight       =   True
-         LockTop         =   False
-         Scope           =   0
-         TabIndex        =   5
-         TabPanelIndex   =   0
-         TabStop         =   True
-         TextFont        =   "System"
-         TextSize        =   0.0
-         TextUnit        =   0
-         Top             =   143
-         Underline       =   False
-         Visible         =   True
-         Width           =   209
-      End
       Begin PushButton DoGenImageURLBtn
          AutoDeactivate  =   True
          Bold            =   False
@@ -390,7 +359,7 @@ Begin Window DemoWindow
          TextFont        =   "System"
          TextSize        =   0.0
          TextUnit        =   0
-         Top             =   164
+         Top             =   142
          Underline       =   False
          Visible         =   True
          Width           =   209
@@ -911,6 +880,37 @@ Begin Window DemoWindow
          Visible         =   True
          Width           =   286
       End
+      Begin PushButton DoSpeechSynthBtn
+         AutoDeactivate  =   True
+         Bold            =   False
+         ButtonStyle     =   0
+         Cancel          =   False
+         Caption         =   "Synthesize speech"
+         Default         =   False
+         Enabled         =   True
+         Height          =   22
+         HelpTag         =   ""
+         Index           =   -2147483648
+         InitialParent   =   "OpenAIGroup"
+         Italic          =   False
+         Left            =   364
+         LockBottom      =   False
+         LockedInPosition=   False
+         LockLeft        =   False
+         LockRight       =   True
+         LockTop         =   False
+         Scope           =   0
+         TabIndex        =   25
+         TabPanelIndex   =   0
+         TabStop         =   True
+         TextFont        =   "System"
+         TextSize        =   0.0
+         TextUnit        =   0
+         Top             =   164
+         Underline       =   False
+         Visible         =   True
+         Width           =   209
+      End
    End
    Begin TextField APIKeyField
       AcceptTabs      =   False
@@ -1023,13 +1023,13 @@ Begin Window DemoWindow
       Height          =   32
       Index           =   -2147483648
       InitialParent   =   ""
-      Left            =   0
+      Left            =   2
       LockedInPosition=   False
       Mode            =   0
       Period          =   1
       Scope           =   0
       TabPanelIndex   =   0
-      Top             =   0
+      Top             =   2
       Width           =   32
    End
    Begin Label URLLbl
@@ -1202,28 +1202,6 @@ End
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
-		Private Sub RunDoCompletion(Sender As Thread)
-		  #pragma Unused Sender
-		  Dim request As New OpenAI.Request()
-		  request.Prompt = mAPIPrompt
-		  request.MaxTokens = mMaxTokens
-		  If mTemperature > 0.0000001 Then request.Temperature = mTemperature
-		  If mModel = Nil Then
-		    request.Model = OpenAI.Model.Lookup("text-davinci-003")
-		  Else
-		    request.Model = mModel
-		  End If
-		  If mResultCount > 1 Then request.NumberOfResults = mResultCount
-		  mAPIReply = OpenAI.Completion.Create(request)
-		  RefreshTimer.Mode = Timer.ModeSingle
-		  
-		Exception err As OpenAI.OpenAIException
-		  mLastError = err
-		  RefreshTimer.Mode = Timer.ModeSingle
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h21
 		Private Sub RunDoModeration(Sender As Thread)
 		  #pragma Unused Sender
 		  Dim request As New OpenAI.Request()
@@ -1235,6 +1213,21 @@ End
 		  End If
 		  If mResultCount > 1 Then request.NumberOfResults = mResultCount
 		  mAPIReply = OpenAI.Moderation.Create(request)
+		  RefreshTimer.Mode = Timer.ModeSingle
+		  
+		Exception err As OpenAI.OpenAIException
+		  mLastError = err
+		  RefreshTimer.Mode = Timer.ModeSingle
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub RunDoSpeechSynth(Sender As Thread)
+		  #pragma Unused Sender
+		  
+		  Dim m As OpenAI.Model = mModel
+		  If m = Nil Then m = "tts-1"
+		  mAPIReply = OpenAI.AudioGeneration.Create(mAPIPrompt, m, "alloy")
 		  RefreshTimer.Mode = Timer.ModeSingle
 		  
 		Exception err As OpenAI.OpenAIException
@@ -1315,7 +1308,7 @@ End
 		Private Sub ToggleLockUI()
 		  DoGenImageBtn.Enabled = Not DoGenImageBtn.Enabled
 		  DoGenImageURLBtn.Enabled = Not DoGenImageURLBtn.Enabled
-		  DoCompletionBtn.Enabled = Not DoCompletionBtn.Enabled
+		  DoSpeechSynthBtn.Enabled = Not DoSpeechSynthBtn.Enabled
 		  DoModerationBtn.Enabled = Not DoModerationBtn.Enabled
 		  DoTranscriptionBtn.Enabled = Not DoTranscriptionBtn.Enabled
 		  DoTranslationBtn.Enabled = Not DoTranslationBtn.Enabled
@@ -1504,20 +1497,6 @@ End
 		  End If
 		  g.ForeColor = &c80808000
 		  g.DrawRect(0, 0, g.Width, g.Height)
-		End Sub
-	#tag EndEvent
-#tag EndEvents
-#tag Events DoCompletionBtn
-	#tag Event
-		Sub Action()
-		  If PromptText.Text = "" Then Return
-		  StatusBarLbl.Text = "Working..."
-		  mAPIPrompt = PromptText.Text
-		  ToggleLockUI()
-		  mWorker = New Thread
-		  AddHandler mWorker.Run, WeakAddressOf RunDoCompletion
-		  mWorker.Priority = 3
-		  mWorker.Run()
 		End Sub
 	#tag EndEvent
 #tag EndEvents
@@ -1731,7 +1710,7 @@ End
 		  StatusBarLbl.Text = "Aborted"
 		  DoGenImageBtn.Enabled = True
 		  DoGenImageURLBtn.Enabled = True
-		  DoCompletionBtn.Enabled = True
+		  DoSpeechSynthBtn.Enabled = True
 		  DoModerationBtn.Enabled = True
 		  mWorker = Nil
 		  ReplyText.Text = "Aborted by user."
@@ -1779,6 +1758,22 @@ End
 		Sub Action()
 		  Dim chatwnd As New ChatWindow(mModel)
 		  chatwnd.Show()
+		End Sub
+	#tag EndEvent
+#tag EndEvents
+#tag Events DoSpeechSynthBtn
+	#tag Event
+		Sub Action()
+		  mAudioFile = GetSaveFolderItem(UploadabeFileTypes.AudioMpeg, "output.mp3")
+		  If mAudioFile = Nil Then Return
+		  If PromptText.Text = "" Then Return
+		  StatusBarLbl.Text = "Working..."
+		  mAPIPrompt = PromptText.Text
+		  ToggleLockUI()
+		  mWorker = New Thread
+		  AddHandler mWorker.Run, WeakAddressOf RunDoSpeechSynth
+		  mWorker.Priority = 3
+		  mWorker.Run()
 		End Sub
 	#tag EndEvent
 #tag EndEvents
@@ -1836,6 +1831,18 @@ End
 		    Case OpenAI.ResultType.Picture
 		      ReplyText.Text = ""
 		      mAPIImage = mAPIReply.GetResult
+		    Case OpenAI.ResultType.Audio
+		      ReplyText.Text = ""
+		      Dim bs As BinaryStream
+		      Try
+		        bs = BinaryStream.Create(mAudioFile)
+		        bs.Write(mAPIReply.GetResult(0).StringValue)
+		        bs.Close
+		      Catch
+		        Call MsgBox("Unable to save audio!", 16, "Save error")
+		        Return
+		      End Try
+		      Call MsgBox("Audio file saved to '" + mAudioFile.Name + "'", 64, "Operation complete")
 		    End Select
 		    StatusBarLbl.Text = "Ready"
 		  End If
