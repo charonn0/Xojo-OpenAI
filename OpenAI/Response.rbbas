@@ -303,6 +303,19 @@ Protected Class Response
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  Dim results As JSONItem = mResponse.Lookup("data", Nil)
+			  If results <> Nil And results.Count > 0 Then
+			    results = results.Child(0)
+			    Return results.Lookup("revised_prompt", "")
+			  End If
+			End Get
+		#tag EndGetter
+		RevisedPrompt As String
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
 			  If mResponse.HasName("usage") Then
 			    Dim usage As JSONItem = mResponse.Value("usage")
 			    Return usage.Lookup("total_tokens", 0)

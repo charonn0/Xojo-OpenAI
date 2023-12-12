@@ -1829,7 +1829,7 @@ End
 		      js.Compact = False
 		      ReplyText.Text = RTrim(js.ToString)
 		    Case OpenAI.ResultType.Picture
-		      ReplyText.Text = ""
+		      ReplyText.Text = mAPIReply.RevisedPrompt
 		      mAPIImage = mAPIReply.GetResult
 		    Case OpenAI.ResultType.Audio
 		      ReplyText.Text = ""
