@@ -38,7 +38,6 @@ OpenAI API endpoints are exposed through several object classes:
 |[`/v1/audio/translations`](https://platform.openai.com/docs/api-reference/audio/createTranslation)|[`AudioTranslation`](https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.AudioTranslation)|An English translation of an audio file.| 
 |[`/v1/moderations`](https://platform.openai.com/docs/api-reference/moderations)|[`Moderation`](https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Moderation)|An analysis of offensive content in a given text. (i.e. "content moderation")| 
 |[`/v1/models`](https://platform.openai.com/docs/api-reference/models)|[`Model`](https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Model)|List and select from the available AI models|
-|[`/v1/fine-tunes`](https://platform.openai.com/docs/api-reference/fine-tunes)|[`FineTune`](https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.FineTune)|A base `Model` that has been, is being, or will be fine-tuned using a previously uploaded `File`.| 
 |[`/v1/files`](https://platform.openai.com/docs/api-reference/files)|[`File`](https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.File)|A fine-tuning file that has been, is being, or will be uploaded.|
 
 To make a request of the API, call the appropriate factory method on the corresponding object class. For example, to make a request of the `/v1/images/generations` endpoint you would use the [OpenAI.Image.Generate](https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Image.Generate) factory method, whereas the `/v1/images/edits` endpoint is accessed using the [OpenAI.Image.Edit](https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Image.Edit) factory method. Factory methods perform the request and return a [OpenAI.Response](https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Response) object (or one of its subclasses) containing the response.
@@ -49,17 +48,13 @@ Factory methods generally come in two flavors: basic and advanced. The basic ver
 
 ```realbasic
   OpenAI.APIKey = "YOUR API KEY"
+  Dim chatlog As New OpenAI.ChatCompletionData
+  chatlog.AddMessage("user", "What is the airspeed velocity of an unladen European swallow?")
   Dim request As New OpenAI.Request
-  request.Model = "text-davinci-003"
-  request.MaxTokens = 2048
-  request.NumberOfResults = 5
-  request.BestOf = 10
-  request.Prompt = "What is the airspeed velocity of an unladen European swallow?"
-  Dim reply As OpenAI.Response = OpenAI.Completion.Create(request)
-  Dim choices() As String
-  For i As Integer = 0 To reply.ResultCount - 1
-    choices.Append(reply.GetResult(i))
-  Next
+  request.Model = "gpt-4"
+  request.Messages = chatlog
+  Dim result As OpenAI.Response = OpenAI.ChatCompletion.Create(request)
+  Dim answer As String = result.GetResult()
 ```
 
 ## How to incorporate OpenAI into your Xojo project
