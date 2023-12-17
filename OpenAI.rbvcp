@@ -14,7 +14,6 @@ Class=Response;OpenAI/Response.rbbas;&h4B1A7FFF;&h755B3FFF;false
 Class=Image;OpenAI/Image.rbbas;&h37B18FFF;&h755B3FFF;false
 Class=File;OpenAI/File.rbbas;&h5B18A7FF;&h755B3FFF;false
 Class=Moderation;OpenAI/Moderation.rbbas;&h4B0A67FF;&h755B3FFF;false
-Class=FineTuneData;OpenAI/FineTuneData.rbbas;&h247617FF;&h755B3FFF;false
 Folder=DemoProject;DemoProject;&h3578F7FF;&h0;false
 Window=DemoWindow;DemoProject/DemoWindow.rbfrm;&h4FC08FFF;&h3578F7FF;false
 Picture=transparencycheckerboard;DemoProject/transparency-checkerboard.png;&h424F6FFF;&h3578F7FF;false;0;&h0

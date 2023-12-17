@@ -63,18 +63,6 @@ Inherits OpenAI.Response
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		 Shared Function Create(FileContent As OpenAI.FineTuneData, FileName As String) As OpenAI.File
-		  ' Upload a file that contains JSONL data to be used for fine-tuning.
-		  '
-		  ' See:
-		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.File.Create
-		  ' https://platform.openai.com/docs/api-reference/files/upload
-		  
-		  Return File.Create(FileContent.ToString, "fine-tune", FileName)
-		End Function
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
 		Sub Delete()
 		  ' Deletes the specified file
 		  '
