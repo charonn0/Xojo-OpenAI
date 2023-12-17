@@ -51,7 +51,7 @@ Inherits OpenAI.Response
 		  request.FileName = FileName
 		  request.FileMIMEType = "application/x-jsonlines"
 		  request.Purpose = Purpose
-		  If Completion.Prevalidate Then
+		  If File.Prevalidate Then
 		    Dim err As ValidationError = File.IsValid(Request)
 		    If err <> ValidationError.None Then Raise New OpenAIException(err)
 		  End If
