@@ -32,7 +32,7 @@ OpenAI API endpoints are exposed through several object classes:
 |Endpoint|Object Class|Comment|
 |-----------|------------|-------|
 |[`/v1/chat/completions`](https://platform.openai.com/docs/api-reference/chat/create)|[`ChatCompletion`](https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.ChatCompletion)|An AI response to a chat conversation prompt.| 
-|`/v1/chat/completions`|[`ImageRecognition`](https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.ChatCompletion)|An AI response to a chat-based image recognition session.| 
+|`/v1/chat/completions`|[`ImageRecognition`](https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.ImageRecognition)|An AI response to a chat-based image recognition session.| 
 |[`/v1/images/generations`](https://platform.openai.com/docs/api-reference/images/create) and [`/v1/images/edits`](https://platform.openai.com/docs/api-reference/images/createEdit)|[`Image`](https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Image)|An image that was generated or modified.| 
 |[`/v1/audio/speech`](https://platform.openai.com/docs/api-reference/audio)|[`AudioGeneration`](https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Audiogeneration)|A digital audio file containing synthesized speech from provided text.|
 |[`/v1/audio/transcriptions`](https://platform.openai.com/docs/api-reference/audio/createTranscription)|[`AudioTranscription`](https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.AudioTranscription)|A transcript of an English language audio file.| 
