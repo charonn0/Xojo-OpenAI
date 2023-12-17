@@ -313,6 +313,19 @@ Protected Class Response
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  If mResponse.HasName("system_fingerprint") Then
+			    If mResponse.Value("system_fingerprint") <> Nil Then
+			      Return mResponse.Value("system_fingerprint")
+			    End If
+			  End If
+			End Get
+		#tag EndGetter
+		SystemFingerprint As String
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
 			  If mResponse.HasName("usage") Then
 			    Dim usage As JSONItem = mResponse.Value("usage")
 			    Return usage.Lookup("total_tokens", 0)
