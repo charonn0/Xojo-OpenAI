@@ -2,10 +2,15 @@
 Protected Class ChatCompletion
 Inherits OpenAI.Response
 	#tag Method, Flags = &h0
-		Sub Constructor(ResponseData As JSONItem)
+		Sub Constructor(ResponseData As JSONItem, Optional ChatLogData As JSONItem)
 		  // Calling the overridden superclass constructor.
 		  // Constructor(ResponseData As JSONItem, Client As OpenAIClient) -- From Response
 		  Super.Constructor(ResponseData, New OpenAIClient)
+		  If ChatLogData <> Nil Then
+		    mChatLog = New ChatCompletionData(ChatLogData)
+		  Else
+		    mChatLog = New ChatCompletionData()
+		  End If
 		End Sub
 	#tag EndMethod
 
