@@ -1,5 +1,12 @@
 #tag Class
 Protected Class Response
+	#tag Method, Flags = &h0
+		Sub Constructor(ResponseData As JSONItem)
+		  mResponse = ResponseData
+		  mClient = New OpenAIClient()
+		End Sub
+	#tag EndMethod
+
 	#tag Method, Flags = &h1
 		Protected Sub Constructor(ResponseData As JSONItem, Client As OpenAIClient)
 		  mResponse = ResponseData

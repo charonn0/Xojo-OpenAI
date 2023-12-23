@@ -1,6 +1,14 @@
 #tag Class
 Protected Class Moderation
 Inherits OpenAI.Response
+	#tag Method, Flags = &h0
+		Sub Constructor(ResponseData As JSONItem)
+		  // Calling the overridden superclass constructor.
+		  // Constructor(ResponseData As JSONItem, Client As OpenAIClient) -- From Response
+		  Super.Constructor(ResponseData, New OpenAIClient)
+		End Sub
+	#tag EndMethod
+
 	#tag Method, Flags = &h1001
 		Protected Sub Constructor(ResponseData As JSONItem, Client As OpenAIClient)
 		  // Calling the overridden superclass constructor.
