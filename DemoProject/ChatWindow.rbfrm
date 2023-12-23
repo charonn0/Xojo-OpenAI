@@ -244,6 +244,10 @@ End
 		Private mRole As String
 	#tag EndProperty
 
+	#tag Property, Flags = &h21
+		Private mTokenCount As Integer
+	#tag EndProperty
+
 
 #tag EndWindowCode
 
@@ -321,6 +325,8 @@ End
 		        ChatMessages.AppendMessage(r.Trim, c.Trim, mLastResponse)
 		      End If
 		    End If
+		    mTokenCount = mTokenCount + mLastResponse.TokenCount
+		    Self.Title = "AI Assistant Chat - " + mModel.ID + " (" + Format(mTokenCount, "###,##0") + " tokens consumed)"
 		  End If
 		  SendMsgBtn.Enabled = True
 		  SendMsgBtn.Caption = "Send"
