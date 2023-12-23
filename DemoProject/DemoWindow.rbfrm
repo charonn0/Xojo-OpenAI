@@ -7,7 +7,7 @@ Begin Window DemoWindow
    Frame           =   0
    FullScreen      =   False
    HasBackColor    =   False
-   Height          =   6.47e+2
+   Height          =   647
    ImplicitInstance=   True
    LiveResize      =   True
    MacProcID       =   0
@@ -23,7 +23,7 @@ Begin Window DemoWindow
    Resizeable      =   True
    Title           =   "Xojo-OpenAI Playground"
    Visible         =   True
-   Width           =   9.05e+2
+   Width           =   905
    Begin GroupBox OpenAIGroup
       AutoDeactivate  =   True
       Bold            =   False
@@ -43,93 +43,15 @@ Begin Window DemoWindow
       Scope           =   0
       TabIndex        =   2
       TabPanelIndex   =   0
+      TabStop         =   True
       TextFont        =   "System"
       TextSize        =   0.0
       TextUnit        =   0
       Top             =   59
+      Transparent     =   True
       Underline       =   False
       Visible         =   True
       Width           =   883
-      Begin TextArea PromptText
-         AcceptTabs      =   False
-         Alignment       =   0
-         AutoDeactivate  =   True
-         AutomaticallyCheckSpelling=   True
-         BackColor       =   "&cFFFFFF00"
-         Bold            =   False
-         Border          =   True
-         DataField       =   ""
-         DataSource      =   ""
-         Enabled         =   True
-         Format          =   ""
-         Height          =   215
-         HelpTag         =   ""
-         HideSelection   =   True
-         Index           =   -2147483648
-         InitialParent   =   "OpenAIGroup"
-         Italic          =   False
-         Left            =   36
-         LimitText       =   0
-         LockBottom      =   False
-         LockedInPosition=   False
-         LockLeft        =   True
-         LockRight       =   True
-         LockTop         =   False
-         Mask            =   ""
-         Multiline       =   True
-         ReadOnly        =   False
-         Scope           =   0
-         ScrollbarHorizontal=   False
-         ScrollbarVertical=   True
-         Styled          =   True
-         TabIndex        =   1
-         TabPanelIndex   =   0
-         TabStop         =   True
-         Text            =   ""
-         TextColor       =   "&c00000000"
-         TextFont        =   "System"
-         TextSize        =   0.0
-         TextUnit        =   0
-         Top             =   100
-         Underline       =   False
-         UseFocusRing    =   True
-         Visible         =   True
-         Width           =   300
-      End
-      Begin Label PromptLbl
-         AutoDeactivate  =   True
-         Bold            =   False
-         DataField       =   ""
-         DataSource      =   ""
-         Enabled         =   True
-         Height          =   20
-         HelpTag         =   ""
-         Index           =   -2147483648
-         InitialParent   =   "OpenAIGroup"
-         Italic          =   False
-         Left            =   46
-         LockBottom      =   False
-         LockedInPosition=   False
-         LockLeft        =   True
-         LockRight       =   False
-         LockTop         =   False
-         Multiline       =   False
-         Scope           =   0
-         Selectable      =   False
-         TabIndex        =   0
-         TabPanelIndex   =   0
-         Text            =   "Prompt/Input:"
-         TextAlign       =   0
-         TextColor       =   "&c00000000"
-         TextFont        =   "System"
-         TextSize        =   0.0
-         TextUnit        =   0
-         Top             =   76
-         Transparent     =   False
-         Underline       =   False
-         Visible         =   True
-         Width           =   186
-      End
       Begin Label ReplyInfoLbl
          AutoDeactivate  =   True
          Bold            =   False
@@ -141,7 +63,7 @@ Begin Window DemoWindow
          Index           =   -2147483648
          InitialParent   =   "OpenAIGroup"
          Italic          =   False
-         Left            =   36
+         Left            =   32
          LockBottom      =   False
          LockedInPosition=   False
          LockLeft        =   True
@@ -152,13 +74,14 @@ Begin Window DemoWindow
          Selectable      =   False
          TabIndex        =   21
          TabPanelIndex   =   0
+         TabStop         =   True
          Text            =   "Reply/Output:"
          TextAlign       =   0
          TextColor       =   "&c00000000"
          TextFont        =   "System"
          TextSize        =   0.0
          TextUnit        =   0
-         Top             =   373
+         Top             =   300
          Transparent     =   False
          Underline       =   False
          Visible         =   True
@@ -176,14 +99,16 @@ Begin Window DemoWindow
          DataSource      =   ""
          Enabled         =   True
          Format          =   ""
-         Height          =   207
+         Height          =   281
          HelpTag         =   ""
          HideSelection   =   True
          Index           =   -2147483648
          InitialParent   =   "OpenAIGroup"
          Italic          =   False
-         Left            =   36
+         Left            =   32
          LimitText       =   0
+         LineHeight      =   0.0
+         LineSpacing     =   1.0
          LockBottom      =   True
          LockedInPosition=   False
          LockLeft        =   True
@@ -204,8 +129,10 @@ Begin Window DemoWindow
          TextFont        =   "System"
          TextSize        =   0.0
          TextUnit        =   0
-         Top             =   398
+         Top             =   325
+         Transparent     =   True
          Underline       =   False
+         UnicodeMode     =   0
          UseFocusRing    =   True
          Visible         =   True
          Width           =   300
@@ -217,12 +144,11 @@ Begin Window DemoWindow
          Backdrop        =   0
          DoubleBuffer    =   False
          Enabled         =   True
-         EraseBackground =   True
-         Height          =   207
+         Height          =   281
          HelpTag         =   ""
          Index           =   -2147483648
          InitialParent   =   "OpenAIGroup"
-         Left            =   364
+         Left            =   338
          LockBottom      =   True
          LockedInPosition=   False
          LockLeft        =   True
@@ -232,10 +158,11 @@ Begin Window DemoWindow
          TabIndex        =   24
          TabPanelIndex   =   0
          TabStop         =   True
-         Top             =   398
+         Top             =   325
+         Transparent     =   True
          UseFocusRing    =   True
          Visible         =   True
-         Width           =   512
+         Width           =   547
       End
       Begin Label Label4
          AutoDeactivate  =   True
@@ -248,7 +175,7 @@ Begin Window DemoWindow
          Index           =   -2147483648
          InitialParent   =   "OpenAIGroup"
          Italic          =   False
-         Left            =   367
+         Left            =   344
          LockBottom      =   False
          LockedInPosition=   False
          LockLeft        =   True
@@ -259,447 +186,186 @@ Begin Window DemoWindow
          Selectable      =   False
          TabIndex        =   23
          TabPanelIndex   =   0
+         TabStop         =   True
          Text            =   "Image output:"
          TextAlign       =   0
          TextColor       =   "&c00000000"
          TextFont        =   "System"
          TextSize        =   0.0
          TextUnit        =   0
-         Top             =   373
+         Top             =   300
          Transparent     =   False
          Underline       =   False
          Visible         =   True
          Width           =   186
       End
-      Begin PushButton DoGenImageURLBtn
-         AutoDeactivate  =   True
-         Bold            =   False
-         ButtonStyle     =   0
-         Cancel          =   False
-         Caption         =   "Generate Image as a URL"
-         Default         =   False
-         Enabled         =   True
-         Height          =   22
-         HelpTag         =   ""
-         Index           =   -2147483648
-         InitialParent   =   "OpenAIGroup"
-         Italic          =   False
-         Left            =   364
-         LockBottom      =   False
-         LockedInPosition=   False
-         LockLeft        =   False
-         LockRight       =   True
-         LockTop         =   False
-         Scope           =   0
-         TabIndex        =   4
-         TabPanelIndex   =   0
-         TabStop         =   True
-         TextFont        =   "System"
-         TextSize        =   0.0
-         TextUnit        =   0
-         Top             =   121
-         Underline       =   False
-         Visible         =   True
-         Width           =   209
-      End
-      Begin PushButton DoGenImageBtn
-         AutoDeactivate  =   True
-         Bold            =   False
-         ButtonStyle     =   0
-         Cancel          =   False
-         Caption         =   "Generate Image"
-         Default         =   False
-         Enabled         =   True
-         Height          =   22
-         HelpTag         =   ""
-         Index           =   -2147483648
-         InitialParent   =   "OpenAIGroup"
-         Italic          =   False
-         Left            =   364
-         LockBottom      =   False
-         LockedInPosition=   False
-         LockLeft        =   False
-         LockRight       =   True
-         LockTop         =   False
-         Scope           =   0
-         TabIndex        =   3
-         TabPanelIndex   =   0
-         TabStop         =   True
-         TextFont        =   "System"
-         TextSize        =   0.0
-         TextUnit        =   0
-         Top             =   100
-         Underline       =   False
-         Visible         =   True
-         Width           =   209
-      End
-      Begin PushButton DoModerationBtn
-         AutoDeactivate  =   True
-         Bold            =   False
-         ButtonStyle     =   0
-         Cancel          =   False
-         Caption         =   "Categorize text for violence/sex/etc."
-         Default         =   False
-         Enabled         =   True
-         Height          =   22
-         HelpTag         =   ""
-         Index           =   -2147483648
-         InitialParent   =   "OpenAIGroup"
-         Italic          =   False
-         Left            =   364
-         LockBottom      =   False
-         LockedInPosition=   False
-         LockLeft        =   False
-         LockRight       =   True
-         LockTop         =   False
-         Scope           =   0
-         TabIndex        =   6
-         TabPanelIndex   =   0
-         TabStop         =   True
-         TextFont        =   "System"
-         TextSize        =   0.0
-         TextUnit        =   0
-         Top             =   142
-         Underline       =   False
-         Visible         =   True
-         Width           =   209
-      End
       Begin Listbox ModelList
          AutoDeactivate  =   True
          AutoHideScrollbars=   True
-         Bold            =   ""
+         Bold            =   False
          Border          =   True
          ColumnCount     =   2
-         ColumnsResizable=   ""
+         ColumnsResizable=   False
          ColumnWidths    =   ""
          DataField       =   ""
          DataSource      =   ""
          DefaultRowHeight=   -1
          Enabled         =   True
-         EnableDrag      =   ""
-         EnableDragReorder=   ""
+         EnableDrag      =   False
+         EnableDragReorder=   False
          GridLinesHorizontal=   0
          GridLinesVertical=   0
          HasHeading      =   True
          HeadingIndex    =   -1
-         Height          =   189
+         Height          =   176
          HelpTag         =   ""
          Hierarchical    =   True
          Index           =   -2147483648
          InitialParent   =   "OpenAIGroup"
          InitialValue    =   "AI model	Used for"
-         Italic          =   ""
-         Left            =   578
-         LockBottom      =   ""
+         Italic          =   False
+         Left            =   509
+         LockBottom      =   False
          LockedInPosition=   False
          LockLeft        =   False
          LockRight       =   True
          LockTop         =   True
-         RequiresSelection=   ""
+         RequiresSelection=   False
          Scope           =   0
-         ScrollbarHorizontal=   ""
+         ScrollbarHorizontal=   False
          ScrollBarVertical=   True
          SelectionType   =   0
+         ShowDropIndicator=   False
          TabIndex        =   11
          TabPanelIndex   =   0
          TabStop         =   True
          TextFont        =   "System"
-         TextSize        =   0
+         TextSize        =   0.0
          TextUnit        =   0
-         Top             =   100
-         Underline       =   ""
+         Top             =   81
+         Transparent     =   True
+         Underline       =   False
          UseFocusRing    =   True
          Visible         =   True
-         Width           =   307
+         Width           =   376
+         _ScrollOffset   =   0
          _ScrollWidth    =   -1
       End
-      Begin Slider MaxTokensSlider
+      Begin Listbox OptionsListBox
          AutoDeactivate  =   True
+         AutoHideScrollbars=   True
+         Bold            =   False
+         Border          =   True
+         ColumnCount     =   2
+         ColumnsResizable=   True
+         ColumnWidths    =   "25%,*"
+         DataField       =   ""
+         DataSource      =   ""
+         DefaultRowHeight=   -1
          Enabled         =   True
-         Height          =   23
+         EnableDrag      =   False
+         EnableDragReorder=   False
+         GridLinesHorizontal=   0
+         GridLinesVertical=   0
+         HasHeading      =   True
+         HeadingIndex    =   -1
+         Height          =   152
          HelpTag         =   ""
+         Hierarchical    =   False
          Index           =   -2147483648
          InitialParent   =   "OpenAIGroup"
-         Left            =   476
-         LineStep        =   8
-         LiveScroll      =   True
-         LockBottom      =   ""
+         InitialValue    =   "Option	Value"
+         Italic          =   False
+         Left            =   36
+         LockBottom      =   False
          LockedInPosition=   False
-         LockLeft        =   False
+         LockLeft        =   True
          LockRight       =   True
-         LockTop         =   False
-         Maximum         =   32768
-         Minimum         =   1
-         PageStep        =   32
+         LockTop         =   True
+         RequiresSelection=   False
          Scope           =   0
-         TabIndex        =   16
+         ScrollbarHorizontal=   False
+         ScrollBarVertical=   True
+         SelectionType   =   0
+         ShowDropIndicator=   False
+         TabIndex        =   25
          TabPanelIndex   =   0
          TabStop         =   True
-         TickStyle       =   1
-         Top             =   321
-         Value           =   64
+         TextFont        =   "System"
+         TextSize        =   0.0
+         TextUnit        =   0
+         Top             =   105
+         Transparent     =   True
+         Underline       =   False
+         UseFocusRing    =   True
          Visible         =   True
-         Width           =   336
+         Width           =   468
+         _ScrollOffset   =   0
+         _ScrollWidth    =   -1
       End
-      Begin Slider TemperatureSlider
+      Begin PopupMenu TaskSelectMenu
          AutoDeactivate  =   True
+         Bold            =   False
+         DataField       =   ""
+         DataSource      =   ""
          Enabled         =   True
-         Height          =   23
+         Height          =   20
          HelpTag         =   ""
          Index           =   -2147483648
          InitialParent   =   "OpenAIGroup"
-         Left            =   476
-         LineStep        =   1
-         LiveScroll      =   True
-         LockBottom      =   ""
+         InitialValue    =   "Select AI Task...\r\nImages: Generate\r\nImages: Modify\r\nImages: Recognize\r\nModeration: Categorize for sex, violence, etc.\r\nAudio: Synthesize speech\r\nAudio: Transcribe English audio\r\nAudio: Translate audio to English text\r\nText: Chat"
+         Italic          =   False
+         Left            =   36
+         ListIndex       =   0
+         LockBottom      =   False
          LockedInPosition=   False
-         LockLeft        =   False
+         LockLeft        =   True
          LockRight       =   True
-         LockTop         =   False
-         Maximum         =   100
-         Minimum         =   0
-         PageStep        =   20
+         LockTop         =   True
          Scope           =   0
-         TabIndex        =   13
+         TabIndex        =   26
          TabPanelIndex   =   0
          TabStop         =   True
-         TickStyle       =   1
-         Top             =   298
-         Value           =   0
-         Visible         =   True
-         Width           =   336
-      End
-      Begin Label Label1
-         AutoDeactivate  =   True
-         Bold            =   ""
-         DataField       =   ""
-         DataSource      =   ""
-         Enabled         =   True
-         Height          =   20
-         HelpTag         =   ""
-         Index           =   -2147483648
-         InitialParent   =   "OpenAIGroup"
-         Italic          =   ""
-         Left            =   364
-         LockBottom      =   ""
-         LockedInPosition=   False
-         LockLeft        =   False
-         LockRight       =   True
-         LockTop         =   False
-         Multiline       =   ""
-         Scope           =   0
-         Selectable      =   False
-         TabIndex        =   15
-         TabPanelIndex   =   0
-         Text            =   "Max tokens:"
-         TextAlign       =   2
-         TextColor       =   &h000000
          TextFont        =   "System"
-         TextSize        =   0
+         TextSize        =   0.0
          TextUnit        =   0
-         Top             =   324
-         Transparent     =   False
-         Underline       =   ""
+         Top             =   81
+         Transparent     =   True
+         Underline       =   False
          Visible         =   True
-         Width           =   100
+         Width           =   409
       End
-      Begin Label Label5
+      Begin PushButton PerformRequestBtn
          AutoDeactivate  =   True
-         Bold            =   ""
-         DataField       =   ""
-         DataSource      =   ""
+         Bold            =   False
+         ButtonStyle     =   0
+         Cancel          =   False
+         Caption         =   "Go"
+         Default         =   False
          Enabled         =   True
-         Height          =   20
+         Height          =   22
          HelpTag         =   ""
          Index           =   -2147483648
          InitialParent   =   "OpenAIGroup"
-         Italic          =   ""
-         Left            =   364
-         LockBottom      =   ""
+         Italic          =   False
+         Left            =   448
+         LockBottom      =   False
          LockedInPosition=   False
          LockLeft        =   False
          LockRight       =   True
-         LockTop         =   False
-         Multiline       =   ""
+         LockTop         =   True
          Scope           =   0
-         Selectable      =   False
-         TabIndex        =   12
-         TabPanelIndex   =   0
-         Text            =   "Temperature:"
-         TextAlign       =   2
-         TextColor       =   &h000000
-         TextFont        =   "System"
-         TextSize        =   0
-         TextUnit        =   0
-         Top             =   301
-         Transparent     =   False
-         Underline       =   ""
-         Visible         =   True
-         Width           =   100
-      End
-      Begin Label MaxTokensLbl
-         AutoDeactivate  =   True
-         Bold            =   ""
-         DataField       =   ""
-         DataSource      =   ""
-         Enabled         =   True
-         Height          =   20
-         HelpTag         =   ""
-         Index           =   -2147483648
-         InitialParent   =   "OpenAIGroup"
-         Italic          =   ""
-         Left            =   822
-         LockBottom      =   ""
-         LockedInPosition=   False
-         LockLeft        =   False
-         LockRight       =   True
-         LockTop         =   False
-         Multiline       =   ""
-         Scope           =   0
-         Selectable      =   False
-         TabIndex        =   17
-         TabPanelIndex   =   0
-         Text            =   64
-         TextAlign       =   0
-         TextColor       =   &h000000
-         TextFont        =   "System"
-         TextSize        =   0
-         TextUnit        =   0
-         Top             =   324
-         Transparent     =   False
-         Underline       =   ""
-         Visible         =   True
-         Width           =   63
-      End
-      Begin Label TemperatureLbl
-         AutoDeactivate  =   True
-         Bold            =   ""
-         DataField       =   ""
-         DataSource      =   ""
-         Enabled         =   True
-         Height          =   20
-         HelpTag         =   ""
-         Index           =   -2147483648
-         InitialParent   =   "OpenAIGroup"
-         Italic          =   ""
-         Left            =   822
-         LockBottom      =   ""
-         LockedInPosition=   False
-         LockLeft        =   False
-         LockRight       =   True
-         LockTop         =   False
-         Multiline       =   ""
-         Scope           =   0
-         Selectable      =   False
-         TabIndex        =   14
-         TabPanelIndex   =   0
-         Text            =   0.00
-         TextAlign       =   0
-         TextColor       =   &h000000
-         TextFont        =   "System"
-         TextSize        =   0
-         TextUnit        =   0
-         Top             =   301
-         Transparent     =   False
-         Underline       =   ""
-         Visible         =   True
-         Width           =   63
-      End
-      Begin Slider ResultCountSlider
-         AutoDeactivate  =   True
-         Enabled         =   True
-         Height          =   23
-         HelpTag         =   ""
-         Index           =   -2147483648
-         InitialParent   =   "OpenAIGroup"
-         Left            =   476
-         LineStep        =   1
-         LiveScroll      =   True
-         LockBottom      =   ""
-         LockedInPosition=   False
-         LockLeft        =   False
-         LockRight       =   True
-         LockTop         =   False
-         Maximum         =   100
-         Minimum         =   1
-         PageStep        =   20
-         Scope           =   0
-         TabIndex        =   19
+         TabIndex        =   27
          TabPanelIndex   =   0
          TabStop         =   True
-         TickStyle       =   1
-         Top             =   344
-         Value           =   1
-         Visible         =   True
-         Width           =   336
-      End
-      Begin Label Label6
-         AutoDeactivate  =   True
-         Bold            =   ""
-         DataField       =   ""
-         DataSource      =   ""
-         Enabled         =   True
-         Height          =   20
-         HelpTag         =   ""
-         Index           =   -2147483648
-         InitialParent   =   "OpenAIGroup"
-         Italic          =   ""
-         Left            =   364
-         LockBottom      =   ""
-         LockedInPosition=   False
-         LockLeft        =   False
-         LockRight       =   True
-         LockTop         =   False
-         Multiline       =   ""
-         Scope           =   0
-         Selectable      =   False
-         TabIndex        =   18
-         TabPanelIndex   =   0
-         Text            =   "Result count:"
-         TextAlign       =   2
-         TextColor       =   &h000000
          TextFont        =   "System"
-         TextSize        =   0
+         TextSize        =   0.0
          TextUnit        =   0
-         Top             =   347
-         Transparent     =   False
-         Underline       =   ""
+         Top             =   79
+         Transparent     =   True
+         Underline       =   False
          Visible         =   True
-         Width           =   100
-      End
-      Begin Label ResultCountLbl
-         AutoDeactivate  =   True
-         Bold            =   ""
-         DataField       =   ""
-         DataSource      =   ""
-         Enabled         =   True
-         Height          =   20
-         HelpTag         =   ""
-         Index           =   -2147483648
-         InitialParent   =   "OpenAIGroup"
-         Italic          =   ""
-         Left            =   822
-         LockBottom      =   ""
-         LockedInPosition=   False
-         LockLeft        =   False
-         LockRight       =   True
-         LockTop         =   False
-         Multiline       =   ""
-         Scope           =   0
-         Selectable      =   False
-         TabIndex        =   20
-         TabPanelIndex   =   0
-         Text            =   1
-         TextAlign       =   0
-         TextColor       =   &h000000
-         TextFont        =   "System"
-         TextSize        =   0
-         TextUnit        =   0
-         Top             =   347
-         Transparent     =   False
-         Underline       =   ""
-         Visible         =   True
-         Width           =   63
+         Width           =   56
       End
       Begin PushButton DoAbortBtn
          AutoDeactivate  =   True
@@ -714,20 +380,21 @@ Begin Window DemoWindow
          Index           =   -2147483648
          InitialParent   =   "OpenAIGroup"
          Italic          =   False
-         Left            =   364
+         Left            =   357
          LockBottom      =   False
          LockedInPosition=   False
          LockLeft        =   False
          LockRight       =   True
          LockTop         =   False
          Scope           =   0
-         TabIndex        =   10
+         TabIndex        =   28
          TabPanelIndex   =   0
          TabStop         =   True
          TextFont        =   "System"
          TextSize        =   0.0
          TextUnit        =   0
-         Top             =   271
+         Top             =   275
+         Transparent     =   True
          Underline       =   False
          Visible         =   False
          Width           =   209
@@ -737,113 +404,24 @@ Begin Window DemoWindow
          Enabled         =   True
          Height          =   12
          HelpTag         =   ""
+         Indeterminate   =   False
          Index           =   -2147483648
          InitialParent   =   "OpenAIGroup"
-         Left            =   364
-         LockBottom      =   ""
+         Left            =   357
+         LockBottom      =   False
          LockedInPosition=   False
          LockLeft        =   False
          LockRight       =   True
          LockTop         =   False
          Maximum         =   0
          Scope           =   0
-         TabPanelIndex   =   0
-         Top             =   259
-         Value           =   0
-         Visible         =   False
-         Width           =   209
-      End
-      Begin PushButton DoTranscriptionBtn
-         AutoDeactivate  =   True
-         Bold            =   False
-         ButtonStyle     =   0
-         Cancel          =   False
-         Caption         =   "Transcribe a media file"
-         Default         =   False
-         Enabled         =   True
-         Height          =   22
-         HelpTag         =   ""
-         Index           =   -2147483648
-         InitialParent   =   "OpenAIGroup"
-         Italic          =   False
-         Left            =   364
-         LockBottom      =   False
-         LockedInPosition=   False
-         LockLeft        =   False
-         LockRight       =   True
-         LockTop         =   False
-         Scope           =   0
-         TabIndex        =   7
-         TabPanelIndex   =   0
-         TabStop         =   True
-         TextFont        =   "System"
-         TextSize        =   0.0
-         TextUnit        =   0
-         Top             =   186
-         Underline       =   False
-         Visible         =   True
-         Width           =   209
-      End
-      Begin PushButton DoTranslationBtn
-         AutoDeactivate  =   True
-         Bold            =   False
-         ButtonStyle     =   0
-         Cancel          =   False
-         Caption         =   "Translate a media file"
-         Default         =   False
-         Enabled         =   True
-         Height          =   22
-         HelpTag         =   ""
-         Index           =   -2147483648
-         InitialParent   =   "OpenAIGroup"
-         Italic          =   False
-         Left            =   364
-         LockBottom      =   False
-         LockedInPosition=   False
-         LockLeft        =   False
-         LockRight       =   True
-         LockTop         =   False
-         Scope           =   0
-         TabIndex        =   8
-         TabPanelIndex   =   0
-         TabStop         =   True
-         TextFont        =   "System"
-         TextSize        =   0.0
-         TextUnit        =   0
-         Top             =   208
-         Underline       =   False
-         Visible         =   True
-         Width           =   209
-      End
-      Begin PushButton DoChatBtn
-         AutoDeactivate  =   True
-         Bold            =   False
-         ButtonStyle     =   0
-         Cancel          =   False
-         Caption         =   "Start a chat"
-         Default         =   False
-         Enabled         =   True
-         Height          =   22
-         HelpTag         =   ""
-         Index           =   -2147483648
-         InitialParent   =   "OpenAIGroup"
-         Italic          =   False
-         Left            =   364
-         LockBottom      =   False
-         LockedInPosition=   False
-         LockLeft        =   False
-         LockRight       =   True
-         LockTop         =   False
-         Scope           =   0
          TabIndex        =   9
          TabPanelIndex   =   0
          TabStop         =   True
-         TextFont        =   "System"
-         TextSize        =   0.0
-         TextUnit        =   0
-         Top             =   230
-         Underline       =   False
-         Visible         =   True
+         Top             =   263
+         Transparent     =   True
+         Value           =   0.0
+         Visible         =   False
          Width           =   209
       End
       Begin Label TokenEstimateLbl
@@ -857,7 +435,7 @@ Begin Window DemoWindow
          Index           =   -2147483648
          InitialParent   =   "OpenAIGroup"
          Italic          =   False
-         Left            =   36
+         Left            =   40
          LockBottom      =   False
          LockedInPosition=   False
          LockLeft        =   True
@@ -866,50 +444,20 @@ Begin Window DemoWindow
          Multiline       =   False
          Scope           =   0
          Selectable      =   False
-         TabIndex        =   2
+         TabIndex        =   29
          TabPanelIndex   =   0
+         TabStop         =   True
          Text            =   "Estimated token usage: 0"
          TextAlign       =   0
-         TextColor       =   &h00808080
+         TextColor       =   "&c80808000"
          TextFont        =   "System"
          TextSize        =   0.0
          TextUnit        =   0
-         Top             =   315
+         Top             =   259
          Transparent     =   False
          Underline       =   False
          Visible         =   True
          Width           =   286
-      End
-      Begin PushButton DoSpeechSynthBtn
-         AutoDeactivate  =   True
-         Bold            =   False
-         ButtonStyle     =   0
-         Cancel          =   False
-         Caption         =   "Synthesize speech"
-         Default         =   False
-         Enabled         =   True
-         Height          =   22
-         HelpTag         =   ""
-         Index           =   -2147483648
-         InitialParent   =   "OpenAIGroup"
-         Italic          =   False
-         Left            =   364
-         LockBottom      =   False
-         LockedInPosition=   False
-         LockLeft        =   False
-         LockRight       =   True
-         LockTop         =   False
-         Scope           =   0
-         TabIndex        =   25
-         TabPanelIndex   =   0
-         TabStop         =   True
-         TextFont        =   "System"
-         TextSize        =   0.0
-         TextUnit        =   0
-         Top             =   164
-         Underline       =   False
-         Visible         =   True
-         Width           =   209
       End
    End
    Begin TextField APIKeyField
@@ -949,6 +497,7 @@ Begin Window DemoWindow
       TextSize        =   0.0
       TextUnit        =   0
       Top             =   25
+      Transparent     =   True
       Underline       =   False
       UseFocusRing    =   True
       Visible         =   True
@@ -981,6 +530,7 @@ Begin Window DemoWindow
       TextSize        =   0.0
       TextUnit        =   0
       Top             =   25
+      Transparent     =   True
       Underline       =   False
       Visible         =   True
       Width           =   48
@@ -1007,6 +557,7 @@ Begin Window DemoWindow
       Selectable      =   False
       TabIndex        =   4
       TabPanelIndex   =   0
+      TabStop         =   True
       Text            =   "API Key:"
       TextAlign       =   2
       TextColor       =   "&c00000000"
@@ -1020,21 +571,21 @@ Begin Window DemoWindow
       Width           =   79
    End
    Begin Timer RefreshTimer
-      Height          =   32
+      Enabled         =   True
       Index           =   -2147483648
       InitialParent   =   ""
-      Left            =   2
       LockedInPosition=   False
       Mode            =   0
       Period          =   1
       Scope           =   0
+      TabIndex        =   4
       TabPanelIndex   =   0
-      Top             =   2
-      Width           =   32
+      TabStop         =   True
+      Visible         =   True
    End
    Begin Label URLLbl
       AutoDeactivate  =   True
-      Bold            =   ""
+      Bold            =   False
       DataField       =   ""
       DataSource      =   ""
       Enabled         =   True
@@ -1042,23 +593,24 @@ Begin Window DemoWindow
       HelpTag         =   ""
       Index           =   -2147483648
       InitialParent   =   ""
-      Italic          =   ""
+      Italic          =   False
       Left            =   286
-      LockBottom      =   ""
+      LockBottom      =   False
       LockedInPosition=   False
       LockLeft        =   True
       LockRight       =   True
       LockTop         =   True
-      Multiline       =   ""
+      Multiline       =   False
       Scope           =   0
       Selectable      =   False
       TabIndex        =   5
       TabPanelIndex   =   0
+      TabStop         =   True
       Text            =   "https://github.com/charonn0/Xojo-OpenAI"
       TextAlign       =   1
-      TextColor       =   &h000000FF
+      TextColor       =   "&c0000FF00"
       TextFont        =   "System"
-      TextSize        =   0
+      TextSize        =   0.0
       TextUnit        =   0
       Top             =   2
       Transparent     =   False
@@ -1068,7 +620,7 @@ Begin Window DemoWindow
    End
    Begin Label StatusBarLbl
       AutoDeactivate  =   True
-      Bold            =   ""
+      Bold            =   False
       DataField       =   ""
       DataSource      =   ""
       Enabled         =   True
@@ -1083,20 +635,21 @@ Begin Window DemoWindow
       LockLeft        =   True
       LockRight       =   True
       LockTop         =   False
-      Multiline       =   ""
+      Multiline       =   False
       Scope           =   0
       Selectable      =   False
       TabIndex        =   3
       TabPanelIndex   =   0
+      TabStop         =   True
       Text            =   "Waiting for API key"
       TextAlign       =   0
       TextColor       =   "&c00000000"
       TextFont        =   "System"
-      TextSize        =   0
+      TextSize        =   0.0
       TextUnit        =   0
       Top             =   626
       Transparent     =   False
-      Underline       =   ""
+      Underline       =   False
       Visible         =   True
       Width           =   894
    End
@@ -1104,6 +657,30 @@ End
 #tag EndWindow
 
 #tag WindowCode
+	#tag Event
+		Sub Open()
+		  mAPIOptions = New Dictionary
+		End Sub
+	#tag EndEvent
+
+
+	#tag Method, Flags = &h21
+		Private Shared Function FetchImageURL(ImageURL As String) As Picture
+		  #If RBVersion > 2018.03 Then
+		    Dim connection As New URLConnection
+		    Return Picture.FromData(Connection.SendSync("GET", ImageURL, 5))
+		  #ElseIf RBVersion > 2014.02 Then
+		    Dim connection As New HTTPSecureSocket
+		    connection.ConnectionType = SSLSocket.SSLv23
+		    Return Picture.FromData(connection.Get(ImageURL, 5))
+		  #Else
+		    #pragma Unused ImageURL
+		    Return Nil
+		  #endif
+		  
+		End Function
+	#tag EndMethod
+
 	#tag Method, Flags = &h21
 		Private Shared Sub FillGradient(g As Graphics, StartColor As Color, EndColor As Color)
 		  Dim ratio, endratio as Double
@@ -1121,10 +698,20 @@ End
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
+		Private Function GetOption(Name As String, Optional DefaultValue As Variant = Nil) As Variant
+		  Return mAPIOptions.Lookup(Name, DefaultValue)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Function IsOptionSet(Name As String) As Boolean
+		  Return mAPIOptions.HasKey(Name)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
 		Private Sub LoadModels()
 		  ModelList.DeleteAllRows()
-		  ModelList.AddFolder("Automatic")
-		  ModelList.Cell(ModelList.LastIndex, 1) = "Any"
 		  For i As Integer = 0 To OpenAI.Model.Count - 1
 		    Dim mdl As OpenAI.Model = OpenAI.Model.Lookup(i)
 		    Dim usedfor As String
@@ -1133,7 +720,11 @@ End
 		      usedfor = "Audio"
 		      
 		    Case "/v1/chat/completions"
-		      usedfor = "Chat"
+		      If InStr(mdl.ID, "vision") > 0 Then
+		        usedfor = "Image recognition"
+		      Else
+		        usedfor = "Chat"
+		      End If
 		      
 		    Case "/v1/completions"
 		      usedfor = "Text completion"
@@ -1156,6 +747,9 @@ End
 		    Case "/v1/audio/speech"
 		      usedfor = "Text-to-Speech"
 		      
+		    Else
+		      usedfor = "Deprecated"
+		      
 		    End Select
 		    ModelList.AddFolder(mdl.ID)
 		    ModelList.Cell(ModelList.LastIndex, 1) = usedfor
@@ -1169,11 +763,15 @@ End
 		Private Sub RunCreateImage(Sender As Thread)
 		  #pragma Unused Sender
 		  Dim request As New OpenAI.Request()
-		  request.Prompt = mAPIPrompt
-		  request.Size = "1024x1024"
-		  request.ResultsAsURL = False
-		  If mResultCount > 1 And mResultCount <= 10 Then request.NumberOfResults = mResultCount
-		  If mModel <> Nil Then request.Model = mModel Else request.Model = "dall-e-2"
+		  request.Prompt = GetOption("Prompt", "")
+		  request.Size = GetOption("Size", "1024x1024")
+		  request.ResultsAsURL = GetOption("ResponseAsURL", False)
+		  If IsOptionSet("Number of results") Then request.NumberOfResults = GetOption("Number of results")
+		  If IsOptionSet("Quality") Then request.HighQuality = (GetOption("Quality") = "hd")
+		  If IsOptionSet("Style") Then request.Style = GetOption("Style")
+		  If IsOptionSet("User") Then request.Style = GetOption("User")
+		  If Not IsOptionSet("Model") Then SetOption("Model") = OpenAI.Model.Lookup("dall-e-2")
+		  request.Model = GetOption("Model")
 		  mAPIReply = OpenAI.Image.Generate(request)
 		  RefreshTimer.Mode = Timer.ModeSingle
 		  
@@ -1187,11 +785,11 @@ End
 		Private Sub RunCreateImageURL(Sender As Thread)
 		  #pragma Unused Sender
 		  Dim request As New OpenAI.Request()
-		  request.Prompt = mAPIPrompt
-		  request.Size = "1024x1024"
-		  request.ResultsAsURL = True
-		  If mResultCount > 1 And mResultCount <= 10 Then request.NumberOfResults = mResultCount
-		  If mModel <> Nil Then request.Model = mModel Else request.Model = "dall-e-2"
+		  request.Prompt = GetOption("Prompt", "")
+		  request.Size = GetOption("Size", "1024x1024")
+		  request.ResultsAsURL = GetOption("Response format", True)
+		  If IsOptionSet("Number of results") Then request.NumberOfResults = GetOption("Number of results")
+		  request.Model = GetOption("Model", OpenAI.Model.Lookup("dall-e-2"))
 		  mAPIReply = OpenAI.Image.Generate(request)
 		  RefreshTimer.Mode = Timer.ModeSingle
 		  
@@ -1205,13 +803,9 @@ End
 		Private Sub RunDoModeration(Sender As Thread)
 		  #pragma Unused Sender
 		  Dim request As New OpenAI.Request()
-		  request.Input = mAPIPrompt
-		  If mModel = Nil Then
-		    request.Model = OpenAI.Model.Lookup("text-moderation-stable")
-		  Else
-		    request.Model = mModel
-		  End If
-		  If mResultCount > 1 Then request.NumberOfResults = mResultCount
+		  request.Input = GetOption("Input", "")
+		  request.Model = GetOption("Model", OpenAI.Model.Lookup("text-moderation-stable"))
+		  If IsOptionSet("Number of results") Then request.NumberOfResults = GetOption("Number of results")
 		  mAPIReply = OpenAI.Moderation.Create(request)
 		  RefreshTimer.Mode = Timer.ModeSingle
 		  
@@ -1225,9 +819,12 @@ End
 		Private Sub RunDoSpeechSynth(Sender As Thread)
 		  #pragma Unused Sender
 		  
-		  Dim m As OpenAI.Model = mModel
-		  If m = Nil Then m = "tts-1"
-		  mAPIReply = OpenAI.AudioGeneration.Create(mAPIPrompt, m, "alloy")
+		  Dim m As OpenAI.Model = GetOption("Model", OpenAI.Model.Lookup("tts-1"))
+		  Dim input As String = GetOption("Input", "")
+		  Dim voice As String = GetOption("Voice", "alloy")
+		  Dim speed As Single = GetOption("Speed", 1.0)
+		  Dim frmt As String = GetOption("Response format", "mp3")
+		  mAPIReply = OpenAI.AudioGeneration.Create(input, m, voice, speed, frmt)
 		  RefreshTimer.Mode = Timer.ModeSingle
 		  
 		Exception err As OpenAI.OpenAIException
@@ -1244,12 +841,8 @@ End
 		  request.File = bs.Read(bs.Length)
 		  bs.Close
 		  request.FileName = mAudioFile.Name
-		  If mTemperature > 0.0000001 Then request.Temperature = mTemperature
-		  If mModel = Nil Then
-		    request.Model = OpenAI.Model.Lookup("whisper-1")
-		  Else
-		    request.Model = mModel
-		  End If
+		  If IsOptionSet("Temperature") Then request.Temperature = GetOption("Temperature")
+		  request.Model = GetOption("Model", OpenAI.Model.Lookup("whisper-1"))
 		  mAPIReply = OpenAI.AudioTranscription.Create(request)
 		  RefreshTimer.Mode = Timer.ModeSingle
 		  
@@ -1267,13 +860,73 @@ End
 		  request.File = bs.Read(bs.Length)
 		  bs.Close
 		  request.FileName = mAudioFile.Name
-		  If mTemperature > 0.0000001 Then request.Temperature = mTemperature
-		  If mModel = Nil Then
-		    request.Model = OpenAI.Model.Lookup("whisper-1")
-		  Else
-		    request.Model = mModel
-		  End If
+		  If IsOptionSet("Temperature") Then request.Temperature = GetOption("Temperature")
+		  request.Model = GetOption("Model", OpenAI.Model.Lookup("whisper-1"))
 		  mAPIReply = OpenAI.AudioTranslation.Create(request)
+		  RefreshTimer.Mode = Timer.ModeSingle
+		  
+		Exception err As OpenAI.OpenAIException
+		  mLastError = err
+		  RefreshTimer.Mode = Timer.ModeSingle
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub RunEditImage(Sender As Thread)
+		  #pragma Unused Sender
+		  Dim request As New OpenAI.Request()
+		  request.Prompt = GetOption("Prompt", "")
+		  request.Size = GetOption("Size", "1024x1024")
+		  request.ResultsAsURL = GetOption("ResponseAsURL", False)
+		  If IsOptionSet("Number of results") Then request.NumberOfResults = GetOption("Number of results")
+		  If IsOptionSet("User") Then request.Style = GetOption("User")
+		  If Not IsOptionSet("Model") Then SetOption("Model") = OpenAI.Model.Lookup("dall-e-2")
+		  request.Model = GetOption("Model")
+		  
+		  Dim f As FolderItem = GetOption("Image", Nil)
+		  If f = Nil Then Raise New OpenAI.OpenAIException("No valid image specified.")
+		  request.SourceImage = Picture.Open(f)
+		  
+		  f = GetOption("Image", Nil)
+		  If f <> Nil Then request.MaskImage = Picture.Open(f)
+		  
+		  mAPIReply = OpenAI.Image.Edit(request)
+		  RefreshTimer.Mode = Timer.ModeSingle
+		  
+		Exception err As OpenAI.OpenAIException
+		  mLastError = err
+		  RefreshTimer.Mode = Timer.ModeSingle
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub RunRecognizeImage(Sender As Thread)
+		  #pragma Unused Sender
+		  Dim request As New OpenAI.Request()
+		  If IsOptionSet("Number of results") Then request.NumberOfResults = GetOption("Number of results")
+		  If IsOptionSet("Stop") Then request.Stop = GetOption("Stop")
+		  If IsOptionSet("Temperature") Then request.Temperature = GetOption("Temperature")
+		  If IsOptionSet("MaxTokens") Then request.MaxTokens = GetOption("MaxTokens")
+		  If IsOptionSet("User") Then request.Style = GetOption("User")
+		  If Not IsOptionSet("Model") Then SetOption("Model") = OpenAI.Model.Lookup("gpt-4-vision-preview")
+		  request.Model = GetOption("Model")
+		  
+		  Dim chatlog As New OpenAI.ChatCompletionData()
+		  Dim prmpt As String = GetOption("Prompt", "")
+		  Dim url As String
+		  If GetOption("Image URL", "") <> "" Then
+		    url = GetOption("Image URL", "")
+		  ElseIf GetOption("Image", Nil) <> Nil Then
+		    Dim f As FolderItem = GetOption("Image")
+		    Dim p As Picture = Picture.Open(f)
+		    url = "data:image/png;base64," + EncodeBase64(p.GetData(Picture.FormatPNG))
+		  Else
+		    Raise New OpenAI.OpenAIException("No valid image specified.")
+		  End If
+		  chatlog.AddMessage("user", prmpt, url)
+		  request.Messages = chatlog
+		  
+		  mAPIReply = OpenAI.ImageRecognition.Create(request)
 		  RefreshTimer.Mode = Timer.ModeSingle
 		  
 		Exception err As OpenAI.OpenAIException
@@ -1305,14 +958,18 @@ End
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
+		Private Sub SetOption(Name As String, Assigns Value As Variant)
+		  If Name = "Prompt" And Value IsA OpenAI.Model Then Break
+		  If Name = "Model" And Not Value IsA OpenAI.Model Then Break
+		  mAPIOptions.Value(Name) = Value
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
 		Private Sub ToggleLockUI()
-		  DoGenImageBtn.Enabled = Not DoGenImageBtn.Enabled
-		  DoGenImageURLBtn.Enabled = Not DoGenImageURLBtn.Enabled
-		  DoSpeechSynthBtn.Enabled = Not DoSpeechSynthBtn.Enabled
-		  DoModerationBtn.Enabled = Not DoModerationBtn.Enabled
-		  DoTranscriptionBtn.Enabled = Not DoTranscriptionBtn.Enabled
-		  DoTranslationBtn.Enabled = Not DoTranslationBtn.Enabled
-		  DoChatBtn.Enabled = Not DoChatBtn.Enabled
+		  OptionsListBox.Enabled = Not OptionsListBox.Enabled
+		  TaskSelectMenu.Enabled = Not TaskSelectMenu.Enabled
+		  PerformRequestBtn.Enabled = Not PerformRequestBtn.Enabled
 		  DoAbortBtn.Visible = Not DoAbortBtn.Visible
 		  RequestProgressBar.Visible = Not RequestProgressBar.Visible
 		  
@@ -1325,7 +982,7 @@ End
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
-		Private mAPIPrompt As String
+		Private mAPIOptions As Dictionary
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
@@ -1345,27 +1002,15 @@ End
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
-		Private mMaxTokens As Integer = 64
-	#tag EndProperty
-
-	#tag Property, Flags = &h21
-		Private mModel As OpenAI.Model
-	#tag EndProperty
-
-	#tag Property, Flags = &h21
 		Private mModelListHasFocus As Boolean
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
-		Private mResultCount As Integer = 1
+		Private mOptionListHasFocus As Boolean
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
 		Private mScale As Boolean = True
-	#tag EndProperty
-
-	#tag Property, Flags = &h21
-		Private mTemperature As Single
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
@@ -1375,13 +1020,6 @@ End
 
 #tag EndWindowCode
 
-#tag Events PromptText
-	#tag Event
-		Sub TextChange()
-		  TokenEstimateLbl.Text = "Estimated token usage: " + Str(OpenAI.EstimateTokenCount(Me.Text, OpenAI.TokenEstimationMethod.Max), "###,###,##0.0")
-		End Sub
-	#tag EndEvent
-#tag EndEvents
 #tag Events ReplyText
 	#tag Event
 		Function ConstructContextualMenu(base as MenuItem, x as Integer, y as Integer) As Boolean
@@ -1500,55 +1138,20 @@ End
 		End Sub
 	#tag EndEvent
 #tag EndEvents
-#tag Events DoGenImageURLBtn
-	#tag Event
-		Sub Action()
-		  If PromptText.Text = "" Then Return
-		  StatusBarLbl.Text = "Working..."
-		  mAPIPrompt = PromptText.Text
-		  ToggleLockUI()
-		  mWorker = New Thread
-		  AddHandler mWorker.Run, WeakAddressOf RunCreateImageURL
-		  mWorker.Priority = 3
-		  mWorker.Run()
-		End Sub
-	#tag EndEvent
-#tag EndEvents
-#tag Events DoGenImageBtn
-	#tag Event
-		Sub Action()
-		  If PromptText.Text = "" Then Return
-		  StatusBarLbl.Text = "Working..."
-		  mAPIPrompt = PromptText.Text
-		  ToggleLockUI()
-		  mWorker = New Thread
-		  AddHandler mWorker.Run, WeakAddressOf RunCreateImage
-		  mWorker.Priority = 3
-		  mWorker.Run()
-		End Sub
-	#tag EndEvent
-#tag EndEvents
-#tag Events DoModerationBtn
-	#tag Event
-		Sub Action()
-		  If PromptText.Text = "" Then Return
-		  StatusBarLbl.Text = "Working..."
-		  mAPIPrompt = PromptText.Text
-		  ToggleLockUI()
-		  mWorker = New Thread
-		  AddHandler mWorker.Run, WeakAddressOf RunDoModeration
-		  mWorker.Priority = 3
-		  mWorker.Run()
-		End Sub
-	#tag EndEvent
-#tag EndEvents
 #tag Events ModelList
 	#tag Event
 		Sub Change()
 		  If Me.ListIndex < 0 Then Return
 		  Dim mdl As OpenAI.Model = Me.RowTag(Me.ListIndex)
-		  If mdl <> Nil Or Me.Cell(Me.ListIndex, 0) = "Automatic" Then
-		    mModel = mdl
+		  If mdl <> Nil Then
+		    SetOption("Model") = mdl
+		    For i As Integer = 0 To OptionsListBox.ListCount - 1
+		      If OptionsListBox.Cell(i, 0) = "Model" Then
+		        OptionsListBox.Cell(i, 1) = mdl.ID
+		        OptionsListBox.CellTag(i, 1) = mdl
+		        Exit For
+		      End If
+		    Next
 		  End If
 		End Sub
 	#tag EndEvent
@@ -1610,11 +1213,6 @@ End
 		        End Try
 		      End If
 		    Next
-		    
-		  Else
-		    ' "Automatic" model
-		    Me.InsertRow(row + 1, "Auto", 1)
-		    Me.Cell(Me.LastIndex, 1) = "matic"
 		  End If
 		End Sub
 	#tag EndEvent
@@ -1625,7 +1223,7 @@ End
 	#tag EndEvent
 	#tag Event
 		Function CellTextPaint(g As Graphics, row As Integer, column As Integer, x as Integer, y as Integer) As Boolean
-		  If Me.Selected(row) And (Me.RowTag(row) <> Nil Or Me.Cell(row, 0) = "Automatic") Then
+		  If Me.Selected(row) And (Me.RowTag(row) <> Nil) Then
 		    g.ForeColor = &cFFFFFF00
 		    g.DrawString(Me.Cell(row, column), x, y)
 		    Return True
@@ -1677,27 +1275,375 @@ End
 		End Function
 	#tag EndEvent
 #tag EndEvents
-#tag Events MaxTokensSlider
+#tag Events OptionsListBox
 	#tag Event
-		Sub ValueChanged()
-		  mMaxTokens = Me.Value
-		  MaxTokensLbl.Text = Format(mMaxTokens, "##,##0")
+		Sub CellAction(row As Integer, column As Integer)
+		  Select Case Me.Cell(row, 0)
+		  Case "Prompt", "Quality", "Size", "Style", "User", "Stop", "Input", "Voice", "Response format", "Language", "Image URL"
+		    SetOption(Me.Cell(row, 0)) = Me.Cell(row, column)
+		  Case "Number of results", "MaxTokens"
+		    SetOption(Me.Cell(row, 0)) = Val(Me.Cell(row, column))
+		  Case "ResponseAsURL"
+		    SetOption("ResponseAsURL") = (Me.CellState(row, column) = CheckBox.CheckedStates.Checked)
+		  Case "Temperature"
+		    SetOption("Temperature") = CDbl(Me.Cell(row, column))
+		  Case "File"
+		    SetOption("File") = GetFolderItem(Me.Cell(row, column))
+		  Case "Model"
+		    Dim m As OpenAI.Model = OpenAI.Model.Lookup(Me.Cell(row, column))
+		    SetOption("Model") = m
+		  End Select
+		End Sub
+	#tag EndEvent
+	#tag Event
+		Function CellClick(row as Integer, column as Integer, x as Integer, y as Integer) As Boolean
+		  #pragma Unused x
+		  #pragma Unused y
+		  If column <> 1 Then Return False
+		  Dim s As String = Me.Cell(row, 0)
+		  Select Case s
+		  Case "File"
+		    Dim f As FolderItem = GetOpenFolderItem(UploadabeFileTypes.All)
+		    If f = Nil Then Return False
+		    #If RBVersion > 2019 Then
+		      Me.Cell(row, column) = f.NativePath
+		    #Else
+		      Me.Cell(row, column) = f.AbsolutePath
+		    #endif
+		    SetOption("File") = f
+		    Return True
+		    
+		  Case "Image"
+		    Dim f As FolderItem = GetOpenFolderItem(UploadabeFileTypes.AllImageTypes)
+		    If f = Nil Then Return False
+		    #If RBVersion > 2019 Then
+		      Me.Cell(row, column) = f.NativePath
+		    #Else
+		      Me.Cell(row, column) = f.AbsolutePath
+		    #endif
+		    SetOption("Image") = f
+		    Return True
+		    
+		  Case "Mask"
+		    Dim f As FolderItem = GetOpenFolderItem(UploadabeFileTypes.AllImageTypes)
+		    If f = Nil Then Return False
+		    #If RBVersion > 2019 Then
+		      Me.Cell(row, column) = f.NativePath
+		    #Else
+		      Me.Cell(row, column) = f.AbsolutePath
+		    #endif
+		    SetOption("Mask") = f
+		    Return True
+		    
+		  End Select
+		End Function
+	#tag EndEvent
+	#tag Event
+		Function CellTextPaint(g As Graphics, row As Integer, column As Integer, x as Integer, y as Integer) As Boolean
+		  If Me.RowTag(row) = True Then g.Bold = True
+		  
+		  If Me.Selected(row) Then
+		    g.ForeColor = &cFFFFFF00
+		    g.DrawString(Me.Cell(row, column), x, y)
+		    Return True
+		  End If
+		End Function
+	#tag EndEvent
+	#tag Event
+		Function CellBackgroundPaint(g As Graphics, row As Integer, column As Integer) As Boolean
+		  Dim start, stop As Color
+		  If row > Me.ListCount - 1 Then Return False
+		  If Me.Selected(row) Then
+		    If mOptionListHasFocus Then
+		      start = &c0080C000
+		      stop = &c7DBEFF00
+		    Else
+		      start = &c80808000
+		      stop = &cC0C0C000
+		    End If
+		    FillGradient(g, start, stop)
+		    If mOptionListHasFocus Then
+		      g.ForeColor = &c0080FF00
+		    Else
+		      g.ForeColor = &c80808000
+		    End If
+		    If column = 0 Then
+		      g.DrawRect(0, 0, g.Width + 1, g.Height)
+		    Else
+		      g.DrawRect(-1, 0, g.Width - 2, g.Height)
+		    End If
+		  End If
+		  Return True
+		End Function
+	#tag EndEvent
+	#tag Event
+		Sub LostFocus()
+		  mOptionListHasFocus = False
+		End Sub
+	#tag EndEvent
+	#tag Event
+		Sub GotFocus()
+		  mOptionListHasFocus = True
 		End Sub
 	#tag EndEvent
 #tag EndEvents
-#tag Events TemperatureSlider
+#tag Events TaskSelectMenu
 	#tag Event
-		Sub ValueChanged()
-		  If Me.Value > 0 Then mTemperature = Me.Value / 100 Else mTemperature = 0.0
-		  TemperatureLbl.Text = Format(mTemperature, "0.00")
+		Sub Change()
+		  If Me.Text = "Select AI Task..." Then Return
+		  OptionsListBox.DeleteAllRows
+		  Dim m As OpenAI.Model
+		  If IsOptionSet("Model") Then m = GetOption("Model", Nil)
+		  mAPIOptions = New Dictionary
+		  If m <> Nil Then SetOption("Model") = m
+		  Select Case Me.Text
+		  Case "Images: Generate"
+		    OptionsListBox.AddRow("Prompt", "")
+		    OptionsListBox.RowTag(OptionsListBox.LastIndex) = True ' required
+		    OptionsListBox.CellType(OptionsListBox.LastIndex, 1) = Listbox.TypeEditable
+		    SetOption("Prompt") = ""
+		    
+		    OptionsListBox.AddRow("Number of results", "1")
+		    OptionsListBox.RowTag(OptionsListBox.LastIndex) = False ' optional
+		    OptionsListBox.CellType(OptionsListBox.LastIndex, 1) = Listbox.TypeEditable
+		    
+		    OptionsListBox.AddRow("Quality", "standard")
+		    OptionsListBox.RowTag(OptionsListBox.LastIndex) = False ' optional
+		    OptionsListBox.CellType(OptionsListBox.LastIndex, 1) = Listbox.TypeEditable
+		    
+		    OptionsListBox.AddRow("ResponseAsURL", "")
+		    OptionsListBox.RowTag(OptionsListBox.LastIndex) = False ' optional
+		    OptionsListBox.CellType(OptionsListBox.LastIndex, 1) = Listbox.TypeCheckbox
+		    OptionsListBox.CellState(OptionsListBox.LastIndex, 1) = CheckBox.CheckedStates.Checked
+		    SetOption(OptionsListBox.Cell(OptionsListBox.LastIndex, 0)) = OptionsListBox.CellTag(OptionsListBox.LastIndex, 1)
+		    SetOption("ResponseAsURL") = True
+		    
+		    OptionsListBox.AddRow("Size", "1024x1024")
+		    OptionsListBox.RowTag(OptionsListBox.LastIndex) = False ' optional
+		    OptionsListBox.CellType(OptionsListBox.LastIndex, 1) = Listbox.TypeEditable
+		    
+		    OptionsListBox.AddRow("Style", "vivid")
+		    OptionsListBox.RowTag(OptionsListBox.LastIndex) = False ' optional
+		    OptionsListBox.CellType(OptionsListBox.LastIndex, 1) = Listbox.TypeEditable
+		    
+		  Case "Images: Modify"
+		    OptionsListBox.AddRow("Image", "")
+		    OptionsListBox.RowTag(OptionsListBox.LastIndex) = True ' required
+		    OptionsListBox.AddRow("Mask", "")
+		    OptionsListBox.RowTag(OptionsListBox.LastIndex) = False ' optional
+		    
+		    OptionsListBox.AddRow("Prompt", "")
+		    OptionsListBox.RowTag(OptionsListBox.LastIndex) = True ' required
+		    OptionsListBox.CellType(OptionsListBox.LastIndex, 1) = Listbox.TypeEditable
+		    SetOption("Prompt") = ""
+		    
+		    OptionsListBox.AddRow("Number of results", "1")
+		    OptionsListBox.RowTag(OptionsListBox.LastIndex) = False ' optional
+		    OptionsListBox.CellType(OptionsListBox.LastIndex, 1) = Listbox.TypeEditable
+		    
+		    OptionsListBox.AddRow("Size", "1024x1024")
+		    OptionsListBox.RowTag(OptionsListBox.LastIndex) = False ' optional
+		    OptionsListBox.CellType(OptionsListBox.LastIndex, 1) = Listbox.TypeEditable
+		    
+		    OptionsListBox.AddRow("ResponseAsURL", "")
+		    OptionsListBox.RowTag(OptionsListBox.LastIndex) = False ' optional
+		    OptionsListBox.CellType(OptionsListBox.LastIndex, 1) = Listbox.TypeCheckbox
+		    OptionsListBox.CellState(OptionsListBox.LastIndex, 1) = CheckBox.CheckedStates.Checked
+		    SetOption(OptionsListBox.Cell(OptionsListBox.LastIndex, 0)) = OptionsListBox.CellTag(OptionsListBox.LastIndex, 1)
+		    SetOption("ResponseAsURL") = True
+		    
+		    OptionsListBox.AddRow("Size", "1024x1024")
+		    OptionsListBox.RowTag(OptionsListBox.LastIndex) = False ' optional
+		    OptionsListBox.CellType(OptionsListBox.LastIndex, 1) = Listbox.TypeEditable
+		    
+		  Case "Images: Recognize"
+		    OptionsListBox.AddRow("Image", "")
+		    OptionsListBox.RowTag(OptionsListBox.LastIndex) = True ' required
+		    
+		    OptionsListBox.AddRow("Image URL", "")
+		    OptionsListBox.CellType(OptionsListBox.LastIndex, 1) = Listbox.TypeEditable
+		    SetOption("Image URL") = ""
+		    OptionsListBox.RowTag(OptionsListBox.LastIndex) = True ' required
+		    
+		    OptionsListBox.AddRow("Prompt", "")
+		    OptionsListBox.RowTag(OptionsListBox.LastIndex) = True ' required
+		    OptionsListBox.CellType(OptionsListBox.LastIndex, 1) = Listbox.TypeEditable
+		    SetOption("Prompt") = ""
+		    
+		    OptionsListBox.AddRow("MaxTokens", "1024")
+		    OptionsListBox.RowTag(OptionsListBox.LastIndex) = False ' optional
+		    OptionsListBox.CellType(OptionsListBox.LastIndex, 1) = Listbox.TypeEditable
+		    SetOption("MaxTokens") = 1024
+		    
+		    OptionsListBox.AddRow("Number of results", "1")
+		    OptionsListBox.RowTag(OptionsListBox.LastIndex) = False ' optional
+		    OptionsListBox.CellType(OptionsListBox.LastIndex, 1) = Listbox.TypeEditable
+		    
+		    OptionsListBox.AddRow("Stop", "")
+		    OptionsListBox.RowTag(OptionsListBox.LastIndex) = False ' optional
+		    OptionsListBox.CellType(OptionsListBox.LastIndex, 1) = Listbox.TypeEditable
+		    
+		    OptionsListBox.AddRow("Temperature", "1.0")
+		    OptionsListBox.RowTag(OptionsListBox.LastIndex) = False ' optional
+		    OptionsListBox.CellType(OptionsListBox.LastIndex, 1) = Listbox.TypeEditable
+		    
+		  Case "Moderation: Categorize for sex, violence, etc."
+		    OptionsListBox.AddRow("Input", "")
+		    OptionsListBox.RowTag(OptionsListBox.LastIndex) = True ' required
+		    OptionsListBox.CellType(OptionsListBox.LastIndex, 1) = Listbox.TypeEditable
+		    SetOption("Input") = ""
+		    
+		  Case "Audio: Synthesize speech"
+		    OptionsListBox.AddRow("Input", "")
+		    OptionsListBox.RowTag(OptionsListBox.LastIndex) = True ' required
+		    OptionsListBox.CellType(OptionsListBox.LastIndex, 1) = Listbox.TypeEditable
+		    SetOption("Input") = ""
+		    
+		    OptionsListBox.AddRow("Voice", "alloy")
+		    OptionsListBox.RowTag(OptionsListBox.LastIndex) = False ' optional
+		    OptionsListBox.CellType(OptionsListBox.LastIndex, 1) = Listbox.TypeEditable
+		    SetOption("Voice") = "alloy"
+		    
+		    OptionsListBox.AddRow("Response format", "mp3")
+		    OptionsListBox.RowTag(OptionsListBox.LastIndex) = True ' required
+		    OptionsListBox.CellType(OptionsListBox.LastIndex, 1) = Listbox.TypeEditable
+		    SetOption("Response format") = "mp3"
+		    
+		  Case "Audio: Transcribe English audio", "Audio: Translate audio to English text"
+		    OptionsListBox.AddRow("File", "")
+		    OptionsListBox.RowTag(OptionsListBox.LastIndex) = True ' required
+		    OptionsListBox.CellType(OptionsListBox.LastIndex, 1) = Listbox.TypeEditable
+		    
+		    OptionsListBox.AddRow("Language", "")
+		    OptionsListBox.RowTag(OptionsListBox.LastIndex) = False ' optional
+		    OptionsListBox.CellType(OptionsListBox.LastIndex, 1) = Listbox.TypeEditable
+		    
+		    OptionsListBox.AddRow("Prompt", "")
+		    OptionsListBox.RowTag(OptionsListBox.LastIndex) = False ' optional
+		    OptionsListBox.CellType(OptionsListBox.LastIndex, 1) = Listbox.TypeEditable
+		    
+		    OptionsListBox.AddRow("Temperature", "1.0")
+		    OptionsListBox.RowTag(OptionsListBox.LastIndex) = False ' optional
+		    OptionsListBox.CellType(OptionsListBox.LastIndex, 1) = Listbox.TypeEditable
+		    
+		  Case "Text: Chat"
+		    OptionsListBox.AddRow("", "Select a model and click ""Go""")
+		    Return
+		    ' OptionsListBox.AddRow("Prompt", "")
+		    ' OptionsListBox.CellType(OptionsListBox.LastIndex, 1) = Listbox.TypeEditable
+		    ' SetOption("Prompt") = ""
+		    '
+		    ' OptionsListBox.AddRow("MaxTokens", "1024")
+		    ' OptionsListBox.CellType(OptionsListBox.LastIndex, 1) = Listbox.TypeEditable
+		    ' SetOption("MaxTokens") = 1024
+		    '
+		    ' OptionsListBox.AddRow("Number of results", "1")
+		    ' OptionsListBox.CellType(OptionsListBox.LastIndex, 1) = Listbox.TypeEditable
+		    '
+		    ' OptionsListBox.AddRow("Stop", "")
+		    ' OptionsListBox.CellType(OptionsListBox.LastIndex, 1) = Listbox.TypeEditable
+		    '
+		    ' OptionsListBox.AddRow("Temperature", "1.0")
+		    ' OptionsListBox.CellType(OptionsListBox.LastIndex, 1) = Listbox.TypeEditable
+		    
+		  Else
+		    Return
+		  End Select
+		  
+		  OptionsListBox.AddRow("User", "")
+		  OptionsListBox.RowTag(OptionsListBox.LastIndex) = False ' optional
+		  OptionsListBox.CellType(OptionsListBox.LastIndex, 1) = Listbox.TypeEditable
+		  
 		End Sub
 	#tag EndEvent
 #tag EndEvents
-#tag Events ResultCountSlider
+#tag Events PerformRequestBtn
 	#tag Event
-		Sub ValueChanged()
-		  mResultCount = Me.Value
-		  ResultCountLbl.Text = Format(mResultCount, "##0")
+		Sub Action()
+		  If TaskSelectMenu.Text = "Select AI Task..." Then Return
+		  If Not IsOptionSet("Model") Then
+		    For i As Integer = 0 To ModelList.ListCount - 1
+		      If ModelList.Selected(i) Then
+		        Dim m As OpenAI.Model = ModelList.RowTag(i)
+		        If m <> Nil Then SetOption("Model") = m
+		        Exit For
+		      End If
+		    Next
+		    If Not IsOptionSet("Model") Then
+		      Call MsgBox("You must select an AI model from the list.", 16, "Missing parameter")
+		      Return
+		    End If
+		  End If
+		  Select Case TaskSelectMenu.Text
+		  Case "Images: Generate"
+		    StatusBarLbl.Text = "Working..."
+		    ToggleLockUI()
+		    mWorker = New Thread
+		    AddHandler mWorker.Run, WeakAddressOf RunCreateImage
+		    mWorker.Priority = 3
+		    mWorker.Run()
+		    
+		  Case "Images: Modify"
+		    StatusBarLbl.Text = "Working..."
+		    ToggleLockUI()
+		    mWorker = New Thread
+		    AddHandler mWorker.Run, WeakAddressOf RunEditImage
+		    mWorker.Priority = 3
+		    mWorker.Run()
+		    
+		  Case "Images: Recognize"
+		    StatusBarLbl.Text = "Working..."
+		    ToggleLockUI()
+		    mWorker = New Thread
+		    AddHandler mWorker.Run, WeakAddressOf RunRecognizeImage
+		    mWorker.Priority = 3
+		    mWorker.Run()
+		    
+		  Case "Moderation: Categorize for sex, violence, etc."
+		    StatusBarLbl.Text = "Working..."
+		    ToggleLockUI()
+		    mWorker = New Thread
+		    AddHandler mWorker.Run, WeakAddressOf RunDoModeration
+		    mWorker.Priority = 3
+		    mWorker.Run()
+		    
+		    
+		  Case "Audio: Synthesize speech"
+		    mAudioFile = GetSaveFolderItem(UploadabeFileTypes.All, "output." + GetOption("Response format", "mp3"))
+		    If mAudioFile = Nil Then Return
+		    StatusBarLbl.Text = "Working..."
+		    ToggleLockUI()
+		    mWorker = New Thread
+		    AddHandler mWorker.Run, WeakAddressOf RunDoSpeechSynth
+		    mWorker.Priority = 3
+		    mWorker.Run()
+		    
+		  Case "Audio: Transcribe English audio"
+		    mAudioFile = GetOption("File")
+		    If mAudioFile = Nil Or Not mAudioFile.Exists Or mAudioFile.Directory Then Return
+		    StatusBarLbl.Text = "Working..."
+		    ToggleLockUI()
+		    mWorker = New Thread
+		    AddHandler mWorker.Run, WeakAddressOf RunDoTranscription
+		    mWorker.Priority = 3
+		    mWorker.Run()
+		    
+		  Case "Audio: Translate audio to English text"
+		    mAudioFile = GetOption("File")
+		    If mAudioFile = Nil Or Not mAudioFile.Exists Or mAudioFile.Directory Then Return
+		    StatusBarLbl.Text = "Working..."
+		    ToggleLockUI()
+		    mWorker = New Thread
+		    AddHandler mWorker.Run, WeakAddressOf RunDoTranslation
+		    mWorker.Priority = 3
+		    mWorker.Run()
+		    
+		  Case "Text: Chat"
+		    Dim m As OpenAI.Model = GetOption("Model", OpenAI.Model.Lookup("gpt-4"))
+		    Dim chatwnd As New ChatWindow(m)
+		    chatwnd.Show()
+		  End Select
+		  
 		End Sub
 	#tag EndEvent
 #tag EndEvents
@@ -1708,72 +1654,13 @@ End
 		  If MsgBox("Abort this request?", 4 + 48, "Confirm abort") <> 6 Then Return
 		  mWorker.Kill()
 		  StatusBarLbl.Text = "Aborted"
-		  DoGenImageBtn.Enabled = True
-		  DoGenImageURLBtn.Enabled = True
-		  DoSpeechSynthBtn.Enabled = True
-		  DoModerationBtn.Enabled = True
+		  OptionsListBox.Enabled = True
+		  TaskSelectMenu.Enabled = True
+		  PerformRequestBtn.Enabled = True
 		  mWorker = Nil
 		  ReplyText.Text = "Aborted by user."
 		  Me.Visible = False
 		  RequestProgressBar.Visible = False
-		End Sub
-	#tag EndEvent
-#tag EndEvents
-#tag Events DoTranscriptionBtn
-	#tag Event
-		Sub Action()
-		  mAudioFile = GetOpenFolderItem(UploadabeFileTypes.All)
-		  If mAudioFile = Nil Or Not mAudioFile.Exists Or mAudioFile.Directory Then Return
-		  StatusBarLbl.Text = "Working..."
-		  #If RBVersion > 2019 Then
-		    PromptText.Text = mAudioFile.NativePath
-		  #Else
-		    PromptText.Text = mAudioFile.AbsolutePath
-		  #endif
-		  ToggleLockUI()
-		  mWorker = New Thread
-		  AddHandler mWorker.Run, WeakAddressOf RunDoTranscription
-		  mWorker.Priority = 3
-		  mWorker.Run()
-		End Sub
-	#tag EndEvent
-#tag EndEvents
-#tag Events DoTranslationBtn
-	#tag Event
-		Sub Action()
-		  mAudioFile = GetOpenFolderItem(UploadabeFileTypes.All)
-		  If mAudioFile = Nil Or Not mAudioFile.Exists Or mAudioFile.Directory Then Return
-		  StatusBarLbl.Text = "Working..."
-		  PromptText.Text = mAudioFile.Name
-		  ToggleLockUI()
-		  mWorker = New Thread
-		  AddHandler mWorker.Run, WeakAddressOf RunDoTranslation
-		  mWorker.Priority = 3
-		  mWorker.Run()
-		End Sub
-	#tag EndEvent
-#tag EndEvents
-#tag Events DoChatBtn
-	#tag Event
-		Sub Action()
-		  Dim chatwnd As New ChatWindow(mModel)
-		  chatwnd.Show()
-		End Sub
-	#tag EndEvent
-#tag EndEvents
-#tag Events DoSpeechSynthBtn
-	#tag Event
-		Sub Action()
-		  mAudioFile = GetSaveFolderItem(UploadabeFileTypes.AudioMpeg, "output.mp3")
-		  If mAudioFile = Nil Then Return
-		  If PromptText.Text = "" Then Return
-		  StatusBarLbl.Text = "Working..."
-		  mAPIPrompt = PromptText.Text
-		  ToggleLockUI()
-		  mWorker = New Thread
-		  AddHandler mWorker.Run, WeakAddressOf RunDoSpeechSynth
-		  mWorker.Priority = 3
-		  mWorker.Run()
 		End Sub
 	#tag EndEvent
 #tag EndEvents
@@ -1816,7 +1703,7 @@ End
 		    StatusBarLbl.Text = "Error"
 		  Else
 		    Select Case mAPIReply.ResultType
-		    Case OpenAI.ResultType.String, OpenAI.ResultType.PictureURL
+		    Case OpenAI.ResultType.String
 		      mAPIImage = Nil
 		      ReplyText.Text = ""
 		      For i As Integer = 0 To mAPIReply.ResultCount - 1
@@ -1828,9 +1715,16 @@ End
 		      Dim js As JSONItem = mAPIReply.GetResult
 		      js.Compact = False
 		      ReplyText.Text = RTrim(js.ToString)
+		      
 		    Case OpenAI.ResultType.Picture
 		      ReplyText.Text = mAPIReply.RevisedPrompt
 		      mAPIImage = mAPIReply.GetResult
+		      
+		    Case OpenAI.ResultType.PictureURL
+		      Dim url As String = Trim(mAPIReply.GetResult)
+		      ReplyText.Text = "URL: " + url + EndOfLine + EndOfLine + "Revised prompt: " + mAPIReply.RevisedPrompt
+		      mAPIImage = FetchImageURL(url)
+		      
 		    Case OpenAI.ResultType.Audio
 		      ReplyText.Text = ""
 		      Dim bs As BinaryStream
