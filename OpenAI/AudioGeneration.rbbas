@@ -32,14 +32,19 @@ Inherits OpenAI.Response
 		  End If
 		  Dim client As New OpenAIClient
 		  Dim audiodata As MemoryBlock = client.SendRequest("/v1/audio/speech", Request)
-		  Dim fake As New JSONItem
-		  fake.Value("id") = "FAKE-123"
-		  fake.Value("created") = DateToEpoch(New Date)
-		  If Request.Model <> Nil Then fake.Value("model") = Request.Model.ID
-		  Dim res As New AudioGeneration(fake, client)
-		  res.mAudioData = audiodata
-		  res.mAudioFormat = Request.ResponseFormat
-		  Return res
+		  If client.LastStatusCode <> 200 Then
+		    Dim result As New JSONItem(audiodata)
+		    Raise New OpenAIException(result)
+		  Else
+		    Dim fake As New JSONItem
+		    fake.Value("id") = "FAKE-123"
+		    fake.Value("created") = DateToEpoch(New Date)
+		    If Request.Model <> Nil Then fake.Value("model") = Request.Model.ID
+		    Dim res As New AudioGeneration(fake, client)
+		    res.mAudioData = audiodata
+		    res.mAudioFormat = Request.ResponseFormat
+		    Return res
+		  End If
 		End Function
 	#tag EndMethod
 
@@ -91,7 +96,7 @@ Inherits OpenAI.Response
 		  End If
 		  Dim client As New OpenAIClient
 		  Dim data As String = client.SendRequest("/v1/audio/speech", Request)
-		  If client.LastErrorCode <> 0 Then Raise New OpenAIException(client)
+		  If client.LastStatusCode <> 200 Then Raise New OpenAIException(client)
 		  Return data
 		End Function
 	#tag EndMethod
