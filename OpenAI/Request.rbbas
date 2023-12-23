@@ -1,8 +1,12 @@
 #tag Class
 Protected Class Request
 	#tag Method, Flags = &h0
-		Sub Constructor()
-		  mRequest = New JSONItem
+		Sub Constructor(Optional LoadFrom As JSONItem)
+		  If LoadFrom <> Nil Then
+		    mRequest = LoadFrom
+		  Else
+		    mRequest = New JSONItem
+		  End If
 		End Sub
 	#tag EndMethod
 
