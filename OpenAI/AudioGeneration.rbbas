@@ -30,6 +30,7 @@ Inherits OpenAI.Response
 		  If Request.Model <> Nil Then fake.Value("model") = Request.Model.ID
 		  Dim res As New AudioGeneration(fake, client)
 		  res.mAudioData = audiodata
+		  res.mAudioFormat = Request.ResponseFormat
 		  Return res
 		End Function
 	#tag EndMethod
@@ -127,6 +128,12 @@ Inherits OpenAI.Response
 		End Function
 	#tag EndMethod
 
+	#tag Method, Flags = &h1
+		Protected Function GetResponseFormat() As String
+		  Return mAudioFormat
+		End Function
+	#tag EndMethod
+
 	#tag Method, Flags = &h0
 		Function GetResult(Index As Integer = 0) As Variant
 		  ' Returns the result at Index, as raw audio data.
@@ -221,6 +228,10 @@ Inherits OpenAI.Response
 
 	#tag Property, Flags = &h21
 		Private mAudioData As MemoryBlock
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mAudioFormat As String
 	#tag EndProperty
 
 	#tag ComputedProperty, Flags = &h0

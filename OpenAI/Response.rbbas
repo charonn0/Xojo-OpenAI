@@ -86,6 +86,12 @@ Protected Class Response
 		End Function
 	#tag EndMethod
 
+	#tag Method, Flags = &h1
+		Protected Function GetResponseFormat() As String
+		  Return "txt"
+		End Function
+	#tag EndMethod
+
 	#tag Method, Flags = &h0
 		Function GetResult(Index As Integer = 0) As Variant
 		  Dim results As JSONItem
@@ -277,6 +283,15 @@ Protected Class Response
 			End Get
 		#tag EndGetter
 		ReplyTokenCount As Integer
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  Return GetResponseFormat()
+			End Get
+		#tag EndGetter
+		ResponseFormat As String
 	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0

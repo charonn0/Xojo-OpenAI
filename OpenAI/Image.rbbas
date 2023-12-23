@@ -132,6 +132,17 @@ Inherits OpenAI.Response
 		End Function
 	#tag EndMethod
 
+	#tag Method, Flags = &h1
+		Protected Function GetResponseFormat() As String
+		  Dim results As JSONItem = Super.GetResult()
+		  If results.HasName("b64_json") Then
+		    Return "png"
+		  ElseIf results.HasName("url") Then
+		    Return "url"
+		  End If
+		End Function
+	#tag EndMethod
+
 	#tag Method, Flags = &h0
 		Function GetResult(Index As Integer = 0) As Variant
 		  ' Returns the result at Index, as a Picture object or a String URL.
