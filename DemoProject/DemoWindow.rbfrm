@@ -43,12 +43,10 @@ Begin Window DemoWindow
       Scope           =   0
       TabIndex        =   2
       TabPanelIndex   =   0
-      TabStop         =   True
       TextFont        =   "System"
       TextSize        =   0.0
       TextUnit        =   0
       Top             =   59
-      Transparent     =   True
       Underline       =   False
       Visible         =   True
       Width           =   883
@@ -74,7 +72,6 @@ Begin Window DemoWindow
          Selectable      =   False
          TabIndex        =   21
          TabPanelIndex   =   0
-         TabStop         =   True
          Text            =   "Reply/Output:"
          TextAlign       =   0
          TextColor       =   "&c00000000"
@@ -107,8 +104,6 @@ Begin Window DemoWindow
          Italic          =   False
          Left            =   32
          LimitText       =   0
-         LineHeight      =   0.0
-         LineSpacing     =   1.0
          LockBottom      =   True
          LockedInPosition=   False
          LockLeft        =   True
@@ -130,9 +125,7 @@ Begin Window DemoWindow
          TextSize        =   0.0
          TextUnit        =   0
          Top             =   325
-         Transparent     =   True
          Underline       =   False
-         UnicodeMode     =   0
          UseFocusRing    =   True
          Visible         =   True
          Width           =   300
@@ -144,6 +137,7 @@ Begin Window DemoWindow
          Backdrop        =   0
          DoubleBuffer    =   False
          Enabled         =   True
+         EraseBackground =   True
          Height          =   281
          HelpTag         =   ""
          Index           =   -2147483648
@@ -159,7 +153,6 @@ Begin Window DemoWindow
          TabPanelIndex   =   0
          TabStop         =   True
          Top             =   325
-         Transparent     =   True
          UseFocusRing    =   True
          Visible         =   True
          Width           =   547
@@ -186,7 +179,6 @@ Begin Window DemoWindow
          Selectable      =   False
          TabIndex        =   23
          TabPanelIndex   =   0
-         TabStop         =   True
          Text            =   "Image output:"
          TextAlign       =   0
          TextColor       =   "&c00000000"
@@ -235,7 +227,6 @@ Begin Window DemoWindow
          ScrollbarHorizontal=   False
          ScrollBarVertical=   True
          SelectionType   =   0
-         ShowDropIndicator=   False
          TabIndex        =   11
          TabPanelIndex   =   0
          TabStop         =   True
@@ -243,7 +234,6 @@ Begin Window DemoWindow
          TextSize        =   0.0
          TextUnit        =   0
          Top             =   81
-         Transparent     =   True
          Underline       =   False
          UseFocusRing    =   True
          Visible         =   True
@@ -287,7 +277,6 @@ Begin Window DemoWindow
          ScrollbarHorizontal=   False
          ScrollBarVertical=   True
          SelectionType   =   0
-         ShowDropIndicator=   False
          TabIndex        =   25
          TabPanelIndex   =   0
          TabStop         =   True
@@ -295,7 +284,6 @@ Begin Window DemoWindow
          TextSize        =   0.0
          TextUnit        =   0
          Top             =   105
-         Transparent     =   True
          Underline       =   False
          UseFocusRing    =   True
          Visible         =   True
@@ -330,7 +318,6 @@ Begin Window DemoWindow
          TextSize        =   0.0
          TextUnit        =   0
          Top             =   81
-         Transparent     =   True
          Underline       =   False
          Visible         =   True
          Width           =   409
@@ -362,7 +349,6 @@ Begin Window DemoWindow
          TextSize        =   0.0
          TextUnit        =   0
          Top             =   79
-         Transparent     =   True
          Underline       =   False
          Visible         =   True
          Width           =   56
@@ -394,7 +380,6 @@ Begin Window DemoWindow
          TextSize        =   0.0
          TextUnit        =   0
          Top             =   275
-         Transparent     =   True
          Underline       =   False
          Visible         =   False
          Width           =   209
@@ -404,7 +389,6 @@ Begin Window DemoWindow
          Enabled         =   True
          Height          =   12
          HelpTag         =   ""
-         Indeterminate   =   False
          Index           =   -2147483648
          InitialParent   =   "OpenAIGroup"
          Left            =   357
@@ -415,12 +399,9 @@ Begin Window DemoWindow
          LockTop         =   False
          Maximum         =   0
          Scope           =   0
-         TabIndex        =   9
          TabPanelIndex   =   0
-         TabStop         =   True
          Top             =   263
-         Transparent     =   True
-         Value           =   0.0
+         Value           =   0
          Visible         =   False
          Width           =   209
       End
@@ -446,7 +427,6 @@ Begin Window DemoWindow
          Selectable      =   False
          TabIndex        =   29
          TabPanelIndex   =   0
-         TabStop         =   True
          Text            =   "Estimated token usage: 0"
          TextAlign       =   0
          TextColor       =   "&c80808000"
@@ -497,7 +477,6 @@ Begin Window DemoWindow
       TextSize        =   0.0
       TextUnit        =   0
       Top             =   25
-      Transparent     =   True
       Underline       =   False
       UseFocusRing    =   True
       Visible         =   True
@@ -530,7 +509,6 @@ Begin Window DemoWindow
       TextSize        =   0.0
       TextUnit        =   0
       Top             =   25
-      Transparent     =   True
       Underline       =   False
       Visible         =   True
       Width           =   48
@@ -557,7 +535,6 @@ Begin Window DemoWindow
       Selectable      =   False
       TabIndex        =   4
       TabPanelIndex   =   0
-      TabStop         =   True
       Text            =   "API Key:"
       TextAlign       =   2
       TextColor       =   "&c00000000"
@@ -571,17 +548,17 @@ Begin Window DemoWindow
       Width           =   79
    End
    Begin Timer RefreshTimer
-      Enabled         =   True
+      Height          =   32
       Index           =   -2147483648
       InitialParent   =   ""
+      Left            =   ""
       LockedInPosition=   False
       Mode            =   0
       Period          =   1
       Scope           =   0
-      TabIndex        =   4
       TabPanelIndex   =   0
-      TabStop         =   True
-      Visible         =   True
+      Top             =   ""
+      Width           =   32
    End
    Begin Label URLLbl
       AutoDeactivate  =   True
@@ -605,7 +582,6 @@ Begin Window DemoWindow
       Selectable      =   False
       TabIndex        =   5
       TabPanelIndex   =   0
-      TabStop         =   True
       Text            =   "https://github.com/charonn0/Xojo-OpenAI"
       TextAlign       =   1
       TextColor       =   "&c0000FF00"
@@ -640,7 +616,6 @@ Begin Window DemoWindow
       Selectable      =   False
       TabIndex        =   3
       TabPanelIndex   =   0
-      TabStop         =   True
       Text            =   "Waiting for API key"
       TextAlign       =   0
       TextColor       =   "&c00000000"
@@ -755,7 +730,10 @@ End
 		    ModelList.Cell(ModelList.LastIndex, 1) = usedfor
 		    ModelList.RowTag(ModelList.LastIndex) = mdl
 		  Next
-		  ModelList.ListIndex = 0
+		  ModelList.ColumnsortDirection(0)=ListBox.SortAscending
+		  ModelList.SortedColumn=0 //first column is the sort column
+		  ModelList.Sort
+		  
 		End Sub
 	#tag EndMethod
 
