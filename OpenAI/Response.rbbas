@@ -2,6 +2,11 @@
 Protected Class Response
 	#tag Method, Flags = &h0
 		Sub Constructor(ResponseData As JSONItem)
+		  ' Loads a previously created Response that was stored as JSON.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Response.Constructor
+		  
 		  mResponse = ResponseData
 		  mClient = New OpenAIClient()
 		End Sub
@@ -101,6 +106,12 @@ Protected Class Response
 
 	#tag Method, Flags = &h0
 		Function GetResult(Index As Integer = 0) As Variant
+		  ' Use this method to retrieve the response(s) to the request. The first (and often only)
+		  ' response is at index zero. The last response is at Response.ResultCount-1.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Response.GetResult
+		  
 		  Dim results As JSONItem
 		  Select Case True
 		  Case mResponse.HasName("data")
@@ -123,6 +134,11 @@ Protected Class Response
 
 	#tag Method, Flags = &h0
 		Function GetResultAttribute(Index As Integer, AttributeName As String, DefaultValue As Variant = Nil) As Variant
+		  ' Use this method to retrieve parts of the JSON reply that are not exposed through the wrapper.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Response.GetResultAttribute
+		  
 		  Dim results As JSONItem
 		  Select Case True
 		  Case mResponse.HasName("data")
@@ -185,6 +201,12 @@ Protected Class Response
 
 	#tag Method, Flags = &h0
 		Function Tokens(ResultIndex As Integer = 0) As OpenAI.TokenEngine
+		  ' A reference to a TokenEngine object containing token usage statistics for the result
+		  ' at ResultIndex. Not all endpoints provide token information.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Response.Tokens
+		  
 		  If UBound(mTokens) = -1 Then
 		    For i As Integer = 0 To Me.ResultCount - 1
 		      mTokens.Append(New TokenEngineCreator(Me, i))
@@ -196,6 +218,11 @@ Protected Class Response
 
 	#tag Method, Flags = &h0
 		Function ToString() As String
+		  ' Serializes the internal JSONItem that was constructed from OpenAI's original response.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Response.ToString
+		  
 		  Return mResponse.ToString()
 		End Function
 	#tag EndMethod
@@ -204,6 +231,11 @@ Protected Class Response
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  ' This property contains the date and time of when this response was generated.
+			  '
+			  ' See:
+			  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Response.Created
+			  
 			  Return GetCreationDate()
 			End Get
 		#tag EndGetter
@@ -213,6 +245,11 @@ Protected Class Response
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  ' This property contains the API ID of the response, if it has one.
+			  '
+			  ' See:
+			  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Response.ID
+			  
 			  Return mResponse.Lookup("id", "")
 			End Get
 		#tag EndGetter
@@ -226,6 +263,11 @@ Protected Class Response
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  ' This property contains the API ID of the response, if it has one.
+			  '
+			  ' See:
+			  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Response.Model
+			  
 			  If mResponse.HasName("model") Then
 			    Return OpenAI.Model.Lookup(mResponse.Value("model").StringValue)
 			  End If
@@ -295,6 +337,11 @@ Protected Class Response
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  ' This property contains the API ID of the response, if it has one.
+			  '
+			  ' See:
+			  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Response.ResponseFormat
+			  
 			  Return GetResponseFormat()
 			End Get
 		#tag EndGetter
