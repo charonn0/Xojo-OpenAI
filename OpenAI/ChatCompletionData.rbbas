@@ -122,6 +122,72 @@ Protected Class ChatCompletionData
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Sub InsertMessage(Index As Integer, Role As String, Content As String, Images() As Picture)
+		  Dim urls() As String
+		  For i As Integer = 0 To UBound(Images)
+		    urls.Append("data:image/png;base64," + EncodeBase64(Images(i).GetData(Picture.FormatPNG)))
+		  Next
+		  Me.InsertMessage(Index, Role, Content, urls)
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub InsertMessage(Index As Integer, Role As String, Content As String, Image As Picture)
+		  Dim url As String = "data:image/png;base64," + EncodeBase64(Image.GetData(Picture.FormatPNG))
+		  Me.InsertMessage(Index, Role, Content, url)
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub InsertMessage(Index As Integer, Role As String, Content As String, ImageURLs() As String)
+		  Dim msg As New JSONItem()
+		  msg.Value("role") = Lowercase(Role)
+		  
+		  Dim contents As New JSONItem
+		  Dim msg1 As New JSONItem
+		  msg1.Value("type") = "text"
+		  msg1.Value("text") = Content
+		  contents.Append(msg1)
+		  
+		  For i As Integer = 0 To UBound(ImageURLs)
+		    Dim msg2 As New JSONItem
+		    msg2.Value("type") = "image_url"
+		    Dim url As New JSONItem
+		    url.Value("url") = ImageURLs(i)
+		    msg2.Value("image_url") = url
+		    contents.Append(msg2)
+		  Next
+		  
+		  msg.Value("content") = contents
+		  mMessages.Insert(Index, msg)
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub InsertMessage(Index As Integer, Role As String, Content As String, ImageURL As String)
+		  Dim msg As New JSONItem()
+		  msg.Value("role") = Lowercase(Role)
+		  
+		  Dim msg1 As New JSONItem
+		  msg1.Value("type") = "text"
+		  msg1.Value("text") = Content
+		  
+		  Dim msg2 As New JSONItem
+		  msg2.Value("type") = "image_url"
+		  Dim url As New JSONItem
+		  url.Value("url") = ImageURL
+		  msg2.Value("image_url") = url
+		  
+		  Dim contents As New JSONItem
+		  contents.Append(msg1)
+		  contents.Append(msg2)
+		  
+		  msg.Value("content") = contents
+		  mMessages.Insert(Index, msg)
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		 Shared Function Load(ChatLogFile As FolderItem) As OpenAI.ChatCompletionData
 		  ' Loads a chat log from a previously saved file.
 		  '
