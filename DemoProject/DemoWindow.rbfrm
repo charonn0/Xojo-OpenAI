@@ -703,9 +703,11 @@ End
 		      
 		    Case "/v1/completions"
 		      usedfor = "Text completion"
+		      Continue ' skip. deprecated
 		      
 		    Case "/v1/edits"
 		      usedfor = "Text modification"
+		      Continue ' skip. deprecated
 		      
 		    Case "/v1/fine-tunes"
 		      usedfor = "Fine tuning"
@@ -885,7 +887,7 @@ End
 		  If IsOptionSet("Stop") Then request.Stop = GetOption("Stop")
 		  If IsOptionSet("Temperature") Then request.Temperature = GetOption("Temperature")
 		  If IsOptionSet("MaxTokens") Then request.MaxTokens = GetOption("MaxTokens")
-		  If IsOptionSet("User") Then request.Style = GetOption("User")
+		  If IsOptionSet("User") Then request.User = GetOption("User")
 		  If Not IsOptionSet("Model") Then SetOption("Model") = OpenAI.Model.Lookup("gpt-4-vision-preview")
 		  request.Model = GetOption("Model")
 		  
