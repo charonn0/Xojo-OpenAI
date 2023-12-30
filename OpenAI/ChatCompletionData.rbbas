@@ -96,6 +96,20 @@ Protected Class ChatCompletionData
 		End Sub
 	#tag EndMethod
 
+	#tag Method, Flags = &h1000
+		Sub Constructor(CopyFrom As OpenAI.ChatCompletionData)
+		  ' Creates a new ChatCompletionData instance and initializes it by copying the messages in
+		  ' the CopyFrom parameter.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.ChatCompletionData.Constructor
+		  
+		  Dim data As String = CopyFrom.ToString()
+		  Me.Constructor(New JSONItem(data))
+		  
+		End Sub
+	#tag EndMethod
+
 	#tag Method, Flags = &h0
 		Function GetMessage(Index As Integer) As JSONItem
 		  ' Returns the message at Index as a JSONItem.
@@ -199,6 +213,18 @@ Protected Class ChatCompletionData
 		  bs.Close
 		  Dim js As New JSONItem(cht)
 		  Return New ChatCompletionData(js)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function Operator_Compare(OtherConversation As OpenAI.ChatCompletionData) As Integer
+		  If OtherConversation Is Nil Then Return 1
+		  If OtherConversation.mMessages Is mMessages Then Return 0
+		  Dim a, b As String
+		  a = mMessages.ToString
+		  b = OtherConversation.mMessages.ToString
+		  If StrComp(a, b, 0) = 0 Then Return 1
+		  Return -1
 		End Function
 	#tag EndMethod
 
