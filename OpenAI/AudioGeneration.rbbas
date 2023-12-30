@@ -10,10 +10,11 @@ Inherits OpenAI.Response
 	#tag EndMethod
 
 	#tag Method, Flags = &h1001
-		Protected Sub Constructor(ResponseData As JSONItem, Client As OpenAIClient)
+		Protected Sub Constructor(ResponseData As JSONItem, Client As OpenAIClient, AudioData As MemoryBlock)
 		  // Calling the overridden superclass constructor.
 		  // Constructor(ResponseData As JSONItem, Client As OpenAIClient) -- From Response
 		  Super.Constructor(ResponseData, Client)
+		  mAudioData = AudioData
 		End Sub
 	#tag EndMethod
 
@@ -39,11 +40,9 @@ Inherits OpenAI.Response
 		    Dim fake As New JSONItem
 		    fake.Value("id") = "FAKE-123"
 		    fake.Value("created") = DateToEpoch(New Date)
+		    fake.Value("response_format") = Request.ResponseFormat
 		    If Request.Model <> Nil Then fake.Value("model") = Request.Model.ID
-		    Dim res As New AudioGeneration(fake, client)
-		    res.mAudioData = audiodata
-		    res.mAudioFormat = Request.ResponseFormat
-		    Return res
+		    Return New AudioGeneration(fake, client, audiodata)
 		  End If
 		End Function
 	#tag EndMethod
@@ -143,7 +142,7 @@ Inherits OpenAI.Response
 
 	#tag Method, Flags = &h1
 		Protected Function GetResponseFormat() As String
-		  Return mAudioFormat
+		  Return mResponse.Lookup("response_format", "")
 		End Function
 	#tag EndMethod
 
@@ -241,10 +240,6 @@ Inherits OpenAI.Response
 
 	#tag Property, Flags = &h21
 		Private mAudioData As MemoryBlock
-	#tag EndProperty
-
-	#tag Property, Flags = &h21
-		Private mAudioFormat As String
 	#tag EndProperty
 
 	#tag ComputedProperty, Flags = &h0
