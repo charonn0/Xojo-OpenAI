@@ -61,16 +61,15 @@ Inherits OpenAI.AudioTranscription
 		  Dim result As JSONItem = Response.CreateRaw(client, "/v1/audio/translations", Request)
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
 		  If Not result.HasName("model") And Request.Model <> Nil Then result.Value("model") = Request.Model.ID
-		  Dim res As New OpenAI.AudioTranslation(result, client)
 		  Select Case True
 		  Case request.ResultsAsJSON,  request.ResultsAsText, request.ResultsAsJSON_Verbose
-		    res.mResponseFormat = "txt"
+		    result.Value("response_format") = "txt"
 		  Case request.ResultsAsSRT
-		    res.mResponseFormat = "srt"
+		    result.Value("response_format") = "srt"
 		  Case request.ResultsAsVTT
-		    res.mResponseFormat = "vtt"
+		    result.Value("response_format") = "vtt"
 		  End Select
-		  Return res
+		  Return New OpenAI.AudioTranslation(result, client)
 		End Function
 	#tag EndMethod
 

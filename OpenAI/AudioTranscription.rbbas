@@ -73,16 +73,15 @@ Inherits OpenAI.Response
 		  Dim result As JSONItem = Response.CreateRaw(client, "/v1/audio/transcriptions", Request)
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
 		  If Not result.HasName("model") And Request.Model <> Nil Then result.Value("model") = Request.Model.ID
-		  Dim res As New OpenAI.AudioTranscription(result, client)
 		  Select Case True
 		  Case request.ResultsAsJSON,  request.ResultsAsText, request.ResultsAsJSON_Verbose
-		    res.mResponseFormat = "txt"
+		    result.Value("response_format") = "txt"
 		  Case request.ResultsAsSRT
-		    res.mResponseFormat = "srt"
+		    result.Value("response_format") = "srt"
 		  Case request.ResultsAsVTT
-		    res.mResponseFormat = "vtt"
+		    result.Value("response_format") = "vtt"
 		  End Select
-		  Return res
+		  Return New OpenAI.AudioTranscription(result, client)
 		End Function
 	#tag EndMethod
 
@@ -153,7 +152,7 @@ Inherits OpenAI.Response
 
 	#tag Method, Flags = &h1
 		Protected Function GetResponseFormat() As String
-		  Return mResponseFormat
+		  Return mResponse.Lookup("response_format", "")
 		End Function
 	#tag EndMethod
 
@@ -239,10 +238,6 @@ Inherits OpenAI.Response
 		End Function
 	#tag EndMethod
 
-
-	#tag Property, Flags = &h1
-		Protected mResponseFormat As String
-	#tag EndProperty
 
 	#tag ComputedProperty, Flags = &h0
 		#tag Note
