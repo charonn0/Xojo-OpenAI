@@ -62,6 +62,30 @@ Protected Class Model
 		End Function
 	#tag EndMethod
 
+	#tag Method, Flags = &h0
+		 Shared Function GetModelsForEndpoint(Endpoint As String, Refresh As Boolean = False) As OpenAI.Model()
+		  ' Returns a list of AI models that are compatible with the specified endpoint. The Endpoint parameter
+		  ' is only the path part of the overall URL. For example, in the URL https://api.openai.com/v1/chat/completions
+		  ' the endpoint is "/v1/chat/completions"
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Model.GetModelsForEndpoint
+		  
+		  If Refresh Or UBound(ModelList) = -1 Then ListAvailableModels()
+		  Dim matches() As OpenAI.Model
+		  For Each m As OpenAI.Model In ModelList
+		    Dim ends() As String = Split(m.Endpoint, ";")
+		    For Each e As String In ends
+		      If e.Trim = Endpoint Then
+		        matches.Append(m)
+		        Exit For e
+		      End If
+		    Next
+		  Next
+		  Return matches
+		End Function
+	#tag EndMethod
+
 	#tag Method, Flags = &h21
 		Private Shared Sub ListAvailableModels()
 		  ReDim ModelList(-1)
