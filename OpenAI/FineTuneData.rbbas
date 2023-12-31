@@ -1,31 +1,27 @@
 #tag Class
 Protected Class FineTuneData
 	#tag Method, Flags = &h0
-		Sub AddLine(Prompt As String, Completion As String)
-		  Dim js As New JSONItem
-		  js.Value("prompt") = Prompt
-		  js.Value("completion") = Completion
-		  js.Compact = True
-		  mLines.Append(js)
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h1000
-		Sub Constructor(Optional TrainingData As Dictionary)
-		  ' Create a new training set, optionally converting a Dictionary that contains training data to JSONL format.
-		  '
-		  ' See:
-		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.FineTuneData.Constructor
+		Sub AddLine(SystemPrompt As String, UserPrompt As String, IdealCompletion As String)
+		  Dim messages As New JSONItem
+		  Dim sys, user, ideal As JSONItem
+		  sys = New JSONItem
+		  sys.Value("role") = "system"
+		  sys.Value("content") = SystemPrompt
+		  messages.Append(sys)
 		  
-		  If TrainingData <> Nil Then
-		    For Each key As String In TrainingData.Keys
-		      Dim js As New JSONItem()
-		      js.Value("prompt") = key
-		      js.Value("completion") = TrainingData.Value(key)
-		      mLines.Append(js)
-		    Next
-		  End If
+		  user = New JSONItem
+		  user.Value("role") = "user"
+		  user.Value("content") = UserPrompt
+		  messages.Append(user)
 		  
+		  ideal = New JSONItem
+		  ideal.Value("role") = "assistant"
+		  ideal.Value("content") = IdealCompletion
+		  messages.Append(ideal)
+		  
+		  Dim line As New JSONItem
+		  line.Value("messages") = messages
+		  mLines.Append(line)
 		End Sub
 	#tag EndMethod
 
@@ -42,6 +38,7 @@ Protected Class FineTuneData
 		    End Try
 		  Loop
 		  tis.Close()
+		  mFilename = ExistingFile.Name
 		End Sub
 	#tag EndMethod
 
@@ -58,17 +55,15 @@ Protected Class FineTuneData
 		      Raise New OpenAIException("Invalid JSON line: '" + jsonl + "'" + EndOfLine + err.Message)
 		    End Try
 		  Next
+		  mFilename = ExistingFile.Name
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function FindLine(Prompt As String, Completion As String, StartWith As Integer = 0) As Integer
-		  For i As Integer = StartWith To UBound(mLines)
-		    Dim js As JSONItem = mLines(i)
-		    If Prompt <> "" And Instr(js.Value("prompt"), Prompt) > 0 Then Return i
-		    If Completion <> "" And Instr(js.Value("completion"), Completion) > 0 Then Return i
-		  Next
-		  Return -1
+		 Shared Function Create(TrainingFile As FolderItem, Overwrite As Boolean = False) As OpenAI.FineTuneData
+		  Dim bs As BinaryStream = BinaryStream.Create(TrainingFile, Overwrite)
+		  bs.Close
+		  Return New FineTuneData(TrainingFile)
 		End Function
 	#tag EndMethod
 
@@ -97,10 +92,11 @@ Protected Class FineTuneData
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub Save(TrainingFile As FolderItem)
-		  Dim out As BinaryStream = BinaryStream.Create(TrainingFile)
+		Sub Save(TrainingFile As FolderItem, Overwrite As Boolean = False)
+		  Dim out As BinaryStream = BinaryStream.Create(TrainingFile, Overwrite)
 		  WriteToStream(out)
 		  out.Close
+		  mFilename = TrainingFile.Name
 		  
 		End Sub
 	#tag EndMethod
@@ -131,11 +127,24 @@ Protected Class FineTuneData
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
+			  return mFilename
+			End Get
+		#tag EndGetter
+		Filename As String
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
 			  Return UBound(mLines) + 1
 			End Get
 		#tag EndGetter
 		LineCount As Integer
 	#tag EndComputedProperty
+
+	#tag Property, Flags = &h21
+		Private mFilename As String
+	#tag EndProperty
 
 	#tag Property, Flags = &h21
 		Private mLines() As JSONItem
