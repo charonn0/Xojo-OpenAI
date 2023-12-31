@@ -1,6 +1,5 @@
 #tag Class
-Protected Class FineTune
-Inherits OpenAI.Model
+Protected Class FineTuneJob
 	#tag Method, Flags = &h0
 		Sub Cancel()
 		  Do Until mLock.TryEnter()
@@ -16,7 +15,7 @@ Inherits OpenAI.Model
 		    Dim result As JSONItem
 		    Try
 		      result = New JSONItem(data)
-		      mModel = result
+		      mJob = result
 		    Catch err As JSONException
 		      Raise New OpenAIException(mClient)
 		    End Try
@@ -28,12 +27,10 @@ Inherits OpenAI.Model
 		End Sub
 	#tag EndMethod
 
-	#tag Method, Flags = &h1001
-		Protected Sub Constructor(ResponseData As JSONItem, Client As OpenAIClient)
+	#tag Method, Flags = &h1000
+		Sub Constructor(ResponseData As JSONItem, Client As OpenAIClient)
 		  mLock = New CriticalSection()
-		  // Calling the overridden superclass constructor.
-		  // Constructor(ResponseData As JSONItem) -- From Model
-		  Super.Constructor(ResponseData)
+		  mJob = ResponseData
 		  mClient = Client
 		End Sub
 	#tag EndMethod
@@ -43,7 +40,7 @@ Inherits OpenAI.Model
 		  ' Counts the number of fine tuned models owned by the your organization.
 		  '
 		  ' See:
-		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.FineTune.Count
+		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.FineTuneJob.Count
 		  
 		  If Refresh Or UBound(FineTuneList) = -1 Then ListMyFineTunes()
 		  Return UBound(FineTuneList) + 1
@@ -51,18 +48,18 @@ Inherits OpenAI.Model
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		 Shared Function Create(TrainingFile As OpenAI.File, BaseModel As OpenAI.Model, Name As String = "") As OpenAI.FineTune
-		  If Not BaseModel.AllowFineTuning Then
-		    Raise New OpenAIException("The specified AI model ('" + BaseModel.ID + "') cannot be fine-tuned.")
-		  End If
+		 Shared Function Create(TrainingFile As OpenAI.File, BaseModel As OpenAI.Model, Name As String = "") As OpenAI.FineTuneJob
+		  ' If Not BaseModel.AllowFineTuning Then
+		  ' Raise New OpenAIException("The specified AI model ('" + BaseModel.ID + "') cannot be fine-tuned.")
+		  ' End If
 		  
 		  Dim client As New OpenAIClient
 		  Dim request As New OpenAI.Request
 		  request.TrainingFile = TrainingFile.ID
 		  request.Model = BaseModel
 		  If Name <> "" Then request.Suffix = Name
-		  If FineTune.Prevalidate Then
-		    Dim err As ValidationError = FineTune.IsValid(Request)
+		  If FineTuneJob.Prevalidate Then
+		    Dim err As ValidationError = FineTuneJob.IsValid(Request)
 		    If err <> ValidationError.None Then Raise New OpenAIException(err)
 		  End If
 		  Dim data As String = client.SendRequest("/v1/fine_tuning/jobs", request)
@@ -72,20 +69,28 @@ Inherits OpenAI.Model
 		  Catch err As JSONException
 		    Raise New OpenAIException(client)
 		  End Try
-		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
+		  If result = Nil Then Raise New OpenAIException(data)
 		  ReDim FineTuneList(-1) ' force refresh
-		  Return New OpenAI.FineTune(result, client)
+		  Return New OpenAI.FineTuneJob(result, client)
 		  
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		 Shared Function Create(TrainingFileID As String, BaseModel As OpenAI.Model, Name As String = "") As OpenAI.FineTune
+		 Shared Function Create(TrainingFile As OpenAI.FineTuneData, BaseModel As OpenAI.Model, Name As String = "") As OpenAI.FineTuneJob
+		  Dim data As String = TrainingFile.ToString()
+		  Dim file As OpenAI.File = OpenAI.File.Create(data, "fine-tune", TrainingFile.Filename)
+		  Return FineTuneJob.Create(file, BaseModel, Name)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		 Shared Function Create(TrainingFileID As String, BaseModel As OpenAI.Model, Name As String = "") As OpenAI.FineTuneJob
 		  Dim file As OpenAI.File = OpenAI.File.Lookup(TrainingFileID)
 		  If file = Nil Then
 		    Raise New OpenAIException("The specified training file ('" + TrainingFileID + "') was not found on the server.")
 		  End If
-		  Return FineTune.Create(file, BaseModel, Name)
+		  Return FineTuneJob.Create(file, BaseModel, Name)
 		End Function
 	#tag EndMethod
 
@@ -100,11 +105,11 @@ Inherits OpenAI.Model
 		  Loop
 		  
 		  Try
-		    Dim data As String = mclient.SendRequest("/v1/models/" + Me.ID, "DELETE")
+		    Dim data As String = mClient.SendRequest("/v1/models/" + Me.ID, "DELETE")
 		    Dim result As JSONItem
 		    Try
 		      result = New JSONItem(data)
-		      mModel = result
+		      mJob = result
 		    Catch err As JSONException
 		      Raise New OpenAIException(mClient)
 		    End Try
@@ -116,7 +121,7 @@ Inherits OpenAI.Model
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function GetResult(Index As Integer) As OpenAI.File
+		Function GetResultFile(Index As Integer) As OpenAI.File
 		  Do Until mLock.TryEnter()
 		    #If RBVersion < 2020 Then
 		      App.YieldToNextThread()
@@ -126,10 +131,10 @@ Inherits OpenAI.Model
 		  Loop
 		  
 		  Try
-		    If mModel.HasName("result_files") Then
-		      Dim results As JSONItem = mModel.Value("result_files")
-		      results = results.Child(Index)
-		      Return OpenAI.File.Lookup(results.Value("id").StringValue)
+		    If mJob.HasName("result_files") Then
+		      Dim results As JSONItem = mJob.Value("result_files")
+		      Dim id As String = results.Value(Index)
+		      Return OpenAI.File.Lookup(id)
 		    End If
 		  Finally
 		    mLock.Leave()
@@ -250,21 +255,21 @@ Inherits OpenAI.Model
 		    lst = lst.Value("data")
 		    
 		    For i As Integer = 0 To lst.Count - 1
-		      FineTuneList.Append(New OpenAI.FineTune(lst.Child(i)))
+		      FineTuneList.Append(New OpenAI.FineTuneJob(lst.Child(i), New OpenAIClient))
 		    Next
 		  Loop Until Not hasmore
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		 Shared Function Lookup(Index As Integer, Refresh As Boolean = False) As OpenAI.FineTune
+		 Shared Function Lookup(Index As Integer, Refresh As Boolean = False) As OpenAI.FineTuneJob
 		  If Refresh Or UBound(FineTuneList) = -1 Then ListMyFineTunes()
 		  Return FineTuneList(Index)
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		 Shared Function Lookup(FineTuneID As String, Refresh As Boolean = False) As OpenAI.FineTune
+		 Shared Function Lookup(FineTuneID As String, Refresh As Boolean = False) As OpenAI.FineTuneJob
 		  If Refresh Or UBound(FineTuneList) = -1 Then ListMyFineTunes()
 		  For i As Integer = 0 To UBound(FineTuneList)
 		    If FineTuneList(i).ID = FineTuneID Then
@@ -290,7 +295,7 @@ Inherits OpenAI.Model
 		    Dim result As JSONItem
 		    Try
 		      result = New JSONItem(data)
-		      mModel = result
+		      mJob = result
 		    Catch err As JSONException
 		      Raise New OpenAIException(mClient)
 		    End Try
@@ -306,17 +311,239 @@ Inherits OpenAI.Model
 	#tag EndMethod
 
 
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  Do Until mLock.TryEnter()
+			    #If RBVersion < 2020 Then
+			      App.YieldToNextThread()
+			    #Else
+			      Thread.YieldToNext()
+			    #EndIf
+			  Loop
+			  
+			  Dim results As Integer
+			  Try
+			    results = mJob.Lookup("created_at", 0)
+			  Finally
+			    mLock.Leave()
+			  End Try
+			  If results > 0 Then Return time_t(results)
+			End Get
+		#tag EndGetter
+		Created As Date
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  Do Until mLock.TryEnter()
+			    #If RBVersion < 2020 Then
+			      App.YieldToNextThread()
+			    #Else
+			      Thread.YieldToNext()
+			    #EndIf
+			  Loop
+			  
+			  Dim results As Integer
+			  Try
+			    Dim data As JSONItem = mJob.Lookup("error", Nil)
+			    If data <> Nil Then results = data.Lookup("code", 0)
+			  Finally
+			    mLock.Leave()
+			  End Try
+			  Return results
+			End Get
+		#tag EndGetter
+		ErrorCode As Integer
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  Do Until mLock.TryEnter()
+			    #If RBVersion < 2020 Then
+			      App.YieldToNextThread()
+			    #Else
+			      Thread.YieldToNext()
+			    #EndIf
+			  Loop
+			  
+			  Dim results As String
+			  Try
+			    Dim data As JSONItem = mJob.Lookup("error", Nil)
+			    If data <> Nil Then results = data.Lookup("message", "")
+			  Finally
+			    mLock.Leave()
+			  End Try
+			  Return results
+			End Get
+		#tag EndGetter
+		ErrorMessage As String
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  Do Until mLock.TryEnter()
+			    #If RBVersion < 2020 Then
+			      App.YieldToNextThread()
+			    #Else
+			      Thread.YieldToNext()
+			    #EndIf
+			  Loop
+			  
+			  Dim results As String
+			  Try
+			    Dim data As JSONItem = mJob.Lookup("error", Nil)
+			    If data <> Nil Then results = data.Lookup("param", "")
+			  Finally
+			    mLock.Leave()
+			  End Try
+			  Return results
+			End Get
+		#tag EndGetter
+		ErrorParam As String
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  Do Until mLock.TryEnter()
+			    #If RBVersion < 2020 Then
+			      App.YieldToNextThread()
+			    #Else
+			      Thread.YieldToNext()
+			    #EndIf
+			  Loop
+			  
+			  Dim m As OpenAI.Model
+			  Try
+			    If mJob.HasName("fine_tuned_model") Then
+			      Dim results As String = mJob.Value("fine_tuned_model")
+			      m = OpenAI.Model.Lookup(results)
+			    End If
+			  Finally
+			    mLock.Leave()
+			  End Try
+			  Return m
+			End Get
+		#tag EndGetter
+		FineTunedModel As OpenAI.Model
+	#tag EndComputedProperty
+
 	#tag Property, Flags = &h21
-		Private Shared FineTuneList() As FineTune
+		Private Shared FineTuneList() As FineTuneJob
 	#tag EndProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  Do Until mLock.TryEnter()
+			    #If RBVersion < 2020 Then
+			      App.YieldToNextThread()
+			    #Else
+			      Thread.YieldToNext()
+			    #EndIf
+			  Loop
+			  
+			  Dim results As Integer
+			  Try
+			    results = mJob.Lookup("finished_at", 0)
+			  Finally
+			    mLock.Leave()
+			  End Try
+			  If results > 0 Then Return time_t(results)
+			End Get
+		#tag EndGetter
+		Finished As Date
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  Do Until mLock.TryEnter()
+			    #If RBVersion < 2020 Then
+			      App.YieldToNextThread()
+			    #Else
+			      Thread.YieldToNext()
+			    #EndIf
+			  Loop
+			  
+			  Dim params As New Dictionary
+			  Try
+			    Dim results As JSONItem = mJob.Lookup("hyperparameters", Nil)
+			    For i As Integer = 0 To results.Count - 1
+			      Dim nm As String = results.Name(i)
+			      Dim vl As Variant = results.Value(nm)
+			      params.Value(nm) = vl
+			    Next
+			  Finally
+			    mLock.Leave()
+			  End Try
+			  Return params
+			End Get
+		#tag EndGetter
+		Hyperparameters As Dictionary
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  Do Until mLock.TryEnter()
+			    #If RBVersion < 2020 Then
+			      App.YieldToNextThread()
+			    #Else
+			      Thread.YieldToNext()
+			    #EndIf
+			  Loop
+			  
+			  Dim results As String
+			  Try
+			    results = mJob.Lookup("id", "")
+			  Finally
+			    mLock.Leave()
+			  End Try
+			  Return results
+			End Get
+		#tag EndGetter
+		ID As String
+	#tag EndComputedProperty
 
 	#tag Property, Flags = &h21
 		Private mClient As OpenAIClient
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
+		Private mJob As JSONItem
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
 		Private mLock As CriticalSection
 	#tag EndProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  Do Until mLock.TryEnter()
+			    #If RBVersion < 2020 Then
+			      App.YieldToNextThread()
+			    #Else
+			      Thread.YieldToNext()
+			    #EndIf
+			  Loop
+			  
+			  Dim results As String
+			  Try
+			    results = mJob.Lookup("organization_id", "")
+			  Finally
+			    mLock.Leave()
+			  End Try
+			  Return results
+			End Get
+		#tag EndGetter
+		Organization As String
+	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
@@ -343,17 +570,19 @@ Inherits OpenAI.Model
 			    #EndIf
 			  Loop
 			  
+			  Dim count As Integer
 			  Try
-			    If mModel.HasName("result_files") Then
-			      Dim results As JSONItem = mModel.Value("result_files")
-			      Return results.Count
+			    If mJob.HasName("result_files") Then
+			      Dim results As JSONItem = mJob.Value("result_files")
+			      count = results.Count
 			    End If
 			  Finally
 			    mLock.Leave()
 			  End Try
+			  Return count
 			End Get
 		#tag EndGetter
-		ResultCount As Integer
+		ResultFileCount As Integer
 	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0
@@ -369,7 +598,7 @@ Inherits OpenAI.Model
 			  
 			  Dim stat As JobStatus
 			  Try
-			    Select Case mModel.Lookup("status", "pending")
+			    Select Case mJob.Lookup("status", "pending")
 			    Case "validating_files"
 			      stat = JobStatus.ValidatingFiles
 			    Case "queued"
@@ -391,7 +620,85 @@ Inherits OpenAI.Model
 			  Return stat
 			End Get
 		#tag EndGetter
-		Status As OpenAI.FineTune.JobStatus
+		Status As OpenAI.FineTuneJob.JobStatus
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  Do Until mLock.TryEnter()
+			    #If RBVersion < 2020 Then
+			      App.YieldToNextThread()
+			    #Else
+			      Thread.YieldToNext()
+			    #EndIf
+			  Loop
+			  
+			  Dim count As Integer
+			  Try
+			    If mJob.HasName("trained_tokens") Then
+			      Dim results As Variant = mJob.Value("trained_tokens")
+			      If results <> Nil Then count = results.IntegerValue
+			    End If
+			  Finally
+			    mLock.Leave()
+			  End Try
+			  Return count
+			End Get
+		#tag EndGetter
+		TokenCount As Integer
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  Do Until mLock.TryEnter()
+			    #If RBVersion < 2020 Then
+			      App.YieldToNextThread()
+			    #Else
+			      Thread.YieldToNext()
+			    #EndIf
+			  Loop
+			  
+			  Dim f As OpenAI.File
+			  Try
+			    If mJob.HasName("training_file") Then
+			      Dim results As String = mJob.Value("training_file")
+			      f = OpenAI.File.Lookup(results)
+			    End If
+			  Finally
+			    mLock.Leave()
+			  End Try
+			  Return f
+			End Get
+		#tag EndGetter
+		TrainingFile As OpenAI.File
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  Do Until mLock.TryEnter()
+			    #If RBVersion < 2020 Then
+			      App.YieldToNextThread()
+			    #Else
+			      Thread.YieldToNext()
+			    #EndIf
+			  Loop
+			  
+			  Dim f As OpenAI.File
+			  Try
+			    If mJob.HasName("validation_file") Then
+			      Dim results As String = mJob.Value("validation_file")
+			      f = OpenAI.File.Lookup(results)
+			    End If
+			  Finally
+			    mLock.Leave()
+			  End Try
+			  Return f
+			End Get
+		#tag EndGetter
+		ValidationFile As OpenAI.File
 	#tag EndComputedProperty
 
 	#tag Property, Flags = &h21
@@ -480,16 +787,6 @@ Inherits OpenAI.Model
 			InheritedFrom="OpenAI.Model"
 		#tag EndViewProperty
 		#tag ViewProperty
-			Name="IsComplete"
-			Group="Behavior"
-			Type="Boolean"
-		#tag EndViewProperty
-		#tag ViewProperty
-			Name="IsPending"
-			Group="Behavior"
-			Type="Boolean"
-		#tag EndViewProperty
-		#tag ViewProperty
 			Name="Left"
 			Visible=true
 			Group="Position"
@@ -526,12 +823,6 @@ Inherits OpenAI.Model
 			Name="ResultCount"
 			Group="Behavior"
 			Type="Integer"
-		#tag EndViewProperty
-		#tag ViewProperty
-			Name="Status"
-			Group="Behavior"
-			Type="String"
-			EditorType="MultiLineEditor"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Super"
