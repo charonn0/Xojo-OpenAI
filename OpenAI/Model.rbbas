@@ -39,6 +39,10 @@ Protected Class Model
 		      mEndpoint = "/v1/images/generations"
 		    ElseIf Left(Me.ID, 3) = "tts" Then
 		      mEndpoint = "/v1/audio/speech"
+		    ElseIf Left(Me.ID, 7) = "whisper" Then
+		      mEndpoint = "/v1/audio/transcriptions;/v1/audio/translations"
+		    ElseIf Left(Me.ID, 7) = "davinci" Or Left(Me.ID, 7) = "babbage" Then
+		      mEndpoint = "/v1/completions"
 		    Else
 		      mEndpoint = ""
 		    End If
