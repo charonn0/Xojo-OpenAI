@@ -725,7 +725,11 @@ End
 		      usedfor = "Text-to-Speech"
 		      
 		    Else
-		      usedfor = "Deprecated"
+		      If mdl.ID.Left(3) = "ft:" Then
+		        usedfor = "Custom"
+		      Else
+		        usedfor = "Deprecated"
+		      End If
 		      
 		    End Select
 		    ModelList.AddFolder(mdl.ID)
