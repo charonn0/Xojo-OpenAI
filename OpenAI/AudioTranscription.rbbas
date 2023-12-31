@@ -29,7 +29,7 @@ Inherits OpenAI.Response
 		  '
 		  ' See:
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.AudioTranscription.Create
-		  ' https://platform.openai.com/docs/api-reference/audio/create
+		  ' https://platform.openai.com/docs/api-reference/audio/createTranscription
 		  
 		  Dim request As New OpenAI.Request
 		  Dim bs As BinaryStream = BinaryStream.Open(AudioFile)
@@ -55,7 +55,7 @@ Inherits OpenAI.Response
 		  '
 		  ' See:
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.AudioTranscription.Create
-		  ' https://platform.openai.com/docs/api-reference/audio/create
+		  ' https://platform.openai.com/docs/api-reference/audio/createTranscription
 		  
 		  If AudioTranscription.Prevalidate Then
 		    Dim err As ValidationError = AudioTranscription.IsValid(Request)
@@ -97,7 +97,7 @@ Inherits OpenAI.Response
 		  '
 		  ' See:
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.AudioTranscription.CreateRaw
-		  ' https://platform.openai.com/docs/api-reference/audio/create
+		  ' https://platform.openai.com/docs/api-reference/audio/createTranscription
 		  
 		  Dim request As New OpenAI.Request
 		  Dim bs As BinaryStream = BinaryStream.Open(AudioFile)
@@ -136,7 +136,7 @@ Inherits OpenAI.Response
 		  '
 		  ' See:
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.AudioTranscription.CreateRaw
-		  ' https://platform.openai.com/docs/api-reference/audio/create
+		  ' https://platform.openai.com/docs/api-reference/audio/createTranscription
 		  
 		  If AudioTranscription.Prevalidate Then
 		    Dim err As ValidationError = AudioTranscription.IsValid(Request)

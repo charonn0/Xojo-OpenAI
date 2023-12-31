@@ -35,7 +35,7 @@ Inherits OpenAI.Response
 		  '
 		  ' See:
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.File.Create
-		  ' https://platform.openai.com/docs/api-reference/files/upload
+		  ' https://platform.openai.com/docs/api-reference/files/create
 		  
 		  If FileName = "" Then FileName = FileContent.Name
 		  Dim bs As BinaryStream = BinaryStream.Open(FileContent)
@@ -51,7 +51,7 @@ Inherits OpenAI.Response
 		  '
 		  ' See:
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.File.Create
-		  ' https://platform.openai.com/docs/api-reference/files/upload
+		  ' https://platform.openai.com/docs/api-reference/files/create
 		  
 		  Dim request As New OpenAI.Request
 		  Dim client As New OpenAIClient

@@ -2,6 +2,12 @@
 Protected Class Request
 	#tag Method, Flags = &h0
 		Sub Constructor(Optional LoadFrom As JSONItem)
+		  ' Creates a new, Request object. If LoadFrom is specified then it will be used 
+		  ' to populate the request.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Request.Constructor
+		  
 		  If LoadFrom <> Nil Then
 		    mRequest = LoadFrom
 		  Else
@@ -12,24 +18,53 @@ Protected Class Request
 
 	#tag Method, Flags = &h0
 		Function IsSet(KeyName As String) As Boolean
+		  ' Checks for the existence of the specified request parameter. The KeyName must exactly
+		  ' match the parameter name used by the API, which might not match the name of property
+		  ' exposed by this class. For example, the NumberOfResults property corresponds to the "n"
+		  ' API parameter.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Request.IsSet
+		  
 		  Return mRequest.HasName(KeyName)
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Function Operator_Convert() As JSONItem
+		  ' Returns the raw JSON for the request in preparation for transmission.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Request.Operator_Convert
+		  
 		  Return mRequest
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Sub Set(KeyName As String, KeyValue As Variant)
+		  ' Sets the specified request parameter. The KeyName must exactly match the parameter
+		  ' name used by the API, which might not match the name of property exposed by this class.
+		  ' For example, the NumberOfResults property corresponds to the "n" API parameter.
+		  ' The KeyValue must be the correct type and format for the parameter.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Request.Set
+		  
 		  mRequest.Value(KeyName) = KeyValue
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
 		Sub UnSet(KeyName As String)
+		  ' Deletes the specified request parameter. The KeyName must exactly match the parameter
+		  ' name used by the API, which might not match the name of property exposed by this class.
+		  ' For example, the NumberOfResults property corresponds to the "n" API parameter.
+		  ' The KeyValue must be the correct type and format for the parameter.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Request.UnSet
+		  
 		  If mRequest.HasName(KeyName) Then mRequest.Remove(KeyName)
 		End Sub
 	#tag EndMethod

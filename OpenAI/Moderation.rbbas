@@ -20,6 +20,12 @@ Inherits OpenAI.Response
 
 	#tag Method, Flags = &h0
 		 Shared Function Create(Request As OpenAI.Request) As OpenAI.Moderation
+		  ' Sends the Prompt text to the AI for an analysis of offensive content.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Moderation.Create
+		  ' https://platform.openai.com/docs/api-reference/moderations/create
+		  
 		  If Moderation.Prevalidate Then
 		    Dim err As ValidationError = Moderation.IsValid(Request)
 		    If err <> ValidationError.None Then Raise New OpenAIException(err)
@@ -34,6 +40,12 @@ Inherits OpenAI.Response
 
 	#tag Method, Flags = &h0
 		 Shared Function Create(Prompt As String, Model As OpenAI.Model = Nil) As OpenAI.Moderation
+		  ' Sends the Prompt text to the AI for an analysis of offensive content.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Moderation.Create
+		  ' https://platform.openai.com/docs/api-reference/moderations/create
+		  
 		  Dim request As New OpenAI.Request
 		  If Model = Nil Then Model = OpenAI.Model.Lookup("text-moderation-stable")
 		  request.Model = Model

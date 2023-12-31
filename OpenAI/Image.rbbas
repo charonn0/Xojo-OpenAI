@@ -24,7 +24,7 @@ Inherits OpenAI.Response
 		  '
 		  ' See:
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Image.CreateVariation
-		  ' https://platform.openai.com/docs/api-reference/images/create-variation
+		  ' https://platform.openai.com/docs/api-reference/images/createVariation
 		  
 		  If Image.Prevalidate Then
 		    Dim err As ValidationError = Image.IsValid(Request)
@@ -44,7 +44,7 @@ Inherits OpenAI.Response
 		  '
 		  ' See:
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Image.CreateVariation
-		  ' https://platform.openai.com/docs/api-reference/images/create-variation
+		  ' https://platform.openai.com/docs/api-reference/images/createVariation
 		  
 		  Dim request As New OpenAI.Request()
 		  request.SourceImage = Prompt
@@ -61,7 +61,7 @@ Inherits OpenAI.Response
 		  '
 		  ' See:
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Image.Edit
-		  ' https://platform.openai.com/docs/api-reference/images/create-edit
+		  ' https://platform.openai.com/docs/api-reference/images/createEdit
 		  
 		  If Image.Prevalidate Then
 		    Dim err As ValidationError = Image.IsValid(Request)
@@ -90,7 +90,7 @@ Inherits OpenAI.Response
 		  '
 		  ' See:
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Image.Edit
-		  ' https://platform.openai.com/docs/api-reference/images/create-edit
+		  ' https://platform.openai.com/docs/api-reference/images/createEdit
 		  
 		  Dim request As New OpenAI.Request()
 		  request.Prompt = Prompt
