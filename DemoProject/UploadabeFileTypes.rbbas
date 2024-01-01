@@ -2,7 +2,7 @@
 
 	#tag FileType
 		CodeName=AllAVTypes
-		Extension=.mpe;.mpeg;.mpg;.m1s;.m1v;.m1a;.m75;.m15;.mp2;.mpm;.mpv;.mpa.m2a;.mp3;.swa;.webm;.wav;.bwf;.mp4
+		Extension=.mpe;.mpeg;.mpg;.m1s;.m1v;.m1a;.m75;.m15;.mp2;.mpm;.mpv;.mpa.m2a;.mp3;.swa;.webm;.wav;.bwf;.mp4;.flac
 		Flags=&h0
 		MacCreator=
 		MacType=
@@ -87,7 +87,7 @@
 
 	#tag FileType
 		CodeName=AllAudioTypes
-		Extension=.mp4;.mpeg;.mpg;.m1s;.m1a;.mp2;.mpm;.mpa;.m2a;.mp3;.swa;.wav;.bwf
+		Extension=.mp4;.mpeg;.mpg;.m1s;.m1a;.mp2;.mpm;.mpa;.m2a;.mp3;.swa;.wav;.bwf;.flac
 		Flags=&h0
 		MacCreator=
 		MacType=
@@ -101,6 +101,15 @@
 		MacCreator=
 		MacType=
 		Name=All video types
+	#tag EndFileType
+
+	#tag FileType
+		CodeName=AudioFlac
+		Extension=.flac
+		Flags=&h0
+		MacCreator=
+		MacType=
+		Name=audio/flac
 	#tag EndFileType
 
 #tag EndFileTypeSet
