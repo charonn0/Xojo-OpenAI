@@ -161,7 +161,7 @@ Protected Class FineTuneJob
 		  If Request.Language <> "" Then Return ValidationError.Language
 		  ' If Request.LearningRateMultiplier > 0.00001 Then Return ValidationError.LearningRateMultiplier
 		  If Request.LogItBias <> Nil Then Return ValidationError.LogItBias
-		  If Request.LogProbabilities <> 0 Then Return ValidationError.LogProbabilities
+		  If Request.IsSet("logprobs") Then Return ValidationError.LogProbabilities
 		  If Request.MaskImage <> Nil Then Return ValidationError.MaskImage
 		  If Request.MaxTokens > 0 Then Return ValidationError.MaxTokens
 		  ' If Request.Model = Nil Then Return ValidationError.Model

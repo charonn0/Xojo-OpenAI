@@ -186,10 +186,12 @@ Inherits OpenAI.Response
 		  If Request.ClassificationNClasses <> 1 Then Return ValidationError.ClassificationNClasses
 		  If Request.ClassificationPositiveClass <> "" Then Return ValidationError.ClassificationPositiveClass
 		  If Request.ComputeClassificationMetrics <> False Then Return ValidationError.ComputeClassificationMetrics
-		  ' If Request.Echo <> False Then Return ValidationError.Echo
+		  If Request.Echo <> False Then Return ValidationError.Echo
 		  If Request.File <> Nil Then Return ValidationError.File
+		  ' If Request.File.Size > 1024 * 1024 * 25 Then Return ValidationError.File ' 25MB file size limit.
 		  If Request.FileName <> "" Then Return ValidationError.FileName
-		  ' If Request.FineTuneID <> "" Then Return ValidationError.FineTuneID
+		  If Request.FileMIMEType <> "" Then Return ValidationError.FileMIMEType
+		  If Request.FineTuneID <> "" Then Return ValidationError.FineTuneID
 		  If Request.FrequencyPenalty > 0.00001 Then Return ValidationError.FrequencyPenalty
 		  ' If Request.IsSet("quality") Then Return ValidationError.HighQuality
 		  If Request.Input <> "" Then Return ValidationError.Input
@@ -197,20 +199,14 @@ Inherits OpenAI.Response
 		  If Request.Language <> "" Then Return ValidationError.Language
 		  If Request.LearningRateMultiplier > 0.00001 Then Return ValidationError.LearningRateMultiplier
 		  If Request.LogItBias <> Nil Then Return ValidationError.LogItBias
-		  If Request.LogProbabilities <> 0 Then Return ValidationError.LogProbabilities
-		  If Request.MaskImage <> Nil Then
-		    If Request.SourceImage = Nil Then Return ValidationError.MaskImage
-		    If Request.SourceImage.Width <> Request.MaskImage.Width Then Return ValidationError.MaskImage
-		    If Request.SourceImage.Height <> Request.MaskImage.Height Then Return ValidationError.MaskImage
-		  End If
-		  If Request.MaxTokens > 1 Then Return ValidationError.MaxTokens
-		  ' If Request.MaxTokens >= 2048 Then Return ValidationError.MaxTokens
-		  ' If Request.Model <> Nil Then Return ValidationError.Model
-		  If Request.NumberOfEpochs <> 1 Then Return ValidationError.NumberOfEpochs
-		  If Request.NumberOfResults < 1 Then Return ValidationError.NumberOfResults ' optional
+		  If Request.IsSet("logprobs") Then Return ValidationError.LogProbabilities
+		  ' If Request.MaskImage <> Nil Then Return ValidationError.MaskImage
+		  If Request.MaxTokens > 0 Then Return ValidationError.MaxTokens
+		  ' If Request.Model = Nil Then Return ValidationError.Model ' required
+		  If Request.NumberOfEpochs > 1 Then Return ValidationError.NumberOfEpochs
+		  ' If Request.NumberOfResults > 1 Then Return ValidationError.NumberOfResults
 		  If Request.PresencePenalty > 0.00001 Then Return ValidationError.PresencePenalty
 		  If Request.Prompt = "" Then Return ValidationError.Prompt ' required
-		  If Request.Prompt.Len > 1000 Then Return ValidationError.Prompt ' max length exceeded
 		  If Request.PromptLossWeight > 0.00001 Then Return ValidationError.PromptLossWeight
 		  If Request.Purpose <> "" Then Return ValidationError.Purpose
 		  ' If Request.ResultsAsBase64 = True Then Return ValidationError.ResultsAsType
@@ -226,7 +222,7 @@ Inherits OpenAI.Response
 		  If Request.ResultsAsFLAC = True Then Return ValidationError.ResultsAsType
 		  If Request.Size <> "" Then
 		    Select Case Request.Size
-		    Case "256x256", "512x512", "1024x1024"
+		    Case "256x256", "512x512", "1024x1024", "1024x1024", "1792x1024", "1024x1792"
 		    Else
 		      Return ValidationError.Size
 		    End Select

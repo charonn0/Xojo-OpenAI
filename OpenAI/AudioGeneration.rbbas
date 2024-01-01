@@ -195,20 +195,19 @@ Inherits OpenAI.Response
 		  If Request.FineTuneID <> "" Then Return ValidationError.FineTuneID
 		  If Request.FrequencyPenalty > 0.00001 Then Return ValidationError.FrequencyPenalty
 		  If Request.IsSet("quality") Then Return ValidationError.HighQuality
-		  If Request.Input = "" Then Return ValidationError.Input
+		  If Request.Input = "" Then Return ValidationError.Input ' required
 		  If Request.Instruction <> "" Then Return ValidationError.Instruction
-		  ' If Request.Language <> "" Then Return ValidationError.Language
+		  If Request.Language <> "" Then Return ValidationError.Language
 		  If Request.LearningRateMultiplier > 0.00001 Then Return ValidationError.LearningRateMultiplier
 		  If Request.LogItBias <> Nil Then Return ValidationError.LogItBias
-		  If Request.LogProbabilities <> 0 Then Return ValidationError.LogProbabilities
+		  If Request.IsSet("logprobs") Then Return ValidationError.LogProbabilities
 		  If Request.MaskImage <> Nil Then Return ValidationError.MaskImage
-		  If Request.MaxTokens > 1 Then Return ValidationError.MaxTokens
-		  ' If Request.MaxTokens >= 2048 Then Return ValidationError.MaxTokens
+		  If Request.MaxTokens > 4096 Then Return ValidationError.MaxTokens
 		  If Request.Model = Nil Then Return ValidationError.Model ' required
 		  If Request.NumberOfEpochs <> 1 Then Return ValidationError.NumberOfEpochs
 		  If Request.NumberOfResults <> 1 Then Return ValidationError.NumberOfResults
 		  If Request.PresencePenalty > 0.00001 Then Return ValidationError.PresencePenalty
-		  ' If Request.Prompt <> "" Then Return ValidationError.Prompt
+		  If Request.Prompt <> "" Then Return ValidationError.Prompt
 		  If Request.PromptLossWeight > 0.00001 Then Return ValidationError.PromptLossWeight
 		  If Request.Purpose <> "" Then Return ValidationError.Purpose
 		  If Request.ResultsAsBase64 = True Then Return ValidationError.ResultsAsType
@@ -223,16 +222,16 @@ Inherits OpenAI.Response
 		  ' If Request.ResultsAsAAC = True Then Return ValidationError.ResultsAsType
 		  ' If Request.ResultsAsFLAC = True Then Return ValidationError.ResultsAsType
 		  If Request.Size <> "" Then Return ValidationError.Size
-		  If Request.SourceImage <> Nil Then Return ValidationError.SourceImage
 		  ' If Request.IsSet("speed") Then Return ValidationError.Speed
+		  If Request.SourceImage <> Nil Then Return ValidationError.SourceImage
 		  If Request.Stop <> "" Then Return ValidationError.Stop
 		  If Request.IsSet("style") Then Return ValidationError.Style
 		  If Request.Suffix <> "" Then Return ValidationError.Suffix
-		  ' If Request.Temperature > 0.00001 Then Return ValidationError.Temperature
+		  If Request.Temperature > 0.00001 Then Return ValidationError.Temperature
 		  If Request.Top_P > 0.00001 Then Return ValidationError.Top_P
 		  If Request.TrainingFile <> "" Then Return ValidationError.TrainingFile
 		  If Request.ValidationFile <> "" Then Return ValidationError.ValidationFile
-		  If Request.Voice = "" Then Return ValidationError.Voice
+		  If Request.Voice = "" Then Return ValidationError.Voice ' required
 		  Return ValidationError.None
 		End Function
 	#tag EndMethod
