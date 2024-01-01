@@ -3,6 +3,11 @@ Protected Class ChatCompletion
 Inherits OpenAI.Response
 	#tag Method, Flags = &h0
 		Sub Constructor(ResponseData As JSONItem, Optional ChatLogData As JSONItem)
+		  ' Loads a previously created chat completion and chat log that were stored as JSON.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.ChatCompletion.Constructor
+		  
 		  // Calling the overridden superclass constructor.
 		  // Constructor(ResponseData As JSONItem, Client As OpenAIClient) -- From Response
 		  Super.Constructor(ResponseData, New OpenAIClient)
@@ -25,7 +30,7 @@ Inherits OpenAI.Response
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		 Shared Function Create(Optional ChatLog As OpenAI.ChatCompletionData, Role As String, Content As String, Model As OpenAI.Model = Nil) As OpenAI.ChatCompletion
+		 Shared Function Create(ChatLog As OpenAI.ChatCompletionData, Role As String, Content As String, Model As OpenAI.Model = Nil) As OpenAI.ChatCompletion
 		  ' Starts a new chat. ChatLog contains zero or more messages representing the context of
 		  ' the conversation so far. Role is the name of the entity that is speaking (one of "user",
 		  ' "assistant", and "system"). Content is the message they are sending to the chat.
@@ -43,12 +48,6 @@ Inherits OpenAI.Response
 		  If Model = Nil Then Model = "gpt-4"
 		  request.Model = Model
 		  request.Messages = ChatLog
-		  If Model.ID <> "gpt-4-vision-preview" Then
-		    request.LogProbabilities = True
-		    request.TopLogProbabilities = 4
-		  Else
-		    request.UnSet("logprobs")
-		  End If
 		  Return ChatCompletion.Create(request)
 		End Function
 	#tag EndMethod
@@ -74,6 +73,24 @@ Inherits OpenAI.Response
 		  Dim msgs As JSONItem = Request.Messages
 		  Return New OpenAI.ChatCompletion(result, client, New ChatCompletionData(msgs))
 		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		 Shared Function Create(Role As String, Content As String, Model As OpenAI.Model = Nil) As OpenAI.ChatCompletion
+		  ' Starts a new chat. Role is the name of the entity that is speaking (one of "user",
+		  ' "assistant", and "system"). Content is the message they are sending to the chat.
+		  '
+		  ' Returns a new instance of ChatCompletion containing the generated reply to that message.
+		  ' Call GenerateNext() on that instance to continue the conversation in context.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.ChatCompletion.Create
+		  ' https://platform.openai.com/docs/api-reference/chat/create
+		  
+		  Dim chatlog As New ChatCompletionData()
+		  chatlog.AddMessage(Role, Content)
+		  Return ChatCompletion.Create(chatlog, Role, Content, Model)
 		End Function
 	#tag EndMethod
 
