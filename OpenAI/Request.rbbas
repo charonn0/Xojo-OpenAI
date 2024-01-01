@@ -338,7 +338,7 @@ Protected Class Request
 			  mRequest.Value("logprobs") = value
 			End Set
 		#tag EndSetter
-		LogProbabilities As Integer
+		LogProbabilities As Boolean
 	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0
@@ -822,6 +822,20 @@ Protected Class Request
 			End Set
 		#tag EndSetter
 		Temperature As Single
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mRequest.HasName("top_logprobs") Then Return mRequest.Value("top_logprobs") Else Return 0
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  mRequest.Value("top_logprobs") = value
+			End Set
+		#tag EndSetter
+		TopLogProbabilities As Integer
 	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0
