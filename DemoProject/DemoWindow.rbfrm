@@ -1727,15 +1727,12 @@ End
 		  
 		  ReplyImageCanvas.Invalidate(True)
 		  ToggleLockUI()
-		  If mAPIReply <> Nil And mAPIReply.TokenCount > 0 Then
-		    Dim ptc As String = Str(mAPIReply.PromptTokenCount)
-		    Dim rtc As String = Str(mAPIReply.ReplyTokenCount)
-		    Dim tc As String = Str(mAPIReply.TokenCount)
+		  If mAPIReply <> Nil Then
 		    Dim finres As String = mAPIReply.FinishReason
 		    If finres = "" Then
-		      StatusBarLbl.Text = "Complete. Token usage: Prompt:" + ptc + " / Reply:" + rtc + " / Total:" + tc
+		      StatusBarLbl.Text = "Complete."
 		    Else
-		      StatusBarLbl.Text = "Complete. Token usage: Prompt:" + ptc + " / Reply:" + rtc + " / Total:" + tc + " / Finish reason:" + mAPIReply.FinishReason
+		      StatusBarLbl.Text = "Complete. Finish reason:" + mAPIReply.FinishReason
 		    End If
 		  End If
 		End Sub

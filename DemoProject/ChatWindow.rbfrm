@@ -325,7 +325,7 @@ End
 		        ChatMessages.AppendMessage(r.Trim, c.Trim, mLastResponse)
 		      End If
 		    End If
-		    mTokenCount = mTokenCount + mLastResponse.TokenCount
+		    mTokenCount = mTokenCount + mLastResponse.TotalTokenCount
 		    Self.Title = "AI Assistant Chat - " + mModel.ID + " (" + Format(mTokenCount, "###,##0") + " tokens consumed)"
 		  End If
 		  SendMsgBtn.Enabled = True
