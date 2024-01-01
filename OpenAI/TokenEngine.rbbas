@@ -4,12 +4,14 @@ Protected Class TokenEngine
 		Function AlternateProbabilities(TokenIndex As Integer) As Double()
 		  Dim probs() As Double
 		  If mLogProbs = Nil Then Return probs
-		  Dim logprobs As JSONItem = mLogProbs.Value("top_logprobs")
+		  Dim logprobs As JSONItem = mLogProbs.Value("content")
 		  logprobs = logprobs.Value(TokenIndex)
 		  If logprobs = Nil Then Return probs
+		  logprobs = logprobs.Value("top_logprobs")
+		  If logprobs = Nil Then Return probs
 		  For i As Integer = 0 To logprobs.Count - 1
-		    Dim tkn As String = logprobs.Name(i)
-		    Dim prob As Double = logprobs.Value(tkn)
+		    Dim tkn As JSONItem = logprobs.Child(i)
+		    Dim prob As Double = tkn.Value("logprob")
 		    probs.Append(prob)
 		  Next
 		  Return probs
@@ -17,15 +19,30 @@ Protected Class TokenEngine
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function Alternates(TokenIndex As Integer) As String()
+		Function Alternates(TokenIndex As Integer) As Dictionary
+		  Dim alts() As String = Me.AlternateTokens(TokenIndex)
+		  Dim probs() As Double = Me.AlternateProbabilities(TokenIndex)
+		  Dim token As New Dictionary
+		  For k As Integer = 0 To UBound(alts)
+		    token.Value(alts(k)) = probs(k)
+		  Next
+		  Return token
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function AlternateTokens(TokenIndex As Integer) As String()
 		  Dim alts() As String
 		  If mLogProbs = Nil Then Return alts
-		  Dim logprobs As JSONItem = mLogProbs.Value("top_logprobs")
+		  Dim logprobs As JSONItem = mLogProbs.Value("content")
 		  logprobs = logprobs.Value(TokenIndex)
 		  If logprobs = Nil Then Return alts
+		  logprobs = logprobs.Value("top_logprobs")
+		  If logprobs = Nil Then Return alts
 		  For i As Integer = 0 To logprobs.Count - 1
-		    Dim tkn As String = logprobs.Name(i)
-		    alts.Append(tkn)
+		    Dim tkn As JSONItem = logprobs.Child(i)
+		    Dim name As String = tkn.Value("token")
+		    alts.Append(name.Trim)
 		  Next
 		  Return alts
 		End Function
@@ -40,9 +57,10 @@ Protected Class TokenEngine
 	#tag Method, Flags = &h0
 		Function Probability(TokenIndex As Integer) As Double
 		  If mLogProbs = Nil Then Return 0.0
-		  Dim logprobs As JSONItem = mLogProbs.Value("token_logprobs")
-		  If logprobs.Value(TokenIndex) = Nil Then Return 0.0
-		  Dim prob As Double = logprobs.Value(TokenIndex)
+		  Dim tokens As JSONItem = mLogProbs.Value("content")
+		  If tokens = Nil Then Return 0.0
+		  tokens = tokens.Child(TokenIndex)
+		  Dim prob As Double = tokens.Value("logprob")
 		  Return prob
 		End Function
 	#tag EndMethod
@@ -50,35 +68,29 @@ Protected Class TokenEngine
 	#tag Method, Flags = &h0
 		Function Token(TokenIndex As Integer) As String
 		  If mLogProbs = Nil Then Return ""
-		  Dim tokens As JSONItem = mLogProbs.Value("tokens")
+		  Dim tokens As JSONItem = mLogProbs.Value("content")
 		  If tokens = Nil Then Return ""
-		  Dim token As String = tokens.Value(TokenIndex)
+		  tokens = tokens.Child(TokenIndex)
+		  Dim token As String = tokens.Value("token")
 		  Return token
 		End Function
 	#tag EndMethod
 
-	#tag Method, Flags = &h0
-		Function ToString() As String
-		  If mLogProbs = Nil Then Return ""
-		  Return mLogProbs.ToString()
-		End Function
-	#tag EndMethod
-
-
-	#tag Property, Flags = &h21
-		Private mLogProbs As JSONItem
-	#tag EndProperty
 
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
 			Get
 			  If mLogProbs = Nil Then Return 0
-			  Dim t As JSONItem = mLogProbs.Value("tokens")
+			  Dim t As JSONItem = mLogProbs.Value("content")
 			  Return t.Count
 			End Get
 		#tag EndGetter
-		TokenCount As Integer
+		Count As Integer
 	#tag EndComputedProperty
+
+	#tag Property, Flags = &h21
+		Private mLogProbs As JSONItem
+	#tag EndProperty
 
 
 	#tag ViewBehavior

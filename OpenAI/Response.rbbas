@@ -153,6 +153,9 @@ Protected Class Response
 		  Case mResponse.HasName("error")
 		    Raise New OpenAIException(mResponse)
 		    
+		  Else
+		    Return DefaultValue
+		    
 		  End Select
 		  
 		  results = results.Child(Index)
@@ -192,27 +195,38 @@ Protected Class Response
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		 Shared Function IsValid(Request As OpenAI.Request) As OpenAI.ValidationError
-		  ' For custom requests just assume the user knows what they're doing
-		  #pragma Unused Request
-		  Return ValidationError.None
+		Function HasResultAttribute(Index As Integer, AttributeName As String) As Boolean
+		  ' Use this method to detect parts of the JSON reply that are not exposed through the wrapper.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Response.HasResultAttribute
+		  
+		  Dim results As JSONItem
+		  Select Case True
+		  Case mResponse.HasName("data")
+		    results = mResponse.Value("data")
+		    
+		  Case mResponse.HasName("choices")
+		    results = mResponse.Value("choices")
+		    
+		  Case mResponse.HasName("results")
+		    results = mResponse.Value("results")
+		    
+		  Else
+		    Return False
+		    
+		  End Select
+		  
+		  results = results.Child(Index)
+		  Return results.HasName(AttributeName)
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function Tokens(ResultIndex As Integer = 0) As OpenAI.TokenEngine
-		  ' A reference to a TokenEngine object containing token usage statistics for the result
-		  ' at ResultIndex. Not all endpoints provide token information.
-		  '
-		  ' See:
-		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Response.Tokens
-		  
-		  If UBound(mTokens) = -1 Then
-		    For i As Integer = 0 To Me.ResultCount - 1
-		      mTokens.Append(New TokenEngineCreator(Me, i))
-		    Next
-		  End If
-		  Return mTokens(ResultIndex)
+		 Shared Function IsValid(Request As OpenAI.Request) As OpenAI.ValidationError
+		  ' For custom requests just assume the user knows what they're doing
+		  #pragma Unused Request
+		  Return ValidationError.None
 		End Function
 	#tag EndMethod
 
@@ -281,10 +295,6 @@ Protected Class Response
 		Protected mResponse As JSONItem
 	#tag EndProperty
 
-	#tag Property, Flags = &h21
-		Private mTokens() As OpenAI.TokenEngine
-	#tag EndProperty
-
 	#tag ComputedProperty, Flags = &h0
 		#tag Note
 			When enabled, requests will be checked for basic sanity (using the IsValid() shared method) before
@@ -302,36 +312,6 @@ Protected Class Response
 			End Set
 		#tag EndSetter
 		Shared Prevalidate As Boolean
-	#tag EndComputedProperty
-
-	#tag ComputedProperty, Flags = &h0
-		#tag Getter
-			Get
-			  If mResponse.HasName("usage") Then
-			    Dim usage As JSONItem = mResponse.Value("usage")
-			    Return usage.Lookup("prompt_tokens", 0)
-			  End If
-			  
-			  Exception err As KeyNotFoundException
-			    Return 0
-			End Get
-		#tag EndGetter
-		PromptTokenCount As Integer
-	#tag EndComputedProperty
-
-	#tag ComputedProperty, Flags = &h0
-		#tag Getter
-			Get
-			  If mResponse.HasName("usage") Then
-			    Dim usage As JSONItem = mResponse.Value("usage")
-			    Return usage.Lookup("completion_tokens", 0)
-			  End If
-			  
-			  Exception err As KeyNotFoundException
-			    Return 0
-			End Get
-		#tag EndGetter
-		ReplyTokenCount As Integer
 	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0
@@ -390,21 +370,6 @@ Protected Class Response
 			End Get
 		#tag EndGetter
 		SystemFingerprint As String
-	#tag EndComputedProperty
-
-	#tag ComputedProperty, Flags = &h0
-		#tag Getter
-			Get
-			  If mResponse.HasName("usage") Then
-			    Dim usage As JSONItem = mResponse.Value("usage")
-			    Return usage.Lookup("total_tokens", 0)
-			  End If
-			  
-			  Exception err As KeyNotFoundException
-			    Return 0
-			End Get
-		#tag EndGetter
-		TokenCount As Integer
 	#tag EndComputedProperty
 
 	#tag Property, Flags = &h21
