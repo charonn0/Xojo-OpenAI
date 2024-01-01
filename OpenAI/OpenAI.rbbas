@@ -113,6 +113,16 @@ Protected Module OpenAI
 	#tag EndConstant
 
 
+	#tag Enum, Name = JobStatus, Type = Integer, Flags = &h1
+		Queued
+		  ValidatingFiles
+		  Running
+		  Succeeded
+		  Failed
+		  Canceled
+		Pending
+	#tag EndEnum
+
 	#tag Enum, Name = ResultType, Type = Integer, Flags = &h1
 		String
 		  Picture

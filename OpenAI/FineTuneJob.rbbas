@@ -620,7 +620,7 @@ Protected Class FineTuneJob
 			  Return stat
 			End Get
 		#tag EndGetter
-		Status As OpenAI.FineTuneJob.JobStatus
+		Status As OpenAI.JobStatus
 	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0
@@ -704,17 +704,6 @@ Protected Class FineTuneJob
 	#tag Property, Flags = &h21
 		Private Shared ValidationOpt As Boolean = True
 	#tag EndProperty
-
-
-	#tag Enum, Name = JobStatus, Type = Integer, Flags = &h0
-		Queued
-		  ValidatingFiles
-		  Running
-		  Succeeded
-		  Failed
-		  Canceled
-		Pending
-	#tag EndEnum
 
 
 	#tag ViewBehavior
