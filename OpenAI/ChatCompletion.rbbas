@@ -43,6 +43,12 @@ Inherits OpenAI.Response
 		  If Model = Nil Then Model = "gpt-4"
 		  request.Model = Model
 		  request.Messages = ChatLog
+		  If Model.ID <> "gpt-4-vision-preview" Then
+		    request.LogProbabilities = True
+		    request.TopLogProbabilities = 4
+		  Else
+		    request.UnSet("logprobs")
+		  End If
 		  Return ChatCompletion.Create(request)
 		End Function
 	#tag EndMethod
@@ -192,6 +198,26 @@ Inherits OpenAI.Response
 		End Function
 	#tag EndMethod
 
+	#tag Method, Flags = &h0
+		Function Tokens(ResultIndex As Integer = 0) As OpenAI.TokenEngine
+		  ' A reference to a TokenEngine object containing token usage statistics for the result
+		  ' at ResultIndex. Not all endpoints provide token information. Set Request.LogProbabilities=True
+		  ' in your request to enable this on endpoints that support it.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Response.Tokens
+		  
+		  If UBound(mTokens) = -1 Then
+		    For i As Integer = 0 To Me.ResultCount - 1
+		      If HasResultAttribute(i, "logprobs") Then
+		        mTokens.Append(New TokenEngineCreator(Me, i))
+		      End If
+		    Next
+		  End If
+		  If UBound(mTokens) > -1 Then Return mTokens(ResultIndex)
+		End Function
+	#tag EndMethod
+
 
 	#tag ComputedProperty, Flags = &h0
 		#tag Getter
@@ -211,6 +237,10 @@ Inherits OpenAI.Response
 		Private mChatLog As OpenAI.ChatCompletionData
 	#tag EndProperty
 
+	#tag Property, Flags = &h21
+		Private mTokens() As OpenAI.TokenEngine
+	#tag EndProperty
+
 	#tag ComputedProperty, Flags = &h0
 		#tag Note
 			When enabled, requests will be checked for basic sanity (using the IsValid() shared method) before
@@ -228,6 +258,51 @@ Inherits OpenAI.Response
 			End Set
 		#tag EndSetter
 		Shared Prevalidate As Boolean
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mResponse.HasName("usage") Then
+			    Dim usage As JSONItem = mResponse.Value("usage")
+			    Return usage.Lookup("prompt_tokens", 0)
+			  End If
+			  
+			  Exception err As KeyNotFoundException
+			    Return 0
+			End Get
+		#tag EndGetter
+		PromptTokenCount As Integer
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mResponse.HasName("usage") Then
+			    Dim usage As JSONItem = mResponse.Value("usage")
+			    Return usage.Lookup("completion_tokens", 0)
+			  End If
+			  
+			  Exception err As KeyNotFoundException
+			    Return 0
+			End Get
+		#tag EndGetter
+		ReplyTokenCount As Integer
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  If mResponse.HasName("usage") Then
+			    Dim usage As JSONItem = mResponse.Value("usage")
+			    Return usage.Lookup("total_tokens", 0)
+			  End If
+			  
+			  Exception err As KeyNotFoundException
+			    Return 0
+			End Get
+		#tag EndGetter
+		TotalTokenCount As Integer
 	#tag EndComputedProperty
 
 	#tag Property, Flags = &h21
