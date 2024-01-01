@@ -744,6 +744,49 @@ End
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
+		Private Function MIMEType(File As FolderItem) As String
+		  Static mime As Dictionary
+		  If mime = Nil Then
+		    mime = New Dictionary
+		    Dim exts() As String = Split(UploadabeFileTypes.AudioFlac.Extensions, ";")
+		    For Each e As String In exts
+		      mime.Value(e) = "audio/flac"
+		    Next
+		    exts() = Split(UploadabeFileTypes.AudioMp4.Extensions, ";")
+		    For Each e As String In exts
+		      mime.Value(e) = "audio/mp4"
+		    Next
+		    exts() = Split(UploadabeFileTypes.AudioMpeg.Extensions, ";")
+		    For Each e As String In exts
+		      mime.Value(e) = "audio/mpeg"
+		    Next
+		    exts() = Split(UploadabeFileTypes.AudioXWav.Extensions, ";")
+		    For Each e As String In exts
+		      mime.Value(e) = "audio/x-wav"
+		    Next
+		    exts() = Split(UploadabeFileTypes.VideoMpeg.Extensions, ";")
+		    For Each e As String In exts
+		      mime.Value(e) = "video/mpeg"
+		    Next
+		    exts() = Split(UploadabeFileTypes.VideoWebm.Extensions, ";")
+		    For Each e As String In exts
+		      mime.Value(e) = "video/webm"
+		    Next
+		    exts() = Split(UploadabeFileTypes.Png.Extensions, ";")
+		    For Each e As String In exts
+		      mime.Value(e) = "image/png"
+		    Next
+		    exts() = Split(UploadabeFileTypes.Jpeg.Extensions, ";")
+		    For Each e As String In exts
+		      mime.Value(e) = "image/jpeg"
+		    Next
+		  End If
+		  
+		  Return mime.Lookup("." + NthField(File.Name, ".", CountFields(File.Name, ".")).Lowercase, "")
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
 		Private Sub RunCreateImage(Sender As Thread)
 		  #pragma Unused Sender
 		  Dim request As New OpenAI.Request()
@@ -825,6 +868,7 @@ End
 		  request.File = bs.Read(bs.Length)
 		  bs.Close
 		  request.FileName = mAudioFile.Name
+		  request.FileMIMEType = MIMEType(mAudioFile)
 		  If IsOptionSet("Temperature") Then request.Temperature = GetOption("Temperature")
 		  request.Model = GetOption("Model", OpenAI.Model.Lookup("whisper-1"))
 		  mAPIReply = OpenAI.AudioTranscription.Create(request)
@@ -844,6 +888,7 @@ End
 		  request.File = bs.Read(bs.Length)
 		  bs.Close
 		  request.FileName = mAudioFile.Name
+		  request.FileMIMEType = MIMEType(mAudioFile)
 		  If IsOptionSet("Temperature") Then request.Temperature = GetOption("Temperature")
 		  request.Model = GetOption("Model", OpenAI.Model.Lookup("whisper-1"))
 		  mAPIReply = OpenAI.AudioTranslation.Create(request)
