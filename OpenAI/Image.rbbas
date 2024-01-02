@@ -19,6 +19,44 @@ Inherits OpenAI.Response
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		 Shared Function Create(Request As OpenAI.Request) As OpenAI.Image
+		  ' Generate one or more images according to a natural language prompt.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Image.Create
+		  ' https://platform.openai.com/docs/api-reference/images/create
+		  
+		  If Image.Prevalidate Then
+		    Dim err As ValidationError = Image.IsValid(Request)
+		    If err <> ValidationError.None Then Raise New OpenAIException(err)
+		  End If
+		  Dim client As New OpenAIClient
+		  Dim result As JSONItem = Response.CreateRaw(client, "/v1/images/generations", Request)
+		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
+		  If Not result.HasName("model") And Request.Model <> Nil Then result.Value("model") = Request.Model.ID
+		  Return New OpenAI.Image(result, client)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		 Shared Function Create(Prompt As String, Size As String = "1024x1024", AsURL As Boolean = False, Model As OpenAI.Model = Nil) As OpenAI.Image
+		  ' Generate one or more images according to a natural language prompt.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Image.Create
+		  ' https://platform.openai.com/docs/api-reference/images/create
+		  
+		  Dim request As New OpenAI.Request()
+		  If Model = Nil Then Model = "dall-e-2"
+		  request.Model = Model
+		  request.Prompt = Prompt
+		  request.Size = Size
+		  request.ResultsAsURL = AsURL
+		  Return Image.Create(request)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		 Shared Function CreateVariation(Request As OpenAI.Request) As OpenAI.Image
 		  ' Given an existing image, the model will create one or more variations of it.
 		  '
@@ -103,7 +141,7 @@ Inherits OpenAI.Response
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		 Shared Function Generate(Request As OpenAI.Request) As OpenAI.Image
+		Attributes( deprecated = "OpenAI.Image.Create" )  Shared Function Generate(Request As OpenAI.Request) As OpenAI.Image
 		  ' Generate one or more images according to a natural language prompt.
 		  '
 		  ' See:
@@ -123,7 +161,7 @@ Inherits OpenAI.Response
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		 Shared Function Generate(Prompt As String, Size As String = "1024x1024", AsURL As Boolean = False, Model As OpenAI.Model = Nil) As OpenAI.Image
+		Attributes( deprecated = "OpenAI.Image.Create" )  Shared Function Generate(Prompt As String, Size As String = "1024x1024", AsURL As Boolean = False, Model As OpenAI.Model = Nil) As OpenAI.Image
 		  ' Generate one or more images according to a natural language prompt.
 		  '
 		  ' See:
@@ -136,7 +174,7 @@ Inherits OpenAI.Response
 		  request.Prompt = Prompt
 		  request.Size = Size
 		  request.ResultsAsURL = AsURL
-		  Return Image.Generate(request)
+		  Return Image.Create(request)
 		End Function
 	#tag EndMethod
 
@@ -302,10 +340,22 @@ Inherits OpenAI.Response
 			InheritedFrom="OpenAI.Response"
 		#tag EndViewProperty
 		#tag ViewProperty
+			Name="RevisedPrompt"
+			Group="Behavior"
+			Type="String"
+			InheritedFrom="OpenAI.Response"
+		#tag EndViewProperty
+		#tag ViewProperty
 			Name="Super"
 			Visible=true
 			Group="ID"
 			InheritedFrom="Object"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="SystemFingerprint"
+			Group="Behavior"
+			Type="String"
+			InheritedFrom="OpenAI.Response"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Top"
