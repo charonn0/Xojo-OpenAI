@@ -66,6 +66,12 @@ Inherits OpenAI.Response
 		    Dim err As ValidationError = ChatCompletion.IsValid(Request)
 		    If err <> ValidationError.None Then Raise New OpenAIException(err)
 		  End If
+		  
+		  If LogProbs And Request.Model.ID <> "gpt-4-vision-preview" Then
+		    Request.LogProbabilities = True
+		    Request.TopLogProbabilities = NumAlternates
+		  End If
+		  
 		  Dim client As New OpenAIClient
 		  Dim result As JSONItem = Response.CreateRaw(client, "/v1/chat/completions", request)
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
@@ -100,7 +106,12 @@ Inherits OpenAI.Response
 		    Dim err As ValidationError = ChatCompletion.IsValid(Request)
 		    If err <> ValidationError.None Then Raise New OpenAIException(err)
 		  End If
-		  Dim response As JSONItem = Response.CreateRaw(Client, "/v1/chat/completions", request)
+		  If LogProbs And Request.Model.ID <> "gpt-4-vision-preview" Then
+		    Request.LogProbabilities = True
+		    Request.TopLogProbabilities = NumAlternates
+		  End If
+		  
+		  Dim response As JSONItem = Response.CreateRaw(Client, "/v1/chat/completions", Request)
 		  If response = Nil Or response.HasName("error") Then Raise New OpenAIException(response)
 		  Dim msgs As JSONItem = Request.Messages
 		  Return New OpenAI.ChatCompletion(response, Client, New ChatCompletionData(msgs))
@@ -218,8 +229,9 @@ Inherits OpenAI.Response
 	#tag Method, Flags = &h0
 		Function Tokens(ResultIndex As Integer = 0) As OpenAI.TokenEngine
 		  ' A reference to a TokenEngine object containing token usage statistics for the result
-		  ' at ResultIndex. Not all endpoints provide token information. Set Request.LogProbabilities=True
-		  ' in your request to enable this on endpoints that support it.
+		  ' at ResultIndex. Not all endpoints provide token information. Set ChatCompletion.LogProbabilities=True
+		  ' in your request to enable this on endpoints that support it. Set ChatCompletion.NumberOfAlternates to
+		  ' specify how many alternate tokens to return.
 		  '
 		  ' See:
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Response.Tokens
@@ -250,6 +262,28 @@ Inherits OpenAI.Response
 		ChatLog As OpenAI.ChatCompletionData
 	#tag EndComputedProperty
 
+	#tag ComputedProperty, Flags = &h0
+		#tag Note
+			When enabled, requests will automatically set the Request.LogProbabilities property on all Requests to True
+			and set the Request.TopLogProbabilities property to the number specified by NumberOfAlternates.
+		#tag EndNote
+		#tag Getter
+			Get
+			  Return LogProbs
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  LogProbs = value
+			End Set
+		#tag EndSetter
+		Shared LogProbabilities As Boolean
+	#tag EndComputedProperty
+
+	#tag Property, Flags = &h21
+		Private Shared LogProbs As Boolean = True
+	#tag EndProperty
+
 	#tag Property, Flags = &h21
 		Private mChatLog As OpenAI.ChatCompletionData
 	#tag EndProperty
@@ -257,6 +291,28 @@ Inherits OpenAI.Response
 	#tag Property, Flags = &h21
 		Private mTokens() As OpenAI.TokenEngine
 	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private Shared NumAlternates As Integer = 5
+	#tag EndProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Note
+			When the LogProbabilities property is enabled, the Request.LogProbabilities property on all Requests will be set to True
+			and the Request.TopLogProbabilities property is set to the number specified by this property.
+		#tag EndNote
+		#tag Getter
+			Get
+			  Return NumAlternates
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  NumAlternates = value
+			End Set
+		#tag EndSetter
+		Shared NumberOfAlternates As Integer
+	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0
 		#tag Note
