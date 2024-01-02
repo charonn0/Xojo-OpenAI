@@ -799,7 +799,7 @@ End
 		  If IsOptionSet("User") Then request.Style = GetOption("User")
 		  If Not IsOptionSet("Model") Then SetOption("Model") = OpenAI.Model.Lookup("dall-e-2")
 		  request.Model = GetOption("Model")
-		  mAPIReply = OpenAI.Image.Generate(request)
+		  mAPIReply = OpenAI.Image.Create(request)
 		  RefreshTimer.Mode = Timer.ModeSingle
 		  
 		Exception err As OpenAI.OpenAIException
@@ -817,7 +817,7 @@ End
 		  request.ResultsAsURL = GetOption("Response format", True)
 		  If IsOptionSet("Number of results") Then request.NumberOfResults = GetOption("Number of results")
 		  request.Model = GetOption("Model", OpenAI.Model.Lookup("dall-e-2"))
-		  mAPIReply = OpenAI.Image.Generate(request)
+		  mAPIReply = OpenAI.Image.Create(request)
 		  RefreshTimer.Mode = Timer.ModeSingle
 		  
 		Exception err As OpenAI.OpenAIException
