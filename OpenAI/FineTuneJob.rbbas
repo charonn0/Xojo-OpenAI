@@ -295,15 +295,15 @@ Protected Class FineTuneJob
 		    Dim result As JSONItem
 		    Try
 		      result = New JSONItem(data)
-		      mJob = result
 		    Catch err As JSONException
 		      Raise New OpenAIException(mClient)
 		    End Try
-		    If result.HasName("error") Then
+		    If result.Lookup("object", "") <> "fine_tuning.job" Then Raise New OpenAIException("Weird JSON reply!" + EndOfLine + data)
+		    If result.Lookup("error", Nil) <> Nil Then
+		      result = result.Value("error")
 		      Raise New OpenAIException(result)
-		    Else
-		      Raise New OpenAIException("Weird JSON reply!" + EndOfLine + data)
 		    End If
+		    mJob = result
 		  Finally
 		    mLock.Leave()
 		  End Try
