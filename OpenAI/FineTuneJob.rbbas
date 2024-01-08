@@ -212,8 +212,8 @@ Protected Class FineTuneJob
 		    Dim hasmore As Boolean
 		    Do
 		      Dim lst As JSONItem
-		      Dim endpoint As String = "/v1/fine_tuning/jobs/" + Me.ID + "/events?limit=50"
-		      If UBound(events) > -1 Then endpoint = endpoint + "&after=" + events(UBound(events)).Value("id")
+		      Dim endpoint As String = "/v1/fine_tuning/jobs/" + Me.ID + "/events"
+		      If UBound(events) > -1 Then endpoint = endpoint + "?after=" + events(UBound(events)).Value("id")
 		      Dim data As String = mClient.SendRequest(endpoint)
 		      Try
 		        lst = New JSONItem(data)
