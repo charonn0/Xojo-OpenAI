@@ -90,3 +90,4 @@ If you are using neither RB-libcURL nor MBS then set both `USE_RBLIBCURL` and `U
     * [Generate subtitles](https://github.com/charonn0/Xojo-OpenAI/wiki/Examples#generate-subtitles-for-a-video)
     * [Speech synthesis](https://github.com/charonn0/Xojo-OpenAI/wiki/Examples#speech-synthesis)
   * [Sending custom requests](https://github.com/charonn0/Xojo-OpenAI/wiki/Examples#sending-a-custom-request)
+  * [Training custom AI models](https://github.com/charonn0/Xojo-OpenAI/wiki/Examples#training-a-fine-tuned-ai-model)
