@@ -95,32 +95,6 @@ Protected Class FineTuneJob
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub Delete()
-		  Do Until mLock.TryEnter()
-		    #If RBVersion < 2020 Then
-		      App.YieldToNextThread()
-		    #Else
-		      Thread.YieldToNext()
-		    #EndIf
-		  Loop
-		  
-		  Try
-		    Dim data As String = mClient.SendRequest("/v1/models/" + Me.ID, "DELETE")
-		    Dim result As JSONItem
-		    Try
-		      result = New JSONItem(data)
-		      mJob = result
-		    Catch err As JSONException
-		      Raise New OpenAIException(mClient)
-		    End Try
-		    If result.HasName("error") Then Raise New OpenAIException(result) Else ReDim FineTuneList(-1)
-		  Finally
-		    mLock.Leave()
-		  End Try
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
 		Function GetResultFile(Index As Integer) As OpenAI.File
 		  Do Until mLock.TryEnter()
 		    #If RBVersion < 2020 Then
