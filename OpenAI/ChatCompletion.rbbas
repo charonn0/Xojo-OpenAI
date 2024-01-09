@@ -145,7 +145,9 @@ Inherits OpenAI.Response
 		  
 		  Dim results As JSONItem = Super.GetResult(Index)
 		  results = results.Value("message")
-		  Return results.Value("content")
+		  Dim txt As String = results.Value("content")
+		  txt = DefineEncoding(txt, Encodings.UTF8)
+		  Return txt
 		  
 		End Function
 	#tag EndMethod

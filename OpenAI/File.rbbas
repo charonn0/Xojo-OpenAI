@@ -119,7 +119,7 @@ Inherits OpenAI.Response
 		        Raise New OpenAIException(mClient)
 		      End If
 		    End If
-		    Return data
+		    Return DefineEncoding(data, Encodings.UTF8)
 		  End If
 		End Function
 	#tag EndMethod

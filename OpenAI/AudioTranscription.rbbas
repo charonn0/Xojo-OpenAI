@@ -164,7 +164,9 @@ Inherits OpenAI.Response
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Response.GetResult
 		  
 		  #pragma Unused Index
-		  Return mResponse.Lookup("text", "")
+		  Dim txt As String = mResponse.Lookup("text", "")
+		  txt = DefineEncoding(txt, Encodings.UTF8)
+		  Return txt
 		End Function
 	#tag EndMethod
 
