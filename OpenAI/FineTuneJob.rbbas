@@ -10,6 +10,11 @@ Protected Class FineTuneJob
 		    #EndIf
 		  Loop
 		  
+		  Select Case Me.Status
+		  Case JobStatus.Canceled, JobStatus.Failed, JobStatus.Succeeded
+		    Return ' nothing to do
+		  End Select
+		  
 		  Try
 		    Dim data As String = mClient.SendRequest("/v1/fine_tuning/jobs/" + Me.ID + "/cancel", "POST")
 		    Dim result As JSONItem
