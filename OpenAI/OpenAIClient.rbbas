@@ -433,7 +433,6 @@ Private Class OpenAIClient
 		      
 		      Dim data As MemoryBlock = requestobj.StringValue()
 		      client.RequestHeaders.SetHeader("Content-Type", "application/json")
-		      client.SetRequestMethod("POST")
 		      
 		      ' perform the request
 		      If client.Put(OPENAI_URL + APIEndpoint, data) Then Return client.GetDownloadedData
