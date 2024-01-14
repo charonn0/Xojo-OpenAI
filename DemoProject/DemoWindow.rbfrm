@@ -405,40 +405,6 @@ Begin Window DemoWindow
          Visible         =   False
          Width           =   209
       End
-      Begin Label TokenEstimateLbl
-         AutoDeactivate  =   True
-         Bold            =   False
-         DataField       =   ""
-         DataSource      =   ""
-         Enabled         =   True
-         Height          =   20
-         HelpTag         =   ""
-         Index           =   -2147483648
-         InitialParent   =   "OpenAIGroup"
-         Italic          =   False
-         Left            =   40
-         LockBottom      =   False
-         LockedInPosition=   False
-         LockLeft        =   True
-         LockRight       =   True
-         LockTop         =   False
-         Multiline       =   False
-         Scope           =   0
-         Selectable      =   False
-         TabIndex        =   29
-         TabPanelIndex   =   0
-         Text            =   "Estimated token usage: 0"
-         TextAlign       =   0
-         TextColor       =   "&c80808000"
-         TextFont        =   "System"
-         TextSize        =   0.0
-         TextUnit        =   0
-         Top             =   259
-         Transparent     =   False
-         Underline       =   False
-         Visible         =   True
-         Width           =   286
-      End
    End
    Begin TextField APIKeyField
       AcceptTabs      =   False
