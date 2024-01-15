@@ -321,13 +321,14 @@ Protected Class ChatCompletionData
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub Save(ChatLogFile As FolderItem)
-		  ' Saves the internal JSONItem to the specified file.
+		Sub Save(ChatLogFile As FolderItem, Overwrite As Boolean = False)
+		  ' Saves the internal JSONItem to the specified file. Saved chat logs can be
+		  ' reconstitued using the .Load() shared method.
 		  '
 		  ' See:
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.ChatCompletionData.Save
 		  
-		  Dim out As BinaryStream = BinaryStream.Create(ChatLogFile)
+		  Dim out As BinaryStream = BinaryStream.Create(ChatLogFile, Overwrite)
 		  WriteToStream(out)
 		  out.Close
 		  
