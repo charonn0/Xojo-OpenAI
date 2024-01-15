@@ -122,6 +122,76 @@ Protected Class ChatCompletionData
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Function GetMessageAttachments(Index As Integer) As Variant()
+		  ' Returns the attachment(s) to the message at Index as an array of Variants.
+		  ' Attachments may be either URLs to an image file or a Xojo Picture object.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.ChatCompletionData.GetMessageAttachments
+		  
+		  Dim attachs() As Variant
+		  Dim msg As JSONItem = Me.GetMessage(Index)
+		  Dim content As Variant = msg.Value("content")
+		  If VarType(content) <> Variant.TypeString Then
+		    msg = msg.Value("content")
+		    For i As Integer = 0 To msg.Count - 1
+		      Dim item As JSONItem = msg.Child(i)
+		      If item.Lookup("type", "") = "image_url" Then
+		        item = item.Value("image_url")
+		        Dim url As String = item.Value("url")
+		        If NthField(url, ",", 1) = "data:image/png;base64" Then
+		          url = Replace(url, "data:image/png;base64,", "")
+		          url = DecodeBase64(url)
+		          Dim p As Picture = Picture.FromData(url)
+		          If p <> Nil Then
+		            attachs.Append(p)
+		          Else
+		            url = item.Value("url")
+		            attachs.Append(url)
+		          End If
+		        Else
+		          attachs.Append(url)
+		        End If
+		      End If
+		    Next
+		  End If
+		  
+		  Return attachs
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function GetMessageRole(Index As Integer) As String
+		  ' Returns the speaker of the message at Index.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.ChatCompletionData.GetMessageRole
+		  
+		  Dim msg As JSONItem = Me.GetMessage(Index)
+		  Return msg.Value("role")
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function GetMessageText(Index As Integer) As String
+		  ' Returns the message text at Index as a string.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.ChatCompletionData.GetMessageText
+		  
+		  Dim msg As JSONItem = Me.GetMessage(Index)
+		  Dim content As Variant = msg.Value("content")
+		  If VarType(content) = Variant.TypeString Then Return msg.Value("content")
+		  
+		  msg = msg.Value("content")
+		  For i As Integer = 0 To msg.Count - 1
+		    Dim item As JSONItem = msg.Child(i)
+		    If item.Lookup("type", "") = "text" Then Return item.Value("text")
+		  Next
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Sub InsertMessage(Index As Integer, Role As String, Content As String)
 		  ' Inserts a new message into the chat log, pushing existing messages downward.
 		  '
