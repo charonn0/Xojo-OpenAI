@@ -639,8 +639,147 @@ End
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
+		Private Function GetCreateImageRequest() As OpenAI.Request
+		  Dim request As New OpenAI.Request()
+		  request.Prompt = GetOption("Prompt", "")
+		  request.Size = GetOption("Size", "1024x1024")
+		  request.ResultsAsURL = GetOption("ResponseAsURL", False)
+		  If IsOptionSet("Number of results") Then request.NumberOfResults = GetOption("Number of results")
+		  If IsOptionSet("Quality") Then request.HighQuality = (GetOption("Quality") = "hd")
+		  If IsOptionSet("Style") Then request.Style = GetOption("Style")
+		  If IsOptionSet("User") Then request.Style = GetOption("User")
+		  If Not IsOptionSet("Model") Then SetOption("Model") = OpenAI.Model.Lookup("dall-e-2")
+		  request.Model = GetOption("Model")
+		  Return request
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Function GetCreateImageURLRequest() As OpenAI.Request
+		  Dim request As New OpenAI.Request()
+		  request.Prompt = GetOption("Prompt", "")
+		  request.Size = GetOption("Size", "1024x1024")
+		  request.ResultsAsURL = GetOption("Response format", True)
+		  If IsOptionSet("Number of results") Then request.NumberOfResults = GetOption("Number of results")
+		  request.Model = GetOption("Model", OpenAI.Model.Lookup("dall-e-2"))
+		  Return request
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Function GetEditImageRequest() As OpenAI.Request
+		  Dim request As New OpenAI.Request()
+		  request.Prompt = GetOption("Prompt", "")
+		  request.Size = GetOption("Size", "1024x1024")
+		  request.ResultsAsURL = GetOption("ResponseAsURL", False)
+		  If IsOptionSet("Number of results") Then request.NumberOfResults = GetOption("Number of results")
+		  If IsOptionSet("User") Then request.Style = GetOption("User")
+		  If Not IsOptionSet("Model") Then SetOption("Model") = OpenAI.Model.Lookup("dall-e-2")
+		  request.Model = GetOption("Model")
+		  
+		  Dim f As FolderItem = GetOption("Image", Nil)
+		  If f = Nil Then Raise New OpenAI.OpenAIException("No valid image specified.")
+		  request.SourceImage = Picture.Open(f)
+		  
+		  f = GetOption("Image", Nil)
+		  If f <> Nil Then request.MaskImage = Picture.Open(f)
+		  
+		  Return request
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Function GetModerationRequest() As OpenAI.Request
+		  Dim request As New OpenAI.Request()
+		  request.Input = GetOption("Input", "")
+		  request.Model = GetOption("Model", OpenAI.Model.Lookup("text-moderation-stable"))
+		  If IsOptionSet("Number of results") Then request.NumberOfResults = GetOption("Number of results")
+		  Return request
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
 		Private Function GetOption(Name As String, Optional DefaultValue As Variant = Nil) As Variant
 		  Return mAPIOptions.Lookup(Name, DefaultValue)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Function GetRecognizeImageRequest() As OpenAI.Request
+		  Dim request As New OpenAI.Request()
+		  If IsOptionSet("Number of results") Then request.NumberOfResults = GetOption("Number of results")
+		  If IsOptionSet("Stop") Then request.Stop = GetOption("Stop")
+		  If IsOptionSet("Temperature") Then request.Temperature = GetOption("Temperature")
+		  If IsOptionSet("MaxTokens") Then request.MaxTokens = GetOption("MaxTokens")
+		  If IsOptionSet("User") Then request.User = GetOption("User")
+		  If Not IsOptionSet("Model") Then SetOption("Model") = OpenAI.Model.Lookup("gpt-4-vision-preview")
+		  request.Model = GetOption("Model")
+		  
+		  Dim chatlog As New OpenAI.ChatCompletionData()
+		  Dim prmpt As String = GetOption("Prompt", "")
+		  Dim url As String
+		  If GetOption("Image URL", "") <> "" Then
+		    url = GetOption("Image URL", "")
+		  ElseIf GetOption("Image", Nil) <> Nil Then
+		    Dim f As FolderItem = GetOption("Image")
+		    Dim p As Picture = Picture.Open(f)
+		    url = "data:image/png;base64," + EncodeBase64(p.GetData(Picture.FormatPNG))
+		  Else
+		    Raise New OpenAI.OpenAIException("No valid image specified.")
+		  End If
+		  chatlog.AddMessage("user", prmpt, url)
+		  request.Messages = chatlog
+		  
+		  Return request
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Function GetSpeechSynthRequest() As OpenAI.Request
+		  Dim request As New OpenAI.Request
+		  request.Model = GetOption("Model", OpenAI.Model.Lookup("tts-1"))
+		  request.Input = GetOption("Input", "")
+		  request.Voice = GetOption("Voice", "alloy")
+		  If IsOptionSet("speed") Then request.Speed = GetOption("Speed")
+		  Select Case GetOption("Response format", "")
+		  Case "mp3", ""
+		    request.ResultsAsMP3 = True
+		  Case "opus"
+		    request.ResultsAsOpus = True
+		  Case "aac"
+		    request.ResultsAsAAC = True
+		  Case "flac"
+		    request.ResultsAsFLAC = True
+		  End Select
+		  Return request
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Function GetTranscriptionRequest() As OpenAI.Request
+		  Dim request As New OpenAI.Request()
+		  Dim bs As BinaryStream = BinaryStream.Open(mAudioFile)
+		  request.File = bs.Read(bs.Length)
+		  bs.Close
+		  request.FileName = mAudioFile.Name
+		  request.FileMIMEType = MIMEType(mAudioFile)
+		  If IsOptionSet("Temperature") Then request.Temperature = GetOption("Temperature")
+		  request.Model = GetOption("Model", OpenAI.Model.Lookup("whisper-1"))
+		  Return request
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Function GetTranslationRequest() As OpenAI.Request
+		  Dim request As New OpenAI.Request()
+		  Dim bs As BinaryStream = BinaryStream.Open(mAudioFile)
+		  request.File = bs.Read(bs.Length)
+		  bs.Close
+		  request.FileName = mAudioFile.Name
+		  request.FileMIMEType = MIMEType(mAudioFile)
+		  If IsOptionSet("Temperature") Then request.Temperature = GetOption("Temperature")
+		  request.Model = GetOption("Model", OpenAI.Model.Lookup("whisper-1"))
+		  Return request
 		End Function
 	#tag EndMethod
 
@@ -755,16 +894,7 @@ End
 	#tag Method, Flags = &h21
 		Private Sub RunCreateImage(Sender As Thread)
 		  #pragma Unused Sender
-		  Dim request As New OpenAI.Request()
-		  request.Prompt = GetOption("Prompt", "")
-		  request.Size = GetOption("Size", "1024x1024")
-		  request.ResultsAsURL = GetOption("ResponseAsURL", False)
-		  If IsOptionSet("Number of results") Then request.NumberOfResults = GetOption("Number of results")
-		  If IsOptionSet("Quality") Then request.HighQuality = (GetOption("Quality") = "hd")
-		  If IsOptionSet("Style") Then request.Style = GetOption("Style")
-		  If IsOptionSet("User") Then request.Style = GetOption("User")
-		  If Not IsOptionSet("Model") Then SetOption("Model") = OpenAI.Model.Lookup("dall-e-2")
-		  request.Model = GetOption("Model")
+		  Dim request As OpenAI.Request = GetCreateImageRequest()
 		  mAPIReply = OpenAI.Image.Create(request)
 		  RefreshTimer.Mode = Timer.ModeSingle
 		  
@@ -777,12 +907,7 @@ End
 	#tag Method, Flags = &h21
 		Private Sub RunCreateImageURL(Sender As Thread)
 		  #pragma Unused Sender
-		  Dim request As New OpenAI.Request()
-		  request.Prompt = GetOption("Prompt", "")
-		  request.Size = GetOption("Size", "1024x1024")
-		  request.ResultsAsURL = GetOption("Response format", True)
-		  If IsOptionSet("Number of results") Then request.NumberOfResults = GetOption("Number of results")
-		  request.Model = GetOption("Model", OpenAI.Model.Lookup("dall-e-2"))
+		  Dim request As OpenAI.Request = GetCreateImageURLRequest()
 		  mAPIReply = OpenAI.Image.Create(request)
 		  RefreshTimer.Mode = Timer.ModeSingle
 		  
@@ -795,10 +920,7 @@ End
 	#tag Method, Flags = &h21
 		Private Sub RunDoModeration(Sender As Thread)
 		  #pragma Unused Sender
-		  Dim request As New OpenAI.Request()
-		  request.Input = GetOption("Input", "")
-		  request.Model = GetOption("Model", OpenAI.Model.Lookup("text-moderation-stable"))
-		  If IsOptionSet("Number of results") Then request.NumberOfResults = GetOption("Number of results")
+		  Dim request As OpenAI.Request = GetModerationRequest()
 		  mAPIReply = OpenAI.Moderation.Create(request)
 		  RefreshTimer.Mode = Timer.ModeSingle
 		  
@@ -812,12 +934,8 @@ End
 		Private Sub RunDoSpeechSynth(Sender As Thread)
 		  #pragma Unused Sender
 		  
-		  Dim m As OpenAI.Model = GetOption("Model", OpenAI.Model.Lookup("tts-1"))
-		  Dim input As String = GetOption("Input", "")
-		  Dim voice As String = GetOption("Voice", "alloy")
-		  Dim speed As Single = GetOption("Speed", 1.0)
-		  Dim frmt As String = GetOption("Response format", "mp3")
-		  mAPIReply = OpenAI.AudioGeneration.Create(input, m, voice, speed, frmt)
+		  Dim request As OpenAI.Request = GetSpeechSynthRequest()
+		  mAPIReply = OpenAI.AudioGeneration.Create(request)
 		  RefreshTimer.Mode = Timer.ModeSingle
 		  
 		Exception err As OpenAI.OpenAIException
@@ -829,14 +947,7 @@ End
 	#tag Method, Flags = &h21
 		Private Sub RunDoTranscription(Sender As Thread)
 		  #pragma Unused Sender
-		  Dim request As New OpenAI.Request()
-		  Dim bs As BinaryStream = BinaryStream.Open(mAudioFile)
-		  request.File = bs.Read(bs.Length)
-		  bs.Close
-		  request.FileName = mAudioFile.Name
-		  request.FileMIMEType = MIMEType(mAudioFile)
-		  If IsOptionSet("Temperature") Then request.Temperature = GetOption("Temperature")
-		  request.Model = GetOption("Model", OpenAI.Model.Lookup("whisper-1"))
+		  Dim request As OpenAI.Request = GetTranscriptionRequest()
 		  mAPIReply = OpenAI.AudioTranscription.Create(request)
 		  RefreshTimer.Mode = Timer.ModeSingle
 		  
@@ -849,14 +960,7 @@ End
 	#tag Method, Flags = &h21
 		Private Sub RunDoTranslation(Sender As Thread)
 		  #pragma Unused Sender
-		  Dim request As New OpenAI.Request()
-		  Dim bs As BinaryStream = BinaryStream.Open(mAudioFile)
-		  request.File = bs.Read(bs.Length)
-		  bs.Close
-		  request.FileName = mAudioFile.Name
-		  request.FileMIMEType = MIMEType(mAudioFile)
-		  If IsOptionSet("Temperature") Then request.Temperature = GetOption("Temperature")
-		  request.Model = GetOption("Model", OpenAI.Model.Lookup("whisper-1"))
+		  Dim request As OpenAI.Request = GetTranslationRequest()
 		  mAPIReply = OpenAI.AudioTranslation.Create(request)
 		  RefreshTimer.Mode = Timer.ModeSingle
 		  
@@ -869,22 +973,7 @@ End
 	#tag Method, Flags = &h21
 		Private Sub RunEditImage(Sender As Thread)
 		  #pragma Unused Sender
-		  Dim request As New OpenAI.Request()
-		  request.Prompt = GetOption("Prompt", "")
-		  request.Size = GetOption("Size", "1024x1024")
-		  request.ResultsAsURL = GetOption("ResponseAsURL", False)
-		  If IsOptionSet("Number of results") Then request.NumberOfResults = GetOption("Number of results")
-		  If IsOptionSet("User") Then request.Style = GetOption("User")
-		  If Not IsOptionSet("Model") Then SetOption("Model") = OpenAI.Model.Lookup("dall-e-2")
-		  request.Model = GetOption("Model")
-		  
-		  Dim f As FolderItem = GetOption("Image", Nil)
-		  If f = Nil Then Raise New OpenAI.OpenAIException("No valid image specified.")
-		  request.SourceImage = Picture.Open(f)
-		  
-		  f = GetOption("Image", Nil)
-		  If f <> Nil Then request.MaskImage = Picture.Open(f)
-		  
+		  Dim request As OpenAI.Request = GetEditImageRequest()
 		  mAPIReply = OpenAI.Image.Edit(request)
 		  RefreshTimer.Mode = Timer.ModeSingle
 		  
@@ -897,30 +986,7 @@ End
 	#tag Method, Flags = &h21
 		Private Sub RunRecognizeImage(Sender As Thread)
 		  #pragma Unused Sender
-		  Dim request As New OpenAI.Request()
-		  If IsOptionSet("Number of results") Then request.NumberOfResults = GetOption("Number of results")
-		  If IsOptionSet("Stop") Then request.Stop = GetOption("Stop")
-		  If IsOptionSet("Temperature") Then request.Temperature = GetOption("Temperature")
-		  If IsOptionSet("MaxTokens") Then request.MaxTokens = GetOption("MaxTokens")
-		  If IsOptionSet("User") Then request.User = GetOption("User")
-		  If Not IsOptionSet("Model") Then SetOption("Model") = OpenAI.Model.Lookup("gpt-4-vision-preview")
-		  request.Model = GetOption("Model")
-		  
-		  Dim chatlog As New OpenAI.ChatCompletionData()
-		  Dim prmpt As String = GetOption("Prompt", "")
-		  Dim url As String
-		  If GetOption("Image URL", "") <> "" Then
-		    url = GetOption("Image URL", "")
-		  ElseIf GetOption("Image", Nil) <> Nil Then
-		    Dim f As FolderItem = GetOption("Image")
-		    Dim p As Picture = Picture.Open(f)
-		    url = "data:image/png;base64," + EncodeBase64(p.GetData(Picture.FormatPNG))
-		  Else
-		    Raise New OpenAI.OpenAIException("No valid image specified.")
-		  End If
-		  chatlog.AddMessage("user", prmpt, url)
-		  request.Messages = chatlog
-		  
+		  Dim request As OpenAI.Request = GetRecognizeImageRequest()
 		  mAPIReply = OpenAI.ImageRecognition.Create(request)
 		  RefreshTimer.Mode = Timer.ModeSingle
 		  
@@ -1380,6 +1446,61 @@ End
 		Sub GotFocus()
 		  mOptionListHasFocus = True
 		End Sub
+	#tag EndEvent
+	#tag Event
+		Function ContextualMenuAction(hitItem as MenuItem) As Boolean
+		  If hitItem.Text = "Dump to file..." Then
+		    Dim request As OpenAI.Request
+		    Dim nm As String
+		    Select Case TaskSelectMenu.Text
+		    Case "Images: Generate"
+		      nm = "image_generation_request.json"
+		      If GetOption("ResponseAsURL", False) = False Then
+		        request = GetCreateImageRequest()
+		      Else
+		        request = GetCreateImageURLRequest()
+		      End If
+		    Case "Images: Modify"
+		      nm = "image_edit_request.json"
+		      request = GetEditImageRequest()
+		    Case "Images: Recognize"
+		      nm = "image_recognition_request.json"
+		      request = GetRecognizeImageRequest()
+		    Case "Moderation: Categorize for sex, violence, etc."
+		      nm = "moderation_request.json"
+		      request = GetModerationRequest()
+		    Case "Audio: Synthesize speech"
+		      nm = "texttospeech_request.json"
+		      request = GetSpeechSynthRequest()
+		    Case "Audio: Transcribe English audio"
+		      nm = "transcription_request.json"
+		      request = GetTranscriptionRequest()
+		    Case "Audio: Translate audio to English text"
+		      nm = "translation_request.json"
+		      request = GetTranslationRequest()
+		    End Select
+		    If request = Nil Then Return True
+		    Dim f As FolderItem = GetSaveFolderItem(".json", nm)
+		    If f = Nil Then Return True
+		    Dim bs As BinaryStream = BinaryStream.Create(f, True)
+		    Dim reqjs As JSONItem = request
+		    bs.Write(reqjs.ToString)
+		    bs.Close
+		    Return True
+		  End If
+		  
+		End Function
+	#tag EndEvent
+	#tag Event
+		Function ConstructContextualMenu(base as MenuItem, x as Integer, y as Integer) As Boolean
+		  #pragma Unused x
+		  #pragma Unused y
+		  If TaskSelectMenu.Text <> "Select AI task..." And TaskSelectMenu.Text <> "Text: Chat" Then
+		    Dim serialize As New MenuItem("Dump to file...")
+		    base.Append(serialize)
+		    Return True
+		  End If
+		End Function
 	#tag EndEvent
 #tag EndEvents
 #tag Events TaskSelectMenu
