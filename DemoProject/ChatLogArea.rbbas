@@ -37,6 +37,41 @@ Inherits TextArea
 	#tag EndEvent
 
 	#tag Event
+		Function MouseDown(X As Integer, Y As Integer) As Boolean
+		  Dim v As Variant = FindMetaText(X, Y)
+		  If v = Nil Then Return False
+		  Return (v IsA FolderItem Or v.Type = Variant.TypeString)
+		End Function
+	#tag EndEvent
+
+	#tag Event
+		Sub MouseMove(X As Integer, Y As Integer)
+		  Dim v As Variant = FindMetaText(X, Y)
+		  If v = Nil Then Return
+		  If v IsA FolderItem Or v.Type = Variant.TypeString Then
+		    Me.MouseCursor = System.Cursors.FingerPointer
+		  Else
+		    Me.MouseCursor = System.Cursors.StandardPointer
+		  End If
+		  
+		End Sub
+	#tag EndEvent
+
+	#tag Event
+		Sub MouseUp(X As Integer, Y As Integer)
+		  Dim v As Variant = FindMetaText(X, Y)
+		  If v = Nil Then Return
+		  If v IsA FolderItem Then
+		    Dim f As FolderItem = v
+		    RaiseEvent ClickFileLink(f)
+		  ElseIf v.Type = Variant.TypeString Then
+		    RaiseEvent ClickLink(v.StringValue)
+		  End If
+		  
+		End Sub
+	#tag EndEvent
+
+	#tag Event
 		Sub Open()
 		  Me.Styled = True
 		  Me.ReadOnly = True
@@ -74,6 +109,106 @@ Inherits TextArea
 		End Sub
 	#tag EndMethod
 
+	#tag Method, Flags = &h0
+		Sub AppendMessage(Role As String, Content As String, Original As OpenAI.ChatCompletion, Images() As FolderItem)
+		  Content = Content.Trim
+		  Dim c As Color
+		  Select Case Role
+		  Case "user"
+		    c = &c0000FF00 ' blue
+		  Case "assistant"
+		    c = &c80000000 ' maroon
+		  Case "system"
+		    c = &c00000000 ' black
+		  Else
+		    c = &c53535300 ' dark grey
+		  End Select
+		  
+		  Dim roletxt As New StyleRun
+		  roletxt.TextColor = c
+		  roletxt.Text = Role.Trim + ": "
+		  Me.AppendStyleRun(roletxt, Original)
+		  Me.AppendStyleRun(Delimiter)
+		  
+		  Dim contenttxt As New StyleRun
+		  contenttxt.Text = Content + EndOfLine
+		  contenttxt.TextColor = c
+		  Me.AppendStyleRun(contenttxt, Original)
+		  Me.AppendStyleRun(Delimiter)
+		  
+		  If UBound(Images) > -1 Then
+		    Dim attachment As New StyleRun
+		    attachment.TextColor = &c53535300 ' dark grey
+		    attachment.Text = "Attachments: "
+		    Me.AppendStyleRun(attachment)
+		    Me.AppendStyleRun(Delimiter)
+		    
+		    For i As Integer = 0 To UBound(Images)
+		      attachment = New StyleRun
+		      attachment.TextColor = &c0000FF00 ' blue
+		      attachment.Underline = True
+		      If i < UBound(Images) Then
+		        attachment.Text = Images(i).Name + ", "
+		      Else
+		        attachment.Text = Images(i).Name + EndOfLine
+		      End If
+		      Me.AppendStyleRun(attachment, Images(i))
+		      Me.AppendStyleRun(Delimiter)
+		    Next
+		  End If
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub AppendMessage(Role As String, Content As String, Original As OpenAI.ChatCompletion, Images() As String)
+		  Content = Content.Trim
+		  Dim c As Color
+		  Select Case Role
+		  Case "user"
+		    c = &c0000FF00 ' blue
+		  Case "assistant"
+		    c = &c80000000 ' maroon
+		  Case "system"
+		    c = &c00000000 ' black
+		  Else
+		    c = &c53535300 ' dark grey
+		  End Select
+		  
+		  Dim roletxt As New StyleRun
+		  roletxt.TextColor = c
+		  roletxt.Text = Role.Trim + ": "
+		  Me.AppendStyleRun(roletxt, Original)
+		  Me.AppendStyleRun(Delimiter)
+		  
+		  Dim contenttxt As New StyleRun
+		  contenttxt.Text = Content + EndOfLine
+		  contenttxt.TextColor = c
+		  Me.AppendStyleRun(contenttxt, Original)
+		  Me.AppendStyleRun(Delimiter)
+		  
+		  If UBound(Images) > -1 Then
+		    Dim attachment As New StyleRun
+		    attachment.TextColor = &c53535300 ' dark grey
+		    attachment.Text = "Attachments: "
+		    Me.AppendStyleRun(attachment)
+		    Me.AppendStyleRun(Delimiter)
+		    
+		    For i As Integer = 0 To UBound(Images)
+		      attachment = New StyleRun
+		      attachment.TextColor = &c0000FF00 ' blue
+		      attachment.Underline = True
+		      If i < UBound(Images) Then
+		        attachment.Text = Images(i) + ", "
+		      Else
+		        attachment.Text = Images(i) + EndOfLine
+		      End If
+		      Me.AppendStyleRun(attachment, Images(i))
+		      Me.AppendStyleRun(Delimiter)
+		    Next
+		  End If
+		End Sub
+	#tag EndMethod
+
 	#tag Method, Flags = &h1
 		Protected Sub AppendStyleRun(Text As StyleRun, LinkValue As Variant = Nil)
 		  Me.StyledText.AppendStyleRun(Text)
@@ -100,6 +235,14 @@ Inherits TextArea
 
 	#tag Method, Flags = &h1
 		Protected Function FindMessage(X As Integer, Y As Integer) As OpenAI.ChatCompletion
+		  Dim msg As Variant = FindMetaText(X, Y)
+		  If msg IsA OpenAI.ChatCompletion Then Return msg
+		  Return Nil
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Function FindMetaText(X As Integer, Y As Integer) As Variant
 		  Dim tst As Integer
 		  tst = Me.CharPosAtXY(X, Y)
 		  
@@ -116,6 +259,14 @@ Inherits TextArea
 		End Function
 	#tag EndMethod
 
+
+	#tag Hook, Flags = &h0
+		Event ClickFileLink(File As FolderItem)
+	#tag EndHook
+
+	#tag Hook, Flags = &h0
+		Event ClickLink(URL As String)
+	#tag EndHook
 
 	#tag Hook, Flags = &h0
 		Event ConstructContextualMenu(Base As MenuItem, X As Integer, Y As Integer) As Boolean
@@ -139,7 +290,7 @@ Inherits TextArea
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
-		Private mOriginals() As OpenAI.ChatCompletion
+		Private mOriginals() As Variant
 	#tag EndProperty
 
 
