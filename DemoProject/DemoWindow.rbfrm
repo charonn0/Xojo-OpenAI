@@ -301,7 +301,7 @@ Begin Window DemoWindow
          HelpTag         =   ""
          Index           =   -2147483648
          InitialParent   =   "OpenAIGroup"
-         InitialValue    =   "Select AI Task...\r\nImages: Generate\r\nImages: Modify\r\nImages: Recognize\r\nModeration: Categorize for sex, violence, etc.\r\nAudio: Synthesize speech\r\nAudio: Transcribe English audio\r\nAudio: Translate audio to English text\r\nText: Chat"
+         InitialValue    =   "Select AI Task...\r\nImages: Generate\r\nImages: Modify\r\nImages: Recognize\r\nAudio: Synthesize speech\r\nAudio: Transcribe English audio\r\nAudio: Translate audio to English text\r\nText: Categorize for sex, violence, etc.\r\nText: Chat"
          Italic          =   False
          Left            =   36
          ListIndex       =   0
@@ -797,7 +797,7 @@ End
 		    Dim usedfor As String
 		    Select Case mdl.Endpoint
 		    Case "/v1/audio/transcriptions;/v1/audio/translations"
-		      usedfor = "Audio"
+		      usedfor = "Speech-to-Text"
 		      
 		    Case "/v1/chat/completions"
 		      If InStr(mdl.ID, "vision") > 0 Then
@@ -1472,7 +1472,7 @@ End
 		    Case "Images: Recognize"
 		      nm = "image_recognition_request.json"
 		      request = GetRecognizeImageRequest()
-		    Case "Moderation: Categorize for sex, violence, etc."
+		    Case "Text: Categorize for sex, violence, etc."
 		      nm = "moderation_request.json"
 		      request = GetModerationRequest()
 		    Case "Audio: Synthesize speech"
@@ -1609,7 +1609,7 @@ End
 		    OptionsListBox.RowTag(OptionsListBox.LastIndex) = False ' optional
 		    OptionsListBox.CellType(OptionsListBox.LastIndex, 1) = Listbox.TypeEditable
 		    
-		  Case "Moderation: Categorize for sex, violence, etc."
+		  Case "Text: Categorize for sex, violence, etc."
 		    OptionsListBox.AddRow("Input", "")
 		    OptionsListBox.RowTag(OptionsListBox.LastIndex) = True ' required
 		    OptionsListBox.CellType(OptionsListBox.LastIndex, 1) = Listbox.TypeEditable
@@ -1721,7 +1721,7 @@ End
 		    mWorker.Priority = 3
 		    mWorker.Run()
 		    
-		  Case "Moderation: Categorize for sex, violence, etc."
+		  Case "Text: Categorize for sex, violence, etc."
 		    StatusBarLbl.Text = "Working..."
 		    ToggleLockUI()
 		    mWorker = New Thread
