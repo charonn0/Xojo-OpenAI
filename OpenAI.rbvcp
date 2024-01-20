@@ -28,6 +28,7 @@ Class=AudioGeneration;OpenAI/AudioGeneration.rbbas;&h726627FF;&h755B3FFF;false
 Class=ImageRecognition;OpenAI/ImageRecognition.rbbas;&h597337FF;&h755B3FFF;false
 Class=FineTuneJob;OpenAI/FineTuneJob.rbbas;&h371477FF;&h755B3FFF;false
 Class=FineTuneData;OpenAI/FineTuneData.rbbas;&h100577FF;&h755B3FFF;false
+Class=LinkTextArea;DemoProject/LinkTextArea.rbbas;&h63E357FF;&h3578F7FF;false
 DefaultWindow=DemoWindow
 MajorVersion=1
 MinorVersion=0
