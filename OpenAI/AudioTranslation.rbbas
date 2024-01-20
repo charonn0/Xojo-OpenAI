@@ -2,10 +2,10 @@
 Protected Class AudioTranslation
 Inherits OpenAI.AudioTranscription
 	#tag Method, Flags = &h1001
-		Protected Sub Constructor(ResponseData As JSONItem, Client As OpenAIClient)
+		Protected Sub Constructor(ResponseData As JSONItem, Client As OpenAIClient, OriginalRequest As OpenAI.Request)
 		  // Calling the overridden superclass constructor.
-		  // Constructor(ResponseData As JSONItem, Client As OpenAIClient) -- From AudioTranscription
-		  Super.Constructor(ResponseData, Client)
+		  // Constructor(ResponseData As JSONItem, Client As OpenAIClient, OriginalRequest As OpenAI.Request) -- From AudioTranscription
+		  Super.Constructor(ResponseData, Client, OriginalRequest)
 		  
 		End Sub
 	#tag EndMethod
@@ -69,7 +69,7 @@ Inherits OpenAI.AudioTranscription
 		  Case request.ResultsAsVTT
 		    result.Value("response_format") = "vtt"
 		  End Select
-		  Return New OpenAI.AudioTranslation(result, client)
+		  Return New OpenAI.AudioTranslation(result, client, Request)
 		End Function
 	#tag EndMethod
 

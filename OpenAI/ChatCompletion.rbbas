@@ -9,8 +9,8 @@ Inherits OpenAI.Response
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.ChatCompletion.Constructor
 		  
 		  // Calling the overridden superclass constructor.
-		  // Constructor(ResponseData As JSONItem, Client As OpenAIClient) -- From Response
-		  Super.Constructor(ResponseData, New OpenAIClient)
+		  // Constructor(ResponseData As JSONItem, Client As OpenAIClient, OriginalRequest As OpenAI.Request) -- From Response
+		  Super.Constructor(ResponseData, New OpenAIClient, Nil)
 		  If ChatLogData <> Nil Then
 		    mChatLog = New ChatCompletionData(ChatLogData)
 		  Else
@@ -20,10 +20,10 @@ Inherits OpenAI.Response
 	#tag EndMethod
 
 	#tag Method, Flags = &h1001
-		Protected Sub Constructor(ResponseData As JSONItem, Client As OpenAIClient, ChatLog As OpenAI.ChatCompletionData)
+		Protected Sub Constructor(ResponseData As JSONItem, Client As OpenAIClient, ChatLog As OpenAI.ChatCompletionData, OriginalRequest As OpenAI.Request)
 		  // Calling the overridden superclass constructor.
-		  // Constructor(ResponseData As JSONItem, Client As OpenAIClient) -- From Response
-		  Super.Constructor(ResponseData, Client)
+		  // Constructor(ResponseData As JSONItem, Client As OpenAIClient, OriginalRequest As OpenAI.Request) -- From Response
+		  Super.Constructor(ResponseData, Client, OriginalRequest)
 		  mChatLog = ChatLog
 		  ChatLog.AddMessage(GetResultRole, GetResult)
 		End Sub
@@ -77,7 +77,7 @@ Inherits OpenAI.Response
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
 		  If Not result.HasName("model") And Request.Model <> Nil Then result.Value("model") = Request.Model.ID
 		  Dim msgs As JSONItem = Request.Messages
-		  Return New OpenAI.ChatCompletion(result, client, New ChatCompletionData(msgs))
+		  Return New OpenAI.ChatCompletion(result, client, New ChatCompletionData(msgs), Request)
 		  
 		End Function
 	#tag EndMethod
@@ -114,7 +114,7 @@ Inherits OpenAI.Response
 		  Dim response As JSONItem = Response.CreateRaw(Client, "/v1/chat/completions", Request)
 		  If response = Nil Or response.HasName("error") Then Raise New OpenAIException(response)
 		  Dim msgs As JSONItem = Request.Messages
-		  Return New OpenAI.ChatCompletion(response, Client, New ChatCompletionData(msgs))
+		  Return New OpenAI.ChatCompletion(response, Client, New ChatCompletionData(msgs), Request)
 		  
 		End Function
 	#tag EndMethod

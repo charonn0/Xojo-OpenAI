@@ -4,16 +4,16 @@ Inherits OpenAI.Response
 	#tag Method, Flags = &h0
 		Sub Constructor(ResponseData As JSONItem)
 		  // Calling the overridden superclass constructor.
-		  // Constructor(ResponseData As JSONItem, Client As OpenAIClient) -- From Response
-		  Super.Constructor(ResponseData, New OpenAIClient)
+		  // Constructor(ResponseData As JSONItem, Client As OpenAIClient, OriginalRequest As OpenAI.Request) -- From Response
+		  Super.Constructor(ResponseData, New OpenAIClient, Nil)
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h1001
-		Protected Sub Constructor(ResponseData As JSONItem, Client As OpenAIClient, AudioData As MemoryBlock)
+		Protected Sub Constructor(ResponseData As JSONItem, Client As OpenAIClient, AudioData As MemoryBlock, OriginalRequest As OpenAI.Request)
 		  // Calling the overridden superclass constructor.
-		  // Constructor(ResponseData As JSONItem, Client As OpenAIClient) -- From Response
-		  Super.Constructor(ResponseData, Client)
+		  // Constructor(ResponseData As JSONItem, Client As OpenAIClient, OriginalRequest As OpenAI.Request) -- From Response
+		  Super.Constructor(ResponseData, Client, OriginalRequest)
 		  mAudioData = AudioData
 		End Sub
 	#tag EndMethod
@@ -42,7 +42,7 @@ Inherits OpenAI.Response
 		    fake.Value("created") = DateToEpoch(New Date)
 		    fake.Value("response_format") = Request.ResponseFormat
 		    If Request.Model <> Nil Then fake.Value("model") = Request.Model.ID
-		    Return New AudioGeneration(fake, client, audiodata)
+		    Return New AudioGeneration(fake, client, audiodata, Request)
 		  End If
 		End Function
 	#tag EndMethod

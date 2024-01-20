@@ -4,16 +4,16 @@ Inherits OpenAI.Response
 	#tag Method, Flags = &h0
 		Sub Constructor(ResponseData As JSONItem)
 		  // Calling the overridden superclass constructor.
-		  // Constructor(ResponseData As JSONItem, Client As OpenAIClient) -- From Response
-		  Super.Constructor(ResponseData, New OpenAIClient)
+		  // Constructor(ResponseData As JSONItem, Client As OpenAIClient, OriginalRequest As OpenAI.Request) -- From Response
+		  Super.Constructor(ResponseData, New OpenAIClient, Nil)
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h1001
-		Protected Sub Constructor(ResponseData As JSONItem, Client As OpenAIClient)
+		Protected Sub Constructor(ResponseData As JSONItem, Client As OpenAIClient, OriginalRequest As OpenAI.Request)
 		  // Calling the overridden superclass constructor.
-		  // Constructor(ResponseData As JSONItem, Client As OpenAIClient) -- From Response
-		  Super.Constructor(ResponseData, Client)
+		  // Constructor(ResponseData As JSONItem, Client As OpenAIClient, OriginalRequest As OpenAI.Request) -- From Response
+		  Super.Constructor(ResponseData, Client, OriginalRequest)
 		  
 		End Sub
 	#tag EndMethod
@@ -81,7 +81,7 @@ Inherits OpenAI.Response
 		  Case request.ResultsAsVTT
 		    result.Value("response_format") = "vtt"
 		  End Select
-		  Return New OpenAI.AudioTranscription(result, client)
+		  Return New OpenAI.AudioTranscription(result, client, Request)
 		End Function
 	#tag EndMethod
 

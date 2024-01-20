@@ -4,16 +4,16 @@ Inherits OpenAI.Response
 	#tag Method, Flags = &h0
 		Sub Constructor(ResponseData As JSONItem)
 		  // Calling the overridden superclass constructor.
-		  // Constructor(ResponseData As JSONItem, Client As OpenAIClient) -- From Response
-		  Super.Constructor(ResponseData, New OpenAIClient)
+		  // Constructor(ResponseData As JSONItem, Client As OpenAIClient, OriginalRequest As OpenAI.Request) -- From Response
+		  Super.Constructor(ResponseData, New OpenAIClient, Nil)
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h1001
-		Protected Sub Constructor(ResponseData As JSONItem, Client As OpenAIClient)
+		Protected Sub Constructor(ResponseData As JSONItem, Client As OpenAIClient, OriginalRequest As OpenAI.Request)
 		  // Calling the overridden superclass constructor.
-		  // Constructor(ResponseData As JSONItem, Client As OpenAIClient) -- From Response
-		  Super.Constructor(ResponseData, Client)
+		  // Constructor(ResponseData As JSONItem, Client As OpenAIClient, OriginalRequest As OpenAI.Request) -- From Response
+		  Super.Constructor(ResponseData, Client, OriginalRequest)
 		End Sub
 	#tag EndMethod
 
@@ -66,7 +66,7 @@ Inherits OpenAI.Response
 		  Dim result As JSONItem = Response.CreateRaw(client, "/v1/files", request)
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
 		  ReDim FileList(-1) ' force refresh
-		  Return New OpenAI.File(result, client)
+		  Return New OpenAI.File(result, client, request)
 		End Function
 	#tag EndMethod
 
@@ -195,7 +195,7 @@ Inherits OpenAI.Response
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
 		  result = result.Value("data")
 		  For i As Integer = 0 To result.Count - 1
-		    FileList.Append(New OpenAI.File(result.Child(i), client))
+		    FileList.Append(New OpenAI.File(result.Child(i), client, Nil))
 		  Next
 		End Sub
 	#tag EndMethod

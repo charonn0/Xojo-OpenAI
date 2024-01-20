@@ -2,10 +2,10 @@
 Protected Class ImageRecognition
 Inherits OpenAI.ChatCompletion
 	#tag Method, Flags = &h1001
-		Protected Sub Constructor(ResponseData As JSONItem, Client As OpenAIClient, ChatLog As OpenAI.ChatCompletionData)
+		Protected Sub Constructor(ResponseData As JSONItem, Client As OpenAIClient, ChatLog As OpenAI.ChatCompletionData, OriginalRequest As OpenAI.Request)
 		  // Calling the overridden superclass constructor.
 		  // Constructor(ResponseData As JSONItem, Client As OpenAIClient, ChatLog As OpenAI.ChatCompletionData) -- From ChatCompletion
-		  Super.Constructor(ResponseData, Client, ChatLog)
+		  Super.Constructor(ResponseData, Client, ChatLog, OriginalRequest)
 		End Sub
 	#tag EndMethod
 
@@ -29,7 +29,7 @@ Inherits OpenAI.ChatCompletion
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
 		  If Not result.HasName("model") And Request.Model <> Nil Then result.Value("model") = Request.Model.ID
 		  Dim msgs As JSONItem = Request.Messages
-		  Return New OpenAI.ImageRecognition(result, client, New ChatCompletionData(msgs))
+		  Return New OpenAI.ImageRecognition(result, client, New ChatCompletionData(msgs), Request)
 		  
 		End Function
 	#tag EndMethod
@@ -183,7 +183,7 @@ Inherits OpenAI.ChatCompletion
 		  Dim response As JSONItem = Response.CreateRaw(Client, "/v1/chat/completions", request)
 		  If response = Nil Or response.HasName("error") Then Raise New OpenAIException(response)
 		  Dim msgs As JSONItem = Request.Messages
-		  Return New OpenAI.ImageRecognition(response, Client, New ChatCompletionData(msgs))
+		  Return New OpenAI.ImageRecognition(response, Client, New ChatCompletionData(msgs), Request)
 		  
 		End Function
 	#tag EndMethod
