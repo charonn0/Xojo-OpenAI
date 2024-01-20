@@ -84,7 +84,7 @@ Begin Window DemoWindow
          Visible         =   True
          Width           =   292
       End
-      Begin TextArea ReplyText
+      Begin LinkTextArea ReplyText
          AcceptTabs      =   False
          Alignment       =   0
          AutoDeactivate  =   True
@@ -1111,6 +1111,12 @@ End
 		  
 		End Function
 	#tag EndEvent
+	#tag Event
+		Sub ClickLink(LinkText As String, LinkValue As Variant)
+		  #pragma Unused LinkText
+		  If VarType(LinkValue) = Variant.TypeString Then ShowURL(LinkValue.StringValue)
+		End Sub
+	#tag EndEvent
 #tag EndEvents
 #tag Events ReplyImageCanvas
 	#tag Event
@@ -1810,6 +1816,7 @@ End
 #tag Events RefreshTimer
 	#tag Event
 		Sub Action()
+		  ReplyText.Clear()
 		  If mLastError <> Nil Then ' an error occurred
 		    mAPIImage = Nil
 		    mAPIReply = Nil
@@ -1838,7 +1845,9 @@ End
 		      
 		    Case OpenAI.ResultType.PictureURL
 		      Dim url As String = Trim(mAPIReply.GetResult)
-		      ReplyText.Text = "URL: " + url + EndOfLine + EndOfLine + "Revised prompt: " + mAPIReply.RevisedPrompt
+		      ReplyText.AppendText("URL: ")
+		      ReplyText.AppendLink(url, url)
+		      ReplyText.AppendText(EndOfLine + EndOfLine + "Revised prompt: " + mAPIReply.RevisedPrompt)
 		      mAPIImage = FetchImageURL(url)
 		      
 		    Case OpenAI.ResultType.Audio

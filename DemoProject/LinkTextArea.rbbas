@@ -1,209 +1,143 @@
 #tag Class
-Protected Class ChatLogArea
-Inherits LinkTextArea
+Protected Class LinkTextArea
+Inherits TextArea
 	#tag Event
-		Sub ClickLink(LinkText As String, LinkValue As Variant)
-		  #pragma Unused LinkText
-		  If LinkValue = Nil Then Return
-		  If LinkValue IsA FolderItem Then
-		    Dim f As FolderItem = LinkValue
-		    RaiseEvent ClickFileLink(f)
-		  ElseIf LinkValue.Type = Variant.TypeString Then
-		    RaiseEvent ClickLink(LinkValue.StringValue)
+		Function MouseDown(X As Integer, Y As Integer) As Boolean
+		  If Not RaiseEvent MouseDown(X, Y) Then
+		    Dim v As Variant = FindMetaText(X, Y)
+		    Return (v <> Nil)
 		  End If
-		  
-		End Sub
-	#tag EndEvent
-
-	#tag Event
-		Function ConstructContextualMenu(base as MenuItem, x as Integer, y as Integer) As Boolean
-		  Call RaiseEvent ConstructContextualMenu(base, x, y)
-		  
-		  Dim msg As OpenAI.ChatCompletion = FindMessage(x, y)
-		  If msg <> Nil Then
-		    Dim serialize As New MenuItem("Dump to file...")
-		    serialize.Tag = msg
-		    base.Append(serialize)
-		  End If
-		  
-		  Return True
 		End Function
 	#tag EndEvent
 
 	#tag Event
-		Function ContextualMenuAction(hitItem as MenuItem) As Boolean
-		  If RaiseEvent ContextualMenuAction(hitItem) Then Return True
-		  Select Case hitItem.Text
-		  Case "Dump to file..."
-		    Dim chatmsg As OpenAI.ChatCompletion = hitItem.Tag
-		    Dim f As FolderItem = GetSaveFolderItem(".json", "chatmessage.json")
-		    If f <> Nil Then
-		      Dim s As String = chatmsg.ToString()
-		      Dim bs As BinaryStream = BinaryStream.Create(f)
-		      bs.Write(s)
-		      bs.Close()
-		    End If
-		  End Select
+		Sub MouseUp(X As Integer, Y As Integer)
+		  Dim v As Variant = FindMetaText(X, Y)
+		  If v <> Nil Then
+		    Dim txt As String = FindLinkText(X, Y)
+		    RaiseEvent ClickLink(txt, v)
+		  Else
+		    RaiseEvent MouseUp(X, Y)
+		  End If
 		  
-		  Return True
-		  
-		End Function
+		End Sub
+	#tag EndEvent
+
+	#tag Event
+		Sub Open()
+		  Me.Styled = True
+		  Me.ReadOnly = True
+		  RaiseEvent Open()
+		End Sub
 	#tag EndEvent
 
 
 	#tag Method, Flags = &h0
-		Sub AppendMessage(Role As String, Content As String, Original As OpenAI.ChatCompletion)
-		  Content = Content.Trim
-		  Dim c As Color
-		  Select Case Role
-		  Case "user"
-		    c = &c0000FF00 ' blue
-		  Case "assistant"
-		    c = &c80000000 ' maroon
-		  Case "system"
-		    c = &c00000000 ' black
-		  Else
-		    c = &c53535300 ' dark grey
-		  End Select
-		  
-		  Dim roletxt As New StyleRun
-		  roletxt.TextColor = c
-		  roletxt.Text = Role.Trim + ": "
-		  Me.AppendStyleRun(roletxt, Original)
-		  Me.AppendStyleRun(Delimiter)
-		  
-		  Dim contenttxt As New StyleRun
-		  contenttxt.Text = Content + EndOfLine
-		  contenttxt.TextColor = c
-		  Me.AppendStyleRun(contenttxt, Original)
-		  Me.AppendStyleRun(Delimiter)
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Sub AppendMessage(Role As String, Content As String, Original As OpenAI.ChatCompletion, Images() As FolderItem)
-		  Content = Content.Trim
-		  Dim c As Color
-		  Select Case Role
-		  Case "user"
-		    c = &c0000FF00 ' blue
-		  Case "assistant"
-		    c = &c80000000 ' maroon
-		  Case "system"
-		    c = &c00000000 ' black
-		  Else
-		    c = &c53535300 ' dark grey
-		  End Select
-		  
-		  Dim roletxt As New StyleRun
-		  roletxt.TextColor = c
-		  roletxt.Text = Role.Trim + ": "
-		  Me.AppendStyleRun(roletxt, Original)
-		  Me.AppendStyleRun(Delimiter)
-		  
-		  Dim contenttxt As New StyleRun
-		  contenttxt.Text = Content + EndOfLine
-		  contenttxt.TextColor = c
-		  Me.AppendStyleRun(contenttxt, Original)
-		  Me.AppendStyleRun(Delimiter)
-		  
-		  If UBound(Images) > -1 Then
-		    Dim attachment As New StyleRun
-		    attachment.TextColor = &c53535300 ' dark grey
-		    attachment.Text = "Attachments: "
-		    Me.AppendStyleRun(attachment)
-		    Me.AppendStyleRun(Delimiter)
-		    
-		    For i As Integer = 0 To UBound(Images)
-		      attachment = New StyleRun
-		      attachment.TextColor = &c0000FF00 ' blue
-		      attachment.Underline = True
-		      If i < UBound(Images) Then
-		        attachment.Text = Images(i).Name + ", "
-		      Else
-		        attachment.Text = Images(i).Name + EndOfLine
-		      End If
-		      Me.AppendStyleRun(attachment, Images(i))
-		      Me.AppendStyleRun(Delimiter)
-		    Next
+		Sub AppendLink(LinkText As String, LinkValue As Variant)
+		  Dim txt As New StyleRun
+		  txt.Text = LinkText
+		  If LinkValue <> Nil Then
+		    txt.TextColor = &c0000FF00 ' blue
+		    txt.Underline = True
 		  End If
-		End Sub
-	#tag EndMethod
-
-	#tag Method, Flags = &h0
-		Sub AppendMessage(Role As String, Content As String, Original As OpenAI.ChatCompletion, Images() As String)
-		  Content = Content.Trim
-		  Dim c As Color
-		  Select Case Role
-		  Case "user"
-		    c = &c0000FF00 ' blue
-		  Case "assistant"
-		    c = &c80000000 ' maroon
-		  Case "system"
-		    c = &c00000000 ' black
-		  Else
-		    c = &c53535300 ' dark grey
-		  End Select
-		  
-		  Dim roletxt As New StyleRun
-		  roletxt.TextColor = c
-		  roletxt.Text = Role.Trim + ": "
-		  Me.AppendStyleRun(roletxt, Original)
+		  Me.AppendStyleRun(txt, LinkValue)
 		  Me.AppendStyleRun(Delimiter)
-		  
-		  Dim contenttxt As New StyleRun
-		  contenttxt.Text = Content + EndOfLine
-		  contenttxt.TextColor = c
-		  Me.AppendStyleRun(contenttxt, Original)
-		  Me.AppendStyleRun(Delimiter)
-		  
-		  If UBound(Images) > -1 Then
-		    Dim attachment As New StyleRun
-		    attachment.TextColor = &c53535300 ' dark grey
-		    attachment.Text = "Attachments: "
-		    Me.AppendStyleRun(attachment)
-		    Me.AppendStyleRun(Delimiter)
-		    
-		    For i As Integer = 0 To UBound(Images)
-		      attachment = New StyleRun
-		      attachment.TextColor = &c0000FF00 ' blue
-		      attachment.Underline = True
-		      If i < UBound(Images) Then
-		        attachment.Text = Images(i) + ", "
-		      Else
-		        attachment.Text = Images(i) + EndOfLine
-		      End If
-		      Me.AppendStyleRun(attachment, Images(i))
-		      Me.AppendStyleRun(Delimiter)
-		    Next
-		  End If
 		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
-		Protected Function FindMessage(X As Integer, Y As Integer) As OpenAI.ChatCompletion
-		  Dim msg As Variant = FindMetaText(X, Y)
-		  If msg IsA OpenAI.ChatCompletion Then Return msg
+		Protected Sub AppendStyleRun(Text As StyleRun, LinkValue As Variant = Nil)
+		  Me.StyledText.AppendStyleRun(Text)
+		  mOriginals.Append(LinkValue)
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub AppendText(text As String)
+		  Dim txt As New StyleRun
+		  txt.Text = text
+		  Me.AppendStyleRun(txt, Nil)
+		  Me.AppendStyleRun(Delimiter)
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub Clear()
+		  Me.Text = ""
+		  Me.StyledText = Nil
+		  ReDim mOriginals(-1)
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Shared Function Delimiter() As StyleRun
+		  Dim sr As New StyleRun
+		  sr.TextColor = &c936C8E00
+		  sr.Text = " "
+		  Return sr
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Function FindLinkText(X As Integer, Y As Integer) As String
+		  Dim tst As Integer
+		  tst = Me.CharPosAtXY(X, Y)
+		  
+		  For i As Integer = 0 To Me.StyledText.StyleRunCount - 1
+		    If tst >= Me.StyledText.StyleRunRange(i).StartPos And tst <= Me.StyledText.StyleRunRange(i).EndPos Then
+		      Return Me.StyledText.StyleRun(i).Text
+		    End If
+		  Next
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Function FindMetaText(X As Integer, Y As Integer) As Variant
+		  Dim tst As Integer
+		  tst = Me.CharPosAtXY(X, Y)
+		  
+		  For i As Integer = 0 To Me.StyledText.StyleRunCount - 1
+		    If mOriginals(i) Is Nil Then Continue
+		    Dim st, op As Integer
+		    st = Me.StyledText.StyleRunRange(i).StartPos
+		    op = Me.StyledText.StyleRunRange(i).EndPos
+		    If tst >= st And tst <= op Then
+		      Return mOriginals(i)
+		    End If
+		  Next
 		  Return Nil
 		End Function
 	#tag EndMethod
 
 
 	#tag Hook, Flags = &h0
-		Event ClickFileLink(File As FolderItem)
+		Event ClickLink(LinkText As String, LinkValue As Variant)
 	#tag EndHook
 
 	#tag Hook, Flags = &h0
-		Event ClickLink(URL As String)
+		Event MouseDown(X As Integer, Y As Integer) As Boolean
 	#tag EndHook
 
 	#tag Hook, Flags = &h0
-		Event ConstructContextualMenu(Base As MenuItem, X As Integer, Y As Integer) As Boolean
+		Event MouseUp(X As Integer, Y As Integer)
 	#tag EndHook
 
 	#tag Hook, Flags = &h0
-		Event ContextualMenuAction(HitItem As MenuItem) As Boolean
+		Event Open()
 	#tag EndHook
+
+
+	#tag Property, Flags = &h1
+		Protected LastX As Integer
+	#tag EndProperty
+
+	#tag Property, Flags = &h1
+		Protected LastY As Integer
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mOriginals() As Variant
+	#tag EndProperty
 
 
 	#tag ViewBehavior
