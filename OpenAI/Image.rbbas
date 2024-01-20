@@ -244,7 +244,7 @@ Inherits OpenAI.Response
 		  If Request.NumberOfEpochs > 1 Then Return ValidationError.NumberOfEpochs
 		  ' If Request.NumberOfResults > 1 Then Return ValidationError.NumberOfResults
 		  If Request.PresencePenalty > 0.00001 Then Return ValidationError.PresencePenalty
-		  If Request.Prompt = "" Then Return ValidationError.Prompt ' required
+		  If Request.Prompt = "" And Request.SourceImage = Nil Then Return ValidationError.Prompt ' required
 		  If Request.PromptLossWeight > 0.00001 Then Return ValidationError.PromptLossWeight
 		  If Request.Purpose <> "" Then Return ValidationError.Purpose
 		  ' If Request.ResultsAsBase64 = True Then Return ValidationError.ResultsAsType
