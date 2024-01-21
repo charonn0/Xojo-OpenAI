@@ -18,6 +18,21 @@ Inherits OpenAI.Response
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		 Shared Function Create(Inputs() As Integer, Model As OpenAI.Model) As OpenAI.Embedding
+		  ' Create new embedding vectors for the inputs using the specified model.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Embedding.Create
+		  ' https://platform.openai.com/docs/api-reference/embeddings/create
+		  
+		  Dim request As New OpenAI.Request
+		  request.Set("input", Inputs)
+		  request.Model = Model
+		  Return Embedding.Create(request)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		 Shared Function Create(Request As OpenAI.Request) As OpenAI.Embedding
 		  ' Create a new embedding vector.
 		  '
@@ -33,6 +48,21 @@ Inherits OpenAI.Response
 		  Dim result As JSONItem = Response.CreateRaw(client, "/v1/embeddings", Request)
 		  If result = Nil Or result.HasName("error") Then Raise New OpenAIException(result)
 		  Return New OpenAI.Embedding(result, client, Request)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		 Shared Function Create(Inputs() As String, Model As OpenAI.Model) As OpenAI.Embedding
+		  ' Create new embedding vectors for the inputs using the specified model.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Embedding.Create
+		  ' https://platform.openai.com/docs/api-reference/embeddings/create
+		  
+		  Dim request As New OpenAI.Request
+		  request.Set("input", Inputs)
+		  request.Model = Model
+		  Return Embedding.Create(request)
 		End Function
 	#tag EndMethod
 
@@ -113,7 +143,7 @@ Inherits OpenAI.Response
 		  If Request.FineTuneID <> "" Then Return ValidationError.FineTuneID
 		  If Request.FrequencyPenalty > 0.00001 Then Return ValidationError.FrequencyPenalty
 		  If Request.IsSet("quality") Then Return ValidationError.HighQuality
-		  If Request.Input = "" Then Return ValidationError.Input ' required
+		  If Not Request.IsSet("input") Then Return ValidationError.Input ' required
 		  If Request.Instruction <> "" Then Return ValidationError.Instruction
 		  If Request.Language <> "" Then Return ValidationError.Language
 		  If Request.LearningRateMultiplier > 0.00001 Then Return ValidationError.LearningRateMultiplier
