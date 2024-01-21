@@ -51,7 +51,29 @@ Protected Class Request
 		  ' See:
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Request.Set
 		  
-		  mRequest.Value(KeyName) = KeyValue
+		  Const ARRAY_TYPE = 4096
+		  If BitAnd(VarType(KeyValue), ARRAY_TYPE) = ARRAY_TYPE Then
+		    Dim js As New JSONItem
+		    
+		    Select Case BitXor(VarType(KeyValue), ARRAY_TYPE)
+		    Case Variant.TypeString
+		      Dim v() As String = KeyValue
+		      For i As Integer = 0 To UBound(v)
+		        js.Append(v(i))
+		      Next
+		    Case Variant.TypeInteger
+		      Dim v() As Integer = KeyValue
+		      For i As Integer = 0 To UBound(v)
+		        js.Append(v(i))
+		      Next
+		    Else
+		      Raise New OpenAIException("Invalid data type for this request.")
+		    End Select
+		    mRequest.Value(KeyName) = js
+		    
+		  Else
+		    mRequest.Value(KeyName) = KeyValue
+		  End If
 		End Sub
 	#tag EndMethod
 
