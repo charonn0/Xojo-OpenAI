@@ -1,6 +1,28 @@
 #tag Module
 Protected Module OpenAI
 	#tag Method, Flags = &h1
+		Protected Function CosineDistance(VectorA() As Double, VectorB() As Double) As Double
+		  ' Given two vectors, this method will calculate the cosine distance between them. The result
+		  ' is a Double between -1.0 and +1.0, where +1.0 means completely identical and -1.0 means completely
+		  ' different.
+		  
+		  Dim dotProduct, normA, normB As Double
+		  Dim c As Integer = UBound(VectorA)
+		  If c <> UBound(VectorB) Then Raise New OpenAIException("Vector lists must be of the same length to be compared.")
+		  #pragma BoundsChecking Off
+		  #pragma NilObjectChecking Off
+		  #pragma StackOverflowChecking Off
+		  #pragma BackgroundTasks Off
+		  For i As Integer = 0 To c
+		    dotProduct = dotProduct + (VectorA(i) * VectorB(i))
+		    normA = normA + (VectorA(i)^2)
+		    normB = normB + (VectorB(i)^2)
+		  Next
+		  Return dotProduct * (Sqrt(normA) * Sqrt(normB))
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
 		Protected Function EstimateTokenCount(Text As String, Method As OpenAI.TokenEstimationMethod = OpenAI.TokenEstimationMethod.Max) As Double
 		  ' Method can be Average, Words, Charaters, Max, or Min. Defaults To Max
 		  ' Words is the word count divided by 0.75
@@ -129,7 +151,8 @@ Protected Module OpenAI
 		  PictureURL
 		  FileObject
 		  JSONObject
-		Audio
+		  Audio
+		VectorList
 	#tag EndEnum
 
 	#tag Enum, Name = TokenEstimationMethod, Type = Integer, Flags = &h1
