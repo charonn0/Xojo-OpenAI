@@ -154,6 +154,35 @@ Inherits OpenAI.Response
 		End Function
 	#tag EndMethod
 
+	#tag Method, Flags = &h0
+		Function Operator_Subscript(Optional ResponseIndex As Integer, VectorIndex As Integer) As Double
+		  ' Returns the vector at VectorIndex from the vector list corresponding to the ResponseIndex.
+		  ' Call this method with array-access syntax. The ResponseIndex is almost always zero, and
+		  ' may be omitted.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Embedding.Operator_Subscript
+		  
+		  Dim vector() As Double = Me.GetResult(ResponseIndex)
+		  Return vector(VectorIndex)
+		End Function
+	#tag EndMethod
+
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  ' Returns the length of the vector list. The last vector is at Length-1.
+			  '
+			  ' See:
+			  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Embedding.Length
+			  
+			  Dim vector() As Double = Me.GetResult(0)
+			  Return UBound(vector) + 1
+			End Get
+		#tag EndGetter
+		Length As Integer
+	#tag EndComputedProperty
 
 	#tag ComputedProperty, Flags = &h0
 		#tag Note
