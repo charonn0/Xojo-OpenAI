@@ -79,6 +79,36 @@ Protected Class Response
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		 Shared Function CreateRaw(Endpoint As String, Request As OpenAI.Request, RequestMethod As String = "POST") As MemoryBlock
+		  ' Perform the specified request against the specified API Endpoint, and
+		  ' return the raw binary response without any interpretation or error checking.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Response.CreateRaw
+		  
+		  Dim client As New OpenAIClient
+		  Dim data As String = client.SendRequest(Endpoint, request, RequestMethod)
+		  If client.LastStatusCode = 200 And client.LastErrorCode = 0 Then Return data
+		  Raise New OpenAIException(client)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		 Shared Function CreateRaw(Endpoint As String, RequestMethod As String = "GET") As MemoryBlock
+		  ' Perform the specified request against the specified API Endpoint, and
+		  ' return the raw binary response without any interpretation or error checking.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Response.CreateRaw
+		  
+		  Dim client As New OpenAIClient
+		  Dim data As String = client.SendRequest(Endpoint, RequestMethod)
+		  If client.LastStatusCode <> 200 Or client.LastErrorCode = 0 Then Return data
+		  Raise New OpenAIException(client)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Function FinishReason(Index As Integer = 0) As String
 		  ' Returns the reason for finishing the result at Index, as a String.
 		  ' Not all endpoints supply this information.
