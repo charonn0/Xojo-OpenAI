@@ -32,8 +32,8 @@ Protected Class FineTuneJob
 		End Sub
 	#tag EndMethod
 
-	#tag Method, Flags = &h1000
-		Sub Constructor(ResponseData As JSONItem, Client As OpenAIClient)
+	#tag Method, Flags = &h1001
+		Protected Sub Constructor(ResponseData As JSONItem, Client As OpenAIClient)
 		  mLock = New CriticalSection()
 		  mJob = ResponseData
 		  mClient = Client
