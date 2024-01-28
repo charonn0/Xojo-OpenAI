@@ -2,6 +2,11 @@
 Protected Class FineTuneJob
 	#tag Method, Flags = &h0
 		Sub Cancel()
+		  ' Cancels the fine-tune job if it has not yet completed.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.FineTuneJob.Cancel
+		  
 		  Do Until mLock.TryEnter()
 		    #If RBVersion < 2020 Then
 		      App.YieldToNextThread()
@@ -101,6 +106,11 @@ Protected Class FineTuneJob
 
 	#tag Method, Flags = &h0
 		Function GetResultFile(Index As Integer) As OpenAI.File
+		  ' Returns an instance of OpenAI.File representing one of the files created during the fine tune job.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.FineTuneJob.GetResultFile
+		  
 		  Do Until mLock.TryEnter()
 		    #If RBVersion < 2020 Then
 		      App.YieldToNextThread()
@@ -178,6 +188,11 @@ Protected Class FineTuneJob
 
 	#tag Method, Flags = &h0
 		Function ListEvents() As JSONItem()
+		  ' Returns a JSONItem containing a list of events from a running fine-tune job.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.FineTuneJob.ListEvents
+		  
 		  Do Until mLock.TryEnter()
 		    #If RBVersion < 2020 Then
 		      App.YieldToNextThread()
@@ -261,6 +276,11 @@ Protected Class FineTuneJob
 
 	#tag Method, Flags = &h0
 		Sub Refresh()
+		  ' Refreshes the job state and other metadata.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.FineTuneJob.Refresh
+		  
 		  Do Until mLock.TryEnter()
 		    #If RBVersion < 2020 Then
 		      App.YieldToNextThread()

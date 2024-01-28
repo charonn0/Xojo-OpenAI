@@ -2,7 +2,8 @@
 Protected Class Response
 	#tag Method, Flags = &h0
 		Sub Constructor(ResponseData As JSONItem)
-		  ' Loads a previously created Response that was stored as JSON.
+		  ' Loads a previously created Response that was stored as JSON using Response.ToString()
+		  ' The OriginalRequest property will be Nil in re-loaded Responses.
 		  '
 		  ' See:
 		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Response.Constructor
