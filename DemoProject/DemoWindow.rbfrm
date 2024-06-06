@@ -715,7 +715,7 @@ End
 		  If IsOptionSet("Temperature") Then request.Temperature = GetOption("Temperature")
 		  If IsOptionSet("MaxTokens") Then request.MaxTokens = GetOption("MaxTokens")
 		  If IsOptionSet("User") Then request.User = GetOption("User")
-		  If Not IsOptionSet("Model") Then SetOption("Model") = OpenAI.Model.Lookup("gpt-4-vision-preview")
+		  If Not IsOptionSet("Model") Then SetOption("Model") = OpenAI.Model.Lookup("gpt-4o")
 		  request.Model = GetOption("Model")
 		  
 		  Dim chatlog As New OpenAI.ChatCompletionData()

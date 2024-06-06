@@ -94,7 +94,7 @@ Inherits OpenAI.ChatCompletion
 		  Dim chatlog As New ChatCompletionData()
 		  chatlog.AddMessage("user", Prompt, Images)
 		  Dim request As New OpenAI.Request
-		  If Model = Nil Then Model = "gpt-4-vision-preview"
+		  If Model = Nil Then Model = "gpt-4o"
 		  request.Model = Model
 		  request.Messages = chatlog
 		  request.MaxTokens = MaxTokens
@@ -118,7 +118,7 @@ Inherits OpenAI.ChatCompletion
 		  Dim chatlog As New ChatCompletionData()
 		  chatlog.AddMessage("user", Prompt, Image)
 		  Dim request As New OpenAI.Request
-		  If Model = Nil Then Model = "gpt-4-vision-preview"
+		  If Model = Nil Then Model = "gpt-4o"
 		  request.Model = Model
 		  request.Messages = chatlog
 		  request.MaxTokens = MaxTokens
@@ -142,7 +142,7 @@ Inherits OpenAI.ChatCompletion
 		  Dim chatlog As New ChatCompletionData()
 		  chatlog.AddMessage("user", Prompt, ImageURLs)
 		  Dim request As New OpenAI.Request
-		  If Model = Nil Then Model = "gpt-4-vision-preview"
+		  If Model = Nil Then Model = "gpt-4o"
 		  request.Model = Model
 		  request.Messages = chatlog
 		  request.MaxTokens = MaxTokens
@@ -166,7 +166,7 @@ Inherits OpenAI.ChatCompletion
 		  Dim chatlog As New ChatCompletionData()
 		  chatlog.AddMessage("user", Prompt, ImageURL)
 		  Dim request As New OpenAI.Request
-		  If Model = Nil Then Model = "gpt-4-vision-preview"
+		  If Model = Nil Then Model = "gpt-4o"
 		  request.Model = Model
 		  request.Messages = chatlog
 		  request.MaxTokens = MaxTokens
@@ -232,7 +232,7 @@ Inherits OpenAI.ChatCompletion
 		  
 		  ChatLog.AddMessage(Role, Content)
 		  Dim request As New OpenAI.Request
-		  If Model = Nil Then Model = "gpt-4-vision-preview"
+		  If Model = Nil Then Model = "gpt-4o"
 		  request.Model = Model
 		  request.Messages = ChatLog
 		  Return ImageRecognition.CreateNext(request, mClient)
@@ -249,7 +249,7 @@ Inherits OpenAI.ChatCompletion
 		  
 		  ChatLog.AddMessage(Role, Content, Images)
 		  Dim request As New OpenAI.Request
-		  If Model = Nil Then Model = "gpt-4-vision-preview"
+		  If Model = Nil Then Model = "gpt-4o"
 		  request.Model = Model
 		  request.Messages = ChatLog
 		  request.MaxTokens = MaxTokens
@@ -267,7 +267,7 @@ Inherits OpenAI.ChatCompletion
 		  
 		  ChatLog.AddMessage(Role, Content, Image)
 		  Dim request As New OpenAI.Request
-		  If Model = Nil Then Model = "gpt-4-vision-preview"
+		  If Model = Nil Then Model = "gpt-4o"
 		  request.Model = Model
 		  request.Messages = ChatLog
 		  request.MaxTokens = MaxTokens
@@ -285,7 +285,7 @@ Inherits OpenAI.ChatCompletion
 		  
 		  ChatLog.AddMessage(Role, Content, ImageURLs)
 		  Dim request As New OpenAI.Request
-		  If Model = Nil Then Model = "gpt-4-vision-preview"
+		  If Model = Nil Then Model = "gpt-4o"
 		  request.Model = Model
 		  request.Messages = ChatLog
 		  request.MaxTokens = MaxTokens
@@ -303,7 +303,7 @@ Inherits OpenAI.ChatCompletion
 		  
 		  ChatLog.AddMessage(Role, Content, ImageURL)
 		  Dim request As New OpenAI.Request
-		  If Model = Nil Then Model = "gpt-4-vision-preview"
+		  If Model = Nil Then Model = "gpt-4o"
 		  request.Model = Model
 		  request.Messages = ChatLog
 		  request.MaxTokens = MaxTokens
