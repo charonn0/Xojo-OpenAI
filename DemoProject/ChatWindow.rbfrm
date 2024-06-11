@@ -321,7 +321,7 @@ End
 	#tag Method, Flags = &h0
 		Sub Constructor(Model As OpenAI.Model, Backlog As OpenAI.ChatCompletionData = Nil)
 		  If Model = Nil Then Model = OpenAI.Model.Lookup("gpt-4")
-		  If Model.ID = "gpt-4-vision-preview" Or Request.Model.ID = "gpt-4o" Then
+		  If Model.ID = "gpt-4-vision-preview" Or Model.ID = "gpt-4o" Then
 		    ChatMessages.Height = 366
 		    ImgLbl.Visible = True
 		    ImageContent.Visible = True
