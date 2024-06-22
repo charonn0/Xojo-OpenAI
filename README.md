@@ -29,6 +29,9 @@ This example chats with an AI assistant. [**More examples**](https://github.com/
 
 _This screen shot depicts the Xojo-OpenAI demo showing the result of an image generation request._
 
+## Become a sponsor
+If you use this code in a commercial project, or just want to show your appreciation, please consider sponsoring me through GitHub. https://github.com/sponsors/charonn0
+
 ## Synopsis
 
 OpenAI API endpoints are exposed through several object classes:
