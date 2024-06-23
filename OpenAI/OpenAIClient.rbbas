@@ -322,10 +322,11 @@ Private Class OpenAIClient
 		    Else
 		      curl.OptionUpload = True
 		      curl.InputData = req.StringValue
-		      curl.SetOptionHTTPHeader(Array("Content-Type: application/json"))
+		      SetRequestHeader("Content-Type", "application/json")
 		    End If
 		    
 		    curl.OptionURL = OPENAI_URL + APIEndpoint
+		    If mMBSHeaders.Ubound > -1 Then curl.SetOptionHTTPHeader(mMBSHeaders)
 		    If curl.PerformMT() = 0 Then Return curl.OutputData
 		    
 		    'error
@@ -347,6 +348,7 @@ Private Class OpenAIClient
 		Private Function SendRequest_MBS(APIEndpoint As String, RequestMethod As String = "GET") As String
 		  #If USE_MBS Then
 		    Dim curl As CURLSMBS = mClient
+		    If mMBSHeaders.Ubound > -1 Then curl.SetOptionHTTPHeader(mMBSHeaders)
 		    curl.OptionURL = OPENAI_URL + APIEndpoint
 		    curl.OptionCustomRequest = RequestMethod
 		    If curl.PerformMT() = 0 Then Return curl.OutputData
@@ -551,6 +553,27 @@ Private Class OpenAIClient
 		End Function
 	#tag EndMethod
 
+	#tag Method, Flags = &h0
+		Sub SetRequestHeader(Name As String, Value As String)
+		  #If USE_RBLIBCURL Then
+		    Dim client As cURLClient = mClient
+		    client.RequestHeaders.SetHeader(Name, Value)
+		    
+		  #ElseIf USE_MBS Then
+		    mMBSHeaders.Append(Name + ": " + Value)
+		    
+		  #ElseIf RBVersion > 2018.03 Then
+		    Dim client As URLConnection = mClient
+		    client.RequestHeader(Name) = Value
+		    
+		  #ElseIf RBVersion > 2014.02 Then
+		    Dim client As HTTPSecureSocket = mClient
+		    client.SetRequestHeader(Name, Value)
+		    
+		  #endif
+		End Sub
+	#tag EndMethod
+
 	#tag Method, Flags = &h21
 		Private Sub URLConnectionContentsReceivedHandler(Sender As Object, URL As String, HTTPStatus As Integer, Content As String)
 		  #pragma Unused Sender
@@ -685,6 +708,10 @@ Private Class OpenAIClient
 
 	#tag Property, Flags = &h21
 		Private mMaskBuffer As MemoryBlock
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mMBSHeaders() As String
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
