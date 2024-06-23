@@ -1,6 +1,15 @@
 #tag Class
 Protected Class Response
 	#tag Method, Flags = &h0
+		Sub Constructor(ResponseData As FolderItem)
+		  Dim bs As BinaryStream = BinaryStream.Open(ResponseData)
+		  Dim data As String = bs.Read(bs.Length)
+		  bs.Close
+		  Me.Constructor(New JSONItem(data))
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Sub Constructor(ResponseData As JSONItem)
 		  ' Loads a previously created Response that was stored as JSON using Response.ToString()
 		  ' The OriginalRequest property will be Nil in re-loaded Responses.
@@ -271,6 +280,14 @@ Protected Class Response
 		  
 		  Return mResponse
 		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub Save(SaveTo As FolderItem, Overwrite As Boolean = False)
+		  Dim bs As BinaryStream = BinaryStream.Create(SaveTo, Overwrite)
+		  bs.Write(Me.ToString)
+		  bs.Close
+		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
