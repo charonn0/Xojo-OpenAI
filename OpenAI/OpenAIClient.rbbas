@@ -34,12 +34,11 @@ Private Class OpenAIClient
 		Private Sub Constructor_HTTPSecureSocket()
 		  #If RBVersion > 2014.02 Then
 		    Dim connection As New HTTPSecureSocket
-		    connection.ConnectionType = SSLSocket.TLSv12
-		    connection.SetRequestHeader("Authorization", "Bearer " + OpenAI.APIKey)
-		    If OpenAI.OrganizationID <> "" Then
-		      connection.SetRequestHeader("OpenAI-Organization", OpenAI.OrganizationID)
-		    End If
 		    mClient = connection
+		    connection.ConnectionType = SSLSocket.TLSv12
+		    SetRequestHeader("Authorization", "Bearer " + OpenAI.APIKey)
+		    SetRequestHeader("User-Agent", USER_AGENT_STRING)
+		    If OpenAI.OrganizationID <> "" Then SetRequestHeader("OpenAI-Organization", OpenAI.OrganizationID)
 		  #endif
 		End Sub
 	#tag EndMethod
@@ -49,17 +48,15 @@ Private Class OpenAIClient
 		  #If USE_MBS Then
 		    Const CURLAUTH_BEARER = 64
 		    Dim curl As New CURLSMBS
+		    mClient = curl
 		    curl.OptionVerbose = True
 		    curl.CollectOutputData = True
 		    curl.OptionXOAuth2Bearer = OpenAI.APIKey
 		    curl.OptionHTTPAuth = CURLAUTH_BEARER
 		    curl.OptionUserAgent = USER_AGENT_STRING
-		    If OpenAI.OrganizationID <> "" Then
-		      curl.SetOptionHTTPHeader(Array("OpenAI-Organization: " + OpenAI.OrganizationID))
-		    End If
+		    If OpenAI.OrganizationID <> "" Then SetRequestHeader("OpenAI-Organization", OpenAI.OrganizationID)
 		    ' curl.OptionSSLVerifyHost = 2
 		    ' curl.OptionSSLVerifyPeer = 1
-		    mClient = curl
 		  #endif
 		End Sub
 	#tag EndMethod
@@ -68,14 +65,12 @@ Private Class OpenAIClient
 		Private Sub Constructor_RBLibcurl()
 		  #If USE_RBLIBCURL Then
 		    Dim curl As New cURLClient
+		    mClient = curl
 		    curl.EasyHandle.UseProgressEvent = False
 		    curl.EasyHandle.FailOnServerError = False
 		    curl.BearerToken = OpenAI.APIKey
 		    curl.EasyHandle.UserAgent = USER_AGENT_STRING
-		    If OpenAI.OrganizationID <> "" Then
-		      curl.RequestHeaders.SetHeader("OpenAI-Organization", OpenAI.OrganizationID)
-		    End If
-		    mClient = curl
+		    If OpenAI.OrganizationID <> "" Then SetRequestHeader("OpenAI-Organization", OpenAI.OrganizationID)
 		    
 		    ' A curl "share" handle allows multiple transfers to share connection caches (among other things)
 		    Dim share As libcURL.ShareHandle = ShareHandle
@@ -96,14 +91,12 @@ Private Class OpenAIClient
 		Private Sub Constructor_URLConnection()
 		  #If RBVersion > 2018.03 Then
 		    Dim connection As New URLConnection
+		    mClient = connection
 		    AddHandler connection.ContentReceived, WeakAddressOf URLConnectionContentsReceivedHandler
 		    AddHandler connection.Error, WeakAddressOf URLConnectionErrorHandler
-		    connection.RequestHeader("Authorization") = "Bearer " + OpenAI.APIKey
-		    connection.RequestHeader("User-Agent") = USER_AGENT_STRING
-		    If OpenAI.OrganizationID <> "" Then
-		      connection.RequestHeader("OpenAI-Organization") = OpenAI.OrganizationID
-		    End If
-		    mClient = connection
+		    SetRequestHeader("Authorization", "Bearer " + OpenAI.APIKey)
+		    SetRequestHeader("User-Agent", USER_AGENT_STRING)
+		    If OpenAI.OrganizationID <> "" Then SetRequestHeader("OpenAI-Organization", OpenAI.OrganizationID)
 		  #endif
 		End Sub
 	#tag EndMethod
