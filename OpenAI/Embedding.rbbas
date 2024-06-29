@@ -1,6 +1,20 @@
 #tag Class
 Protected Class Embedding
 Inherits OpenAI.Response
+	#tag Method, Flags = &h1000
+		Sub Constructor(ResponseData As FolderItem)
+		  ' Loads a previously created Response that was stored as JSON using Response.ToString()
+		  ' The OriginalRequest property will be Nil in re-loaded Responses.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Response.Constructor
+		  
+		  // Calling the overridden superclass constructor.
+		  // Constructor(ResponseData As FolderItem) -- From Response
+		  Super.Constructor(ResponseData)
+		End Sub
+	#tag EndMethod
+
 	#tag Method, Flags = &h0
 		Sub Constructor(ResponseData As JSONItem)
 		  ' Loads a previously created Response that was stored as JSON using Response.ToString()
@@ -201,6 +215,27 @@ Inherits OpenAI.Response
 		  
 		  Dim vector() As Double = Me.GetResult(ResponseIndex)
 		  Return vector(VectorIndex)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function SimilarityTo(OtherEmbedding As OpenAI.Embedding) As Double
+		  ' Compares this embedding to the other embedding. Returns a Double between -1.0 and +1.0
+		  ' where +1.0 means completely identical and -1.0 means completely different.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Embedding.DistanceFrom
+		  
+		  Dim v1() As Double = Me.GetResult()
+		  Dim v2() As Double = OtherEmbedding.GetResult()
+		  Return OpenAI.CosineSimilarity(v1, v2)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function Vector(Optional ResponseIndex As Integer) As Double()
+		  Dim vector() As Double = Me.GetResult(ResponseIndex)
+		  Return vector
 		End Function
 	#tag EndMethod
 
