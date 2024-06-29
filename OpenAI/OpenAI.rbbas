@@ -6,19 +6,30 @@ Protected Module OpenAI
 		  ' is a Double between -1.0 and +1.0, where +1.0 means completely identical and -1.0 means completely
 		  ' different.
 		  
-		  Dim dotProduct, normA, normB As Double
+		  Return 1.0 - Abs(CosineSimilarity(VectorA, VectorB))
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Function CosineSimilarity(VectorA() As Double, VectorB() As Double) As Double
+		  ' Given two vectors, this method will calculate the cosine similarity between them. The result
+		  ' is a Double between 0.0 and 1.0, where 1.0 means completely identical and 0.0 means completely
+		  ' different.
+		  
+		  Dim dotProduct, magnitudeA, magnitudeB As Double
 		  Dim c As Integer = UBound(VectorA)
 		  If c <> UBound(VectorB) Then Raise New OpenAIException("Vector lists must be of the same length to be compared.")
-		  #pragma BoundsChecking Off
-		  #pragma NilObjectChecking Off
-		  #pragma StackOverflowChecking Off
-		  #pragma BackgroundTasks Off
+		  
 		  For i As Integer = 0 To c
-		    dotProduct = dotProduct + (VectorA(i) * VectorB(i))
-		    normA = normA + (VectorA(i)^2)
-		    normB = normB + (VectorB(i)^2)
+		    dotProduct = dotProduct + (vectorA(i) * vectorB(i))
+		    magnitudeA = magnitudeA + (vectorA(i) * vectorA(i))
+		    magnitudeB = magnitudeB + (vectorB(i) * vectorB(i))
 		  Next
-		  Return dotProduct * (Sqrt(normA) * Sqrt(normB))
+		  
+		  magnitudeA = Sqrt(magnitudeA)
+		  magnitudeB = Sqrt(magnitudeB)
+		  
+		  Return dotProduct / (magnitudeA * magnitudeB)
 		End Function
 	#tag EndMethod
 
