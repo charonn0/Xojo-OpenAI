@@ -33,7 +33,9 @@ Protected Class Model
 		  Case "dall-e-2", "dall-e-3"
 		    mEndpoint = "/v1/images/generations"
 		  Else
-		    If Left(Me.ID, 3) = "GPT" Then
+		    If InStr(Me.ID, "instruct") > 0 Then
+		      mEndpoint = "/v1/completions"
+		    ElseIf Left(Me.ID, 3) = "GPT" Then
 		      mEndpoint = "/v1/chat/completions"
 		    ElseIf Left(Me.ID, 4) = "dall" Then
 		      mEndpoint = "/v1/images/generations"
