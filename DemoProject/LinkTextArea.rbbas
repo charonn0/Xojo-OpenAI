@@ -93,6 +93,7 @@ Inherits TextArea
 
 	#tag Method, Flags = &h1
 		Protected Function FindMetaText(X As Integer, Y As Integer) As Variant
+		  If UBound(mOriginals) = -1 Then Return Nil
 		  Dim tst As Integer
 		  tst = Me.CharPosAtXY(X, Y)
 		  
