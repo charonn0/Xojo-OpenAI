@@ -132,6 +132,96 @@ Protected Module OpenAI
 		Protected OrganizationID As String
 	#tag EndProperty
 
+	#tag ComputedProperty, Flags = &h1
+		#tag Getter
+			Get
+			  Return sProxyAddress
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  sProxyAddress = value
+			End Set
+		#tag EndSetter
+		Protected ProxyAddress As String
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h1
+		#tag Getter
+			Get
+			  Return sProxyPassword
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  sProxyPassword = value
+			End Set
+		#tag EndSetter
+		Protected ProxyPassword As String
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h1
+		#tag Getter
+			Get
+			  Return sProxyPort
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  sProxyPort = value
+			End Set
+		#tag EndSetter
+		Protected ProxyPort As Integer
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h1
+		#tag Getter
+			Get
+			  Return sProxyType
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  sProxyType = value
+			End Set
+		#tag EndSetter
+		Protected ProxyType As Integer
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h1
+		#tag Getter
+			Get
+			  Return sProxyUsername
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  sProxyUsername = value
+			End Set
+		#tag EndSetter
+		Protected ProxyUsername As String
+	#tag EndComputedProperty
+
+	#tag Property, Flags = &h21
+		Private sProxyAddress As String
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private sProxyPassword As String
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private sProxyPort As Integer
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private sProxyType As Integer
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private sProxyUsername As String
+	#tag EndProperty
+
 
 	#tag Constant, Name = OPENAI_URL, Type = String, Dynamic = False, Default = \"https://api.openai.com", Scope = Private
 	#tag EndConstant

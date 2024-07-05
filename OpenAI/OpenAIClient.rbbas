@@ -34,11 +34,19 @@ Private Class OpenAIClient
 		Private Sub Constructor_HTTPSecureSocket()
 		  #If RBVersion > 2014.02 Then
 		    Dim connection As New HTTPSecureSocket
+		    AddHandler connection.ProxyAuthenticationRequired, WeakAddressOf HTTPSecurureSocketProxyAuthHandler
 		    mClient = connection
 		    connection.ConnectionType = SSLSocket.TLSv12
 		    SetRequestHeader("Authorization", "Bearer " + OpenAI.APIKey)
 		    SetRequestHeader("User-Agent", USER_AGENT_STRING)
 		    If OpenAI.OrganizationID <> "" Then SetRequestHeader("OpenAI-Organization", OpenAI.OrganizationID)
+		    If OpenAI.ProxyAddress <> "" Then
+		      Me.ProxyAddress = OpenAI.ProxyAddress
+		      Me.ProxyPort = OpenAI.ProxyPort
+		      Me.ProxyType = OpenAI.ProxyType
+		      If OpenAI.ProxyUsername <> "" Then Me.ProxyUsername = OpenAI.ProxyUsername
+		      If OpenAI.ProxyPassword <> "" Then Me.ProxyPassword = OpenAI.ProxyPassword
+		    End If
 		  #endif
 		End Sub
 	#tag EndMethod
@@ -55,8 +63,13 @@ Private Class OpenAIClient
 		    curl.OptionHTTPAuth = CURLAUTH_BEARER
 		    curl.OptionUserAgent = USER_AGENT_STRING
 		    If OpenAI.OrganizationID <> "" Then SetRequestHeader("OpenAI-Organization", OpenAI.OrganizationID)
-		    ' curl.OptionSSLVerifyHost = 2
-		    ' curl.OptionSSLVerifyPeer = 1
+		    If OpenAI.ProxyAddress <> "" Then
+		      Me.ProxyAddress = OpenAI.ProxyAddress
+		      Me.ProxyPort = OpenAI.ProxyPort
+		      Me.ProxyType = OpenAI.ProxyType
+		      If OpenAI.ProxyUsername <> "" Then Me.ProxyUsername = OpenAI.ProxyUsername
+		      If OpenAI.ProxyPassword <> "" Then Me.ProxyPassword = OpenAI.ProxyPassword
+		    End If
 		  #endif
 		End Sub
 	#tag EndMethod
@@ -71,6 +84,13 @@ Private Class OpenAIClient
 		    curl.BearerToken = OpenAI.APIKey
 		    curl.EasyHandle.UserAgent = USER_AGENT_STRING
 		    If OpenAI.OrganizationID <> "" Then SetRequestHeader("OpenAI-Organization", OpenAI.OrganizationID)
+		    If OpenAI.ProxyAddress <> "" Then
+		      Me.ProxyAddress = OpenAI.ProxyAddress
+		      Me.ProxyPort = OpenAI.ProxyPort
+		      Me.ProxyType = OpenAI.ProxyType
+		      If OpenAI.ProxyUsername <> "" Then Me.ProxyUsername = OpenAI.ProxyUsername
+		      If OpenAI.ProxyPassword <> "" Then Me.ProxyPassword = OpenAI.ProxyPassword
+		    End If
 		    
 		    ' A curl "share" handle allows multiple transfers to share connection caches (among other things)
 		    Dim share As libcURL.ShareHandle = ShareHandle
@@ -187,6 +207,20 @@ Private Class OpenAIClient
 		    curl.Cancel = True
 		  #endif
 		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Function HTTPSecurureSocketProxyAuthHandler(Sender As Object, Realm as String, Headers as InternetHeaders, ByRef Name as String, ByRef Password as String) As Boolean
+		  #pragma Unused Sender
+		  #pragma Unused Realm
+		  #pragma Unused Headers
+		  If mProxyUser <> "" Or mProxyPassword <> "" Then
+		    Name = mProxyUser
+		    Password = mProxyPassword
+		    Return True
+		  End If
+		  
+		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
@@ -708,12 +742,237 @@ Private Class OpenAIClient
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
+		Private mProxyPassword As String
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
+		Private mProxyUser As String
+	#tag EndProperty
+
+	#tag Property, Flags = &h21
 		Private mURLConnectionContent As String
 	#tag EndProperty
 
 	#tag Property, Flags = &h21
 		Private mURLConnectionError As RuntimeException
 	#tag EndProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  #If USE_RBLIBCURL Then
+			    Dim client As cURLClient = mClient
+			    Return client.Proxy.Address
+			    
+			  #ElseIf USE_MBS Then
+			    Dim curl As CURLSMBS = mClient
+			    Return curl.OptionProxy
+			    
+			  #ElseIf RBVersion > 2018.03 Then
+			    Return "" ' not supported in URLConnection
+			    
+			  #ElseIf RBVersion > 2014.02 Then
+			    Dim client As HTTPSecureSocket = mClient
+			    Return client.HTTPProxyAddress
+			    
+			  #endif
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  #If USE_RBLIBCURL Then
+			    Dim client As cURLClient = mClient
+			    client.Proxy.Address = value
+			    
+			  #ElseIf USE_MBS Then
+			    Dim curl As CURLSMBS = mClient
+			    curl.OptionProxy = value
+			    
+			  #ElseIf RBVersion > 2018.03 Then
+			    Raise New OpenAIException("The current HTTPS library does not support proxies.") ' not supported in URLConnection
+			    
+			  #ElseIf RBVersion > 2014.02 Then
+			    Dim client As HTTPSecureSocket = mClient
+			    client.HTTPProxyAddress = value
+			    
+			  #endif
+			End Set
+		#tag EndSetter
+		ProxyAddress As String
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  #If USE_RBLIBCURL Then
+			    Dim client As cURLClient = mClient
+			    Return client.Proxy.Password
+			    
+			  #ElseIf USE_MBS Then
+			    Dim curl As CURLSMBS = mClient
+			    Return curl.OptionProxyPassword
+			    
+			  #ElseIf RBVersion > 2018.03 Then
+			    Return "" ' not supported in URLConnection
+			    
+			  #ElseIf RBVersion > 2014.02 Then
+			    Return mProxyPassword
+			    
+			  #endif
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  #If USE_RBLIBCURL Then
+			    Dim client As cURLClient = mClient
+			    client.Proxy.Password = value
+			    
+			  #ElseIf USE_MBS Then
+			    Dim curl As CURLSMBS = mClient
+			    curl.OptionProxyPassword = value
+			    
+			  #ElseIf RBVersion > 2018.03 Then
+			    Raise New OpenAIException("The current HTTPS library does not support proxies.") ' not supported in URLConnection
+			    
+			  #ElseIf RBVersion > 2014.02 Then
+			    mProxyPassword = value
+			    
+			  #endif
+			End Set
+		#tag EndSetter
+		ProxyPassword As String
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  #If USE_RBLIBCURL Then
+			    Dim client As cURLClient = mClient
+			    Return client.Proxy.Port
+			    
+			  #ElseIf USE_MBS Then
+			    Dim curl As CURLSMBS = mClient
+			    Return curl.OptionProxyPort
+			    
+			  #ElseIf RBVersion > 2018.03 Then
+			    Return 0
+			    
+			  #ElseIf RBVersion > 2014.02 Then
+			    Dim client As HTTPSecureSocket = mClient
+			    Return client.HTTPProxyPort
+			    
+			  #endif
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  #If USE_RBLIBCURL Then
+			    Dim client As cURLClient = mClient
+			    client.Proxy.Port = value
+			    
+			  #ElseIf USE_MBS Then
+			    Dim curl As CURLSMBS = mClient
+			    curl.OptionProxyPort = value
+			    
+			  #ElseIf RBVersion > 2018.03 Then
+			    Raise New OpenAIException("The current HTTPS library does not support proxies.") ' not supported in URLConnection
+			    
+			  #ElseIf RBVersion > 2014.02 Then
+			    Dim client As HTTPSecureSocket = mClient
+			    client.HTTPProxyPort = value
+			    
+			  #endif
+			End Set
+		#tag EndSetter
+		ProxyPort As Integer
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  #If USE_RBLIBCURL Then
+			    Dim client As cURLClient = mClient
+			    Dim type As libcURL.ProxyType = client.Proxy.Type
+			    Return CType(type, Int32)
+			    
+			  #ElseIf USE_MBS Then
+			    Dim curl As CURLSMBS = mClient
+			    Return curl.OptionProxyType
+			    
+			  #ElseIf RBVersion > 2018.03 Then
+			    Return -1
+			    
+			  #ElseIf RBVersion > 2014.02 Then
+			    Return 0
+			    
+			  #endif
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  #If USE_RBLIBCURL Then
+			    Dim client As cURLClient = mClient
+			    client.Proxy.Type = CType(value, libcURL.ProxyType)
+			    
+			  #ElseIf USE_MBS Then
+			    Dim curl As CURLSMBS = mClient
+			    curl.OptionProxyType = value
+			    
+			  #ElseIf RBVersion > 2018.03 Then
+			    Raise New OpenAIException("The current HTTPS library does not support proxies.") ' not supported in URLConnection
+			    
+			  #ElseIf RBVersion > 2014.02 Then
+			    If value <> 0 Then
+			      Raise New OpenAIException("The current HTTPS library only supports HTTP proxies.") ' not supported in HTTPSecureSocket
+			    End If
+			    
+			  #endif
+			End Set
+		#tag EndSetter
+		ProxyType As Integer
+	#tag EndComputedProperty
+
+	#tag ComputedProperty, Flags = &h0
+		#tag Getter
+			Get
+			  #If USE_RBLIBCURL Then
+			    Dim client As cURLClient = mClient
+			    Return client.Proxy.Username
+			    
+			  #ElseIf USE_MBS Then
+			    Dim curl As CURLSMBS = mClient
+			    Return curl.OptionProxyUsername
+			    
+			  #ElseIf RBVersion > 2018.03 Then
+			    Return "" ' not supported in URLConnection
+			    
+			  #ElseIf RBVersion > 2014.02 Then
+			    Return mProxyUser
+			    
+			  #endif
+			End Get
+		#tag EndGetter
+		#tag Setter
+			Set
+			  #If USE_RBLIBCURL Then
+			    Dim client As cURLClient = mClient
+			    client.Proxy.Username = value
+			    
+			  #ElseIf USE_MBS Then
+			    Dim curl As CURLSMBS = mClient
+			    curl.OptionProxyUsername = value
+			    
+			  #ElseIf RBVersion > 2018.03 Then
+			    Raise New OpenAIException("The current HTTPS library does not support proxies.") ' not supported in URLConnection
+			    
+			  #ElseIf RBVersion > 2014.02 Then
+			    mProxyUser = value
+			    
+			  #endif
+			End Set
+		#tag EndSetter
+		ProxyUsername As String
+	#tag EndComputedProperty
 
 	#tag Property, Flags = &h21
 		Private Shared ShareHandle As Variant
