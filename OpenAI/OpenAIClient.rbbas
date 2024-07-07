@@ -449,14 +449,7 @@ Private Class OpenAIClient
 		      If client.Post(OPENAI_URL + APIEndpoint, form) Then Return client.GetDownloadedData
 		      
 		      ' error
-		      Dim curlerr As New libcURL.cURLException(client.EasyHandle)
-		      Dim data As String = client.GetDownloadedData
-		      If data.Trim <> "" Then
-		        Dim openaierr As New OpenAIException(New JSONItem(data))
-		        curlerr.Message = openaierr.Message + EndOfLine + curlerr.Message
-		      End If
-		      Raise curlerr
-		      
+		      Raise New libcURL.cURLException(client.EasyHandle)
 		      
 		    Else ' POST a JSONItem
 		      
@@ -467,13 +460,8 @@ Private Class OpenAIClient
 		      If client.Put(OPENAI_URL + APIEndpoint, data) Then Return client.GetDownloadedData
 		      
 		      ' error
-		      Dim curlerr As New libcURL.cURLException(client.EasyHandle)
-		      Dim page As String = client.GetDownloadedData
-		      If page.Trim <> "" Then
-		        Dim openaierr As New OpenAIException(New JSONItem(page))
-		        curlerr.Message = openaierr.Message + EndOfLine + curlerr.Message
-		      End If
-		      Raise curlerr
+		      Raise New libcURL.cURLException(client.EasyHandle)
+		      
 		    End If
 		    
 		  #Else
@@ -494,13 +482,7 @@ Private Class OpenAIClient
 		    If client.Get(OPENAI_URL + APIEndpoint) Then Return client.GetDownloadedData()
 		    
 		    ' error
-		    Dim curlerr As New libcURL.cURLException(client.EasyHandle)
-		    Dim data As String = client.GetDownloadedData
-		    If data.Trim = "" Then
-		      Dim openaierr As New OpenAIException(New JSONItem(data))
-		      curlerr.Message = openaierr.Message + EndOfLine + curlerr.Message
-		    End If
-		    Raise curlerr
+		    Raise New libcURL.cURLException(client.EasyHandle)
 		    
 		  #Else
 		    #pragma Unused APIEndpoint
@@ -596,6 +578,10 @@ Private Class OpenAIClient
 		  #ElseIf RBVersion > 2014.02 Then
 		    Dim client As HTTPSecureSocket = mClient
 		    client.SetRequestHeader(Name, Value)
+		    
+		  #Else
+		    #pragma Unused Name
+		    #pragma Unused Value
 		    
 		  #endif
 		End Sub
@@ -795,6 +781,9 @@ Private Class OpenAIClient
 			    Dim client As HTTPSecureSocket = mClient
 			    client.HTTPProxyAddress = value
 			    
+			  #Else
+			    #pragma Unused value
+			    
 			  #endif
 			End Set
 		#tag EndSetter
@@ -836,6 +825,9 @@ Private Class OpenAIClient
 			    
 			  #ElseIf RBVersion > 2014.02 Then
 			    mProxyPassword = value
+			    
+			  #Else
+			    #pragma Unused value
 			    
 			  #endif
 			End Set
@@ -880,6 +872,9 @@ Private Class OpenAIClient
 			  #ElseIf RBVersion > 2014.02 Then
 			    Dim client As HTTPSecureSocket = mClient
 			    client.HTTPProxyPort = value
+			    
+			  #Else
+			    #pragma Unused value
 			    
 			  #endif
 			End Set
@@ -926,6 +921,9 @@ Private Class OpenAIClient
 			      Raise New OpenAIException("The current HTTPS library only supports HTTP proxies.") ' not supported in HTTPSecureSocket
 			    End If
 			    
+			  #Else
+			    #pragma Unused value
+			    
 			  #endif
 			End Set
 		#tag EndSetter
@@ -967,6 +965,9 @@ Private Class OpenAIClient
 			    
 			  #ElseIf RBVersion > 2014.02 Then
 			    mProxyUser = value
+			    
+			  #Else
+			    #pragma Unused value
 			    
 			  #endif
 			End Set
