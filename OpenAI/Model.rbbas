@@ -65,6 +65,25 @@ Protected Class Model
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Sub Delete()
+		  ' Deletes the specified fine-tuned Model. You must be the owner of the model.
+		  '
+		  ' See:
+		  ' https://github.com/charonn0/Xojo-OpenAI/wiki/OpenAI.Model.Delete
+		  
+		  Dim client As New OpenAIClient()
+		  Dim data As String = client.SendRequest("/v1/models/" + Me.ID, "DELETE")
+		  Dim response As JSONItem
+		  Try
+		    response = New JSONItem(data)
+		  Catch err As JSONException
+		    Raise New OpenAIException(client)
+		  End Try
+		  If response = Nil Or response.HasName("error") Then Raise New OpenAIException(response) Else ReDim ModelList(-1)
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		 Shared Function GetModelsForEndpoint(Endpoint As String, Refresh As Boolean = False) As OpenAI.Model()
 		  ' Returns a list of AI models that are compatible with the specified endpoint. The Endpoint parameter
 		  ' is only the path part of the overall URL. For example, in the URL https://api.openai.com/v1/chat/completions
