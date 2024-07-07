@@ -226,6 +226,30 @@ Protected Module OpenAI
 	#tag Constant, Name = OPENAI_URL, Type = String, Dynamic = False, Default = \"https://api.openai.com", Scope = Private
 	#tag EndConstant
 
+	#tag Constant, Name = PROXYTYPE_HTTP, Type = Double, Dynamic = False, Default = \"0", Scope = Protected
+	#tag EndConstant
+
+	#tag Constant, Name = PROXYTYPE_HTTP1_0, Type = Double, Dynamic = False, Default = \"1", Scope = Protected
+	#tag EndConstant
+
+	#tag Constant, Name = PROXYTYPE_HTTPS, Type = Double, Dynamic = False, Default = \"2", Scope = Protected
+	#tag EndConstant
+
+	#tag Constant, Name = PROXYTYPE_HTTPS2, Type = Double, Dynamic = False, Default = \"3", Scope = Protected
+	#tag EndConstant
+
+	#tag Constant, Name = PROXYTYPE_SOCKS4, Type = Double, Dynamic = False, Default = \"4", Scope = Protected
+	#tag EndConstant
+
+	#tag Constant, Name = PROXYTYPE_SOCKS4A, Type = Double, Dynamic = False, Default = \"6", Scope = Protected
+	#tag EndConstant
+
+	#tag Constant, Name = PROXYTYPE_SOCKS5, Type = Double, Dynamic = False, Default = \"5", Scope = Protected
+	#tag EndConstant
+
+	#tag Constant, Name = PROXYTYPE_SOCKS5_HOSTNAME, Type = Double, Dynamic = False, Default = \"6", Scope = Protected
+	#tag EndConstant
+
 	#tag Constant, Name = USER_AGENT_STRING, Type = String, Dynamic = False, Default = \"Xojo-OpenAI/1.0", Scope = Private
 	#tag EndConstant
 
