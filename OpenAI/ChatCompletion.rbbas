@@ -95,7 +95,6 @@ Inherits OpenAI.Response
 		  ' https://platform.openai.com/docs/api-reference/chat/create
 		  
 		  Dim chatlog As New ChatCompletionData()
-		  chatlog.AddMessage(Role, Content)
 		  Return ChatCompletion.Create(chatlog, Role, Content, Model)
 		End Function
 	#tag EndMethod
