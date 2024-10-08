@@ -4,11 +4,16 @@ Inherits RuntimeException
 	#tag Method, Flags = &h1000
 		Sub Constructor(ErrorObject As JSONItem)
 		  If ErrorObject <> Nil Then
-		    ErrorObject = ErrorObject.Value("error")
-		    If ErrorObject.Value("message") <> Nil Then Me.Message = ErrorObject.Value("message")
-		    If ErrorObject.Value("type") <> Nil Then Me.Message = Me.Message + EndOfLine + ErrorObject.Value("type")
-		    If ErrorObject.Value("param") <> Nil Then Me.Message = Me.Message + EndOfLine + "Param:" + ErrorObject.Value("param")
-		    If ErrorObject.Value("code") <> Nil Then Me.Message = Me.Message + EndOfLine + "Code:" + ErrorObject.Value("code")
+		    Dim tmp As Variant = ErrorObject.Value("error")
+		    If VarType(tmp) = Variant.TypeString Then
+		      Me.Constructor(tmp.StringValue)
+		    Else
+		      ErrorObject = ErrorObject.Value("error")
+		      If ErrorObject.Value("message") <> Nil Then Me.Message = ErrorObject.Value("message")
+		      If ErrorObject.Value("type") <> Nil Then Me.Message = Me.Message + EndOfLine + ErrorObject.Value("type")
+		      If ErrorObject.Value("param") <> Nil Then Me.Message = Me.Message + EndOfLine + "Param:" + ErrorObject.Value("param")
+		      If ErrorObject.Value("code") <> Nil Then Me.Message = Me.Message + EndOfLine + "Code:" + ErrorObject.Value("code")
+		    End If
 		  End If
 		End Sub
 	#tag EndMethod
