@@ -1,3 +1,18 @@
+# This project is now abandoned and will not be updated
+For some time now I have been feeling a growing sense of unease with the "AI" industry in general. 
+
+First, I feel that calling it "AI" in the first place is false advertising. The general public is being sold on the implication that these tools are *actually* intelligent, and they have started to use AI tools for entirely inappropriate purposes, such as asking legal, financial, personal, and medical advice. Evidently there have already been some deaths from this.
+
+Second, I feel that the wholesale theft of Copyrighted materials, in particular materials that were released under open-source licenses, is morally fraught, legally questionable, and inherently abusive. I have released a number of open source software projects--including *this* one--not only so that people could *copy* them but also so that they might *learn* from them. To that end I always make a point of commenting and documenting the code, and to try to demonstrate good coding practices at all levels of design. I do these things mostly because I enjoy writing code, but I also like the idea that people might be edified by *reading* my code. This idea is incompatible with an AI company slurping up all my code (and everyone else's) and regurgitating slop on demand. I reject the argument that it's impossible for AI companies to obtain licenses from, or give attribution to, the original authors whose hard work is the basis of their tool's output. If an AI tool generated a cartoon starring "Mackey Mouse", the Disney Corporation should sue their pants off. I don't have the resources to sue, but that doesn't mean my Copyrighted materials are up for grabs.
+
+Third, I have become increasingly aware of the environmental impact that AI is causing. Datacenters and hardware fabrication require enormous amounts of power, water, rare earth elements, and other resources that existing infrastructure is struggling to support, or whose sources are less than completely ethical. If current trends continue AI's resource consumption will materially accelerate climate change and further deplete the Earth's non-renewable resources. All for what? A glorified auto-complete tool for emails? The cost/benefit analysis doesn't add up, especially when the costs are so high.
+
+Lastly, and with particular refence to OpenAI's decision to work with the Pentagon, these tools, while imperfect and oversold, are potentially very dangerous in the wrong hands. I cannot in good conscience continue to work on this Xojo wrapper for OpenAI, as to do so would imply that I condone the use of AI tools in mass surveillance, law enforcement, or military applications. I do not.
+
+Therefore, this project is abandoned. The repository will remain publicly visible so that this message will be publicly visible.
+
+----
+
 ## Introduction
 [OpenAI](https://openai.com/) is an AI research and deployment company. **Xojo-OpenAI** is a Xojo and RealStudio wrapper for the OpenAI public API.
 
